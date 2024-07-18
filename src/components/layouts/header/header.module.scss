@@ -2,10 +2,13 @@
 .wrap{
     width: 100%;
 }
+.nav__main{
+    background-color:  #1c1c1c;
+}
 .navbar{
     width: 100%;
-    height: 46px;
     background-color:  #1c1c1c;
+    height: 46px;
     display: flex;
     justify-content: space-between;
     font-size: var(--font-size);
@@ -28,7 +31,6 @@
 }
 .navbar__location-title{
     margin-left: 12px;
-    margin-top: 3px;
 
     &:hover{
         color: var(--color-primary);
@@ -41,7 +43,6 @@
 }
 .navbar__social{
     margin-right: 48px;
-    margin-top: 2px;
 }
 .navbar__social-icon{
     margin-left: 12px;
@@ -63,12 +64,12 @@
     width: 30px;
 }
 // Header
+
 .header{
    display: flex;
    justify-content: space-between;
    align-items: center;
    height: 80px;
-   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 .logo__img{
     width: 60px;
@@ -77,6 +78,7 @@
 }
 .header__list{
     display: flex;
+    margin-bottom: 0;
 }
 .header__item{
     list-style: none;
@@ -93,7 +95,7 @@
     }
 }
 .header__sub{
-    margin-right: 20px;
+    
 }
 .header__sub-btn{
     background-color: var(--bg-primary) !important;

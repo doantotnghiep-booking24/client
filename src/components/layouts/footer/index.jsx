@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 function Footer() {
     return ( 
         <>
-          <h1 className={cx('h1ne')}></h1>
+      
         </>
      );
 }
