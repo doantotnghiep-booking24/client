@@ -15,7 +15,7 @@ function Home() {
     return ( 
 
         <div className={cx('main')}>
-                <div className={cx('banner')}>
+            <div className={cx('banner')}>
                     <div className={cx('banner__image')}>
                         <img src="https://www.nicdarkthemes.com/themes/travel/wp/demo/summer-holiday/wp-content/uploads/sites/4/2018/11/para-7.jpg?id=1814"  alt="booking" />
                     </div>
@@ -202,6 +202,49 @@ function Home() {
                     </div>
                 </div>
             </div>
+
+            <div className={cx('blog', 'container')}>
+                <div className={cx('blog-main')}>
+                <h2 className={cx('blog-hed')}>Blog của chúng tôi</h2>
+                <span className={cx('blog-sub')}>Điều quan trọng là phải có một dịch vụ khách hàng tốt, một nhà cung cấp dịch vụ khách hàng. Đó có phải là một điều tốt mà nỗi đau cần? Khối hoa nhài. Với các đối tác</span>
+                <ul className={cx('blog-list')}>
+                    <li className={cx('blog-item')}>
+                        <img className={cx('blog-item-img')} src="https://setsail.qodeinteractive.com/wp-content/uploads/2016/09/blog-img-12.jpg" alt=""/>
+                        <div className={cx('blog-item-title')}>
+                        <a href="" className={cx('blog-item-hed')}>Chuyến tham quan tuyệt vời</a>
+                        <span className={cx('blog-item-sub')}>Lắng nghe để tìm thấy sức mạnh của niềm đam mê. Hay tôi nói điều đó và những điều tương tự, rằng họ có thể</span>
+                        <div className={cx('blog-item-action')}>
+                            <span className={cx('blog-item-action-year')}>Tháng 11, 2024</span>
+                            <div className={cx('blog-item-action-cmt')}>
+                                <i className={cx('blog-item-action-cmt-icon')}></i>
+                                <span className={cx('blog-item-action-cmt-span')}>Bình luận</span>
+                            </div>
+                        </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul className={cx('blog-list')}>
+                    <li className={cx('blog-item')}>
+                        <img className={cx('blog-item-img')} src="https://setsail.qodeinteractive.com/wp-content/uploads/2016/09/blog-img-13.jpg" alt=""/>
+                        <div className={cx('blog-item-title')}>
+                        <a href="" className={cx('blog-item-hed')}>Chuyến tham quan tuyệt vời</a>
+                        <span className={cx('blog-item-sub')}>Lắng nghe để tìm thấy sức mạnh của niềm đam mê. Hay tôi nói điều đó và những điều tương tự, rằng họ có thể</span>
+                        <div className={cx('blog-item-action')}>
+                            <span className={cx('blog-item-action-year')}>Tháng 11, 2024</span>
+                            <div className={cx('blog-item-action-cmt')}>
+                                <i className={cx('blog-item-action-cmt-icon')}></i>
+                                <span className={cx('blog-item-action-cmt-span')}>Bình luận</span>
+                            </div>
+                        </div>
+                        </div>
+                    </li>
+                </ul>
+                </div>
+                <div className={cx('blog-sale')}>
+                    <img  className={cx('blog-sale-img')} src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/h1-banner-img-1.jpg" alt=""/>
+                </div>
+            </div>
+            
 
         </div>
      );
