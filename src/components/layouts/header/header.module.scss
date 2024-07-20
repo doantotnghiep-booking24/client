@@ -11,7 +11,7 @@
     height: 46px;
     display: flex;
     justify-content: space-between;
-    font-size: var(--font-size);
+    font-size: 13px;
     align-items: center;
 }
 .navbar__location{
@@ -64,6 +64,9 @@
     width: 30px;
 }
 // Header
+.header__bg{
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
 
 .header{
    display: flex;
@@ -88,7 +91,7 @@
     text-decoration: none;
     color: var(--color-text);
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
 
     &:hover{
         color: var(--color-primary);

@@ -2,9 +2,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import { Button, Slider } from '@mui/material';
+import { Button, Slider as MuiSlider  } from '@mui/material';
 
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import classNames from 'classnames/bind';
 import styles from './home.module.scss';
@@ -12,9 +14,39 @@ import styles from './home.module.scss';
 const cx = classNames.bind(styles)
 
 function Home() {
+
+    const settings = {
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerMode: false,
+        centerPadding: '0',
+        arrows: true,
+        dots: true,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+            }
+          }
+        ]
+      };
+
     return ( 
 
         <div className={cx('main')}>
+            
+            
             <div className={cx('banner')}>
                     <div className={cx('banner__image')}>
                         <img src="https://www.nicdarkthemes.com/themes/travel/wp/demo/summer-holiday/wp-content/uploads/sites/4/2018/11/para-7.jpg?id=1814"  alt="booking" />
@@ -38,7 +70,7 @@ function Home() {
                             </div>
                             <div className={cx('banner__section-price')}>
                                 <span>Lựa chọn số tiền:</span> <br />
-                                <Slider
+                                <MuiSlider
                                   size="small"
                                   defaultValue={70}
                                   aria-label="Small"
@@ -142,23 +174,7 @@ function Home() {
                         </div>
                         <div className={cx('container')}>
                             <div className={cx('travel__review-list')}>
-                                <div className={cx('travel__review-item')}>
-                                    <img src="	https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg" className={cx('travel__review-item-img')} alt="" />
-                                    <div className={cx('travel__review-item-text')}>
-                                        <h4 className={cx('name')}>Đảo Lý Sơn</h4>
-                                        <div className={cx('star')}>
-                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
-                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
-                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
-                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
-                                            <StarHalfOutlinedIcon className={cx('start-icon')}/>
-                                        </div>
-                                        <span className={cx('title')}>
-                                        Lý Sơn giống như một ốc đảo thần tiên có vẻ đẹp hoang sơ giữa bao la đất trời
-                                        </span>
-                                        <p className={cx('location')}>Quảng Ngãi</p>
-                                    </div>
-                                </div>
+                            <Slider {...settings} >
                                 <div className={cx('travel__review-item')}>
                                     <img src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg" className={cx('travel__review-item-img')} alt="" />
                                     <div className={cx('travel__review-item-text')}>
@@ -193,8 +209,24 @@ function Home() {
                                         <p className={cx('location')}>Quảng Ngãi</p>
                                     </div>
                                 </div>
-                            
-                        
+                                <div className={cx('travel__review-item')}>
+                                    <img src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg" className={cx('travel__review-item-img')} alt="" />
+                                    <div className={cx('travel__review-item-text')}>
+                                        <h4 className={cx('name')}>Đảo Lý Sơn</h4>
+                                        <div className={cx('star')}>
+                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
+                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
+                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
+                                            <StarBorderOutlinedIcon className={cx('start-icon')}/>
+                                            <StarHalfOutlinedIcon className={cx('start-icon')}/>
+                                        </div>
+                                        <span className={cx('title')}>
+                                        Lý Sơn giống như một ốc đảo thần tiên có vẻ đẹp hoang sơ giữa bao la đất trời
+                                        </span>
+                                        <p className={cx('location')}>Quảng Ngãi</p>
+                                    </div>
+                                </div>
+                                </Slider>
                             </div>
                             
                         </div>

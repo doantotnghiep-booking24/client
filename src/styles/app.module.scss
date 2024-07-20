@@ -5,10 +5,12 @@ body{
 }
 html{
     font-family: Poppins, sans-serif;
+    color: var(--color-text);
 }
 :root{
     --font-color: #fff;
     --color-text: #212121;
+    --color-content: #505050;
     --bg-primary: #3fd0d4;
     --color-primary: #3fd0d4;
     --font-size: 14px;

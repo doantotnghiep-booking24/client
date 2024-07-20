@@ -7,9 +7,11 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { Link } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
 import styles from './header.module.scss';
+
 
 import Swal from 'sweetalert2';
 
@@ -69,19 +71,19 @@ function Header() {
               />
               <ul className={cx('header__list')}>
                 <li className={cx('header__item')}>
-                  <a href="#" className={cx('header__link')}>Trang chủ</a>
+                  <Link to="/" className={cx('header__link')}>Trang chủ</Link>
                 </li>
                 <li className={cx('header__item')}>
-                  <a href="#" className={cx('header__link')}>Giới thiệu</a>
+                  <Link to="/details" className={cx('header__link')}>Khám phá</Link>
                 </li>
                 <li className={cx('header__item')}>
-                  <a href="#" className={cx('header__link')}>Khám phá</a>
+                  <Link to="#" className={cx('header__link')}>Giới thiệu</Link>
                 </li>
                 <li className={cx('header__item')}>
-                  <a href="#" className={cx('header__link')}>Lịch sử đặt vé</a>
+                  <Link to="#" className={cx('header__link')}>Lịch sử đặt vé</Link>
                 </li>
                 <li className={cx('header__item')}>
-                  <a href="#" className={cx('header__link')}>Tài khoản</a>
+                  <Link to="#" className={cx('header__link')}>Tài khoản</Link>
                 </li>
               </ul>
               <div className={cx('header__sub')}>
