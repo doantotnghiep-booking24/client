@@ -1,3 +1,10 @@
+import LogoutIcon from "@mui/icons-material/Logout";
+import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
+import { TextField, Button } from "@mui/material";
+
+import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 import classNames from "classnames/bind";
 import styles from "./details.module.scss";
 
@@ -112,9 +119,98 @@ function Details() {
                   </div>
                 </li>
               </ul>
+              <form className={cx('content__home-comment-form')}>
+              <TextField fullWidth id="standard-basic" label="Bình luận" variant="standard" />
+                <Button className={cx('btn')} variant="contained" color="primary" size="small" type="submit">
+                  Gửi
+                </Button>
+              </form>
             </div>
           </div>
-          <aside></aside>
+          <aside className={cx("aside")}>
+            <div className={cx("aside__account")}>
+              <img
+                src="https://apps.odoo.com/web/image/loempia.module/31305/icon_image?unique=4696166"
+                alt=""
+                className={cx("account__img")}
+              />
+              <h3 className={cx("account__name")}>Van Luong</h3>
+              <LogoutIcon className={cx("account__icon")}/>
+            </div>
+            <div className={cx("aside__date")}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <StaticDatePicker />
+              </LocalizationProvider>
+            </div>
+            <ul className={cx("aside__list")}>
+              <h4 className={cx("aside__list-heding")}>Bạn đã thích</h4>
+              <li className={cx("aside__item")}>
+                <img
+                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
+                  alt=""
+                  className={cx("aside__item-img")}
+                />
+                <div className={cx("aside__item-text")}>
+                  <a href="#" className={cx("aside__item-text-name")}>
+                    Cảm nhận của khách hàng
+                  </a>
+                  <div className={cx("aside__item-text-price")}>
+                    <LocalOfferOutlinedIcon fontSize="small" />
+                    <span>10.000.000 VNĐ</span>
+                  </div>
+                </div>
+              </li>
+              <li className={cx("aside__item")}>
+                <img
+                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
+                  alt=""
+                  className={cx("aside__item-img")}
+                />
+                <div className={cx("aside__item-text")}>
+                  <a href="#" className={cx("aside__item-text-name")}>
+                    Cảm nhận của khách hàng
+                  </a>
+                  <div className={cx("aside__item-text-price")}>
+                    <LocalOfferOutlinedIcon fontSize="small" />
+                    <span>10.000.000 VNĐ</span>
+                  </div>
+                </div>
+              </li>
+
+              <li className={cx("aside__item")}>
+                <img
+                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
+                  alt=""
+                  className={cx("aside__item-img")}
+                />
+                <div className={cx("aside__item-text")}>
+                  <a href="#" className={cx("aside__item-text-name")}>
+                    Cảm nhận của khách hàng
+                  </a>
+                  <div className={cx("aside__item-text-price")}>
+                    <LocalOfferOutlinedIcon fontSize="small" />
+                    <span>10.000.000 VNĐ</span>
+                  </div>
+                </div>
+              </li>
+              <li className={cx("aside__item")}>
+                <img
+                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
+                  alt=""
+                  className={cx("aside__item-img")}
+                />
+                <div className={cx("aside__item-text")}>
+                  <a href="#" className={cx("aside__item-text-name")}>
+                    Cảm nhận của khách hàng
+                  </a>
+                  <div className={cx("aside__item-text-price")}>
+                    <LocalOfferOutlinedIcon fontSize="small" />
+                    <span>10.000.000 VNĐ</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </aside>
         </div>
       </div>
     </div>

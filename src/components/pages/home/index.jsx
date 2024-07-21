@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 function Home() {
   const settings = {
     infinite: true,
-    speed: 500,
+    speed: 800,
     slidesToShow: 3,
     slidesToScroll: 1,
     centerMode: false,
