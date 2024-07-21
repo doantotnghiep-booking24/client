@@ -1,345 +1,332 @@
-
-
 // Banner
-.banner{
-    position: relative;
+.banner {
+  position: relative;
 }
-.banner__image{
-
-   img{
-      width: 100%;
-      height: 680px;
-   }
+.banner__image {
+  img {
+    width: 100%;
+    height: 680px;
+  }
 }
-.banner__heading{
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -60%); 
+.banner__heading {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -60%);
 }
-.banner__text{
-    color: var(--font-color);
+.banner__text {
+  color: var(--font-color);
 
-    span{
-        text-transform: uppercase;
-        font-size: var(--font-size);
-    }
-    h1{
-        margin-top: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-}
-
-.banner__section{
-    display: flex;
-    background-color: #fff;
-    align-items: center;
-    margin-top: 70px;
-    padding: 54px 36px ;
-    border-radius: 2px;
-
-    .banner__section-search,
-    .banner__section-date,
-    .banner__section-price{
-        padding: 0 50px;
-
-        span{
-            font-size: 16px;
-            font-weight: bold;
-            color: #4c4a4a;
-        }
-
-        input{
-            width: 300px;
-            height: 40px;
-            border-radius: 30px;
-            background-color: #f9f9f9;
-            border: solid 1px #f1f1f1;
-            color: #a3a3a3;
-            outline: none;
-            padding: 0 24px;
-            font-size: 16px;
-            font-weight: 500;
-            margin-top: 20px;
-
-
-            &:hover{
-                cursor: pointer;
-            }
-        }
-    }
-}
-
-.banner__section-price-range{
-    width: 300px !important;
-    margin-top: 20px;
-}
-
-.banner__section-search{
-    position: relative;
-}
-.banner__section-search-btn{
-    position: absolute;
-    right: 70px;
-    top: 53px;
-    color: #a3a3a3;
-    cursor: pointer;
+  span {
+    text-transform: uppercase;
     font-size: var(--font-size);
+  }
+  h1 {
+    margin-top: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
+
+.banner__section {
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  margin-top: 70px;
+  padding: 54px 36px;
+  border-radius: 2px;
+
+  .banner__section-search,
+  .banner__section-date,
+  .banner__section-price {
+    padding: 0 50px;
+
+    span {
+      font-size: 16px;
+      font-weight: bold;
+      color: #4c4a4a;
+    }
+
+    input {
+      width: 300px;
+      height: 40px;
+      border-radius: 30px;
+      background-color: #f9f9f9;
+      border: solid 1px #f1f1f1;
+      color: #a3a3a3;
+      outline: none;
+      padding: 0 24px;
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 20px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.banner__section-price-range {
+  width: 300px !important;
+  margin-top: 20px;
+}
+
+.banner__section-search {
+  position: relative;
+}
+.banner__section-search-btn {
+  position: absolute;
+  right: 70px;
+  top: 53px;
+  color: #a3a3a3;
+  cursor: pointer;
+  font-size: var(--font-size);
 }
 // Content
-.content{
-
+.content {
 }
 
 // Vacation
 
-.vacation{
-   margin: 100px 0 100px 0;
+.vacation {
+  margin: 100px 0 100px 0;
 }
-.vacation__list{
-   display: flex;
-   flex-wrap: wrap;
-   gap: 80px;
-   margin-left: 20px;
+.vacation__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 80px;
+  margin-left: 20px;
 }
-.vacation__item{
-    width: 370px;
-    border: 1px solid #f1f1f1;
+.vacation__item {
+  width: 370px;
+  border: 1px solid #f1f1f1;
 }
-.vacation__item-img{
-    width: 100%;
-    height: 230px;
-    overflow: hidden;
+.vacation__item-img {
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
 }
-.vacation__item-text{
-    padding: 30px;
+.vacation__item-text {
+  padding: 30px;
 }
-.vacation__item-name{
+.vacation__item-name {
+  margin: 0;
+  color: #555555;
+  font-weight: bold;
+}
+.vacation__item-location {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  color: #9a9a9a;
+  letter-spacing: 2px;
+  font-size: var(--font-size);
+
+  .icon {
+    margin-right: 5px;
+  }
+}
+.vacation__item-price {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid #e8e7e7;
+  border-bottom: 1px solid #e8e7e7;
+
+  span {
+    color: #767676;
+  }
+
+  p {
     margin: 0;
-    color: #555555;
-    font-weight: bold;
+    margin-left: 20px;
+    font-size: 20px;
+    color: #505050;
+  }
 }
-.vacation__item-location{
-    display: flex;
-    align-items: center;
-    margin: 5px;
-    color: #9a9a9a;
-    letter-spacing: 2px;
-    font-size: var(--font-size);
-
-    .icon{
-        margin-right: 5px;
-    }
-
+.vacation__item-title {
+  margin-top: 25px;
+  color: #9a9a9a;
+  letter-spacing: 1px;
+  font-size: var(--font-size);
+  line-height: 25px;
 }
-.vacation__item-price{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 0;
-    border-top: 1px solid #e8e7e7;
-    border-bottom: 1px solid #e8e7e7;
-    
-    span{
-        color: #767676;
-       
-    }
-
-    p{
-        margin: 0;
-        margin-left: 20px;
-        font-size: 20px;
-        color: #505050;
-    }
-}
-.vacation__item-title{
-    margin-top: 25px;
-    color: #9a9a9a;
-    letter-spacing: 1px;
-    font-size: var(--font-size);
-    line-height: 25px;
-}
-.vacation__item-btn{
-    margin-top: 20px !important;
-    background-color: var(--bg-primary) !important;
-    border-radius: 30px !important;
-    padding: 6px 34px !important;
+.vacation__item-btn {
+  margin-top: 20px !important;
+  background-color: var(--bg-primary) !important;
+  border-radius: 30px !important;
+  padding: 6px 34px !important;
 }
 
-
-// Travel review 
+// Travel review
 .travel__review {
-    position: relative;
-  }
-  
-  .travel__review-img {
-    width: 100%;
-    height: 700px;
-    object-fit: cover; 
-  }
-  
-  .travel__review-heading {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -30%); 
-    
+  position: relative;
+}
+
+.travel__review-img {
+  width: 100%;
+  height: 700px;
+  object-fit: cover;
+}
+
+.travel__review-heading {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
 }
 
 .travel__review-text {
-    text-align: center;
-    width: 640px;
-    color: var(--font-color);
-    margin: 0 auto;
+  text-align: center;
+  width: 640px;
+  color: var(--font-color);
+  margin: 0 auto;
 
-    span {
-      font-size: 33px;
-      font-family: Satisfy, cursive;
-      margin: 0;
-    }
-  
-    h1 {
-      font-size: 64px;
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin: 12px 0 24px;
-    }
-  
-    p {
-      font-size: 17px;
-      color: var(--font-color);
-    }
+  span {
+    font-size: 33px;
+    font-family: Satisfy, cursive;
+    margin: 0;
   }
-  
-  .travel__review-list{
-     margin-top: 80px ;
+
+  h1 {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin: 12px 0 24px;
+  }
+
+  p {
+    font-size: 17px;
+    color: var(--font-color);
+  }
 }
 
-  
-  .travel__review-item {
-    background-color: var(--font-color);
-    display: flex !important;
-    align-items: center;
-    border-radius: 6px;
-    padding: 20px; 
-    height: 230px;
-    width: 100%; 
-    box-sizing: border-box;
-  }
+.travel__review-list {
+  margin-top: 80px;
+}
 
+.travel__review-item {
+  background-color: var(--font-color);
+  display: flex !important;
+  align-items: center;
+  border-radius: 6px;
+  padding: 20px;
+  height: 230px;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  
-  .travel__review-item-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover; 
-  }
-  
-  .travel__review-item-text {
-    margin-left: 20px;
-    line-height: 1.7;
-    
-    .name {
-      font-weight: 700;
-      color: var(--color-text);
-      margin: 0;
-      &:hover {
-        color: var(--color-primary);
-        cursor: pointer;
-      }
-    }
-  
-    .star {
-      margin-top: 4px;
+.travel__review-item-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.travel__review-item-text {
+  margin-left: 20px;
+  line-height: 1.7;
+
+  .name {
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    &:hover {
       color: var(--color-primary);
-  
-      .start-icon {
-        margin-right: 5px;
-        font-size: 16px;
-        cursor: pointer;
-      }
-    }
-  
-    .title {
-      margin-top: 8px;
-      color: #505050;
-      font-size: 14px;
-      line-height: 24px;
-    }
-  
-    .location {
-      margin-top: 10px;
-      font-weight: 600;
-      color: var(--color-text);
+      cursor: pointer;
     }
   }
-  
+
+  .star {
+    margin-top: 4px;
+    color: var(--color-primary);
+
+    .start-icon {
+      margin-right: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+
+  .title {
+    margin-top: 8px;
+    color: #505050;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .location {
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+}
+
 // blog
 
-.blog{
-    margin-top: 100px;
-    display: flex;
+.blog {
+  margin-top: 100px;
+  display: flex;
 }
-.blog-main{
-    margin-right: 80px;
+.blog-main {
+  margin-right: 80px;
 }
-.blog-hed{
-    font-size: 46px;
-    font-weight: 700;
+.blog-hed {
+  font-size: 46px;
+  font-weight: 700;
 }
-.blog-sub{
-    font-size: 16px;
-    color: #505050;
-    margin-top: 10px;
-    display: block;
+.blog-sub {
+  font-size: 16px;
+  color: #505050;
+  margin-top: 10px;
+  display: block;
 }
-.blog-list{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    margin-top: 70px;
+.blog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 70px;
 }
-.blog-item{
-    display: flex;
+.blog-item {
+  display: flex;
 }
-.blog-item-img{
-    width: 140px;
-    height: 140px;
+.blog-item-img {
+  width: 140px;
+  height: 140px;
 }
-.blog-item-title{
-    padding: 0 28px;
-    font-size: var(--font-size);
+.blog-item-title {
+  padding: 0 28px;
+  font-size: var(--font-size);
 }
-.blog-item-hed{
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--color-text);
-    font-size: 20px;
+.blog-item-hed {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 20px;
 }
-.blog-item-hed:hover{
-    color: var(--color-primary);
+.blog-item-hed:hover {
+  color: var(--color-primary);
 }
-.blog-item-sub{
-    color: #505050;
-    margin-top: 15px;
-    display: block;
+.blog-item-sub {
+  color: #505050;
+  margin-top: 15px;
+  display: block;
 }
-.blog-item-action{
-    margin-top: 20px;
-    display: flex;
-    font-weight: 600;
+.blog-item-action {
+  margin-top: 20px;
+  display: flex;
+  font-weight: 600;
 }
-.blog-item-action-year{
-    padding-right: 40px;
+.blog-item-action-year {
+  padding-right: 40px;
 }
-.blog-sale{
-    margin-top: 40px;
-
+.blog-sale {
+  margin-top: 40px;
 }
-.blog-sale-img{
-    width: 380px;
-    height: 480px;
+.blog-sale-img {
+  width: 380px;
+  height: 480px;
 }

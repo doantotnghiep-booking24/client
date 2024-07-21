@@ -1,69 +1,124 @@
-import classNames from 'classnames/bind';
-import styles from './details.module.scss';
+import classNames from "classnames/bind";
+import styles from "./details.module.scss";
 
 const cx = classNames.bind(styles);
 
 function Details() {
-    return ( 
-        <div className={cx('wrap')}>
-            <div className={cx('banner')}>
-                <img src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-title-img-2.jpg" alt="" className={cx('banner__img')}/>
-                <h2 className={cx('banner__title')}>Chi Tiết</h2>
-            </div>
-            <div className={cx('content')}>
-                <div className={cx('content__main')}>
-                    <div className={cx('content__home')}>
-                        <img src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-2.jpg" alt="" className={cx('content__home-img')}/>
-                        <div className={cx('content__home-text')}>
-                            <h1 className={cx('content__home-name')}>Down Town</h1>
-                            <div className={cx('content__home-title')}>
-                                <p className={cx('content__home-heading')}>Si elit omnes impedit ius, vel et hinc agam fabulas. Ut audiam invenire iracundia vim. Tn eam dimo diam ea. Piber Korem sit amet. Cconsequat tin sit, stet cibo blandit.</p>
-                                <span className={cx('content__home-desc')}>Al elit omnes impedit ius, vel et hinc agam fabulas. Ut audiam invenire iracundia vim. En eam dico similique, ut sint posse sit, eum sumo diam ea. Liber consectetuer in mei, sea in imperdiet assueverit contentiones, an his cibo blandit tacimates. Iusto iudicabit similique id velex, in sea rebum deseruisse appellantur. Lorem ipsum Alienum phaedrum torquatos nec eu, vis detraxit pericu in mei, vix aperiri vix at,dolor sit amet. blandit dicant definition.Sit delicata persequeris ex, in sea rebum deseruisse appellantur. Lorem ipsum dolor sit amet.Eos ei nisl graecis, vix aperiri consequat an. Eius lorem.</span>
-                                <div className={cx('content__home-sub-heading')}>“Ei elit omnes impedit ius, vel et hinc agam fabulas. Ut audiamre iracundia vim. An eame, ut sint posse sumo diam ea. Cu omnis.”</div>
-                                <span className={cx('content__home-sub-desc')}>Ei elit omnes impedit ius, vel et hinc agam fabulas. Ut audiam invenire iracundia vim. An eam dico similique, ut sint posse sit, eum sumo diam ea. Liber consectetuer in mei, sea in imperdiet assueverit contentiones, an his cibo blandit tacimates. Iusto iudicabit similique idefinitionem eos an.Sit delicata persequeris ex, in sea rebum deseruisse appellantur. Lorem ipsum dolor si vix aperiri consequat an.</span>
-                            </div>
-                            <div className={cx('content__home-image')}>
-                                <img src="https://setsail.qodeinteractive.com/wp-content/uploads/2016/09/blog-img-13.jpg" alt="" />
-                                <img src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-22-1300x650.jpg" alt="" className={cx('content__home-image-w')}/>
-                            </div>
-                            <p className={cx('content__home-desc')}>Ai elit omnes lmpedit ius, tel et hinc agam fabulas. Ut audiam invenire iracundia vim. An eam dico similique, ut sint posse sit, eum sumo diam ea. Liber consectetuer in mei, sea in imperdiet assueverit contentiones, an his cibo blandit tacimates. Iusto iudicabit similique idefinitionem eos an.Sit delicata persequeris ex, in sea rebum deseruisse appellantur. Lorem ipsum dolor si vix aperiri consequat an.</p>
-
-                        </div>
-
-
-                        <div className={cx('content__home-comment')}>
-                            <h2 className={cx('content__home-comment-title')}>Bình Luận</h2>
-                            <ul className={cx('content__home-comment-list')}>
-                                <li className={cx('content__home-comment-item')}>
-                                    <img src="https://randomuser.me/api/portraits/women/60.jpg" alt="" className={cx('content__home-comment-img')}/>
-                                    <div className={cx('content__home-comment-content')}>
-                                        <p className={cx('content__home-comment-name')}>John Doe</p>
-                                        <p className={cx('content__home-comment-text')}>  arcu vitae consectetur congue, justo urna dignissim velit, id consectetur neque felis et velit. Sed pellentesque, lectus vel tristique ultricies, felis nisi dign</p>
-                                        <span className={cx('content__home-comment-date')}>12/12/2022,  2024 at 8:09 am</span>
-                                    </div>
-                                </li>    
-                                <li className={cx('content__home-comment-item')}>
-                                    <img src="https://randomuser.me/api/portraits/women/60.jpg" alt="" className={cx('content__home-comment-img')}/>
-                                    <div className={cx('content__home-comment-content')}>
-                                        <p className={cx('content__home-comment-name')}>John Doe</p>
-                                        <p className={cx('content__home-comment-text')}>  arcu vitae consectetur congue, justo urna dignissim velit, id consectetur neque felis et velit. Sed pellentesque, lectus vel tristique ultricies, felis nisi dign</p>
-                                        <span className={cx('content__home-comment-date')}>12/12/2022,  2024 at 8:09 am</span>
-                                    </div>
-                                </li>    
-                            </ul>
-                            
-                        </div>
-
-
-                    </div>
-                    <aside>
-                           
-                    </aside>
-                    
+  return (
+    <div className={cx("wrap")}>
+      <div className={cx("banner")}>
+        <img
+          src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-title-img-2.jpg"
+          alt=""
+          className={cx("banner__img")}
+        />
+        <h2 className={cx("banner__title")}>Chi Tiết</h2>
+      </div>
+      <div className={cx("content")}>
+        <div className={cx("content__main")}>
+          <div className={cx("content__home")}>
+            <img
+              src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
+              alt=""
+              className={cx("content__home-img")}
+            />
+            <div className={cx("content__home-text")}>
+              <h1 className={cx("content__home-name")}>Lý Sơn</h1>
+              <div className={cx("content__home-title")}>
+                <p className={cx("content__home-heading")}>
+                  Đảo Lý Sơn hay còn gọi là Cù Lao Ré. Đây là huyện đảo thuộc
+                  địa phận tỉnh Quảng Ngãi, cách đất liền 15 hải lý theo hướng
+                  Đông Bắc.
+                </p>
+                <span className={cx("content__home-desc")}>
+                  Phương tiện để đi du lịch Lý Sơn tự túc là tàu biển. Trước đó
+                  bạn cần đặt vé máy bay đi Chu Lai để đến Quảng Ngãi, sau đó di
+                  chuyển tới cảng Sa Kỳ và mua vé tàu ra đảo. Vé máy bay đi Chu
+                  Lai có giá rất rẻ, chỉ dao động trong khoảng 59.000đ -
+                  159.000đ (giá vé chưa bao gồm thuế phí), tùy vào nơi bạn khởi
+                  hành từ Hà Nội hay Tp.Hồ Chí Minh, thời gian bay trong khoảng
+                  1h20p.
+                </span>
+                <div className={cx("content__home-sub-heading")}>
+                  Tàu biển từ cảng Sa Kỳ ra đảo Lý Sơn có giá 150.000đ -
+                  200.000đ/lượt tùy vào loại tàu thường hay tàu cao tốc, thời
+                  gian di chuyển sẽ mất 2 tiếng. Bạn có thể đặt mua vé tàu
+                  online hoặc mua vé tại cảng đều được.
                 </div>
+                <span className={cx("content__home-sub-desc")}>
+                  Phương tiện di chuyển chủ yếu khi đi du lịch Lý Sơn tự túc là
+                  xe máy, có rất nhiều điểm thuê xe máy trên đảo với mức giá từ
+                  120.000đ - 200.000đ/ngày/xe. Bên cạnh đó, đa phần các khách
+                  sạn trên đảo đều có dịch vụ cho thuê xe nên bạn cũng có thể
+                  thuê luôn ở khách sạn mình đặt mà không cần để lại CMND hay
+                  cọc tiền thuê. Di chuyển giữa các đảo Lớn, đảo Bé và hòn Mù Cu
+                  thì sẽ đi bằng tàu cao tốc với giá khoảng 35.000đ/lượt.
+                </span>
+              </div>
+              <div className={cx("content__home-image")}>
+                <img
+                  src="https://image.baophapluat.vn/1200x630/Uploaded/2024/ycivoviu/2023_11_30/dao-ls-4996.jpg"
+                  alt=""
+                />
+                <img
+                  src="https://owa.bestprice.vn/images/articles/uploads/review-lich-trinh-du-lich-ly-son-tu-tuc-4-ngay-3-dem-cuc-chi-tiet-5fed4ed4986df.jpg"
+                  alt=""
+                  className={cx("content__home-image-w")}
+                />
+              </div>
+              <p className={cx("content__home-desc")}>
+                Ngoài ra, mình sẽ gợi ý thêm cho các bạn một số địa chỉ lưu trú
+                tại đảo như Mường Thanh Holiday Lý Sơn với giá từ
+                1.400.000đ/đêm, khách sạn Biển Ngọc Lý Sơn có giá từ
+                300.000đ/đêm, Hoàng Sa Resort giá từ 400.000đ/đêm,... đều là
+                những khách sạn được rất nhiều khách du lịch Lý Sơn tự túc yêu
+                thích.
+              </p>
             </div>
+
+            <div className={cx("content__home-comment")}>
+              <h2 className={cx("content__home-comment-title")}>Bình Luận</h2>
+              <ul className={cx("content__home-comment-list")}>
+                <li className={cx("content__home-comment-item")}>
+                  <img
+                    src="https://randomuser.me/api/portraits/women/60.jpg"
+                    alt=""
+                    className={cx("content__home-comment-img")}
+                  />
+                  <div className={cx("content__home-comment-content")}>
+                    <p className={cx("content__home-comment-name")}>John Doe</p>
+                    <p className={cx("content__home-comment-text")}>
+                      Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần nữa
+                    </p>
+                    <span className={cx("content__home-comment-date")}>
+                      12/12/2022, 2024, 8:09 giờ
+                    </span>
+                  </div>
+                </li>
+                <li className={cx("content__home-comment-item")}>
+                  <img
+                    src="https://randomuser.me/api/portraits/women/60.jpg"
+                    alt=""
+                    className={cx("content__home-comment-img")}
+                  />
+                  <div className={cx("content__home-comment-content")}>
+                    <p className={cx("content__home-comment-name")}>John Doe</p>
+                    <p className={cx("content__home-comment-text")}>
+                      Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần nữa
+                    </p>
+                    <span className={cx("content__home-comment-date")}>
+                      12/12/2022, 2024, 8:09 giờ
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <aside></aside>
         </div>
-     );
+      </div>
+    </div>
+  );
 }
 
 export default Details;
