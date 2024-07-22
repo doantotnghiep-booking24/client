@@ -1,9 +1,13 @@
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import { TextField, Button } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 
 import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import Select from "react-select";
 
 import classNames from "classnames/bind";
 import styles from "./details.module.scss";
@@ -11,6 +15,11 @@ import styles from "./details.module.scss";
 const cx = classNames.bind(styles);
 
 function Details() {
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
@@ -119,9 +128,20 @@ function Details() {
                   </div>
                 </li>
               </ul>
-              <form className={cx('content__home-comment-form')}>
-              <TextField fullWidth id="standard-basic" label="Bình luận" variant="standard" />
-                <Button className={cx('btn')} variant="contained" color="primary" size="small" type="submit">
+              <form className={cx("content__home-comment-form")}>
+                <TextField
+                  fullWidth
+                  id="standard-basic"
+                  label="Bình luận"
+                  variant="standard"
+                />
+                <Button
+                  className={cx("btn")}
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  type="submit"
+                >
                   Gửi
                 </Button>
               </form>
@@ -135,7 +155,67 @@ function Details() {
                 className={cx("account__img")}
               />
               <h3 className={cx("account__name")}>Van Luong</h3>
-              <LogoutIcon className={cx("account__icon")}/>
+              <LogoutIcon className={cx("account__icon")} />
+            </div>
+
+            <div className={cx("aside__booking")}>
+              <div className={cx("aside__booking-action")}>
+                <div className={cx("heading")}>
+                  <h5>Quảng Ngãi</h5>
+                  <span>Đảo Lý Sơn</span>
+                </div>
+                <div className={cx("sub")}>
+                  <div className={cx("heart")}>
+                    <FavoriteIcon fontSize="small" sx={{ color: "#ff1744" }} />
+                  </div>
+                  <div className={cx("share")}>
+                    <ShareOutlinedIcon fontSize="small" />
+                  </div>
+                </div>
+              </div>
+              <div className={cx("aside__booking-list")}>
+                <Select
+                  options={options}
+                  className={cx("aside__booking-select")}
+                />
+                <div className={cx("aside__booking-price")}>
+                  <div className={cx("adult")}>
+                    <span className="adult-name">Người lớn</span>
+                    <input type="number" />
+                    <div className={cx("rate")}>
+                      <span className={cx("rate-text")}>28.000.000 VNĐ</span>
+                    </div>
+                  </div>
+                  <div className={cx("children")}>
+                    <span className="children-name">Trẻ em</span>
+                    <input type="number" />
+                    <div className={cx("rate")}>
+                      <span className={cx("rate-text")}>28.000.000 VNĐ</span>
+                    </div>
+                  </div>
+                  <div className={cx("total")}>
+                    <span className="total-type">Trẻ em</span>
+                    <div className={cx("rate")}>
+                      <span className={cx("rate-text")}>28.000.000 VNĐ</span>
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  variant="outlined"
+                  type="button"
+                  sx={{
+                    borderColor: "#3fd0d4",
+                    color: "#3fd0d4",
+                    "&:hover": {
+                      borderColor: "#3fd0d4",
+                      color: "#3fd0d4",
+                    },
+                  }}
+                  className={cx("aside__booking-btn")}
+                >
+                  Đặt ngay
+                </Button>
+              </div>
             </div>
             <div className={cx("aside__date")}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
