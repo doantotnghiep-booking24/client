@@ -1,0 +1,173 @@
+.wrap {
+  padding: 0;
+  margin-top: 50px;
+  background-color: rgb(236, 243, 243);
+  border-radius: 20px;
+}
+.booking__container {
+  padding: 36px;
+
+  h1 {
+    margin: 0;
+    font-size: 34px;
+  }
+}
+.booking__form {
+  margin-top: 20px;
+
+  .info {
+    display: flex;
+    flex-wrap: wrap;
+
+    .info__heading {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .info__heading-name,
+      .info__heading-departure,
+      .info__heading-destination {
+        min-width: 350px;
+      }
+
+      span {
+        font-weight: 600;
+        margin-left: 6px;
+      }
+    }
+    .info__sub {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      .info__sub-transport,
+      .info__sub-time,
+      .info__sub-departure-time,
+      .info__sub-departure-day {
+        min-width: 350px;
+      }
+
+      span {
+        font-weight: 600;
+        margin-left: 6px;
+      }
+    }
+  }
+
+  .information {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 0 24px 24px 24px;
+
+    .booking__form-adult {
+      padding: 12px 0;
+      font-weight: 600;
+      border-bottom: 2px solid rgb(244, 243, 243);
+    }
+    .information-adult {
+      margin-top: 20px;
+
+      .information-adult-hed,
+      .information-adult-sub {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+
+        input,
+        select {
+          margin-left: 10px;
+          outline: none;
+          border: none;
+          font-weight: 600;
+        }
+      }
+      .information-adult-sub {
+        margin-top: 20px;
+      }
+    }
+  }
+  .information-adult__name,
+  .information-adult__birth,
+  .information-adult__sect,
+  .information-adult__phone,
+  .information-adult__cccd {
+    min-width: 300px;
+  }
+  .booking__form-children {
+    margin-top: 20px;
+    padding: 12px 0;
+    font-weight: 600;
+    border-bottom: 2px solid rgb(244, 243, 243);
+    border-top: 2px solid rgb(244, 243, 243);
+  }
+  .information-children {
+    margin-top: 20px;
+    display: flex;
+    gap: 40px;
+
+    .information-children__name,
+    .information-children__birth,
+    .information-children__sect {
+      min-width: 300px;
+
+      input,
+      select {
+        outline: none;
+        border: none;
+        margin-left: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.pay {
+  margin-top: 20px;
+
+  .pay__heading {
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  .pay__sub {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .pay__sub-adult,
+    .pay__sub-children,
+    .pay__sub-total,
+    .pay__sub-discount,
+    .pay__sub-total-pay,
+    .pay__sub-code {
+      min-width: 350px;
+
+      span,
+      input {
+        margin-left: 10px;
+        font-weight: 600;
+      }
+    }
+    .pay__sub-code {
+      input {
+        padding: 2px 8px;
+        outline: none;
+      }
+    }
+  }
+
+  .pay__sub-payment {
+    margin-top: 30px;
+
+    .btn {
+      margin-top: 2px;
+      padding: 16px 24px;
+      background-color: #fff;
+      color: var(--color-text);
+      font-weight: 600;
+      width: 300px;
+    }
+  }
+}

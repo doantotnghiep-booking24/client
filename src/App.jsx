@@ -4,6 +4,9 @@ import Header from "./components/layouts/header";
 import Footer from "./components/layouts/footer";
 import Home from "./components/pages/home";
 import Details from "./components/pages/details";
+import ListTravel from "./components/list__travel";
+import Booking from "./components/booking";
+import BookingHistory from "./components/booking__history";
 import "./styles/app.module.scss";
 
 function App() {
@@ -13,6 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details" element={<Details />} />
+        <Route path="/list" element={<ListTravel />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/booking-history" element={<BookingHistory />} />
       </Routes>
       <Footer />
     </Router>

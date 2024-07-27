@@ -21,7 +21,7 @@ function Home() {
     slidesToScroll: 1,
     centerMode: false,
     centerPadding: "0",
-    arrows: true,
+    arrows: false, 
     dots: true,
     responsive: [
       {
