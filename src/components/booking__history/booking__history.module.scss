@@ -1,0 +1,36 @@
+.wrap{
+    margin-top: 50px;
+  background-color: rgb(236, 243, 243);
+  border-radius: 20px;
+}
+.booking__history{
+    padding: 36px;
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+    }
+}
+.booking__history-list{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.booking__history-item{
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.ticket{
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ticket__content{
+        display: flex;
+    }
+    .ticket__barcode{
+        transform: rotate(90deg);
+    }
+}

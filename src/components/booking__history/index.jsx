@@ -16,23 +16,16 @@ function BookingHistory() {
         <ul className={cx("booking__history-list")}>
           <li className={cx("booking__history-item")}>
             <div className={cx("ticket")}>
+              <div className={cx("ticket__content")}>
               <div className={cx("ticket__barcode")}>
                 <Barcode
                   value={barcodeValue}
-                  width={2}
-                  height={50}
+                  width={1.7}
+                  height={40}
                   format="CODE128"
                   displayValue={false}
-                  fontOptions="bold"
-                  textAlign="center"
-                  textPosition="bottom"
-                  textMargin={5}
-                  fontSize={20}
-                  background="#ffffff"
-                  lineColor="#000000"
                 />
               </div>
-              <div className={cx("ticket__content")}>
                 <div className={cx("ticket__location")}>
                   <div className={cx("ticket__location-to")}>
                     <span>Địa điểm đi: </span>
@@ -66,8 +59,6 @@ function BookingHistory() {
                 <QRCode
                   value={qrValue}
                   size={128}
-                  fgColor="#000000"
-                  bgColor="#ffffff"
                   level="H"
                 />
               </div>
