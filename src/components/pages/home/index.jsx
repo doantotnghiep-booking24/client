@@ -22,7 +22,7 @@ function Home() {
     centerMode: false,
     centerPadding: "0",
     arrows: false, 
-    dots: true,
+    dots: false,
     responsive: [
       {
         breakpoint: 1024,

@@ -6,8 +6,18 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import PinterestIcon from "@mui/icons-material/Pinterest";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import classNames from "classnames/bind";
 import styles from "./header.module.scss";
@@ -24,6 +34,15 @@ function Header() {
       icon: "success",
       confirmButtonText: "OK",
     });
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -88,15 +107,75 @@ function Header() {
                   className={cx("navbar__social-icon")}
                 />
               </div>
-              <div className={cx("navbar__avatar")}>
-                <AccountCircleOutlinedIcon
-                  fontSize="medium"
-                  className={cx("navbar__avatar-icon")}
-                />
+              {/* account mui */}
+                <Tooltip title="Account settings">
+                  <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? "account-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                  >
+                    <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                  </IconButton>
+                </Tooltip>
+            
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                <MenuItem component={Link} to="/my-account" onClick={handleClose}>
+                  <Avatar /> Tài khoản của tôi
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <Settings fontSize="small" />
+                  </ListItemIcon>
+                  Cài đặt tài khoản
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Đăng xuất
+                </MenuItem>
+              </Menu>
               </div>
             </div>
           </div>
-        </div>
       </nav>
       <div className={cx("header__bg")}>
         <div className={cx("container")}>
@@ -130,11 +209,6 @@ function Header() {
               <li className={cx("header__item")}>
                 <Link to="/booking-history" className={cx("header__link")}>
                   Lịch sửa đặt vé
-                </Link>
-              </li>
-              <li className={cx("header__item")}>
-                <Link to="#" className={cx("header__link")}>
-                  Tài khoản
                 </Link>
               </li>
             </ul>

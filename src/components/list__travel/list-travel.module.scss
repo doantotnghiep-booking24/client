@@ -33,8 +33,13 @@
 
     .content__main-text{
       margin-bottom: 30px;
+
       .content__main-name{
         font-weight: 700;
+      }
+
+      .content__main-title{
+        font-size: 16px;
       }
     }
   }
@@ -84,7 +89,7 @@
       justify-content: center;
       align-items: center;
       float: right;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
    }
    .outstanding__item-text{

@@ -60,7 +60,7 @@ function ListTravel() {
                 <div className={cx('outstanding__list')}>
                   <div  className={cx('outstanding__item')}>
                     <div className={cx('outstanding__item-heading')}>
-                      <span>Giảm giá</span>
+                      <span>Bài viết nổi bật</span>
                     </div>
                     <div className={cx('outstanding__item-text')}>
                       <span>Đảo Lý Sơn</span>

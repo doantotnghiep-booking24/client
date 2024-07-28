@@ -24,7 +24,7 @@ function Details() {
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
         <img
-          src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-title-img-2.jpg"
+          src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
           alt=""
           className={cx("banner__img")}
         />
@@ -181,14 +181,30 @@ function Details() {
                 <div className={cx("aside__booking-price")}>
                   <div className={cx("adult")}>
                     <span className="adult-name">Người lớn</span>
-                    <input type="number" />
+                    <TextField
+                      id="standard-number"
+                      type="number"      
+                      variant="standard"
+                      style={{ marginTop: '-25px' ,
+                        marginLeft: '10px' ,
+                        width: '40px'
+                      }}
+                    />
                     <div className={cx("rate")}>
                       <span className={cx("rate-text")}>28.000.000 VNĐ</span>
                     </div>
                   </div>
                   <div className={cx("children")}>
                     <span className="children-name">Trẻ em</span>
-                    <input type="number" />
+                    <TextField
+                      id="standard-number"
+                      type="number"
+                      variant="standard"
+                      style={{ marginTop: '-25px',
+                        marginLeft: '10px' ,
+                        width: '40px'
+                       }}
+                    />
                     <div className={cx("rate")}>
                       <span className={cx("rate-text")}>28.000.000 VNĐ</span>
                     </div>
