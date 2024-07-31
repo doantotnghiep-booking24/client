@@ -213,7 +213,8 @@ function BookingHistory() {
                 onClick={handleCancelClick}
                 variant="outlined"
                 color="error"
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "20px",
+                 }}
               >
                 Hủy vé
               </Button>

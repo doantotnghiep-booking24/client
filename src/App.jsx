@@ -7,9 +7,12 @@ import Details from "./components/pages/details";
 import ListTravel from "./components/list__travel";
 import Booking from "./components/booking";
 import BookingHistory from "./components/booking__history";
+import Login from "./components/auth/login";
+import Register from "./components/auth/register";
 import "./styles/app.module.scss";
 
 function App() {
+
   return (
     <Router>
       <Header />
@@ -19,6 +22,8 @@ function App() {
         <Route path="/list" element={<ListTravel />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking-history" element={<BookingHistory />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </Router>

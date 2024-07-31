@@ -15,6 +15,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import LoginIcon from '@mui/icons-material/Login';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -156,8 +158,20 @@ function Header() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem component={Link} to="/my-account" onClick={handleClose}>
-                  <Avatar /> Tài khoản của tôi
+                <MenuItem  onClick={handleClose}>
+                  <Avatar fontSize="small"/> Tài khoản của tôi
+                </MenuItem>
+                <MenuItem component={Link} to="/login" onClick={handleClose}>
+                  <ListItemIcon>
+                   <LoginIcon fontSize="small"/>
+                  </ListItemIcon>
+                   Đăng nhập
+                </MenuItem>
+                <MenuItem component={Link} to="/register" onClick={handleClose}>
+                  <ListItemIcon>
+                   <HowToRegIcon fontSize="small"/>
+                  </ListItemIcon>
+                   Đăng ký
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleClose}>
@@ -166,6 +180,7 @@ function Header() {
                   </ListItemIcon>
                   Cài đặt tài khoản
                 </MenuItem>
+
                 <MenuItem onClick={handleClose}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
