@@ -1,3 +1,6 @@
+.wrap{
+  margin-bottom: 100px;
+}
 .banner {
   position: relative;
 
@@ -29,7 +32,7 @@
   z-index: 100;
 }
 .content__main {
-  padding: 50px 50px 130px 50px;
+  padding: 50px 50px 100px 50px;
   display: flex;
 }
 .content__home {

@@ -1,69 +1,105 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './login.scss';
+/* eslint-disable react/prop-types */
+import { Button, Stack, TextField, Typography } from "@mui/material";
+import { ScreenMode } from "../../pages/siginPage";
 
-function Login() {
-
+function SigninForm({ onSwitchMode }) {
     return (
-        <section className="h-100 gradient-form" style={{ backgroundColor: '#eee' }}>
-            <div className="container py-5 h-100">
-                <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="col-xl-10">
-                        <div className="card rounded-3 text-black">
-                            <div className="row g-0">
-                                <div className="col-lg-6">
-                                    <div className="card-body p-md-5 mx-md-4">
-                                        <div className="text-center">
-                                            <h1 className="mt-1 mb-5 pb-1">ĐĂNG NHẬP</h1>
-                                        </div>
-                                        <form >
-                                            <p>Vui lòng đăng nhập tài khoản của bạn</p>
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    className="form-control"
-                                                    placeholder="Nhập email"
-                                                    name="email"
-                                                />
-                                            </div>
-                                            <div className="form-outline mb-4">
-                                                <input
-                                                    type="password"
-                                                    id="password"
-                                                    className="form-control"
-                                                    placeholder="Nhập password"
-                                                    name="password"
-                                
-                                                />
-                                            </div>
-                                            <div className="text-center pt-1 mb-5 pb-1">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn-block fa-lg gradient-custom-2 mb-3 btn-login"
-                                                >
-                                                    ĐĂNG NHẬP
-                                                </button>
-                                                <a className="text-muted" href="#!">Quên mật khẩu?</a>
-                                            </div>
-                                            <div className="d-flex align-items-center justify-content-center pb-4">
-                                                <p className="mb-0 me-2">Bạn có tài khoản chưa?</p>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
-                                    <div className="text-white px-3 py-4 p-md-5 mx-md-4 text-center">
-                                        <h2 className="mb-4">Chào mừng đã trở lại</h2>
-                                        <p className="small mb-0">Nhập thông tin cá nhân của bạn để sử dụng tất cả các tính năng của trang web</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{
+                height: "100%",
+                color: "#333",
+                padding: 3,
+            }}
+        >
+            <Stack
+                spacing={4}
+                sx={{
+                    width: "100%",
+                    maxWidth: "450px",
+                    backgroundColor: "#f9f9f9",
+                    padding: 4,
+                    borderRadius: 2,
+                    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                }}
+            >
+                <Stack spacing={1}>
+                    <Typography variant="h4" fontWeight={600} color="#333">
+                        Chào mừng bạn quay trở lại
+                    </Typography>
+                    <Typography variant="body2" color="#555">
+                        Vui lòng đăng nhập tài khoản để có một trải nghiệm tối nhất và chọn cho mình chuyến du lịch phù hợp.
+                    </Typography>
+                </Stack>
+                <Stack spacing={3}>
+                    <Stack spacing={2}>
+                        <Stack spacing={1}>
+                            <Typography color="#333">Email</Typography>
+                            <TextField 
+                                variant="outlined"
+                                fullWidth
+                                size="small"
+                                InputProps={{
+                                    sx: {
+                                        backgroundColor: "#fff",
+                                        borderRadius: 1,
+                                    },
+                                }}
+                            />
+                        </Stack>
+                        <Stack spacing={1}>
+                            <Typography color="#333">Mật khẩu</Typography>
+                            <TextField 
+                                type="password"
+                                variant="outlined"
+                                fullWidth
+                                size="small"
+                                InputProps={{
+                                    sx: {
+                                        backgroundColor: "#fff",
+                                        borderRadius: 1,
+                                    },
+                                }}
+                            />
+                        </Stack>
+                    </Stack>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        fullWidth
+                        sx={{
+                            bgcolor: "#3fd0d4",
+                            color: "#fff",
+                            "&:hover": {
+                                bgcolor: "#2bb1b6",
+                            },
+                            padding: 1.5,
+                            borderRadius: 2,
+                        }}
+                    >
+                        Đăng nhập
+                    </Button>
+                </Stack>
+                <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
+                    <Typography variant="body2" color="#555">Bạn chưa có tài khoản?</Typography>
+                    <Typography
+                        onClick={() => onSwitchMode(ScreenMode.SIGN_UP)}
+                        fontWeight={600}
+                        sx={{
+                            cursor: "pointer",
+                            color: "#3fd0d4",
+                            "&:hover": {
+                                textDecoration: "underline",
+                            },
+                        }}
+                    >
+                        Đăng ký
+                    </Typography>
+                </Stack>
+            </Stack>
+        </Stack>
     );
 }
 
-export default Login;
+export default SigninForm;

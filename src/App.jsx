@@ -7,8 +7,8 @@ import Details from "./components/pages/details";
 import ListTravel from "./components/list__travel";
 import Booking from "./components/booking";
 import BookingHistory from "./components/booking__history";
-import Login from "./components/auth/login";
-import Register from "./components/auth/register";
+import FormPasswordReset from "./components/auth/reset__password";
+import SiginPage from "./components/pages/siginPage";
 import "./styles/app.module.scss";
 
 function App() {
@@ -22,8 +22,8 @@ function App() {
         <Route path="/list" element={<ListTravel />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking-history" element={<BookingHistory />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/reset-password" element={<FormPasswordReset />} />
+        <Route path="/auth" element={<SiginPage />} />
       </Routes>
       <Footer />
     </Router>
