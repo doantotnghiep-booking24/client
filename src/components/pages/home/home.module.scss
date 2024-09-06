@@ -387,6 +387,17 @@
   
   /* Mobile */
 @media(max-width: 739px) {
+  .banner__section{
+
+    .banner__section-search,
+    .banner__section-date,
+    .banner__section-price{
+      padding: 0 30px;
+      input{
+        width: 300px;
+      }
+    }
+  }
   .hide-on-mobile{
     display: none;
  }
