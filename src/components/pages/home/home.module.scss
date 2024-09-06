@@ -36,7 +36,7 @@
   background-color: #fff;
   align-items: center;
   margin-top: 70px;
-  padding: 54px 36px;
+  padding: 54px 0;
   border-radius: 2px;
 
   .banner__section-search,
@@ -100,6 +100,7 @@
   flex-wrap: wrap;
   gap: 80px;
   margin-left: 20px;
+  justify-content: center;
 }
 .vacation__item {
   width: 370px;
@@ -166,7 +167,7 @@
 
 // Travel review
 .travel__review {
-  position: relative;
+  // position: relative;
 }
 
 .travel__review-img {
@@ -176,15 +177,15 @@
 }
 
 .travel__review-heading {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -30%);
+  // position: absolute;
+  // top: 30%;
+  // left: 50%;
+  // transform: translate(-50%, -30%);
+  margin-top: -650px;
 }
 
 .travel__review-text {
   text-align: center;
-  width: 640px;
   color: var(--font-color);
   margin: 0 auto;
 
@@ -271,7 +272,7 @@
 // blog
 
 .blog {
-  margin-top: 100px;
+  margin-top: 200px;
   display: flex;
 }
 .blog-main {
@@ -333,5 +334,84 @@
   width: 380px;
   height: 480px;
 }
+
+@media (max-width: 1400px) {
+.banner__section{
+
+  .banner__section-search,
+  .banner__section-date,
+  .banner__section-price{
+    input{
+      width: 200px;
+    }
+  }
+}
+  
+}
+
+@media (max-width: 1200px) {
+  .banner__section{
+  flex-direction: column;
+  padding: 0;
+
+  .banner__section-search,
+  .banner__section-date,
+  .banner__section-price{
+    margin-top: 30px;
+    input{
+      width: 300px;
+    }
+  }
+
+    // .banner__section-price{
+    //       display: none;
+    // }
+  }
+    
+  }
+
+  @media (max-width: 992px) {
+    .blog{
+      flex-direction: column;
+      align-items: center;
+     }
+     .blog-main{
+      margin-right: 0;
+     }
+     .blog-sale-img{
+      margin-top: 30px;
+     
+     }
+      
+    }
+  
+  /* Mobile */
+@media(max-width: 739px) {
+  .hide-on-mobile{
+    display: none;
+ }
+
+ .blog{
+  flex-direction: column;
+  align-items: center;
+ }
+ .blog-main{
+  margin-right: 0;
+ }
+ .blog-sale-img{
+  margin-top: 30px;
+ 
+ }
+ .vacation__list{
+  margin-left: 0;
+ }
+}
+
+
+
+
+
+
+
 
 

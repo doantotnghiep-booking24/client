@@ -16,8 +16,7 @@
 }
 .booking__history-list{
     list-style-type: none;
-    padding: 0;
-    margin: 0;
+    padding-left: 0;
 }
 .booking__history-item{
     margin-top: 30px;
@@ -44,15 +43,16 @@
     padding: 8px 0;
 
     .ticket__content{
+        width: 530px;
         position: relative;
         display: flex;
-        align-items: center;
+
 
         &::after{
             content: "";
             position: absolute;
             top: 50%;
-            right: 35px;
+            right: 10px;
             border: 2px dashed #75b5b7;
             height: 100%;
             transform: translateY(-50%);
@@ -64,8 +64,7 @@
         transform: rotate(90deg);
     }
     .ticket__location{
-        min-width: 300px;
-        position: relative;
+        // min-width: 300px;
 
         span{
             font-size: 13px;
@@ -78,7 +77,8 @@
     }
 
     .ticket__time{
-        min-width: 300px;
+        // min-width: 300px;
+        margin-left: 130px;
         span{
             font-size: 13px;
         }
@@ -101,3 +101,98 @@
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+@media (max-width: 992px) {
+    .booking__history-top{
+        padding: 4px 30px;
+    }
+    
+    .ticket__barcode-main{
+      width: 155px;
+    }
+    .ticket__qrcode-main{
+      width: 110px !important;
+      height: 110px !important;
+    }
+    .ticket__location{
+     p{
+      font-size: 13px !important;
+     }
+  }
+    .ticket__time{
+      margin-left: 80px !important;
+      p{
+          font-size: 13px !important;
+      }
+    }
+
+
+
+ }
+ @media(max-width: 768px) {
+ 
+    .ticket__barcode-main{
+        width: 130px;
+      }
+      .ticket__qrcode-main{
+        width: 80px !important;
+        height: 80px !important;
+      }
+      .ticket__location{
+        span{
+            font-size: 11px !important;
+        }
+        p{
+         font-size: 11px !important;
+        }
+     }
+       .ticket__time{
+         margin-left: 50px !important;
+
+         span{
+            font-size: 11px !important;
+        }
+         p{
+             font-size: 11px !important;
+         }
+       }
+
+       .booking__history-bottom{
+        height: 15px;
+
+    }
+  }
+  @media(max-width:576px){
+    .ticket__content{
+        width: 200px !important;
+    }
+    .ticket__barcode-main{
+        width: 130px;
+      }
+      .ticket__qrcode-main{
+        width: 70px !important;
+        height: 70px !important;
+      }
+      .ticket__location{
+        span{
+            font-size: 9px !important;
+        }
+        p{
+         font-size: 9px !important;
+        }
+     }
+       .ticket__time{
+         margin-left: 30px !important;
+
+         span{
+            font-size: 9px !important;
+        }
+         p{
+             font-size: 9px !important;
+         }
+       }
+
+       .booking__history-bottom{
+        height: 12px;
+
+    }
+  }

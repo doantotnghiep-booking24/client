@@ -73,9 +73,11 @@
       .information-adult-hed,
       .information-adult-sub {
         display: flex;
+        flex-wrap: wrap;
         gap: 40px;
         align-items: center;
 
+        
         input,
         select {
           margin-left: 10px;
@@ -106,6 +108,7 @@
   .information-children {
     margin-top: 20px;
     display: flex;
+    flex-wrap: wrap;
     gap: 40px;
 
     .information-children__name,

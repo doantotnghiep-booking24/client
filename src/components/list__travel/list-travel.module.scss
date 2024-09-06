@@ -24,7 +24,7 @@
   }
   .content {
     position: relative;
-    width: 1200px;
+    width: 100%;
     background-color: var(--font-color);
     margin: 0 auto;
     box-shadow: 0 3px 20px 5px rgba(0, 0, 0, 0.03);
@@ -203,6 +203,19 @@
   
     
   }
+
+  @media (max-width: 1024px) {
+    .content__first{
+      flex-direction: column;
+    }
+    .content__home{
+      width: 100%;
+    }
+    .aside{
+      width: 100%;
+      margin: 20px 0 0 0;
+    }
+ }
 
   
   

@@ -31,196 +31,78 @@ function BookingHistory() {
   return (
     <div className={cx("wrap", "container")}>
       <div className={cx("booking__history")}>
+        <div className={cx("container")}>
         <h1>Lịch sử đặt vé</h1>
-        <ul className={cx("booking__history-list")}>
-          <div className="booking__history-main__item">
-            <li className={cx("booking__history-item")}>
-              <div className={cx("booking__history-top")}>
-                <h4>Booking Travel</h4>
-              </div>
-              <div className={cx("ticket")}>
-                <div className={cx("ticket__content")}>
-                  <div className={cx("ticket__barcode")}>
-                    <Barcode
-                      value={barcodeValue}
-                      width={2}
-                      height={40}
-                      format="CODE128"
-                      displayValue={false}
-                    />
-                  </div>
-                  <div className={cx("ticket__location")}>
-                    <div className={cx("ticket__location-to")}>
-                      <span>Địa điểm đi: </span>
-                      <p>Thành phố Hà Nội</p>
+          <ul className={cx("booking__history-list")}>
+            <div className="booking__history-main__item">
+              <li className={cx("booking__history-item")}>
+                <div className={cx("booking__history-top")}>
+                  <h4>Booking Travel</h4>
+                </div>
+                <div className={cx("ticket")}>
+                    <div className={cx("ticket__barcode")}>
+                      <Barcode
+                        className={cx("ticket__barcode-main")}
+                        value={barcodeValue}
+                        width={2}
+                        height={40}
+                        format="CODE128"
+                        displayValue={false}
+                      />
                     </div>
-                    <div className={cx("ticket__location-from")}>
-                      <span>Địa điểm đến: </span>
-                      <p>Lý Sơn, Quảng Ngãi</p>
+                  <div className={cx("ticket__content")}>
+                    <div className={cx("ticket__location")}>
+                      <div className={cx("ticket__location-to")}>
+                        <span>Địa điểm đi: </span>
+                        <p>Thành phố Hà Nội</p>
+                      </div>
+                      <div className={cx("ticket__location-from")}>
+                        <span>Địa điểm đến: </span>
+                        <p>Lý Sơn, Quảng Ngãi</p>
+                      </div>
+                      <div className={cx("ticket__location-live")}>
+                        <span>Thời gian: </span>
+                        <p>2 ngày 3 đêm</p>
+                      </div>
                     </div>
-                    <div className={cx("ticket__location-live")}>
-                      <span>Thời gian: </span>
-                      <p>2 ngày 3 đêm</p>
-                    </div>
-                  </div>
-                  <div className={cx("ticket__time")}>
-                    <div className={cx("ticket__time-date")}>
-                      <span>Ngày đặt vé: </span>
-                      <p>28 - 08 - 2024</p>
-                    </div>
-                    <div className={cx("ticket__time-date-departure ")}>
-                      <span>Ngày khởi hành: </span>
-                      <p>28 - 08 - 2024</p>
-                      <div className={cx("ticket__time-departure ")}>
-                        <span>Giờ khởi hành: </span>
-                        <p>7h30</p>
+                    <div className={cx("ticket__time")}>
+                      <div className={cx("ticket__time-date")}>
+                        <span>Ngày đặt vé: </span>
+                        <p>28 - 08 - 2024</p>
+                      </div>
+                      <div className={cx("ticket__time-date-departure ")}>
+                        <span>Ngày khởi hành: </span>
+                        <p>28 - 08 - 2024</p>
+                        <div className={cx("ticket__time-departure ")}>
+                          <span>Giờ khởi hành: </span>
+                          <p>7h30</p>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div className={cx("ticket__qrcode")}>
+                    <QRCode
+                       className={cx("ticket__qrcode-main")}
+                       value={qrValue} size={150} level="H" />
+                  </div>
                 </div>
-                <div className={cx("ticket__qrcode")}>
-                  <QRCode value={qrValue} size={150} level="H" />
-                </div>
+                <div className={cx("booking__history-bottom")}></div>
+              </li>
+              <div className={cx("booking__history-cancel")}>
+                <Button
+                  onClick={handleCancelClick}
+                  variant="outlined"
+                  color="error"
+                  style={{ marginTop: "20px" }}
+                >
+                  Hủy vé
+                </Button>
               </div>
-              <div className={cx("booking__history-bottom")}></div>
-            </li>
-            <div className={cx("booking__history-cancel")}>
-              <Button
-                onClick={handleCancelClick}
-                variant="outlined"
-                color="error"
-                style={{ marginTop: "20px" }}
-              >
-                Hủy vé
-              </Button>
             </div>
-          </div>
-          <div className="booking__history-main__item">
-            <li className={cx("booking__history-item")}>
-              <div className={cx("booking__history-top")}>
-                <h4>Booking Travel</h4>
-              </div>
-              <div className={cx("ticket")}>
-                <div className={cx("ticket__content")}>
-                  <div className={cx("ticket__barcode")}>
-                    <Barcode
-                      value={barcodeValue}
-                      width={2}
-                      height={40}
-                      format="CODE128"
-                      displayValue={false}
-                    />
-                  </div>
-                  <div className={cx("ticket__location")}>
-                    <div className={cx("ticket__location-to")}>
-                      <span>Địa điểm đi: </span>
-                      <p>Thành phố Hà Nội</p>
-                    </div>
-                    <div className={cx("ticket__location-from")}>
-                      <span>Địa điểm đến: </span>
-                      <p>Lý Sơn, Quảng Ngãi</p>
-                    </div>
-                    <div className={cx("ticket__location-live")}>
-                      <span>Thời gian: </span>
-                      <p>2 ngày 3 đêm</p>
-                    </div>
-                  </div>
-                  <div className={cx("ticket__time")}>
-                    <div className={cx("ticket__time-date")}>
-                      <span>Ngày đặt vé: </span>
-                      <p>28 - 08 - 2024</p>
-                    </div>
-                    <div className={cx("ticket__time-date-departure ")}>
-                      <span>Ngày khởi hành: </span>
-                      <p>28 - 08 - 2024</p>
-                      <div className={cx("ticket__time-departure ")}>
-                        <span>Giờ khởi hành: </span>
-                        <p>7h30</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={cx("ticket__qrcode")}>
-                  <QRCode value={qrValue} size={150} level="H" />
-                </div>
-              </div>
-              <div className={cx("booking__history-bottom")}></div>
-            </li>
-            <div className={cx("booking__history-cancel")}>
-              <Button
-                onClick={handleCancelClick}
-                variant="outlined"
-                color="error"
-                style={{ marginTop: "20px" }}
-              >
-                Hủy vé
-              </Button>
-            </div>
-          </div>
-          <div className="booking__history-main__item">
-            <li className={cx("booking__history-item")}>
-              <div className={cx("booking__history-top")}>
-                <h4>Booking Travel</h4>
-              </div>
-              <div className={cx("ticket")}>
-                <div className={cx("ticket__content")}>
-                  <div className={cx("ticket__barcode")}>
-                    <Barcode
-                      value={barcodeValue}
-                      width={2}
-                      height={40}
-                      format="CODE128"
-                      displayValue={false}
-                    />
-                  </div>
-                  <div className={cx("ticket__location")}>
-                    <div className={cx("ticket__location-to")}>
-                      <span>Địa điểm đi: </span>
-                      <p>Thành phố Hà Nội</p>
-                    </div>
-                    <div className={cx("ticket__location-from")}>
-                      <span>Địa điểm đến: </span>
-                      <p>Lý Sơn, Quảng Ngãi</p>
-                    </div>
-                    <div className={cx("ticket__location-live")}>
-                      <span>Thời gian: </span>
-                      <p>2 ngày 3 đêm</p>
-                    </div>
-                  </div>
-                  <div className={cx("ticket__time")}>
-                    <div className={cx("ticket__time-date")}>
-                      <span>Ngày đặt vé: </span>
-                      <p>28 - 08 - 2024</p>
-                    </div>
-                    <div className={cx("ticket__time-date-departure ")}>
-                      <span>Ngày khởi hành: </span>
-                      <p>28 - 08 - 2024</p>
-                      <div className={cx("ticket__time-departure ")}>
-                        <span>Giờ khởi hành: </span>
-                        <p>7h30</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={cx("ticket__qrcode")}>
-                  <QRCode value={qrValue} size={150} level="H" />
-                </div>
-              </div>
-              <div className={cx("booking__history-bottom")}></div>
-            </li>
-            <div className={cx("booking__history-cancel")}>
-              <Button
-                onClick={handleCancelClick}
-                variant="outlined"
-                color="error"
-                style={{ marginTop: "20px",
-                 }}
-              >
-                Hủy vé
-              </Button>
-            </div>
-          </div>
-        </ul>
+        
+          </ul>
+
+        </div>
       </div>
     </div>
   );

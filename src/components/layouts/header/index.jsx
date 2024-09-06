@@ -15,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import ReorderIcon from '@mui/icons-material/Reorder';
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -180,11 +181,15 @@ function Header() {
       <div className={cx("header__bg")}>
         <div className={cx("container")}>
           <header className={cx("header")}>
+             <label htmlFor="mobile__menu-checkbox" className={cx('header__menu-mobile')}>
+                  <ReorderIcon sx={{color : "#fff"}}/>  
+              </label>
             <img
               src="https://apps.odoo.com/web/image/loempia.module/31305/icon_image?unique=4696166"
               alt=""
               className={cx("logo__img")}
             />
+            <input type="checkbox" hidden id="mobile__menu-checkbox" className={cx("header__menu-checkbox")}></input>
             <ul className={cx("header__list")}>
               <li className={cx("header__item")}>
                 <Link to="/" className={cx("header__link")}>

@@ -74,7 +74,7 @@ function Booking() {
                   <input type="text" placeholder="Số điện thoại" />
                 </div>
                 <div className={cx("information-adult__cccd")}>
-                  Căn cước công dân:
+                  Căn cước:
                   <input type="text" placeholder="CCCD" />
                 </div>
               </div>

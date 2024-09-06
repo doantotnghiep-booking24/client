@@ -32,12 +32,13 @@ function Home() {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
+     
     ],
   };
 
@@ -50,13 +51,15 @@ function Home() {
             alt="booking"
           />
         </div>
-        <div className={cx("container")}>
           <div className={cx("banner__heading")}>
+              <div className={cx("container")}>
             <div className={cx("banner__text")}>
               <span>Gói của chúng tôi</span>
               <h1>Hãy tìm kiếm kỳ nghỉ của bạn</h1>
             </div>
+        
             <div className={cx("banner__section")}>
+          
               <div className={cx("banner__section-search")}>
                 <span>Tìm kiếm kỳ nghỉ:</span> <br />
                 <input type="text" placeholder="Tìm kiếm" />
@@ -75,6 +78,8 @@ function Home() {
                   valueLabelDisplay="auto"
                   className={cx("banner__section-price-range")}
                 />
+             
+                
               </div>
             </div>
           </div>
