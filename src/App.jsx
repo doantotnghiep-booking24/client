@@ -12,7 +12,6 @@ import SiginPage from "./components/pages/siginPage";
 import "./styles/app.module.scss";
 
 function App() {
-
   return (
     <Router>
       <Header />

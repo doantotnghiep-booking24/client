@@ -1,221 +1,212 @@
-.wrap{
+.wrap {
   margin-bottom: 100px;
 }
 .banner {
-    position: relative;
-  
-    .banner__img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-    }
-    .banner__title {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: var(--font-color);
-      font-size: 65px;
+  position: relative;
+
+  .banner__img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+  }
+  .banner__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--font-color);
+    font-size: 65px;
+    font-weight: 700;
+    background-color: var(--bg-primary);
+    padding: 4px 0 8px 0px;
+  }
+}
+.content {
+  position: relative;
+  width: 100%;
+  background-color: var(--font-color);
+  margin: 0 auto;
+  box-shadow: 0 3px 20px 5px rgba(0, 0, 0, 0.03);
+  margin-top: -80px;
+  z-index: 100;
+}
+.content__main {
+  padding: 50px;
+
+  .content__main-text {
+    margin-bottom: 30px;
+
+    .content__main-name {
       font-weight: 700;
-      background-color: var(--bg-primary);
-      padding: 4px 0 8px 0px;
+    }
+
+    .content__main-title {
+      font-size: 16px;
     }
   }
-  .content {
+}
+.content__first {
+  display: flex;
+}
+.content__home {
+  width: 70%;
+
+  .outstanding__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .outstanding__item {
     position: relative;
     width: 100%;
-    background-color: var(--font-color);
-    margin: 0 auto;
-    box-shadow: 0 3px 20px 5px rgba(0, 0, 0, 0.03);
-    margin-top: -80px;
-    z-index: 100;
-  }
-  .content__main {
-    padding: 50px;
+    height: 420px;
+    overflow: hidden;
 
-    .content__main-text{
-      margin-bottom: 30px;
-
-      .content__main-name{
-        font-weight: 700;
-      }
-
-      .content__main-title{
-        font-size: 16px;
-      }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      transition: transform 0.6s ease;
+      z-index: -1;
+    }
+    &:hover::before {
+      transform: scale(1.05);
     }
   }
-  .content__first{
+
+  .outstanding__item-heading {
+    background-color: var(--bg-primary);
+    color: var(--font-color);
+    width: 150px;
+    height: 50px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    font-size: 17px;
+    font-weight: 600;
   }
-  .content__home {
-    width: 70%;
+  .outstanding__item-text {
+    position: absolute;
+    top: 260px;
+    padding: 48px;
+    font-size: 24px;
+    color: var(--font-color);
+    font-weight: 700;
 
-    .outstanding__list{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-   }
-   .outstanding__item{
-     position: relative;
-     width: 100%;
-     height: 420px;
-     overflow: hidden;
-   
-     &::before {
-       content: '';
-       position: absolute;
-       top: 0;
-       left: 0;
-       right: 0;
-       bottom: 0;
-       background-image: url('https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg');
-       background-position: center;
-       background-repeat: no-repeat;
-       background-size: cover;
-       transition: transform 0.6s ease; 
-       z-index: -1; 
-   }
-   &:hover::before {
-     transform: scale(1.05); 
-   }
- }
- 
- 
-   .outstanding__item-heading{
-      background-color: var(--bg-primary);
-      color: var(--font-color);
-      width: 150px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      float: right;
-      font-size: 17px;
-      font-weight: 600;
-   }
-   .outstanding__item-text{
-     position: absolute;
-     top: 260px;
-     padding: 48px;
-     font-size: 24px;
-     color: var(--font-color);
-     font-weight: 700;
- 
-     p{
-       margin-top: 2px;
-     }
-   }
-  }
-
-
-  
-  // aside styles
-  .aside {
-    width: 30%;
-    margin-left: 50px;
-    .outstanding__list{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-   }
-   .outstanding__item{
-     position: relative;
-     width: 100%;
-     height: 200px;
-     overflow: hidden;
-   
-     &::before {
-       content: '';
-       position: absolute;
-       top: 0;
-       left: 0;
-       right: 0;
-       bottom: 0;
-       background-image: url('https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg');
-       background-position: center;
-       background-repeat: no-repeat;
-       background-size: cover;
-       transition: transform 0.6s ease; 
-       z-index: -1; 
-   }
-   &:hover::before {
-     transform: scale(1.05); 
-   }
- }
- 
-   .outstanding__item-heading{
-      background-color: var(--bg-primary);
-      color: var(--font-color);
-      width: 100px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      float: right;
-      font-size: var(--font-size);
-      font-weight: 600;
-   }
-   .outstanding__item-text{
-     position: absolute;
-     top: 110px;
-     padding: 24px;
-     color: var(--font-color);
-     font-weight: 700;
- 
-     p{
-       margin-top: 2px;
-     }
-   }
-  }
-
-  // content list
-
-  .content__list{
-    margin-top: 30px;
-
-    .content__list-heading{
-      margin-bottom: 30px;
-      font-weight: 700;
+    p {
+      margin-top: 2px;
     }
-    .outstanding__item{
-      width: 100%;
-    }
-
-    .outstanding__item-img{
-      width: 100%;
-      height: 200px;
-      
   }
-  .outstanding__item-text{
+}
+
+// aside styles
+.aside {
+  width: 30%;
+  margin-left: 50px;
+  .outstanding__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .outstanding__item {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      transition: transform 0.6s ease;
+      z-index: -1;
+    }
+    &:hover::before {
+      transform: scale(1.05);
+    }
+  }
+
+  .outstanding__item-heading {
+    background-color: var(--bg-primary);
+    color: var(--font-color);
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    font-size: var(--font-size);
+    font-weight: 600;
+  }
+  .outstanding__item-text {
+    position: absolute;
+    top: 110px;
+    padding: 24px;
+    color: var(--font-color);
+    font-weight: 700;
+
+    p {
+      margin-top: 2px;
+    }
+  }
+}
+
+// content list
+
+.content__list {
+  margin-top: 30px;
+
+  .content__list-heading {
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+  .outstanding__item {
+    width: 100%;
+  }
+
+  .outstanding__item-img {
+    width: 100%;
+    height: 200px;
+  }
+  .outstanding__item-text {
     margin-top: 12px;
     font-size: var(--font-size);
 
-    .outstanding__item-name{
+    .outstanding__item-name {
       font-weight: 600;
       text-transform: uppercase;
     }
-    .outstanding__item-price{
+    .outstanding__item-price {
       margin-top: 5px;
     }
   }
-  
-    
+}
+
+@media (max-width: 1024px) {
+  .content__first {
+    flex-direction: column;
   }
-
-  @media (max-width: 1024px) {
-    .content__first{
-      flex-direction: column;
-    }
-    .content__home{
-      width: 100%;
-    }
-    .aside{
-      width: 100%;
-      margin: 20px 0 0 0;
-    }
- }
-
-  
-  
+  .content__home {
+    width: 100%;
+  }
+  .aside {
+    width: 100%;
+    margin: 20px 0 0 0;
+  }
+}

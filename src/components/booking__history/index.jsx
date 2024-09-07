@@ -32,7 +32,7 @@ function BookingHistory() {
     <div className={cx("wrap", "container")}>
       <div className={cx("booking__history")}>
         <div className={cx("container")}>
-        <h1>Lịch sử đặt vé</h1>
+          <h1>Lịch sử đặt vé</h1>
           <ul className={cx("booking__history-list")}>
             <div className="booking__history-main__item">
               <li className={cx("booking__history-item")}>
@@ -40,16 +40,16 @@ function BookingHistory() {
                   <h4>Booking Travel</h4>
                 </div>
                 <div className={cx("ticket")}>
-                    <div className={cx("ticket__barcode")}>
-                      <Barcode
-                        className={cx("ticket__barcode-main")}
-                        value={barcodeValue}
-                        width={2}
-                        height={40}
-                        format="CODE128"
-                        displayValue={false}
-                      />
-                    </div>
+                  <div className={cx("ticket__barcode")}>
+                    <Barcode
+                      className={cx("ticket__barcode-main")}
+                      value={barcodeValue}
+                      width={2}
+                      height={40}
+                      format="CODE128"
+                      displayValue={false}
+                    />
+                  </div>
                   <div className={cx("ticket__content")}>
                     <div className={cx("ticket__location")}>
                       <div className={cx("ticket__location-to")}>
@@ -82,8 +82,11 @@ function BookingHistory() {
                   </div>
                   <div className={cx("ticket__qrcode")}>
                     <QRCode
-                       className={cx("ticket__qrcode-main")}
-                       value={qrValue} size={150} level="H" />
+                      className={cx("ticket__qrcode-main")}
+                      value={qrValue}
+                      size={150}
+                      level="H"
+                    />
                   </div>
                 </div>
                 <div className={cx("booking__history-bottom")}></div>
@@ -99,9 +102,7 @@ function BookingHistory() {
                 </Button>
               </div>
             </div>
-        
           </ul>
-
         </div>
       </div>
     </div>

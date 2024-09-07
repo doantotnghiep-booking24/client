@@ -48,13 +48,13 @@ function Details() {
                     Đông Bắc.
                   </p>
                   <span className={cx("content__home-desc")}>
-                    Phương tiện để đi du lịch Lý Sơn tự túc là tàu biển. Trước đó
-                    bạn cần đặt vé máy bay đi Chu Lai để đến Quảng Ngãi, sau đó di
-                    chuyển tới cảng Sa Kỳ và mua vé tàu ra đảo. Vé máy bay đi Chu
-                    Lai có giá rất rẻ, chỉ dao động trong khoảng 59.000đ -
-                    159.000đ (giá vé chưa bao gồm thuế phí), tùy vào nơi bạn khởi
-                    hành từ Hà Nội hay Tp.Hồ Chí Minh, thời gian bay trong khoảng
-                    1h20p.
+                    Phương tiện để đi du lịch Lý Sơn tự túc là tàu biển. Trước
+                    đó bạn cần đặt vé máy bay đi Chu Lai để đến Quảng Ngãi, sau
+                    đó di chuyển tới cảng Sa Kỳ và mua vé tàu ra đảo. Vé máy bay
+                    đi Chu Lai có giá rất rẻ, chỉ dao động trong khoảng 59.000đ
+                    - 159.000đ (giá vé chưa bao gồm thuế phí), tùy vào nơi bạn
+                    khởi hành từ Hà Nội hay Tp.Hồ Chí Minh, thời gian bay trong
+                    khoảng 1h20p.
                   </span>
                   <div className={cx("content__home-sub-heading")}>
                     Tàu biển từ cảng Sa Kỳ ra đảo Lý Sơn có giá 150.000đ -
@@ -63,13 +63,14 @@ function Details() {
                     online hoặc mua vé tại cảng đều được.
                   </div>
                   <span className={cx("content__home-sub-desc")}>
-                    Phương tiện di chuyển chủ yếu khi đi du lịch Lý Sơn tự túc là
-                    xe máy, có rất nhiều điểm thuê xe máy trên đảo với mức giá từ
-                    120.000đ - 200.000đ/ngày/xe. Bên cạnh đó, đa phần các khách
-                    sạn trên đảo đều có dịch vụ cho thuê xe nên bạn cũng có thể
-                    thuê luôn ở khách sạn mình đặt mà không cần để lại CMND hay
-                    cọc tiền thuê. Di chuyển giữa các đảo Lớn, đảo Bé và hòn Mù Cu
-                    thì sẽ đi bằng tàu cao tốc với giá khoảng 35.000đ/lượt.
+                    Phương tiện di chuyển chủ yếu khi đi du lịch Lý Sơn tự túc
+                    là xe máy, có rất nhiều điểm thuê xe máy trên đảo với mức
+                    giá từ 120.000đ - 200.000đ/ngày/xe. Bên cạnh đó, đa phần các
+                    khách sạn trên đảo đều có dịch vụ cho thuê xe nên bạn cũng
+                    có thể thuê luôn ở khách sạn mình đặt mà không cần để lại
+                    CMND hay cọc tiền thuê. Di chuyển giữa các đảo Lớn, đảo Bé
+                    và hòn Mù Cu thì sẽ đi bằng tàu cao tốc với giá khoảng
+                    35.000đ/lượt.
                   </span>
                 </div>
                 <div className={cx("content__home-image")}>
@@ -84,8 +85,8 @@ function Details() {
                   />
                 </div>
                 <p className={cx("content__home-desc")}>
-                  Ngoài ra, mình sẽ gợi ý thêm cho các bạn một số địa chỉ lưu trú
-                  tại đảo như Mường Thanh Holiday Lý Sơn với giá từ
+                  Ngoài ra, mình sẽ gợi ý thêm cho các bạn một số địa chỉ lưu
+                  trú tại đảo như Mường Thanh Holiday Lý Sơn với giá từ
                   1.400.000đ/đêm, khách sạn Biển Ngọc Lý Sơn có giá từ
                   300.000đ/đêm, Hoàng Sa Resort giá từ 400.000đ/đêm,... đều là
                   những khách sạn được rất nhiều khách du lịch Lý Sơn tự túc yêu
@@ -103,9 +104,12 @@ function Details() {
                       className={cx("content__home-comment-img")}
                     />
                     <div className={cx("content__home-comment-content")}>
-                      <p className={cx("content__home-comment-name")}>John Doe</p>
+                      <p className={cx("content__home-comment-name")}>
+                        John Doe
+                      </p>
                       <p className={cx("content__home-comment-text")}>
-                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần nữa
+                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
+                        nữa
                       </p>
                       <span className={cx("content__home-comment-date")}>
                         12/12/2022, 2024, 8:09 giờ
@@ -119,9 +123,12 @@ function Details() {
                       className={cx("content__home-comment-img")}
                     />
                     <div className={cx("content__home-comment-content")}>
-                      <p className={cx("content__home-comment-name")}>John Doe</p>
+                      <p className={cx("content__home-comment-name")}>
+                        John Doe
+                      </p>
                       <p className={cx("content__home-comment-text")}>
-                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần nữa
+                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
+                        nữa
                       </p>
                       <span className={cx("content__home-comment-date")}>
                         12/12/2022, 2024, 8:09 giờ
@@ -167,7 +174,10 @@ function Details() {
                   </div>
                   <div className={cx("sub")}>
                     <div className={cx("heart")}>
-                      <FavoriteIcon fontSize="small" sx={{ color: "#ff1744" }} />
+                      <FavoriteIcon
+                        fontSize="small"
+                        sx={{ color: "#ff1744" }}
+                      />
                     </div>
                     <div className={cx("share")}>
                       <ShareOutlinedIcon fontSize="small" />
@@ -184,11 +194,12 @@ function Details() {
                       <span className="adult-name">Người lớn</span>
                       <TextField
                         id="standard-number"
-                        type="number"      
+                        type="number"
                         variant="standard"
-                        style={{ marginTop: '-25px' ,
-                          marginLeft: '10px' ,
-                          width: '40px'
+                        style={{
+                          marginTop: "-25px",
+                          marginLeft: "10px",
+                          width: "40px",
                         }}
                       />
                       <div className={cx("rate")}>
@@ -201,9 +212,10 @@ function Details() {
                         id="standard-number"
                         type="number"
                         variant="standard"
-                        style={{ marginTop: '-25px',
-                          marginLeft: '10px' ,
-                          width: '40px'
+                        style={{
+                          marginTop: "-25px",
+                          marginLeft: "10px",
+                          width: "40px",
                         }}
                       />
                       <div className={cx("rate")}>

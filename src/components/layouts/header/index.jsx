@@ -15,7 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import ReorderIcon from '@mui/icons-material/Reorder';
+import ReorderIcon from "@mui/icons-material/Reorder";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -108,19 +108,19 @@ function Header() {
                 />
               </div>
               {/* account mui */}
-                <Tooltip title="Account settings">
-                  <IconButton
-                    onClick={handleClick}
-                    size="small"
-                    sx={{ ml: 2 }}
-                    aria-controls={open ? "account-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                  >
-                    <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
-                  </IconButton>
-                </Tooltip>
-            
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                </IconButton>
+              </Tooltip>
+
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
@@ -157,10 +157,14 @@ function Header() {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
                 <MenuItem component={Link} to="/auth" onClick={handleClose}>
-                  <Avatar fontSize="small"/> Tài khoản của tôi
+                  <Avatar fontSize="small" /> Tài khoản của tôi
                 </MenuItem>
                 <Divider />
-                <MenuItem component={Link} to="/reset-password" onClick={handleClose}>
+                <MenuItem
+                  component={Link}
+                  to="/reset-password"
+                  onClick={handleClose}
+                >
                   <ListItemIcon>
                     <Settings fontSize="small" />
                   </ListItemIcon>
@@ -174,22 +178,30 @@ function Header() {
                   Đăng xuất
                 </MenuItem>
               </Menu>
-              </div>
             </div>
           </div>
+        </div>
       </nav>
       <div className={cx("header__bg")}>
         <div className={cx("container")}>
           <header className={cx("header")}>
-             <label htmlFor="mobile__menu-checkbox" className={cx('header__menu-mobile')}>
-                  <ReorderIcon sx={{color : "#fff"}}/>  
-              </label>
+            <label
+              htmlFor="mobile__menu-checkbox"
+              className={cx("header__menu-mobile")}
+            >
+              <ReorderIcon sx={{ color: "#fff" }} />
+            </label>
             <img
               src="https://apps.odoo.com/web/image/loempia.module/31305/icon_image?unique=4696166"
               alt=""
               className={cx("logo__img")}
             />
-            <input type="checkbox" hidden id="mobile__menu-checkbox" className={cx("header__menu-checkbox")}></input>
+            <input
+              type="checkbox"
+              hidden
+              id="mobile__menu-checkbox"
+              className={cx("header__menu-checkbox")}
+            ></input>
             <ul className={cx("header__list")}>
               <li className={cx("header__item")}>
                 <Link to="/" className={cx("header__link")}>
@@ -226,6 +238,78 @@ function Header() {
               >
                 Đặt vé
               </Button>
+            </div>
+            <div className={cx("acc__mobile")}>
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                </IconButton>
+              </Tooltip>
+
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: "visible",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    mt: 1.5,
+                    "& .MuiAvatar-root": {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    "&::before": {
+                      content: '""',
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: "background.paper",
+                      transform: "translateY(-50%) rotate(45deg)",
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                <MenuItem component={Link} to="/auth" onClick={handleClose}>
+                  <Avatar fontSize="small" /> Tài khoản của tôi
+                </MenuItem>
+                <Divider />
+                <MenuItem
+                  component={Link}
+                  to="/reset-password"
+                  onClick={handleClose}
+                >
+                  <ListItemIcon>
+                    <Settings fontSize="small" />
+                  </ListItemIcon>
+                  Cài đặt tài khoản
+                </MenuItem>
+
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Đăng xuất
+                </MenuItem>
+              </Menu>
             </div>
           </header>
         </div>
