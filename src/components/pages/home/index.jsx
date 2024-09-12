@@ -113,7 +113,7 @@ function Home() {
                     variant="contained"
                     color="primary"
                   >
-                    Đặt vé
+                    Khám phá
                   </Button>
                 </div>
               </div>
@@ -144,7 +144,7 @@ function Home() {
                     variant="contained"
                     color="primary"
                   >
-                    Đặt vé
+                    Khám phá
                   </Button>
                 </div>
               </div>
@@ -175,10 +175,11 @@ function Home() {
                     variant="contained"
                     color="primary"
                   >
-                    Đặt vé
+                    Khám phá
                   </Button>
                 </div>
               </div>
+            
             </div>
           </div>
         </div>

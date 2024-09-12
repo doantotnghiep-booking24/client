@@ -223,7 +223,7 @@ function Details() {
                       </div>
                     </div>
                     <div className={cx("total")}>
-                      <span className="total-type">Trẻ em</span>
+                      <span className="total-type">Tổng tiền</span>
                       <div className={cx("rate")}>
                         <span className={cx("rate-text")}>28.000.000 VNĐ</span>
                       </div>

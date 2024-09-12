@@ -109,7 +109,7 @@ function Booking() {
                 <span>2</span>
               </div>
               <div className={cx("pay__sub-children")}>
-                Trẻ en:
+                Trẻ em:
                 <span>1</span>
               </div>
               <div className={cx("pay__sub-total")}>

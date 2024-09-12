@@ -9,6 +9,7 @@ import Booking from "./components/booking";
 import BookingHistory from "./components/booking__history";
 import FormPasswordReset from "./components/auth/reset__password";
 import SiginPage from "./components/pages/siginPage";
+import Tour from "./components/tours";
 import "./styles/app.module.scss";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/list" element={<ListTravel />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/tours" element={<Tour />} />
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />

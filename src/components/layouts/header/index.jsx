@@ -215,7 +215,12 @@ function Header() {
               </li>
               <li className={cx("header__item")}>
                 <Link to="/list" className={cx("header__link")}>
-                  Khám phá
+                  Tin tức
+                </Link>
+              </li>
+              <li className={cx("header__item")}>
+                <Link to="/tours" className={cx("header__link")}>
+                  Tours
                 </Link>
               </li>
               <li className={cx("header__item")}>
@@ -236,7 +241,7 @@ function Header() {
                 variant="contained"
                 color="primary"
               >
-                Đặt vé
+                Khám phá
               </Button>
             </div>
             <div className={cx("acc__mobile")}>
