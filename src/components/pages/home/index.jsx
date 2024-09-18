@@ -1,8 +1,15 @@
-import SearchIcon from "@mui/icons-material/Search";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import StarHalfOutlinedIcon from "@mui/icons-material/StarHalfOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import { Button, Slider as MuiSlider } from "@mui/material";
+import { Button } from "@mui/material";
+
+import { MenuItem, Select, TextField } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
+
+import { useState } from "react";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -41,6 +48,8 @@ function Home() {
     ],
   };
 
+  const [selectedDate, setSelectedDate] = useState(dayjs());
+
   return (
     <div className={cx("main")}>
       <div className={cx("banner")}>
@@ -59,23 +68,46 @@ function Home() {
 
             <div className={cx("banner__section")}>
               <div className={cx("banner__section-search")}>
-                <span>Tìm kiếm kỳ nghỉ:</span> <br />
-                <input type="text" placeholder="Tìm kiếm" />
-                <SearchIcon className={cx("banner__section-search-btn")} />
+                <Select
+                  defaultValue="1"
+                  className={cx("banner__section-search-select")}
+                >
+                  <MenuItem value="1">Đi đâu</MenuItem>
+                  <MenuItem value="2">Quảng Ngãi</MenuItem>
+                  <MenuItem value="3">Đà Nẵng</MenuItem>
+                </Select>
               </div>
-              <div className={cx("banner__section-date")}>
-                <span>Chọn ngày của bạn:</span> <br />
-                <input type="date" />
-              </div>
-              <div className={cx("banner__section-price")}>
-                <span>Lựa chọn số tiền:</span> <br />
-                <MuiSlider
-                  size="small"
-                  defaultValue={70}
-                  aria-label="Small"
-                  valueLabelDisplay="auto"
-                  className={cx("banner__section-price-range")}
-                />
+                <div className={cx("banner__section-date")}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                    className={cx("banner__section-date-select")}
+                      value={selectedDate}
+                      onChange={(newDate) => setSelectedDate(newDate)}
+                      renderInput={(params) => (
+                        <TextField {...params} />
+                      )}
+                    />
+                  </LocalizationProvider>
+
+                </div>
+              <div className={cx("banner__section-type")}>
+                <Select
+                  defaultValue="type"
+                  className={cx("banner__section-type-select")}
+                >
+                  <MenuItem value="type">Loại tour</MenuItem>
+                  <MenuItem value="daily">Tour hàng ngày</MenuItem>
+                  <MenuItem value="travel">Tour du lịch</MenuItem>
+                </Select>
+              </div >
+              <div className={cx("banner__section-btn")}>
+              <Button
+                    className={cx("banner__section-btn-main")}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Tìm kiếm
+                  </Button>
               </div>
             </div>
           </div>
@@ -179,7 +211,6 @@ function Home() {
                   </Button>
                 </div>
               </div>
-            
             </div>
           </div>
         </div>

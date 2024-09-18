@@ -34,58 +34,26 @@
 .banner__section {
   display: flex;
   background-color: #fff;
+  gap: 10px;
   align-items: center;
   margin-top: 70px;
-  padding: 54px 0;
-  border-radius: 2px;
+  border-radius: 6px;
+  padding: 55px 30px;
 
-  .banner__section-search,
-  .banner__section-date,
-  .banner__section-price {
-    padding: 0 50px;
-
-    span {
-      font-size: 16px;
-      font-weight: bold;
-      color: #4c4a4a;
-    }
-
-    input {
-      width: 300px;
-      height: 40px;
-      border-radius: 30px;
-      background-color: #f9f9f9;
-      border: solid 1px #f1f1f1;
-      color: #a3a3a3;
-      outline: none;
-      padding: 0 24px;
-      font-size: 16px;
-      font-weight: 500;
-      margin-top: 20px;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
+  .banner__section-search-select,
+  .banner__section-date-select,
+  .banner__section-type-select{
+      width: 240px;
+      background-color: #fff;
   }
+  .banner__section-btn-main{
+    width: 180px;
+    height: 51px;
+    background-color: var(--bg-primary) !important;
+  }
+
 }
 
-.banner__section-price-range {
-  width: 300px !important;
-  margin-top: 20px;
-}
-
-.banner__section-search {
-  position: relative;
-}
-.banner__section-search-btn {
-  position: absolute;
-  right: 70px;
-  top: 53px;
-  color: #a3a3a3;
-  cursor: pointer;
-  font-size: var(--font-size);
-}
 // Content
 .content {
 }
@@ -335,17 +303,17 @@
   height: 480px;
 }
 
-@media (max-width: 1400px) {
-  .banner__section {
-    .banner__section-search,
-    .banner__section-date,
-    .banner__section-price {
-      input {
-        width: 200px;
-      }
-    }
-  }
-}
+// @media (max-width: 1400px) {
+//   .banner__section {
+//     .banner__section-search,
+//     .banner__section-date,
+//     .banner__section-price {
+//       input {
+//         width: 200px;
+//       }
+//     }
+//   }
+// }
 
 @media (max-width: 1200px) {
   .banner__section {
@@ -354,16 +322,15 @@
 
     .banner__section-search,
     .banner__section-date,
-    .banner__section-price {
-      margin-top: 30px;
-      input {
-        width: 300px;
-      }
+    .banner__section-type {
+      margin: 10px 0;
+
+    }
+    .banner__section-btn-main{
+      margin-bottom: 20px;
+      width: 240px;
     }
 
-    // .banner__section-price{
-    //       display: none;
-    // }
   }
 }
 
@@ -385,11 +352,9 @@
   .banner__section {
     .banner__section-search,
     .banner__section-date,
-    .banner__section-price {
+    .banner__section-type {
       padding: 0 30px;
-      input {
-        width: 300px;
-      }
+
     }
   }
   .hide-on-mobile {

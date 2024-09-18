@@ -48,11 +48,15 @@
       .info__sub-departure-day {
         min-width: 350px;
       }
-
-      span {
-        font-weight: 600;
-        margin-left: 6px;
+      .info__sub-transport{
+        display: flex;
       }
+
+      .info__sub-transport-select{
+        width: 180px;
+        margin-top: -8px;
+      }
+      
     }
   }
 

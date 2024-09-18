@@ -16,9 +16,9 @@ const cx = classNames.bind(styles);
 
 function Details() {
   const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
+    { value: "date", label: "8h30 - 28-08-2004" },
+    { value: "date", label: "8h30 - 28-08-2004" },
+    { value: "date", label: "8h30 - 28-08-2004" },
   ];
   return (
     <div className={cx("wrap")}>
@@ -188,6 +188,7 @@ function Details() {
                   <Select
                     options={options}
                     className={cx("aside__booking-select")}
+                    placeholder="Chọn ngày"
                   />
                   <div className={cx("aside__booking-price")}>
                     <div className={cx("adult")}>

@@ -2,10 +2,15 @@ import { Button } from "@mui/material";
 
 import classNames from "classnames/bind";
 import styles from "./booking.module.scss";
+import Select from "react-select";
 
 const cx = classNames.bind(styles);
 
 function Booking() {
+  const options = [
+    { value: "plane", label: "Máy bay" },
+    { value: "car", label: "Xe du lịch" },
+  ];
   return (
     <div className={cx("wrap", "container")}>
       <div className={cx("booking__container")}>
@@ -29,7 +34,12 @@ function Booking() {
             <div className={cx("info__sub")}>
               <div className={cx("info__sub-transport")}>
                 Phương tiện di chuyển:
-                <span>Máy bay, xe du lịch </span>
+                <Select
+        
+                    options={options}
+                    className={cx("info__sub-transport-select")}
+                    placeholder="Chọn phương tiện"
+                  />
               </div>
               <div className={cx("info__sub-time")}>
                 Thời gian:
@@ -146,7 +156,24 @@ function Booking() {
               >
                 Thanh toán trực tuyến
               </Button>
+               <br />
+              <Button
+                variant="outlined"
+                type="button"
+                sx={{
+                  borderColor: "#3fd0d4",
+                  color: "#3fd0d4",
+                  "&:hover": {
+                    borderColor: "#3fd0d4",
+                    color: "#3fd0d4",
+                  },
+                }}
+                className={cx("btn")}
+              >
+                Thanh toán trực tiếp
+              </Button>
             </div>
+            
           </div>
         </form>
       </div>
