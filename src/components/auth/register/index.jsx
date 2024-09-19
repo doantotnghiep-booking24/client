@@ -36,29 +36,21 @@ function SignupForm({ onSwitchMode }) {
         <Stack spacing={3}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-            <Typography variant="subtitle1" color="#555">
-            Họ và tên 
-          </Typography>
-              <TextField
-                id="filled-search"
-                type="search"
-                variant="filled"
-              />
+              <Typography variant="subtitle1" color="#555">
+                Họ và tên
+              </Typography>
+              <TextField id="filled-search" type="search" variant="filled" />
             </Stack>
             <Stack spacing={1}>
-            <Typography variant="subtitle1" color="#555">
-            Email 
-          </Typography>
-              <TextField
-                id="filled-search"
-                type="search"
-                variant="filled"
-              />
+              <Typography variant="subtitle1" color="#555">
+                Email
+              </Typography>
+              <TextField id="filled-search" type="search" variant="filled" />
             </Stack>
             <Stack spacing={1}>
-            <Typography variant="subtitle1" color="#555">
-            Mật khẩu
-          </Typography>
+              <Typography variant="subtitle1" color="#555">
+                Mật khẩu
+              </Typography>
               <TextField
                 id="filled-password-input"
                 type="password"
