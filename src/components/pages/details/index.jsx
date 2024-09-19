@@ -188,7 +188,7 @@ function Details() {
                   <Select
                     options={options}
                     className={cx("aside__booking-select")}
-                    placeholder="Chọn ngày"
+                    placeholder="Chọn giờ"
                   />
                   <div className={cx("aside__booking-price")}>
                     <div className={cx("adult")}>

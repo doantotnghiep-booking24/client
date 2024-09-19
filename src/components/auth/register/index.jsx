@@ -36,46 +36,34 @@ function SignupForm({ onSwitchMode }) {
         <Stack spacing={3}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-              <Typography color="#333">Tên</Typography>
+            <Typography variant="subtitle1" color="#555">
+            Họ và tên 
+          </Typography>
               <TextField
-                variant="outlined"
-                fullWidth
-                size="small"
-                InputProps={{
-                  sx: {
-                    backgroundColor: "#fff",
-                    borderRadius: 1,
-                  },
-                }}
+                id="filled-search"
+                type="search"
+                variant="filled"
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color="#333">Email</Typography>
+            <Typography variant="subtitle1" color="#555">
+            Email 
+          </Typography>
               <TextField
-                variant="outlined"
-                fullWidth
-                size="small"
-                InputProps={{
-                  sx: {
-                    backgroundColor: "#fff",
-                    borderRadius: 1,
-                  },
-                }}
+                id="filled-search"
+                type="search"
+                variant="filled"
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color="#333">Mật khẩu</Typography>
+            <Typography variant="subtitle1" color="#555">
+            Mật khẩu
+          </Typography>
               <TextField
+                id="filled-password-input"
                 type="password"
-                variant="outlined"
-                fullWidth
-                size="small"
-                InputProps={{
-                  sx: {
-                    backgroundColor: "#fff",
-                    borderRadius: 1,
-                  },
-                }}
+                autoComplete="current-password"
+                variant="filled"
               />
             </Stack>
           </Stack>

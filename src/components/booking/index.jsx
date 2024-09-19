@@ -57,7 +57,7 @@ function Booking() {
           </div>
           <div className={cx("information")}>
             <div className={cx("booking__form-adult")}>
-              <span>Thông tin người lớn: 1</span>
+              <span>Thông tin người đại diện</span>
             </div>
 
             <div className={cx("information-adult")}>
@@ -90,26 +90,6 @@ function Booking() {
               </div>
             </div>
 
-            <div className={cx("booking__form-children")}>
-              <span>Thông tin trẻ em: 1</span>
-            </div>
-            <div className={cx("information-children")}>
-              <div className={cx("information-children__name")}>
-                Họ và tên:
-                <input type="text" placeholder="Họ và tên" />
-              </div>
-              <div className={cx("information-children__birth")}>
-                Ngày sinh:
-                <input type="date" />
-              </div>
-              <div className={cx("information-children__sect")}>
-                Phái:
-                <select>
-                  <option value="">Nam</option>
-                  <option value="">Nữ</option>
-                </select>
-              </div>
-            </div>
           </div>
           <div className={cx("pay")}>
             <h4 className={cx("pay__heading")}>Xác nhận thanh toán</h4>

@@ -30,6 +30,8 @@ function Home() {
     centerPadding: "0",
     arrows: false,
     dots: false,
+    autoplay: true, 
+    autoplaySpeed: 2000, 
     responsive: [
       {
         breakpoint: 1024,

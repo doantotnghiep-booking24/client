@@ -101,33 +101,7 @@
   .information-adult__cccd {
     min-width: 300px;
   }
-  .booking__form-children {
-    margin-top: 20px;
-    padding: 12px 0;
-    font-weight: 600;
-    border-bottom: 2px solid rgb(244, 243, 243);
-    border-top: 2px solid rgb(244, 243, 243);
-  }
-  .information-children {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
 
-    .information-children__name,
-    .information-children__birth,
-    .information-children__sect {
-      min-width: 300px;
-
-      input,
-      select {
-        outline: none;
-        border: none;
-        margin-left: 20px;
-        font-weight: 600;
-      }
-    }
-  }
 }
 
 .pay {
