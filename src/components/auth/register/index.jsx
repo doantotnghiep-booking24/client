@@ -39,13 +39,23 @@ function SignupForm({ onSwitchMode }) {
               <Typography variant="subtitle1" color="#555">
                 Họ và tên
               </Typography>
-              <TextField id="filled-search" type="search" variant="filled" />
+              <TextField
+                id="filled-search"
+                type="search"
+                variant="filled"
+                InputProps={{ style: { height: "45px" } }}
+              />
             </Stack>
             <Stack spacing={1}>
               <Typography variant="subtitle1" color="#555">
                 Email
               </Typography>
-              <TextField id="filled-search" type="search" variant="filled" />
+              <TextField
+                id="filled-search"
+                type="search"
+                variant="filled"
+                InputProps={{ style: { height: "45px" } }}
+              />
             </Stack>
             <Stack spacing={1}>
               <Typography variant="subtitle1" color="#555">
@@ -56,6 +66,7 @@ function SignupForm({ onSwitchMode }) {
                 type="password"
                 autoComplete="current-password"
                 variant="filled"
+                InputProps={{ style: { height: "45px" } }}
               />
             </Stack>
           </Stack>

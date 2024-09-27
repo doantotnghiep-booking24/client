@@ -17,6 +17,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -68,7 +69,7 @@ function Home() {
               <h1>Hãy tìm kiếm kỳ nghỉ của bạn</h1>
             </div>
 
-            <div className={cx("banner__section")}>
+            <form action="#" className={cx("banner__section")}>
               <div className={cx("banner__section-search")}>
                 <Select
                   defaultValue="1"
@@ -82,6 +83,7 @@ function Home() {
                 <div className={cx("banner__section-date")}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
+                   
                     className={cx("banner__section-date-select")}
                       value={selectedDate}
                       onChange={(newDate) => setSelectedDate(newDate)}
@@ -107,11 +109,12 @@ function Home() {
                     className={cx("banner__section-btn-main")}
                     variant="contained"
                     color="primary"
+                    type="submit"
                   >
                     Tìm kiếm
                   </Button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -235,7 +238,7 @@ function Home() {
             <div className={cx("container")}>
               <div className={cx("travel__review-list")}>
                 <Slider {...settings}>
-                  <div className={cx("travel__review-item")}>
+                  <Link to="#" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
                       className={cx("travel__review-item-img")}
@@ -256,8 +259,8 @@ function Home() {
                       </span>
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
-                  </div>
-                  <div className={cx("travel__review-item")}>
+                  </Link>
+                  <Link to="#" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
                       className={cx("travel__review-item-img")}
@@ -278,8 +281,8 @@ function Home() {
                       </span>
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
-                  </div>
-                  <div className={cx("travel__review-item")}>
+                  </Link>
+                  <Link to="#" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
                       className={cx("travel__review-item-img")}
@@ -300,7 +303,8 @@ function Home() {
                       </span>
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
-                  </div>
+                  </Link>
+                 
                 </Slider>
               </div>
             </div>
@@ -324,9 +328,9 @@ function Home() {
                 alt=""
               />
               <div className={cx("blog-item-title")}>
-                <a href="" className={cx("blog-item-hed")}>
+                <Link to="#" className={cx("blog-item-hed")}>
                   Chuyến tham quan tuyệt vời
-                </a>
+                </Link>
                 <span className={cx("blog-item-sub")}>
                   Lắng nghe để tìm thấy sức mạnh của niềm đam mê. Hay tôi nói
                   điều đó và những điều tương tự, rằng họ có thể
@@ -353,9 +357,9 @@ function Home() {
                 alt=""
               />
               <div className={cx("blog-item-title")}>
-                <a href="" className={cx("blog-item-hed")}>
+                <Link to="#" className={cx("blog-item-hed")}>
                   Chuyến tham quan tuyệt vời
-                </a>
+                </Link>
                 <span className={cx("blog-item-sub")}>
                   Lắng nghe để tìm thấy sức mạnh của niềm đam mê. Hay tôi nói
                   điều đó và những điều tương tự, rằng họ có thể

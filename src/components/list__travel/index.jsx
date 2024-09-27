@@ -5,6 +5,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { Link } from "react-router-dom";
+
 const cx = classNames.bind(styles);
 
 function ListTravel() {
@@ -58,7 +60,7 @@ function ListTravel() {
               <div className={cx("content__home")}>
                 <div className={cx("content__home-outstanding")}>
                   <div className={cx("outstanding__list")}>
-                    <div className={cx("outstanding__item")}>
+                    <Link to="#" className={cx("outstanding__item")}>
                       <div className={cx("outstanding__item-heading")}>
                         <span>Bài viết nổi bật</span>
                       </div>
@@ -66,14 +68,14 @@ function ListTravel() {
                         <span>Đảo Lý Sơn</span>
                         <p>1.500.000 VNĐ</p>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </div>
               <aside className={cx("aside")}>
                 <div className={cx("aside__outstanding")}>
                   <div className={cx("outstanding__list")}>
-                    <div className={cx("outstanding__item")}>
+                    <Link to="#" className={cx("outstanding__item")}>
                       <div className={cx("outstanding__item-heading")}>
                         <span>Giảm giá</span>
                       </div>
@@ -81,8 +83,8 @@ function ListTravel() {
                         <span>Đảo Lý Sơn</span>
                         <p>1.500.000 VNĐ</p>
                       </div>
-                    </div>
-                    <div className={cx("outstanding__item")}>
+                    </Link>
+                    <Link to="#" className={cx("outstanding__item")}>
                       <div className={cx("outstanding__item-heading")}>
                         <span>Giảm giá</span>
                       </div>
@@ -90,7 +92,7 @@ function ListTravel() {
                         <span>Đảo Lý Sơn</span>
                         <p>1.500.000 VNĐ</p>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </aside>
@@ -100,7 +102,7 @@ function ListTravel() {
                 Địa danh nổi tiếng
               </h3>
               <Slider {...settings}>
-                <div className={cx("outstanding__item")}>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
                     alt=""
@@ -114,9 +116,8 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
-
-                <div className={cx("outstanding__item")}>
+                </Link>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-14.jpg"
                     alt=""
@@ -130,8 +131,8 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
-                <div className={cx("outstanding__item")}>
+                </Link>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-51-1100x650.jpg"
                     alt=""
@@ -145,16 +146,16 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
+                </Link>
               </Slider>
             </div>
 
             <div className={cx("content__list")}>
               <h3 className={cx("content__list-heading")}>
-                Địa danh nổi tiếng
+                Ưu đãi
               </h3>
               <Slider {...settings}>
-                <div className={cx("outstanding__item")}>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
                     alt=""
@@ -168,9 +169,8 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
-
-                <div className={cx("outstanding__item")}>
+                </Link>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-14.jpg"
                     alt=""
@@ -184,8 +184,8 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
-                <div className={cx("outstanding__item")}>
+                </Link>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-51-1100x650.jpg"
                     alt=""
@@ -199,16 +199,16 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
+                </Link>
               </Slider>
             </div>
 
             <div className={cx("content__list")}>
               <h3 className={cx("content__list-heading")}>
-                Địa danh nổi tiếng
+                Khám phá Việt Nam
               </h3>
               <Slider {...settings}>
-                <div className={cx("outstanding__item")}>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
                     alt=""
@@ -222,9 +222,8 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
-
-                <div className={cx("outstanding__item")}>
+                </Link>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-14.jpg"
                     alt=""
@@ -238,8 +237,8 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
-                <div className={cx("outstanding__item")}>
+                </Link>
+                <Link to="" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-51-1100x650.jpg"
                     alt=""
@@ -253,7 +252,7 @@ function ListTravel() {
                       1.500.000 VNĐ
                     </p>
                   </div>
-                </div>
+                </Link>
               </Slider>
             </div>
           </div>

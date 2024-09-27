@@ -58,6 +58,7 @@
     gap: 20px;
   }
   .outstanding__item {
+    text-decoration: none;
     position: relative;
     width: 100%;
     height: 420px;
@@ -178,6 +179,8 @@
   }
   .outstanding__item {
     width: 100%;
+    text-decoration: none;
+    color: var(--color-content);
   }
 
   .outstanding__item-img {

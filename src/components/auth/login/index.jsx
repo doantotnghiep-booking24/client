@@ -35,11 +35,16 @@ function SigninForm({ onSwitchMode }) {
         </Stack>
         <Stack spacing={3}>
           <Stack spacing={2}>
-          <Stack spacing={1}>
+            <Stack spacing={1}>
               <Typography variant="subtitle1" color="#555">
                 Email
               </Typography>
-              <TextField id="filled-search" type="search" variant="filled" />
+              <TextField
+                id="filled-search"
+                type="search"
+                variant="filled"
+                InputProps={{ style: { height: "45px" } }}
+              />
             </Stack>
             <Stack spacing={1}>
               <Typography variant="subtitle1" color="#555">
@@ -50,6 +55,7 @@ function SigninForm({ onSwitchMode }) {
                 type="password"
                 autoComplete="current-password"
                 variant="filled"
+                InputProps={{ style: { height: "45px" } }}
               />
             </Stack>
           </Stack>
