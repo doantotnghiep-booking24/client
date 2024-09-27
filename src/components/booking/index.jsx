@@ -2,15 +2,11 @@ import { Button } from "@mui/material";
 
 import classNames from "classnames/bind";
 import styles from "./booking.module.scss";
-import Select from "react-select";
 
 const cx = classNames.bind(styles);
 
 function Booking() {
-  const options = [
-    { value: "plane", label: "Máy bay" },
-    { value: "car", label: "Xe du lịch" },
-  ];
+ 
   return (
     <div className={cx("wrap", "container")}>
       <div className={cx("booking__container")}>
@@ -34,12 +30,7 @@ function Booking() {
             <div className={cx("info__sub")}>
               <div className={cx("info__sub-transport")}>
                 Phương tiện di chuyển:
-                <Select
-        
-                    options={options}
-                    className={cx("info__sub-transport-select")}
-                    placeholder="Chọn phương tiện"
-                  />
+                <span> Máy bay, xe du lịch</span>
               </div>
               <div className={cx("info__sub-time")}>
                 Thời gian:
@@ -71,7 +62,7 @@ function Booking() {
                   <input type="date" />
                 </div>
                 <div className={cx("information-adult__sect")}>
-                  Phái:
+                  Giới tính:
                   <select>
                     <option value="">Nam</option>
                     <option value="">Nữ</option>

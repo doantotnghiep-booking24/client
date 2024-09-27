@@ -22,19 +22,19 @@ import { useState } from "react";
 import classNames from "classnames/bind";
 import styles from "./header.module.scss";
 
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 const cx = classNames.bind(styles);
 
 function Header() {
-  const showSwal = () => {
-    Swal.fire({
-      title: "Đặt vé thành công!",
-      text: "Cảm ơn bạn đã đặt vé",
-      icon: "success",
-      confirmButtonText: "OK",
-    });
-  };
+  // const showSwal = () => {
+  //   Swal.fire({
+  //     title: "Đặt vé thành công!",
+  //     text: "Cảm ơn bạn đã đặt vé",
+  //     icon: "success",
+  //     confirmButtonText: "OK",
+  //   });
+  // };
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -220,7 +220,7 @@ function Header() {
               </li>
               <li className={cx("header__item")}>
                 <Link to="/tours" className={cx("header__link")}>
-                  Tours
+                  Chuyến đi
                 </Link>
               </li>
               <li className={cx("header__item")}>
@@ -236,7 +236,7 @@ function Header() {
             </ul>
             <div className={cx("header__sub")}>
               <Button
-                onClick={showSwal}
+                // onClick={showSwal}
                 className={cx("header__sub-btn")}
                 variant="contained"
                 color="primary"

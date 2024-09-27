@@ -47,9 +47,16 @@
       .info__sub-departure-time,
       .info__sub-departure-day {
         min-width: 350px;
+
+        span {
+          font-weight: 600;
+          margin-left: 6px;
+        }
       }
       .info__sub-transport{
         display: flex;
+
+     
       }
 
       .info__sub-transport-select{
@@ -83,7 +90,7 @@
 
         input,
         select {
-          margin-left: 10px;
+          margin-left: 6px;
           outline: none;
           border: none;
           font-weight: 600;
@@ -127,7 +134,7 @@
 
       span,
       input {
-        margin-left: 10px;
+        margin-left: 6px;
         font-weight: 600;
       }
     }

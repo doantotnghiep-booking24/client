@@ -16,7 +16,7 @@ function Tour() {
           alt=""
           className={cx("banner__img")}
         />
-        <h2 className={cx("banner__title")}>Tours</h2>
+        <h2 className={cx("banner__title")}>Chuyến đi</h2>
       </div>
       <div className={cx("container")}>
         <div className={cx("content")}>
