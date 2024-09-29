@@ -84,7 +84,7 @@ function Tour() {
               <ul className={cx("content__home-list")}>
                 <li className={cx("content__home-item")}>
                   <img
-                  className={cx("content__home-img")}
+                    className={cx("content__home-img")}
                     src="https://cf.bstatic.com/xdata/images/hotel/square600/560052722.webp?k=05fccc029f8bdb31835fe78676c123258a22b042b0260a45f4cce2adcf2bad76&o="
                     alt=""
                   />
@@ -101,30 +101,32 @@ function Tour() {
                     </p>
                     <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
                     <div className={cx("bottom")}>
-                    <div>
-                    <p className={cx("outstanding")}>Tour du lịch nổi bật nhất</p>
-                    </div>
-                    <div className={cx("action")}>
-                      <span className={cx("action__price-discount")}>
-                        920000 VND
-                      </span>
-                      <h4 className={cx("action__price")}>250000 VND</h4>
-                      <Button
-                        LinkComponent={Link}
-                        to="/booking"
-                        className={cx("vacation__item-btn")}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Xem chi tiết
-                      </Button>
-                    </div>
+                      <div>
+                        <p className={cx("outstanding")}>
+                          Tour du lịch nổi bật nhất
+                        </p>
+                      </div>
+                      <div className={cx("action")}>
+                        <span className={cx("action__price-discount")}>
+                          920000 VND
+                        </span>
+                        <h4 className={cx("action__price")}>250000 VND</h4>
+                        <Button
+                          LinkComponent={Link}
+                          to="/booking"
+                          className={cx("vacation__item-btn")}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Xem chi tiết
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </li>
                 <li className={cx("content__home-item")}>
                   <img
-                  className={cx("content__home-img")}
+                    className={cx("content__home-img")}
                     src="https://cf.bstatic.com/xdata/images/hotel/square600/560052722.webp?k=05fccc029f8bdb31835fe78676c123258a22b042b0260a45f4cce2adcf2bad76&o="
                     alt=""
                   />
@@ -141,30 +143,32 @@ function Tour() {
                     </p>
                     <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
                     <div className={cx("bottom")}>
-                    <div>
-                    <p className={cx("outstanding")}>Tour du lịch nổi bật nhất</p>
-                    </div>
-                    <div className={cx("action")}>
-                      <span className={cx("action__price-discount")}>
-                        920000 VND
-                      </span>
-                      <h4 className={cx("action__price")}>250000 VND</h4>
-                      <Button
-                        LinkComponent={Link}
-                        to="/booking"
-                        className={cx("vacation__item-btn")}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Xem chi tiết
-                      </Button>
-                    </div>
+                      <div>
+                        <p className={cx("outstanding")}>
+                          Tour du lịch nổi bật nhất
+                        </p>
+                      </div>
+                      <div className={cx("action")}>
+                        <span className={cx("action__price-discount")}>
+                          920000 VND
+                        </span>
+                        <h4 className={cx("action__price")}>250000 VND</h4>
+                        <Button
+                          LinkComponent={Link}
+                          to="/booking"
+                          className={cx("vacation__item-btn")}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Xem chi tiết
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </li>
                 <li className={cx("content__home-item")}>
                   <img
-                  className={cx("content__home-img")}
+                    className={cx("content__home-img")}
                     src="https://cf.bstatic.com/xdata/images/hotel/square600/560052722.webp?k=05fccc029f8bdb31835fe78676c123258a22b042b0260a45f4cce2adcf2bad76&o="
                     alt=""
                   />
@@ -181,29 +185,29 @@ function Tour() {
                     </p>
                     <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
                     <div className={cx("bottom")}>
-                    <div>
-                    <p className={cx("outstanding")}>Tour du lịch nổi bật nhất</p>
-                    </div>
-                    <div className={cx("action")}>
-                      <span className={cx("action__price-discount")}>
-                        920000 VND
-                      </span>
-                      <h4 className={cx("action__price")}>250000 VND</h4>
-                      <Button
-                        LinkComponent={Link}
-                        to="/booking"
-                        className={cx("vacation__item-btn")}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Xem chi tiết
-                      </Button>
-                    </div>
+                      <div>
+                        <p className={cx("outstanding")}>
+                          Tour du lịch nổi bật nhất
+                        </p>
+                      </div>
+                      <div className={cx("action")}>
+                        <span className={cx("action__price-discount")}>
+                          920000 VND
+                        </span>
+                        <h4 className={cx("action__price")}>250000 VND</h4>
+                        <Button
+                          LinkComponent={Link}
+                          to="/booking"
+                          className={cx("vacation__item-btn")}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Xem chi tiết
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </li>
-
-               
               </ul>
             </div>
           </div>

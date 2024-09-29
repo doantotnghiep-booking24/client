@@ -106,43 +106,42 @@
   .ticket__barcode-main {
     width: 155px;
   }
-  .ticket{
+  .ticket {
     .ticket__location {
       p {
-        font-size: 13px 
+        font-size: 13px;
       }
     }
 
     .ticket__time {
-      margin-left: 80px ;
+      margin-left: 80px;
       p {
-        font-size: 13px ;
+        font-size: 13px;
       }
     }
   }
-
 }
 @media (max-width: 767px) {
-  .ticket{
+  .ticket {
     .ticket__barcode-main {
       width: 130px;
     }
     .ticket__location {
       span {
-        font-size: 12px ;
+        font-size: 12px;
       }
       p {
-        font-size: 12px ;
+        font-size: 12px;
       }
     }
     .ticket__time {
-      margin-left: 50px ;
-  
+      margin-left: 50px;
+
       span {
-        font-size: 12px ;
+        font-size: 12px;
       }
       p {
-        font-size: 12px ;
+        font-size: 12px;
       }
     }
   }
@@ -150,7 +149,6 @@
     width: 80px !important;
     height: 80px !important;
   }
-
 
   .booking__history-bottom {
     height: 15px;
@@ -164,32 +162,32 @@
       font-size: 18px;
     }
   }
-  .ticket{
+  .ticket {
     .ticket__content {
-      width: 160px ;
+      width: 160px;
     }
     .ticket__barcode {
-      margin-left: -20px ;
+      margin-left: -20px;
     }
     .ticket__barcode-main {
       width: 100px;
     }
     .ticket__location {
       span {
-        font-size: 8px ;
+        font-size: 8px;
       }
       p {
-        font-size: 8px ;
+        font-size: 8px;
       }
     }
     .ticket__time {
-      margin-left: 20px ;
-  
+      margin-left: 20px;
+
       span {
-        font-size: 8px ;
+        font-size: 8px;
       }
       p {
-        font-size: 8px ;
+        font-size: 8px;
       }
     }
 
@@ -202,13 +200,11 @@
     .ticket__qrcode {
       padding: 10px 20px 10px 30px;
     }
-    
   }
   .ticket__qrcode-main {
     width: 50px !important;
     height: 50px !important;
   }
-
 
   .booking__history-bottom {
     height: 12px;

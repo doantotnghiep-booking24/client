@@ -151,9 +151,7 @@ function ListTravel() {
             </div>
 
             <div className={cx("content__list")}>
-              <h3 className={cx("content__list-heading")}>
-                Ưu đãi
-              </h3>
+              <h3 className={cx("content__list-heading")}>Ưu đãi</h3>
               <Slider {...settings}>
                 <Link to="/details" className={cx("outstanding__item")}>
                   <img
@@ -204,9 +202,7 @@ function ListTravel() {
             </div>
 
             <div className={cx("content__list")}>
-              <h3 className={cx("content__list-heading")}>
-                Khám phá Việt Nam
-              </h3>
+              <h3 className={cx("content__list-heading")}>Khám phá Việt Nam</h3>
               <Slider {...settings}>
                 <Link to="/details" className={cx("outstanding__item")}>
                   <img

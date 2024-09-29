@@ -6,7 +6,6 @@ import styles from "./booking.module.scss";
 const cx = classNames.bind(styles);
 
 function Booking() {
- 
   return (
     <div className={cx("wrap", "container")}>
       <div className={cx("booking__container")}>
@@ -80,7 +79,6 @@ function Booking() {
                 </div>
               </div>
             </div>
-
           </div>
           <div className={cx("pay")}>
             <h4 className={cx("pay__heading")}>Xác nhận thanh toán</h4>
@@ -127,7 +125,7 @@ function Booking() {
               >
                 Thanh toán trực tuyến
               </Button>
-               <br />
+              <br />
               <Button
                 variant="outlined"
                 type="button"
@@ -144,7 +142,6 @@ function Booking() {
                 Thanh toán trực tiếp
               </Button>
             </div>
-            
           </div>
         </form>
       </div>

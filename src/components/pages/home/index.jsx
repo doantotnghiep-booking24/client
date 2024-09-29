@@ -31,8 +31,8 @@ function Home() {
     centerPadding: "0",
     arrows: false,
     dots: false,
-    autoplay: true, 
-    autoplaySpeed: 2000, 
+    autoplay: true,
+    autoplaySpeed: 2000,
     responsive: [
       {
         breakpoint: 1024,
@@ -80,20 +80,16 @@ function Home() {
                   <MenuItem value="3">Đà Nẵng</MenuItem>
                 </Select>
               </div>
-                <div className={cx("banner__section-date")}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                   
+              <div className={cx("banner__section-date")}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
                     className={cx("banner__section-date-select")}
-                      value={selectedDate}
-                      onChange={(newDate) => setSelectedDate(newDate)}
-                      renderInput={(params) => (
-                        <TextField {...params} />
-                      )}
-                    />
-                  </LocalizationProvider>
-
-                </div>
+                    value={selectedDate}
+                    onChange={(newDate) => setSelectedDate(newDate)}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
               <div className={cx("banner__section-type")}>
                 <Select
                   defaultValue="type"
@@ -103,16 +99,16 @@ function Home() {
                   <MenuItem value="daily">Tour hàng ngày</MenuItem>
                   <MenuItem value="travel">Tour du lịch</MenuItem>
                 </Select>
-              </div >
+              </div>
               <div className={cx("banner__section-btn")}>
-              <Button
-                    className={cx("banner__section-btn-main")}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Tìm kiếm
-                  </Button>
+                <Button
+                  className={cx("banner__section-btn-main")}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Tìm kiếm
+                </Button>
               </div>
             </form>
           </div>
@@ -310,7 +306,6 @@ function Home() {
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
                   </Link>
-                 
                 </Slider>
               </div>
             </div>

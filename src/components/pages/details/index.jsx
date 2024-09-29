@@ -337,9 +337,6 @@ function Details() {
                     </div>
                   </div>
                 </li>
-                
-               
-              
               </ul>
             </aside>
           </div>
