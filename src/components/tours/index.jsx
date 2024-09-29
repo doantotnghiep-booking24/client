@@ -4,6 +4,8 @@ import Slider from "@mui/material/Slider";
 import Checkbox from "@mui/material/Checkbox";
 import Rating from "@mui/material/Rating";
 
+import { Link } from "react-router-dom";
+
 import { Button } from "@mui/material";
 const cx = classNames.bind(styles);
 
@@ -108,6 +110,8 @@ function Tour() {
                       </span>
                       <h4 className={cx("action__price")}>250000 VND</h4>
                       <Button
+                        LinkComponent={Link}
+                        to="/booking"
                         className={cx("vacation__item-btn")}
                         variant="contained"
                         color="primary"
@@ -118,7 +122,6 @@ function Tour() {
                     </div>
                   </div>
                 </li>
-
                 <li className={cx("content__home-item")}>
                   <img
                   className={cx("content__home-img")}
@@ -147,6 +150,8 @@ function Tour() {
                       </span>
                       <h4 className={cx("action__price")}>250000 VND</h4>
                       <Button
+                        LinkComponent={Link}
+                        to="/booking"
                         className={cx("vacation__item-btn")}
                         variant="contained"
                         color="primary"
@@ -157,7 +162,6 @@ function Tour() {
                     </div>
                   </div>
                 </li>
-
                 <li className={cx("content__home-item")}>
                   <img
                   className={cx("content__home-img")}
@@ -186,6 +190,8 @@ function Tour() {
                       </span>
                       <h4 className={cx("action__price")}>250000 VND</h4>
                       <Button
+                        LinkComponent={Link}
+                        to="/booking"
                         className={cx("vacation__item-btn")}
                         variant="contained"
                         color="primary"
@@ -196,7 +202,8 @@ function Tour() {
                     </div>
                   </div>
                 </li>
-        
+
+               
               </ul>
             </div>
           </div>

@@ -232,6 +232,8 @@ function Details() {
                     </div>
                   </div>
                   <Button
+                    LinkComponent={Link}
+                    to="/booking"
                     variant="outlined"
                     type="button"
                     sx={{
@@ -262,7 +264,7 @@ function Details() {
                     className={cx("aside__item-img")}
                   />
                   <div className={cx("aside__item-text")}>
-                    <Link to="#" className={cx("aside__item-text-name")}>
+                    <Link to="/tours" className={cx("aside__item-text-name")}>
                       Cảm nhận của khách hàng
                     </Link>
                     <div className={cx("aside__item-text-price")}>
@@ -278,7 +280,7 @@ function Details() {
                     className={cx("aside__item-img")}
                   />
                   <div className={cx("aside__item-text")}>
-                    <Link to="#" className={cx("aside__item-text-name")}>
+                    <Link to="/tours" className={cx("aside__item-text-name")}>
                       Cảm nhận của khách hàng
                     </Link>
                     <div className={cx("aside__item-text-price")}>
@@ -294,7 +296,7 @@ function Details() {
                     className={cx("aside__item-img")}
                   />
                   <div className={cx("aside__item-text")}>
-                    <Link to="#" className={cx("aside__item-text-name")}>
+                    <Link to="/tours" className={cx("aside__item-text-name")}>
                       Cảm nhận của khách hàng
                     </Link>
                     <div className={cx("aside__item-text-price")}>
@@ -310,7 +312,7 @@ function Details() {
                     className={cx("aside__item-img")}
                   />
                   <div className={cx("aside__item-text")}>
-                    <Link to="#" className={cx("aside__item-text-name")}>
+                    <Link to="/tours" className={cx("aside__item-text-name")}>
                       Cảm nhận của khách hàng
                     </Link>
                     <div className={cx("aside__item-text-price")}>
@@ -326,7 +328,7 @@ function Details() {
                     className={cx("aside__item-img")}
                   />
                   <div className={cx("aside__item-text")}>
-                    <Link to="#" className={cx("aside__item-text-name")}>
+                    <Link to="/tours" className={cx("aside__item-text-name")}>
                       Cảm nhận của khách hàng
                     </Link>
                     <div className={cx("aside__item-text-price")}>
@@ -335,6 +337,8 @@ function Details() {
                     </div>
                   </div>
                 </li>
+                
+               
               
               </ul>
             </aside>

@@ -146,6 +146,8 @@ function Home() {
                     biển khơi” - một báu vật tự nhiên của Quảng Ngãi.
                   </p>
                   <Button
+                    LinkComponent={Link}
+                    to="/details"
                     className={cx("vacation__item-btn")}
                     variant="contained"
                     color="primary"
@@ -177,6 +179,8 @@ function Home() {
                     biển khơi” - một báu vật tự nhiên của Quảng Ngãi.
                   </p>
                   <Button
+                    LinkComponent={Link}
+                    to="/details"
                     className={cx("vacation__item-btn")}
                     variant="contained"
                     color="primary"
@@ -208,6 +212,8 @@ function Home() {
                     biển khơi” - một báu vật tự nhiên của Quảng Ngãi.
                   </p>
                   <Button
+                    LinkComponent={Link}
+                    to="/details"
                     className={cx("vacation__item-btn")}
                     variant="contained"
                     color="primary"
@@ -238,7 +244,7 @@ function Home() {
             <div className={cx("container")}>
               <div className={cx("travel__review-list")}>
                 <Slider {...settings}>
-                  <Link to="#" className={cx("travel__review-item")}>
+                  <Link to="tours" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
                       className={cx("travel__review-item-img")}
@@ -260,7 +266,7 @@ function Home() {
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
                   </Link>
-                  <Link to="#" className={cx("travel__review-item")}>
+                  <Link to="tours" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
                       className={cx("travel__review-item-img")}
@@ -282,7 +288,7 @@ function Home() {
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
                   </Link>
-                  <Link to="#" className={cx("travel__review-item")}>
+                  <Link to="tours" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
                       className={cx("travel__review-item-img")}
@@ -328,7 +334,7 @@ function Home() {
                 alt=""
               />
               <div className={cx("blog-item-title")}>
-                <Link to="#" className={cx("blog-item-hed")}>
+                <Link to="details" className={cx("blog-item-hed")}>
                   Chuyến tham quan tuyệt vời
                 </Link>
                 <span className={cx("blog-item-sub")}>
@@ -357,7 +363,7 @@ function Home() {
                 alt=""
               />
               <div className={cx("blog-item-title")}>
-                <Link to="#" className={cx("blog-item-hed")}>
+                <Link to="details" className={cx("blog-item-hed")}>
                   Chuyến tham quan tuyệt vời
                 </Link>
                 <span className={cx("blog-item-sub")}>

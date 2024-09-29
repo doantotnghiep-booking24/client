@@ -60,7 +60,7 @@ function ListTravel() {
               <div className={cx("content__home")}>
                 <div className={cx("content__home-outstanding")}>
                   <div className={cx("outstanding__list")}>
-                    <Link to="#" className={cx("outstanding__item")}>
+                    <Link to="/details" className={cx("outstanding__item")}>
                       <div className={cx("outstanding__item-heading")}>
                         <span>Bài viết nổi bật</span>
                       </div>
@@ -75,7 +75,7 @@ function ListTravel() {
               <aside className={cx("aside")}>
                 <div className={cx("aside__outstanding")}>
                   <div className={cx("outstanding__list")}>
-                    <Link to="#" className={cx("outstanding__item")}>
+                    <Link to="/details" className={cx("outstanding__item")}>
                       <div className={cx("outstanding__item-heading")}>
                         <span>Giảm giá</span>
                       </div>
@@ -84,7 +84,7 @@ function ListTravel() {
                         <p>1.500.000 VNĐ</p>
                       </div>
                     </Link>
-                    <Link to="#" className={cx("outstanding__item")}>
+                    <Link to="/details" className={cx("outstanding__item")}>
                       <div className={cx("outstanding__item-heading")}>
                         <span>Giảm giá</span>
                       </div>
@@ -102,7 +102,7 @@ function ListTravel() {
                 Địa danh nổi tiếng
               </h3>
               <Slider {...settings}>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
                     alt=""
@@ -117,7 +117,7 @@ function ListTravel() {
                     </p>
                   </div>
                 </Link>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-14.jpg"
                     alt=""
@@ -132,7 +132,7 @@ function ListTravel() {
                     </p>
                   </div>
                 </Link>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-51-1100x650.jpg"
                     alt=""
@@ -155,7 +155,7 @@ function ListTravel() {
                 Ưu đãi
               </h3>
               <Slider {...settings}>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
                     alt=""
@@ -170,7 +170,7 @@ function ListTravel() {
                     </p>
                   </div>
                 </Link>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-14.jpg"
                     alt=""
@@ -185,7 +185,7 @@ function ListTravel() {
                     </p>
                   </div>
                 </Link>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-51-1100x650.jpg"
                     alt=""
@@ -208,7 +208,7 @@ function ListTravel() {
                 Khám phá Việt Nam
               </h3>
               <Slider {...settings}>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
                     alt=""
@@ -223,7 +223,7 @@ function ListTravel() {
                     </p>
                   </div>
                 </Link>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-14.jpg"
                     alt=""
@@ -238,7 +238,7 @@ function ListTravel() {
                     </p>
                   </div>
                 </Link>
-                <Link to="" className={cx("outstanding__item")}>
+                <Link to="/details" className={cx("outstanding__item")}>
                   <img
                     src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-51-1100x650.jpg"
                     alt=""

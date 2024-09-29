@@ -240,6 +240,8 @@ function Header() {
             <div className={cx("header__sub")}>
               <Button
                 // onClick={showSwal}
+                LinkComponent={Link}
+                to="/tours"
                 className={cx("header__sub-btn")}
                 variant="contained"
                 color="primary"
