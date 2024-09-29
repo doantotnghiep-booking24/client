@@ -191,11 +191,13 @@ function Header() {
             >
               <ReorderIcon sx={{ color: "#fff" }} />
             </label>
+            <Link to="/" className={cx("logo")} >
             <img
               src="https://apps.odoo.com/web/image/loempia.module/31305/icon_image?unique=4696166"
               alt=""
               className={cx("logo__img")}
             />
+            </Link>
             <input
               type="checkbox"
               hidden
