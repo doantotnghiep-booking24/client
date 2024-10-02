@@ -1,6 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import { useState } from "react";
-import assets from "../../../assets";
+
+import assets from "../../../../assets"
 import SigninForm from "../../auth/login";
 import SignupForm from "../../auth/register";
 
