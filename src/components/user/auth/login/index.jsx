@@ -84,7 +84,7 @@ function SigninForm({ onSwitchMode }) {
           alignItems="center"
           spacing={1}
         >
-          <Link to="/reset-password"  variant="body2" color="#555">
+          <Link to="/reset-password" style={{ textDecoration: "none", color: "#212121"}}  variant="body2" color="#555">
              Quên mật khẩu?
           </Link>
           <Typography
