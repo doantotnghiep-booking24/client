@@ -46,7 +46,7 @@ const FormPasswordReset = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FormControl fullWidth margin="dense">
-                <FormControl sx={{ m: 1,}} variant="outlined">
+                <FormControl  variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">
                     Mật khẩu
                   </InputLabel>

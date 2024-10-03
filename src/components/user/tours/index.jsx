@@ -14,11 +14,10 @@ const cx = classNames.bind(styles);
 function Tour() {
   const [selectedTab, setSelectedTab] = useState(0);
 
-const handleTabChange = (event, newValue) => {
-setSelectedTab(newValue);
-};
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
   return (
-
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
         <img
@@ -87,39 +86,52 @@ setSelectedTab(newValue);
                 </div>
               </div>
             </div>
-            
+
             <div className={cx("content__home")}>
-            <div className={cx("category")}>
+              <div className={cx("category")}>
                 <Tabs
                   value={selectedTab}
                   onChange={handleTabChange}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                  aria-label="category tabs"
-                  className={cx("tabs")}
+                  sx={{
+                    "& .MuiTabs-indicator": {
+                      backgroundColor: "#3fd0d4", // Indicator line color
+                    },
+                  }}
                 >
                   <Tab
                     label="Quảng Ngãi"
                     sx={{
-                      color: selectedTab === 0 ? "#3fd0d4" : "#505050",
+                      color: selectedTab === 0 ? "#3fd0d4" : "inherit", // Active Tab color
+                      "&.Mui-selected": {
+                        color: "#3fd0d4",
+                      },
                     }}
                   />
                   <Tab
                     label="Đà Nẵng"
                     sx={{
-                      color: selectedTab === 1 ? "#3fd0d4" : "#505050",
+                      color: selectedTab === 1 ? "#3fd0d4" : "inherit",
+                      "&.Mui-selected": {
+                        color: "#3fd0d4",
+                      },
                     }}
                   />
                   <Tab
-                    label="Hà Nội "
+                    label="Hà Nội"
                     sx={{
-                      color: selectedTab === 2 ? "#3fd0d4" : "#505050",
+                      color: selectedTab === 2 ? "#3fd0d4" : "inherit",
+                      "&.Mui-selected": {
+                        color: "#3fd0d4",
+                      },
                     }}
                   />
                   <Tab
                     label="Hải Phòng"
                     sx={{
-                      color: selectedTab === 3 ? "#3fd0d4" : "#505050",
+                      color: selectedTab === 3 ? "#3fd0d4" : "inherit",
+                      "&.Mui-selected": {
+                        color: "#3fd0d4",
+                      },
                     }}
                   />
                 </Tabs>
