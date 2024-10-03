@@ -4,6 +4,7 @@ import { TextField, Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Link } from "react-router-dom";
+// import Rating from "@mui/material/Rating";
 
 import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -127,6 +128,7 @@ function Details() {
                       <p className={cx("content__home-comment-name")}>
                         John Doe
                       </p>
+                      
                       <p className={cx("content__home-comment-text")}>
                         Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
                         nữa
@@ -137,6 +139,7 @@ function Details() {
                     </div>
                   </li>
                 </ul>
+            
                 <form className={cx("content__home-comment-form")}>
                   <TextField
                     fullWidth

@@ -94,14 +94,14 @@ function Tour() {
                   onChange={handleTabChange}
                   sx={{
                     "& .MuiTabs-indicator": {
-                      backgroundColor: "#3fd0d4", // Indicator line color
+                      backgroundColor: "#3fd0d4", 
                     },
                   }}
                 >
                   <Tab
                     label="Quảng Ngãi"
                     sx={{
-                      color: selectedTab === 0 ? "#3fd0d4" : "inherit", // Active Tab color
+                      color: selectedTab === 0 ? "#3fd0d4" : "inherit", 
                       "&.Mui-selected": {
                         color: "#3fd0d4",
                       },

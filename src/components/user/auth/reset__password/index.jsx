@@ -39,8 +39,14 @@ const FormPasswordReset = () => {
       }}
     >
       <Paper sx={{ padding: 4, width: 400, maxWidth: "90%" }} elevation={3}>
-        <Typography variant="h4" gutterBottom align="center" fontWeight="bold">
+        <Typography variant="h4" gutterBottom align="center" fontWeight="bold" >
           Thiết lập mật khẩu
+        </Typography>
+        <Typography sx={{mt: 3}} variant="body1" gutterBottom align="center" fontWeight="bold">
+          Tạo mật khẩu mới cho 
+        </Typography>
+        <Typography variant="body1" gutterBottom align="center" fontWeight="bold">
+          truongluong28082808@gmail.com
         </Typography>
         <form>
           <Grid container spacing={2}>
@@ -76,6 +82,7 @@ const FormPasswordReset = () => {
                 type="submit"
                 variant="contained"
                 sx={{
+                  height: 40,
                   backgroundColor: "#3fd0d4",
                   color: "white",
                   "&:hover": {
