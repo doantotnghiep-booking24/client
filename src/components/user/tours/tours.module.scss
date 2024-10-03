@@ -81,7 +81,14 @@
   }
 }
 .content__home {
+
+
   margin-left: 60px;
+
+  .category{
+    display: flex;
+    justify-content: end;
+  }
   .content__home-list {
     list-style: none;
   }
