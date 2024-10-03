@@ -2,6 +2,8 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { ScreenMode } from "../../pages/siginPage";
 
+import {Link} from "react-router-dom"
+
 function SigninForm({ onSwitchMode }) {
   return (
     <Stack
@@ -82,9 +84,9 @@ function SigninForm({ onSwitchMode }) {
           alignItems="center"
           spacing={1}
         >
-          <Typography variant="body2" color="#555">
-            Bạn chưa có tài khoản?
-          </Typography>
+          <Link to="/reset-password"  variant="body2" color="#555">
+             Quên mật khẩu?
+          </Link>
           <Typography
             onClick={() => onSwitchMode(ScreenMode.SIGN_UP)}
             fontWeight={600}
