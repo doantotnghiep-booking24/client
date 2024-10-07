@@ -175,6 +175,12 @@
       }
     }
   }
+  .pagination{
+    display: flex;
+    justify-content: end;
+    margin-top: 30px;
+
+  }
 }
 
 @media (max-width: 992px) {

@@ -4,6 +4,8 @@ import classNames from "classnames/bind";
 import Slider from "@mui/material/Slider";
 import Checkbox from "@mui/material/Checkbox";
 import Rating from "@mui/material/Rating";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 import { Button, Tabs, Tab } from "@mui/material";
 
@@ -94,14 +96,14 @@ function Tour() {
                   onChange={handleTabChange}
                   sx={{
                     "& .MuiTabs-indicator": {
-                      backgroundColor: "#3fd0d4", 
+                      backgroundColor: "#3fd0d4",
                     },
                   }}
                 >
                   <Tab
                     label="Quảng Ngãi"
                     sx={{
-                      color: selectedTab === 0 ? "#3fd0d4" : "inherit", 
+                      color: selectedTab === 0 ? "#3fd0d4" : "inherit",
                       "&.Mui-selected": {
                         color: "#3fd0d4",
                       },
@@ -264,6 +266,32 @@ function Tour() {
                   </div>
                 </li>
               </ul>
+              <div className={cx("pagination")}>
+                <Stack spacing={10}>
+                  <Pagination
+                    count={10}
+                    variant="outlined"
+                    sx={{
+                      "& .MuiPaginationItem-root": {
+                        color: "#3fd0d4", 
+                        borderColor: "#3fd0d4",
+                        "&:hover": {
+                          backgroundColor: "#3fd0d4",
+                          color: "#fff",
+                        },
+                      },
+                      "& .MuiPaginationItem-root.Mui-selected": {
+                        backgroundColor: "#3fd0d4",
+                        color: "#fff", 
+                        borderColor: "#3fd0d4", 
+                        "&:hover": {
+                          backgroundColor: "#3fd0d4", 
+                        },
+                      },
+                    }}
+                  />
+                </Stack>
+              </div>
             </div>
           </div>
         </div>
