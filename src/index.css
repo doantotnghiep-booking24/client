@@ -1,19 +1,1 @@
-.slick-slide > div {
-    margin: 0 10px; 
-  }
 
-/* responsive */
-
-/* Mobile & Tablet */
-@media (max-width: 1023px){
-
-}
-/* Tablet */
-@media (min-width: 740px) and (max-width: 1023px){
-
-}
-/* Mobile */
-@media(max-width: 739px){
-
-    
-}
