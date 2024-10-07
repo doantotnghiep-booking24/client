@@ -66,7 +66,7 @@ function ListTravel() {
                       </div>
                       <div className={cx("outstanding__item-text")}>
                         <span>Đảo Lý Sơn</span>
-                        <p>1.500.000 VNĐ</p>
+                        <p>1.550.000 VNĐ</p>
                       </div>
                     </Link>
                   </div>
