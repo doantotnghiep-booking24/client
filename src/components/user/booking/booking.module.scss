@@ -13,6 +13,7 @@
     font-size: 34px;
   }
 }
+
 .booking__form {
   margin-top: 20px;
 
@@ -138,6 +139,22 @@
       input {
         padding: 2px 8px;
         outline: none;
+      }
+    }
+  }
+
+  .booking__services{
+    margin-top: 10px;
+    h4{
+      font-weight: bold;
+    }
+    .booking__services-list{
+      padding-left: 0;
+      margin-left: 18px;
+      li{
+        margin-top: 15px;
+        list-style: disc;
+
       }
     }
   }

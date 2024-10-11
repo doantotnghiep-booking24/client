@@ -3,9 +3,25 @@ import { Button } from "@mui/material";
 import classNames from "classnames/bind";
 import styles from "./booking.module.scss";
 
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchServicesData } from "../../../redux/features/serviceSlice";
+
 const cx = classNames.bind(styles);
 
 function Booking() {
+  const dispatch = useDispatch();
+  const { services, loading, error } = useSelector((state) => state.services);
+
+  useEffect(() => {
+    dispatch(fetchServicesData());
+  }, [dispatch]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+
   return (
     <div className={cx("wrap", "container")}>
       <div className={cx("booking__container")}>
@@ -80,6 +96,7 @@ function Booking() {
               </div>
             </div>
           </div>
+
           <div className={cx("pay")}>
             <h4 className={cx("pay__heading")}>Xác nhận thanh toán</h4>
             <div className={cx("pay__sub")}>
@@ -107,6 +124,14 @@ function Booking() {
                 Nhập mã:
                 <input type="text" placeholder="Nhập mã giảm giá" />
               </div>
+            </div>
+            <div className={cx("booking__services")}>
+              <h4>Dịch vụ đi kèm</h4>
+              <ul className={cx("booking__services-list")}>
+                {services.map((service) => (
+                  <li key={service._id}>{service.NameService}</li>
+                ))}
+              </ul>
             </div>
             <div className={cx("pay__sub-payment")}>
               <h5>Phương thức thanh toán</h5>
