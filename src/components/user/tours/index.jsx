@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./tours.module.scss";
 import classNames from "classnames/bind";
 import Slider from "@mui/material/Slider";
@@ -11,14 +11,27 @@ import { Button, Tabs, Tab } from "@mui/material";
 
 import { Link } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchToursData } from "../../../redux/features/tourSlice";
+
 const cx = classNames.bind(styles);
 
 function Tour() {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const dispatch = useDispatch();
+  const { tours, loading, error } = useSelector((state) =>state.tours);
 
+  const [selectedTab, setSelectedTab] = useState(0);
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  useEffect(() => {
+    dispatch(fetchToursData());
+  }, [dispatch])
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
@@ -139,22 +152,23 @@ function Tour() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-                <li className={cx("content__home-item")}>
+             {tours.map((tour) =>(
+                <li key={tour._id} className={cx("content__home-item")}>
                   <img
                     className={cx("content__home-img")}
-                    src="https://cf.bstatic.com/xdata/images/hotel/square600/560052722.webp?k=05fccc029f8bdb31835fe78676c123258a22b042b0260a45f4cce2adcf2bad76&o="
-                    alt=""
+                    src={tour.Image_Tour[0].path}
+                    alt={tour.Name_Tour}
                   />
                   <div className={cx("section")}>
                     <div className={cx("section__heading")}>
                       <h5 className={cx("section__heading-title")}>
-                        Thành Phố Quảng Ngãi
+                        {tour.Title_Tour}
                       </h5>
                       <div className={cx("section__heading-good")}>Tốt</div>
                     </div>
                     <Rating name="size-small" defaultValue={5} size="small" />
                     <p className={cx("section-content")}>
-                      Bãi biển lý sơn, Quảng Ngãi
+                      {tour.Description_Tour}
                     </p>
                     <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
                     <div className={cx("bottom")}>
@@ -167,7 +181,7 @@ function Tour() {
                         <span className={cx("action__price-discount")}>
                           920000 VND
                         </span>
-                        <h4 className={cx("action__price")}>250000 VND</h4>
+                        <h4 className={cx("action__price")}>2{tour.Price_Tour} VND</h4>
                         <Button
                           LinkComponent={Link}
                           to="/booking"
@@ -181,90 +195,9 @@ function Tour() {
                     </div>
                   </div>
                 </li>
-                <li className={cx("content__home-item")}>
-                  <img
-                    className={cx("content__home-img")}
-                    src="https://cf.bstatic.com/xdata/images/hotel/square600/560052722.webp?k=05fccc029f8bdb31835fe78676c123258a22b042b0260a45f4cce2adcf2bad76&o="
-                    alt=""
-                  />
-                  <div className={cx("section")}>
-                    <div className={cx("section__heading")}>
-                      <h5 className={cx("section__heading-title")}>
-                        Thành Phố Quảng Ngãi
-                      </h5>
-                      <div className={cx("section__heading-good")}>Tốt</div>
-                    </div>
-                    <Rating name="size-small" defaultValue={5} size="small" />
-                    <p className={cx("section-content")}>
-                      Bãi biển lý sơn, Quảng Ngãi
-                    </p>
-                    <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
-                    <div className={cx("bottom")}>
-                      <div>
-                        <p className={cx("outstanding")}>
-                          Tour du lịch nổi bật nhất
-                        </p>
-                      </div>
-                      <div className={cx("action")}>
-                        <span className={cx("action__price-discount")}>
-                          920000 VND
-                        </span>
-                        <h4 className={cx("action__price")}>250000 VND</h4>
-                        <Button
-                          LinkComponent={Link}
-                          to="/booking"
-                          className={cx("vacation__item-btn")}
-                          variant="contained"
-                          color="primary"
-                        >
-                          Xem chi tiết
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li className={cx("content__home-item")}>
-                  <img
-                    className={cx("content__home-img")}
-                    src="https://cf.bstatic.com/xdata/images/hotel/square600/560052722.webp?k=05fccc029f8bdb31835fe78676c123258a22b042b0260a45f4cce2adcf2bad76&o="
-                    alt=""
-                  />
-                  <div className={cx("section")}>
-                    <div className={cx("section__heading")}>
-                      <h5 className={cx("section__heading-title")}>
-                        Thành Phố Quảng Ngãi
-                      </h5>
-                      <div className={cx("section__heading-good")}>Tốt</div>
-                    </div>
-                    <Rating name="size-small" defaultValue={5} size="small" />
-                    <p className={cx("section-content")}>
-                      Bãi biển lý sơn, Quảng Ngãi
-                    </p>
-                    <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
-                    <div className={cx("bottom")}>
-                      <div>
-                        <p className={cx("outstanding")}>
-                          Tour du lịch nổi bật nhất
-                        </p>
-                      </div>
-                      <div className={cx("action")}>
-                        <span className={cx("action__price-discount")}>
-                          920000 VND
-                        </span>
-                        <h4 className={cx("action__price")}>250000 VND</h4>
-                        <Button
-                          LinkComponent={Link}
-                          to="/booking"
-                          className={cx("vacation__item-btn")}
-                          variant="contained"
-                          color="primary"
-                        >
-                          Xem chi tiết
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+
+             ))}
+              
               </ul>
               <div className={cx("pagination")}>
                 <Stack spacing={10}>
@@ -296,6 +229,7 @@ function Tour() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
