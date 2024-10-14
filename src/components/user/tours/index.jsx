@@ -21,9 +21,17 @@ function Tour() {
   const { tours, loading, error } = useSelector((state) =>state.tours);
 
   const [selectedTab, setSelectedTab] = useState(0);
+
+  const [currentPage, setCurrentPage] = useState(1); 
+  const itemsPerPage = 4; 
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value); 
+  };
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
 
   useEffect(() => {
     dispatch(fetchToursData());
@@ -31,6 +39,9 @@ function Tour() {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage); 
 
   return (
     <div className={cx("wrap")}>
@@ -152,7 +163,7 @@ function Tour() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-             {tours.map((tour) =>(
+             {selectedTours.map((tour) =>(
                 <li key={tour._id} className={cx("content__home-item")}>
                   <img
                     className={cx("content__home-img")}
@@ -184,7 +195,7 @@ function Tour() {
                         <h4 className={cx("action__price")}>2{tour.Price_Tour} VND</h4>
                         <Button
                           LinkComponent={Link}
-                          to="/booking"
+                          to="/details"
                           className={cx("vacation__item-btn")}
                           variant="contained"
                           color="primary"
@@ -202,7 +213,9 @@ function Tour() {
               <div className={cx("pagination")}>
                 <Stack spacing={10}>
                   <Pagination
-                    count={10}
+                    count={Math.ceil(tours.length / itemsPerPage)} 
+                    page={currentPage} 
+                    onChange={handlePageChange} 
                     variant="outlined"
                     sx={{
                       "& .MuiPaginationItem-root": {
