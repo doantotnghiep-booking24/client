@@ -4,7 +4,6 @@ import { TextField, Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Link } from "react-router-dom";
-import Rating from "@mui/material/Rating";
 
 import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -202,7 +201,7 @@ function Details() {
 
 
               <div className="reviews">
-                <h3>Đánh giá</h3>
+                <h3 style={{ marginTop: 20}}>Đánh giá</h3>
                 <div className="slider-container" style={{ padding: "20px 0" }}>
                   <Slider {...settings}>
                     {reviews.map((review, index) => (
@@ -216,103 +215,10 @@ function Details() {
                   </Slider>{" "}
                 </div>
                 <SideBarComponent reviewButton={"right"} />
-              <div className={cx("content__home-comment")}>
-                <h4 className={cx("content__home-comment-title")}>
-                  Đánh giá chuyến đi
-                </h4>
-                <div className={cx("content__home-comment-rating")}>
-                  <div className={cx("number__rating-above")}>
-                    <div>
-                    <span>4.9</span> trên 5
-                    </div>
-                    <Rating name="size-small" defaultValue={5} size="large" />
-                  </div>
-                  <ul className={cx("number__rating-list")}>
-                     <li className={cx("number__rating-item")}>
-                      <span>Tất cả</span>
-                     </li>
-                     <li className={cx("number__rating-item")}>
-                      <span>5 sao (484)</span>
-                     </li>
-                     <li className={cx("number__rating-item")}>
-                      <span>4 sao (484)</span>
-                     </li>
-                     <li className={cx("number__rating-item")}>
-                      <span>3 sao (484)</span>
-                     </li>
-                     <li className={cx("number__rating-item")}>
-                      <span>2 sao (484)</span>
-                     </li>
-                     <li className={cx("number__rating-item")}>
-                      <span>1 sao (484)</span>
-                     </li>
-                  </ul>
-
-                </div>
-                <ul className={cx("content__home-comment-list")}>
-                  <li className={cx("content__home-comment-item")}>
-                    <img
-                      src="https://randomuser.me/api/portraits/women/60.jpg"
-                      alt=""
-                      className={cx("content__home-comment-img")}
-                    />
-                    <div className={cx("content__home-comment-content")}>
-                      <p className={cx("content__home-comment-name")}>
-                        John Doe
-                      </p>
-                      <Rating name="size-small" defaultValue={5} size="small" />
-                      <p className={cx("content__home-comment-text")}>
-                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
-                        nữa
-                      </p>
-                      <span className={cx("content__home-comment-date")}>
-                        12/12/2022, 2024, 8:09 giờ
-                      </span>
-                    </div>
-                  </li>
-                  <li className={cx("content__home-comment-item")}>
-                    <img
-                      src="https://randomuser.me/api/portraits/women/60.jpg"
-                      alt=""
-                      className={cx("content__home-comment-img")}
-                    />
-                    <div className={cx("content__home-comment-content")}>
-                      <p className={cx("content__home-comment-name")}>
-                        John Doe
-                      </p>
-                      <Rating name="size-small" defaultValue={5} size="small" />
-                      <p className={cx("content__home-comment-text")}>
-                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
-                        nữa
-                      </p>
-                      <span className={cx("content__home-comment-date")}>
-                        12/12/2022, 2024, 8:09 giờ
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-
-                <form className={cx("content__home-comment-form")}>
-                  <TextField
-                    fullWidth
-                    id="standard-basic"
-                    label="Đánh giá"
-                    variant="standard"
-                  />
-                  <Button
-                    className={cx("btn")}
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    type="submit"
-                  >
-                    Gửi
-                  </Button>
-                </form>
-
-              </div>
+          
             </div>
 
+          </div>
             <aside className={cx("aside")}>
               <div className={cx("aside__account")}>
                 <img
@@ -496,7 +402,6 @@ function Details() {
                 </li>
               </ul>
             </aside>
-          </div>
         </div>
       </div>
 
