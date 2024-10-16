@@ -34,7 +34,7 @@ function Tour() {
   useEffect(() => {
     dispatch(fetchToursData());
   }, [dispatch]);
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div>Errors: {error}</div>;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage);
