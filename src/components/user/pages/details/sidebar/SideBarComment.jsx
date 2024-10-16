@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -6,7 +7,6 @@ import Divider from "@mui/material/Divider";
 import styles from "./sider.module.scss";
 import classNames from "classnames/bind";
 import ClearIcon from "@mui/icons-material/Clear";
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
