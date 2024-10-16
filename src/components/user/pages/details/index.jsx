@@ -15,6 +15,7 @@ import classNames from "classnames/bind";
 import styles from "./details.module.scss";
 import Slider from "react-slick";
 import SideBarComponent from "./sidebar/SideBarComment";
+import Rating from "@mui/material/Rating";
 const cx = classNames.bind(styles);
 
 function Details() {
@@ -67,51 +68,60 @@ function Details() {
       date: "October 1, 2024",
       content:
         "“I was thoroughly impressed with the amenities in this serviced apartment. The infinity pool was a highlight, perfect for relaxation after a busy day exploring the city.”",
+      rating: 5, // Rating out of 5
     },
     {
       name: "Alice",
       date: "October 2, 2024",
       content:
         "“The location was fantastic, and the staff were incredibly helpful throughout my stay.”",
+      rating: 4, // Rating out of 5
     },
     {
       name: "John",
       date: "October 3, 2024",
       content:
         "“Clean, spacious, and very comfortable. I will definitely be coming back.”",
+      rating: 5, // Rating out of 5
     },
     {
       name: "Maria",
       date: "October 4, 2024",
       content:
         "“A wonderful experience! The service was top-notch, and the breakfast was delightful.”",
+      rating: 5, // Rating out of 5
     },
     {
       name: "David",
       date: "October 5, 2024",
       content: "“I loved the view from my room. It was breathtaking!”",
+      rating: 4, // Rating out of 5
     },
     {
       name: "Sophia",
       date: "October 6, 2024",
       content:
         "“Absolutely perfect for a weekend getaway. Highly recommended!”",
+      rating: 5, // Rating out of 5
     },
     {
       name: "Mike",
       date: "October 7, 2024",
       content:
         "“Great amenities and a beautiful room. I really enjoyed my stay.”",
+      rating: 4, // Rating out of 5
     },
     {
       name: "Emma",
       date: "October 8, 2024",
       content: "“Wonderful stay! The staff went above and beyond.”",
+      rating: 5, // Rating out of 5
     },
     {
       name: "James",
       date: "October 9, 2024",
       content: "“A perfect place for families. Very kid-friendly!”",
+      rating: 4, // Rating out of 5
     },
   ];
 
@@ -189,15 +199,34 @@ function Details() {
                 </p>
               </div>
 
-              <div className="reviews">
+              <div className={cx("reviews")}>
                 <h3>Đánh giá</h3>
                 <div className="slider-container" style={{ padding: "20px 0" }}>
                   <Slider {...settings}>
                     {reviews.map((review, index) => (
                       <div key={index} className={cx("slider-item")}>
-                        <h3>{review.name}</h3>
-                        <p className="review-date">{review.date}</p>
-                        <p className="review-content">{review.content}</p>
+                        <h3 style={{ margin: 0 }}>{review.name}</h3>
+                        <p
+                          className="review-date"
+                          style={{ margin: 0, fontSize: "12px" }}
+                        >
+                          {review.date}
+                        </p>
+                        <Rating
+                          name="size-small"
+                          defaultValue={review.rating}
+                          size="small"
+                        />
+                        <p
+                          className="review-content"
+                          style={{
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {review.content}
+                        </p>
                         <a className={cx("read-more-button")}>Read more</a>
                       </div>
                     ))}
