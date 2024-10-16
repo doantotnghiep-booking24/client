@@ -30,7 +30,6 @@ function Details() {
     { value: "date", label: "8h30 - 28-08-2004" },
     { value: "date", label: "8h30 - 28-08-2004" },
   ];
-<<<<<<< HEAD
 
   var settings = {
     dots: true,
@@ -122,7 +121,6 @@ function Details() {
       content: "“A perfect place for families. Very kid-friendly!”",
     },
   ];
-=======
   const { id } = useParams(); 
   const dispatch = useDispatch();
   const { tour, loading, error } = useSelector((state) => state.tours);
@@ -134,7 +132,6 @@ function Details() {
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error: {error}</div>;
   console.log(tour);
->>>>>>> dev_TVL
 
   return (
     <div className={cx("wrap")}>
@@ -203,7 +200,7 @@ function Details() {
                 </p> */}
               </div>
 
-<<<<<<< HEAD
+
               <div className="reviews">
                 <h3>Đánh giá</h3>
                 <div className="slider-container" style={{ padding: "20px 0" }}>
@@ -219,7 +216,6 @@ function Details() {
                   </Slider>{" "}
                 </div>
                 <SideBarComponent reviewButton={"right"} />
-=======
               <div className={cx("content__home-comment")}>
                 <h4 className={cx("content__home-comment-title")}>
                   Đánh giá chuyến đi
@@ -313,7 +309,7 @@ function Details() {
                     Gửi
                   </Button>
                 </form>
->>>>>>> dev_TVL
+
               </div>
             </div>
 
@@ -504,10 +500,9 @@ function Details() {
         </div>
       </div>
 
+        </div>
         )}
       </div>  
-   
-
   );
 }
 

@@ -20,10 +20,7 @@ function Tour() {
   const { tours, loading, error } = useSelector((state) => state.tours);
 
   const [selectedTab, setSelectedTab] = useState(0);
-<<<<<<< HEAD
 
-=======
->>>>>>> dev_TVL
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
@@ -148,124 +145,6 @@ function Tour() {
             </div>
 
             <div className={cx("content__home")}>
-<<<<<<< HEAD
-              <div className={cx("category")}>
-                <Tabs
-                  value={selectedTab}
-                  onChange={handleTabChange}
-                  sx={{
-                    "& .MuiTabs-indicator": {
-                      backgroundColor: "#3fd0d4",
-                    },
-                  }}
-                >
-                  <Tab
-                    label="Quảng Ngãi"
-                    sx={{
-                      color: selectedTab === 0 ? "#3fd0d4" : "inherit",
-                      "&.Mui-selected": {
-                        color: "#3fd0d4",
-                      },
-                    }}
-                  />
-                  <Tab
-                    label="Đà Nẵng"
-                    sx={{
-                      color: selectedTab === 1 ? "#3fd0d4" : "inherit",
-                      "&.Mui-selected": {
-                        color: "#3fd0d4",
-                      },
-                    }}
-                  />
-                  <Tab
-                    label="Hà Nội"
-                    sx={{
-                      color: selectedTab === 2 ? "#3fd0d4" : "inherit",
-                      "&.Mui-selected": {
-                        color: "#3fd0d4",
-                      },
-                    }}
-                  />
-                  <Tab
-                    label="Hải Phòng"
-                    sx={{
-                      color: selectedTab === 3 ? "#3fd0d4" : "inherit",
-                      "&.Mui-selected": {
-                        color: "#3fd0d4",
-                      },
-                    }}
-                  />
-                </Tabs>
-              </div>
-              <ul className={cx("content__home-list")}>
-                {selectedTours.map((tour) => (
-                  <li key={tour._id} className={cx("content__home-item")}>
-                    <img
-                      className={cx("content__home-img")}
-                      src={tour.Image_Tour[0].path}
-                      alt={tour.Name_Tour}
-                    />
-                    <div className={cx("section")}>
-                      <div className={cx("section__heading")}>
-                        <h5 className={cx("section__heading-title")}>
-                          {tour.Title_Tour}
-                        </h5>
-                        <div className={cx("section__heading-good")}>Tốt</div>
-                      </div>
-                      <Rating name="size-small" defaultValue={5} size="small" />
-                      <p className={cx("section-content")}>
-                        {tour.Description_Tour}
-                      </p>
-                      <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
-                      <div className={cx("bottom")}>
-                        <div>
-                          <p className={cx("outstanding")}>
-                            Tour du lịch nổi bật nhất
-                          </p>
-                        </div>
-                        <div className={cx("action")}>
-                          {tour.Price_Tour && tour.After_Discount > 0 ? <div>
-                            <span className={cx("action__price-discount")}>
-                              {tour.Price_Tour.toLocaleString('vi-VN') + 'VND'}
-                            </span>
-                            <h4 className={cx("action__price")}>{tour.After_Discount.toLocaleString('vi-VN')}VND</h4>
-                          </div>
-                            :
-                            <h4 className={cx("action__price")}>{tour.Price_Tour.toLocaleString('vi-VN')}VND</h4>}
-                          {/* <span className={cx("action__price-discount")}>
-                          920000 VND
-                        </span> */}
-                          {/* <h4 className={cx("action__price")}>2{tour.Price_Tour} VND</h4> */}
-                          <Button
-                            LinkComponent={Link}
-                            to="/details"
-                            className={cx("vacation__item-btn")}
-                            variant="contained"
-                            color="primary"
-                          >
-                            Xem chi tiết
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-
-                ))}
-
-              </ul>
-              <div className={cx("pagination")}>
-                <Stack spacing={10}>
-                  <Pagination
-                    count={Math.ceil(tours.length / itemsPerPage)}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    variant="outlined"
-                    sx={{
-                      "& .MuiPaginationItem-root": {
-                        color: "#3fd0d4",
-                        borderColor: "#3fd0d4",
-                        "&:hover": {
-=======
               {loading ? (
                 <>
                   {Array.from(new Array(itemsPerPage)).map((_, index) => (
@@ -393,6 +272,7 @@ function Tour() {
               )}
               {!loading && (
                 <div className={cx("pagination")}>
+
                   <Stack spacing={10}>
                     <Pagination
                       count={Math.ceil(tours.length / itemsPerPage)}
@@ -409,35 +289,18 @@ function Tour() {
                           },
                         },
                         "& .MuiPaginationItem-root.Mui-selected": {
->>>>>>> dev_TVL
                           backgroundColor: "#3fd0d4",
                           color: "#fff",
                           borderColor: "#3fd0d4",
                           "&:hover": {
                             backgroundColor: "#3fd0d4",
                           },
-                        },
-<<<<<<< HEAD
-                      },
-                      "& .MuiPaginationItem-root.Mui-selected": {
-                        backgroundColor: "#3fd0d4",
-                        color: "#fff",
-                        borderColor: "#3fd0d4",
-                        "&:hover": {
-                          backgroundColor: "#3fd0d4",
-                        },
-                      },
-                    }}
-                  />
-                </Stack>
-              </div>
-=======
+                        }
                       }}
                     />
                   </Stack>
                 </div>
               )}
->>>>>>> dev_TVL
             </div>
           </div>
         </div>
