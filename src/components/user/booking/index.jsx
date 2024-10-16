@@ -1,10 +1,8 @@
-import { Button } from "@mui/material";
-
+import { Button, MenuItem, Select } from "@mui/material";
 import classNames from "classnames/bind";
 import styles from "./booking.module.scss";
 
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchServicesData } from "../../../redux/features/serviceSlice";
 
@@ -13,14 +11,18 @@ const cx = classNames.bind(styles);
 function Booking() {
   const dispatch = useDispatch();
   const { services, loading, error } = useSelector((state) => state.services);
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   useEffect(() => {
     dispatch(fetchServicesData());
   }, [dispatch]);
 
+  const handlePaymentChange = (event) => {
+    setPaymentMethod(event.target.value);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-
 
   return (
     <div className={cx("wrap", "container")}>
@@ -135,22 +137,7 @@ function Booking() {
             </div>
             <div className={cx("pay__sub-payment")}>
               <h5>Phương thức thanh toán</h5>
-              <Button
-                variant="outlined"
-                type="button"
-                sx={{
-                  borderColor: "#3fd0d4",
-                  color: "#3fd0d4",
-                  "&:hover": {
-                    borderColor: "#3fd0d4",
-                    color: "#3fd0d4",
-                  },
-                }}
-                className={cx("btn")}
-              >
-                Thanh toán trực tuyến
-              </Button>
-              <br />
+
               <Button
                 variant="outlined"
                 type="button"
@@ -165,7 +152,38 @@ function Booking() {
                 className={cx("btn")}
               >
                 Thanh toán trực tiếp
-              </Button>
+              </Button> <br />
+              <Select
+                value={paymentMethod}
+                onChange={handlePaymentChange}
+                displayEmpty
+                variant="outlined"
+                sx={{
+                  width: 300,
+                  textTransform: "uppercase",
+                  marginTop: 1,
+                  textAlign: "center",
+                  fontWeight: 600,
+                  backgroundColor: "#fff",
+                  fontSize: 12,
+                  borderColor: "#3fd0d4",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#3fd0d4",
+                  },
+                  "& .MuiSelect-icon": {
+                    color: "#3fd0d4",
+                  },
+                }}
+                className={cx("select-payment")}
+              >
+                <MenuItem value="" disabled >
+                  Chọn phương thức thanh toán
+                </MenuItem>
+                <MenuItem value="zalopay">ZaloPay</MenuItem>
+                <MenuItem value="vnpay">VNPay</MenuItem>
+              </Select>
+
+         
             </div>
           </div>
         </form>

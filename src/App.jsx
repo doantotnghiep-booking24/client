@@ -4,6 +4,7 @@ import Header from "./components/user/layouts/header";
 import Footer from "./components/user/layouts/footer";
 import Home from "./components/user/pages/home";
 import Details from "./components/user/pages/details";
+
 import ListTravel from "./components/user/list__travel";
 import Booking from "./components/user/booking";
 import BookingHistory from "./components/user/booking__history";
@@ -19,10 +20,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/details" element={<Details />} />
         <Route path="/list" element={<ListTravel />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour />} />
+        <Route path="/tours/:id" element={<Details />} />
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />

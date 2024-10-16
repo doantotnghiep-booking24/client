@@ -101,6 +101,37 @@
 .content__home-comment-title {
   color: var(--color-text);
   font-weight: 700;
+  text-transform: uppercase;
+}
+.content__home-comment-rating{
+  margin-top: 20px;
+  background-color: rgb(240, 245, 245);
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+
+
+    .number__rating-above{
+       span {
+        font-size: 26px;
+       }
+    }
+    .number__rating-list{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      list-style: none;
+      padding: 0;
+      margin-left: 60px;
+
+      .number__rating-item{
+        margin-top: 8px;
+        margin-right: 8px;
+        padding: 3px 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+      }
+    }
 }
 .content__home-comment-list {
   margin-top: 60px;
@@ -126,7 +157,7 @@
     margin: 0;
   }
   .content__home-comment-text {
-    margin: 8px 0 10px 0;
+    margin: 0 0 10px 0;
     font-size: var(--font-size);
     color: var(--color-content);
   }
