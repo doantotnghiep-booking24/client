@@ -18,15 +18,15 @@ const cx = classNames.bind(styles);
 
 function Tour() {
   const dispatch = useDispatch();
-  const { tours, loading, error } = useSelector((state) =>state.tours);
+  const { tours, loading, error } = useSelector((state) => state.tours);
 
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const [currentPage, setCurrentPage] = useState(1); 
-  const itemsPerPage = 4; 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value); 
+    setCurrentPage(value);
   };
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -41,7 +41,7 @@ function Tour() {
   if (error) return <div>Error: {error}</div>;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage); 
+  const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className={cx("wrap")}>
@@ -163,63 +163,71 @@ function Tour() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-             {selectedTours.map((tour) =>(
-                <li key={tour._id} className={cx("content__home-item")}>
-                  <img
-                    className={cx("content__home-img")}
-                    src={tour.Image_Tour[0].path}
-                    alt={tour.Name_Tour}
-                  />
-                  <div className={cx("section")}>
-                    <div className={cx("section__heading")}>
-                      <h5 className={cx("section__heading-title")}>
-                        {tour.Title_Tour}
-                      </h5>
-                      <div className={cx("section__heading-good")}>Tốt</div>
-                    </div>
-                    <Rating name="size-small" defaultValue={5} size="small" />
-                    <p className={cx("section-content")}>
-                      {tour.Description_Tour}
-                    </p>
-                    <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
-                    <div className={cx("bottom")}>
-                      <div>
-                        <p className={cx("outstanding")}>
-                          Tour du lịch nổi bật nhất
-                        </p>
+                {selectedTours.map((tour) => (
+                  <li key={tour._id} className={cx("content__home-item")}>
+                    <img
+                      className={cx("content__home-img")}
+                      src={tour.Image_Tour[0].path}
+                      alt={tour.Name_Tour}
+                    />
+                    <div className={cx("section")}>
+                      <div className={cx("section__heading")}>
+                        <h5 className={cx("section__heading-title")}>
+                          {tour.Title_Tour}
+                        </h5>
+                        <div className={cx("section__heading-good")}>Tốt</div>
                       </div>
-                      <div className={cx("action")}>
-                        <span className={cx("action__price-discount")}>
+                      <Rating name="size-small" defaultValue={5} size="small" />
+                      <p className={cx("section-content")}>
+                        {tour.Description_Tour}
+                      </p>
+                      <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
+                      <div className={cx("bottom")}>
+                        <div>
+                          <p className={cx("outstanding")}>
+                            Tour du lịch nổi bật nhất
+                          </p>
+                        </div>
+                        <div className={cx("action")}>
+                          {tour.Price_Tour && tour.After_Discount > 0 ? <div>
+                            <span className={cx("action__price-discount")}>
+                              {tour.Price_Tour.toLocaleString('vi-VN') + 'VND'}
+                            </span>
+                            <h4 className={cx("action__price")}>{tour.After_Discount.toLocaleString('vi-VN')}VND</h4>
+                          </div>
+                            :
+                            <h4 className={cx("action__price")}>{tour.Price_Tour.toLocaleString('vi-VN')}VND</h4>}
+                          {/* <span className={cx("action__price-discount")}>
                           920000 VND
-                        </span>
-                        <h4 className={cx("action__price")}>2{tour.Price_Tour} VND</h4>
-                        <Button
-                          LinkComponent={Link}
-                          to="/details"
-                          className={cx("vacation__item-btn")}
-                          variant="contained"
-                          color="primary"
-                        >
-                          Xem chi tiết
-                        </Button>
+                        </span> */}
+                          {/* <h4 className={cx("action__price")}>2{tour.Price_Tour} VND</h4> */}
+                          <Button
+                            LinkComponent={Link}
+                            to="/details"
+                            className={cx("vacation__item-btn")}
+                            variant="contained"
+                            color="primary"
+                          >
+                            Xem chi tiết
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
 
-             ))}
-              
+                ))}
+
               </ul>
               <div className={cx("pagination")}>
                 <Stack spacing={10}>
                   <Pagination
-                    count={Math.ceil(tours.length / itemsPerPage)} 
-                    page={currentPage} 
-                    onChange={handlePageChange} 
+                    count={Math.ceil(tours.length / itemsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
                     variant="outlined"
                     sx={{
                       "& .MuiPaginationItem-root": {
-                        color: "#3fd0d4", 
+                        color: "#3fd0d4",
                         borderColor: "#3fd0d4",
                         "&:hover": {
                           backgroundColor: "#3fd0d4",
@@ -228,10 +236,10 @@ function Tour() {
                       },
                       "& .MuiPaginationItem-root.Mui-selected": {
                         backgroundColor: "#3fd0d4",
-                        color: "#fff", 
-                        borderColor: "#3fd0d4", 
+                        color: "#fff",
+                        borderColor: "#3fd0d4",
                         "&:hover": {
-                          backgroundColor: "#3fd0d4", 
+                          backgroundColor: "#3fd0d4",
                         },
                       },
                     }}

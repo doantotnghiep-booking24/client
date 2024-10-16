@@ -95,6 +95,7 @@
   }
 }
 // comments
+
 .content__home-comment {
   margin-top: 80px;
 }
@@ -151,6 +152,27 @@
   }
 }
 
+// review
+
+.slider-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 190px;
+  padding: 15px;
+  font-size: 1rem;
+  transition: transform 0.3s;
+  cursor: pointer;
+  margin: 0;
+}
+
+.read-more-button {
+  text-decoration: none;
+}
 // aside styles
 .aside {
   margin-left: 50px;

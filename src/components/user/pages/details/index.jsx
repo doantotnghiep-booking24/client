@@ -13,7 +13,8 @@ import Select from "react-select";
 
 import classNames from "classnames/bind";
 import styles from "./details.module.scss";
-
+import Slider from "react-slick";
+import SideBarComponent from "./sidebar/SideBarComment";
 const cx = classNames.bind(styles);
 
 function Details() {
@@ -22,6 +23,98 @@ function Details() {
     { value: "date", label: "8h30 - 28-08-2004" },
     { value: "date", label: "8h30 - 28-08-2004" },
   ];
+
+  var settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  const reviews = [
+    {
+      name: "Edward",
+      date: "October 1, 2024",
+      content:
+        "“I was thoroughly impressed with the amenities in this serviced apartment. The infinity pool was a highlight, perfect for relaxation after a busy day exploring the city.”",
+    },
+    {
+      name: "Alice",
+      date: "October 2, 2024",
+      content:
+        "“The location was fantastic, and the staff were incredibly helpful throughout my stay.”",
+    },
+    {
+      name: "John",
+      date: "October 3, 2024",
+      content:
+        "“Clean, spacious, and very comfortable. I will definitely be coming back.”",
+    },
+    {
+      name: "Maria",
+      date: "October 4, 2024",
+      content:
+        "“A wonderful experience! The service was top-notch, and the breakfast was delightful.”",
+    },
+    {
+      name: "David",
+      date: "October 5, 2024",
+      content: "“I loved the view from my room. It was breathtaking!”",
+    },
+    {
+      name: "Sophia",
+      date: "October 6, 2024",
+      content:
+        "“Absolutely perfect for a weekend getaway. Highly recommended!”",
+    },
+    {
+      name: "Mike",
+      date: "October 7, 2024",
+      content:
+        "“Great amenities and a beautiful room. I really enjoyed my stay.”",
+    },
+    {
+      name: "Emma",
+      date: "October 8, 2024",
+      content: "“Wonderful stay! The staff went above and beyond.”",
+    },
+    {
+      name: "James",
+      date: "October 9, 2024",
+      content: "“A perfect place for families. Very kid-friendly!”",
+    },
+  ];
+
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
@@ -96,69 +189,24 @@ function Details() {
                 </p>
               </div>
 
-              <div className={cx("content__home-comment")}>
-                <h2 className={cx("content__home-comment-title")}>Bình Luận</h2>
-                <ul className={cx("content__home-comment-list")}>
-                  <li className={cx("content__home-comment-item")}>
-                    <img
-                      src="https://randomuser.me/api/portraits/women/60.jpg"
-                      alt=""
-                      className={cx("content__home-comment-img")}
-                    />
-                    <div className={cx("content__home-comment-content")}>
-                      <p className={cx("content__home-comment-name")}>
-                        John Doe
-                      </p>
-                      <p className={cx("content__home-comment-text")}>
-                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
-                        nữa
-                      </p>
-                      <span className={cx("content__home-comment-date")}>
-                        12/12/2022, 2024, 8:09 giờ
-                      </span>
-                    </div>
-                  </li>
-                  <li className={cx("content__home-comment-item")}>
-                    <img
-                      src="https://randomuser.me/api/portraits/women/60.jpg"
-                      alt=""
-                      className={cx("content__home-comment-img")}
-                    />
-                    <div className={cx("content__home-comment-content")}>
-                      <p className={cx("content__home-comment-name")}>
-                        John Doe
-                      </p>
-                      
-                      <p className={cx("content__home-comment-text")}>
-                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
-                        nữa
-                      </p>
-                      <span className={cx("content__home-comment-date")}>
-                        12/12/2022, 2024, 8:09 giờ
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-            
-                <form className={cx("content__home-comment-form")}>
-                  <TextField
-                    fullWidth
-                    id="standard-basic"
-                    label="Bình luận"
-                    variant="standard"
-                  />
-                  <Button
-                    className={cx("btn")}
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    type="submit"
-                  >
-                    Gửi
-                  </Button>
-                </form>
+              <div className="reviews">
+                <h3>Đánh giá</h3>
+                <div className="slider-container" style={{ padding: "20px 0" }}>
+                  <Slider {...settings}>
+                    {reviews.map((review, index) => (
+                      <div key={index} className={cx("slider-item")}>
+                        <h3>{review.name}</h3>
+                        <p className="review-date">{review.date}</p>
+                        <p className="review-content">{review.content}</p>
+                        <a className={cx("read-more-button")}>Read more</a>
+                      </div>
+                    ))}
+                  </Slider>{" "}
+                </div>
+                <SideBarComponent reviewButton={"right"} />
               </div>
             </div>
+
             <aside className={cx("aside")}>
               <div className={cx("aside__account")}>
                 <img
