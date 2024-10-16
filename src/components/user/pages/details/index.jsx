@@ -4,10 +4,16 @@ import { TextField, Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Link } from "react-router-dom";
-// import Rating from "@mui/material/Rating";
+import Rating from "@mui/material/Rating";
 
 import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTourDetails } from "../../../../redux/features/tourSlice";
 
 import Select from "react-select";
 
@@ -18,11 +24,13 @@ import SideBarComponent from "./sidebar/SideBarComment";
 const cx = classNames.bind(styles);
 
 function Details() {
+
   const options = [
     { value: "date", label: "8h30 - 28-08-2004" },
     { value: "date", label: "8h30 - 28-08-2004" },
     { value: "date", label: "8h30 - 28-08-2004" },
   ];
+<<<<<<< HEAD
 
   var settings = {
     dots: true,
@@ -114,9 +122,23 @@ function Details() {
       content: "“A perfect place for families. Very kid-friendly!”",
     },
   ];
+=======
+  const { id } = useParams(); 
+  const dispatch = useDispatch();
+  const { tour, loading, error } = useSelector((state) => state.tours);
+  
+  useEffect(() => {
+    dispatch(fetchTourDetails(id));
+  }, [dispatch, id]);
+
+  if (loading) return <div>loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  console.log(tour);
+>>>>>>> dev_TVL
 
   return (
     <div className={cx("wrap")}>
+
       <div className={cx("banner")}>
         <img
           src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
@@ -125,33 +147,26 @@ function Details() {
         />
         <h2 className={cx("banner__title")}>Chi Tiết</h2>
       </div>
+      {tour && (
       <div className={cx("container")}>
         <div className={cx("content")}>
           <div className={cx("content__main")}>
+
             <div className={cx("content__home")}>
               <img
-                src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
-                alt=""
+                src={tour.Image_Tour[0].path} alt={tour.Name_Tour}
                 className={cx("content__home-img")}
               />
               <div className={cx("content__home-text")}>
-                <h1 className={cx("content__home-name")}>Lý Sơn</h1>
+                <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1>
                 <div className={cx("content__home-title")}>
                   <p className={cx("content__home-heading")}>
-                    Đảo Lý Sơn hay còn gọi là Cù Lao Ré. Đây là huyện đảo thuộc
-                    địa phận tỉnh Quảng Ngãi, cách đất liền 15 hải lý theo hướng
-                    Đông Bắc.
+                  {tour.Title_Tour}
                   </p>
                   <span className={cx("content__home-desc")}>
-                    Phương tiện để đi du lịch Lý Sơn tự túc là tàu biển. Trước
-                    đó bạn cần đặt vé máy bay đi Chu Lai để đến Quảng Ngãi, sau
-                    đó di chuyển tới cảng Sa Kỳ và mua vé tàu ra đảo. Vé máy bay
-                    đi Chu Lai có giá rất rẻ, chỉ dao động trong khoảng 59.000đ
-                    - 159.000đ (giá vé chưa bao gồm thuế phí), tùy vào nơi bạn
-                    khởi hành từ Hà Nội hay Tp.Hồ Chí Minh, thời gian bay trong
-                    khoảng 1h20p.
+                   {tour.Description_Tour}
                   </span>
-                  <div className={cx("content__home-sub-heading")}>
+                  {/* <div className={cx("content__home-sub-heading")}>
                     Tàu biển từ cảng Sa Kỳ ra đảo Lý Sơn có giá 150.000đ -
                     200.000đ/lượt tùy vào loại tàu thường hay tàu cao tốc, thời
                     gian di chuyển sẽ mất 2 tiếng. Bạn có thể đặt mua vé tàu
@@ -166,29 +181,29 @@ function Details() {
                     CMND hay cọc tiền thuê. Di chuyển giữa các đảo Lớn, đảo Bé
                     và hòn Mù Cu thì sẽ đi bằng tàu cao tốc với giá khoảng
                     35.000đ/lượt.
-                  </span>
+                  </span> */}
                 </div>
                 <div className={cx("content__home-image")}>
                   <img
-                    src="https://image.baophapluat.vn/1200x630/Uploaded/2024/ycivoviu/2023_11_30/dao-ls-4996.jpg"
-                    alt=""
+                    src={tour.Image_Tour[1].path} alt={tour.Name_Tour}
+
                   />
                   <img
-                    src="https://owa.bestprice.vn/images/articles/uploads/review-lich-trinh-du-lich-ly-son-tu-tuc-4-ngay-3-dem-cuc-chi-tiet-5fed4ed4986df.jpg"
-                    alt=""
+                   src={tour.Image_Tour[2].path} alt={tour.Name_Tour}
                     className={cx("content__home-image-w")}
                   />
                 </div>
-                <p className={cx("content__home-desc")}>
+                {/* <p className={cx("content__home-desc")}>
                   Ngoài ra, mình sẽ gợi ý thêm cho các bạn một số địa chỉ lưu
                   trú tại đảo như Mường Thanh Holiday Lý Sơn với giá từ
                   1.400.000đ/đêm, khách sạn Biển Ngọc Lý Sơn có giá từ
                   300.000đ/đêm, Hoàng Sa Resort giá từ 400.000đ/đêm,... đều là
                   những khách sạn được rất nhiều khách du lịch Lý Sơn tự túc yêu
                   thích.
-                </p>
+                </p> */}
               </div>
 
+<<<<<<< HEAD
               <div className="reviews">
                 <h3>Đánh giá</h3>
                 <div className="slider-container" style={{ padding: "20px 0" }}>
@@ -204,6 +219,101 @@ function Details() {
                   </Slider>{" "}
                 </div>
                 <SideBarComponent reviewButton={"right"} />
+=======
+              <div className={cx("content__home-comment")}>
+                <h4 className={cx("content__home-comment-title")}>
+                  Đánh giá chuyến đi
+                </h4>
+                <div className={cx("content__home-comment-rating")}>
+                  <div className={cx("number__rating-above")}>
+                    <div>
+                    <span>4.9</span> trên 5
+                    </div>
+                    <Rating name="size-small" defaultValue={5} size="large" />
+                  </div>
+                  <ul className={cx("number__rating-list")}>
+                     <li className={cx("number__rating-item")}>
+                      <span>Tất cả</span>
+                     </li>
+                     <li className={cx("number__rating-item")}>
+                      <span>5 sao (484)</span>
+                     </li>
+                     <li className={cx("number__rating-item")}>
+                      <span>4 sao (484)</span>
+                     </li>
+                     <li className={cx("number__rating-item")}>
+                      <span>3 sao (484)</span>
+                     </li>
+                     <li className={cx("number__rating-item")}>
+                      <span>2 sao (484)</span>
+                     </li>
+                     <li className={cx("number__rating-item")}>
+                      <span>1 sao (484)</span>
+                     </li>
+                  </ul>
+
+                </div>
+                <ul className={cx("content__home-comment-list")}>
+                  <li className={cx("content__home-comment-item")}>
+                    <img
+                      src="https://randomuser.me/api/portraits/women/60.jpg"
+                      alt=""
+                      className={cx("content__home-comment-img")}
+                    />
+                    <div className={cx("content__home-comment-content")}>
+                      <p className={cx("content__home-comment-name")}>
+                        John Doe
+                      </p>
+                      <Rating name="size-small" defaultValue={5} size="small" />
+                      <p className={cx("content__home-comment-text")}>
+                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
+                        nữa
+                      </p>
+                      <span className={cx("content__home-comment-date")}>
+                        12/12/2022, 2024, 8:09 giờ
+                      </span>
+                    </div>
+                  </li>
+                  <li className={cx("content__home-comment-item")}>
+                    <img
+                      src="https://randomuser.me/api/portraits/women/60.jpg"
+                      alt=""
+                      className={cx("content__home-comment-img")}
+                    />
+                    <div className={cx("content__home-comment-content")}>
+                      <p className={cx("content__home-comment-name")}>
+                        John Doe
+                      </p>
+                      <Rating name="size-small" defaultValue={5} size="small" />
+                      <p className={cx("content__home-comment-text")}>
+                        Trời ơi quá đẹp , tôi muốn trải nghiệm thêm nhiều lần
+                        nữa
+                      </p>
+                      <span className={cx("content__home-comment-date")}>
+                        12/12/2022, 2024, 8:09 giờ
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+
+                <form className={cx("content__home-comment-form")}>
+                  <TextField
+                    fullWidth
+                    id="standard-basic"
+                    label="Đánh giá"
+                    variant="standard"
+                  />
+                  <Button
+                    className={cx("btn")}
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    type="submit"
+                  >
+                    Gửi
+                  </Button>
+                </form>
+>>>>>>> dev_TVL
               </div>
             </div>
 
@@ -393,8 +503,13 @@ function Details() {
           </div>
         </div>
       </div>
-    </div>
+
+        )}
+      </div>  
+   
+
   );
 }
 
 export default Details;
+

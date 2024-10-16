@@ -210,11 +210,11 @@ function Header() {
                   Trang chủ
                 </Link>
               </li>
-              <li className={cx("header__item")}>
+              {/* <li className={cx("header__item")}>
                 <Link to="/details" className={cx("header__link")}>
                   Chi tiết
                 </Link>
-              </li>
+              </li> */}
               <li className={cx("header__item")}>
                 <Link to="/list" className={cx("header__link")}>
                   Tin tức

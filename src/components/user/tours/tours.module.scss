@@ -81,7 +81,7 @@
   }
 }
 .content__home {
-
+  width: 75%;
 
   margin-left: 60px;
 
@@ -133,6 +133,11 @@
       color: var(--color-primary);
       text-decoration: underline;
       margin-bottom: 0px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
     .endow {
       display: block;
