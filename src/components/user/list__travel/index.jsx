@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 
 import { fetchNewsData } from '../../../services/fetchNews.js'
-import { useQueries, useQuery } from '@tanstack/react-query';
+import {  useQuery } from '@tanstack/react-query';
 import { fetchFeaturedLocationData } from "../../../services/fetchFeaturedLocation.js";
 import Skeleton from "@mui/material/Skeleton";
 import { Grid } from "@mui/material";
