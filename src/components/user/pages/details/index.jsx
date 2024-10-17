@@ -9,10 +9,9 @@ import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchTourDetails } from "../../../../redux/features/tourSlice";
+import { fetchTourDetails } from "../../../../services/fetchTourDetails";
+import { useQuery } from '@tanstack/react-query';
 
 import Select from "react-select";
 
@@ -121,16 +120,11 @@ function Details() {
     },
   ];
   const { id } = useParams(); 
-  const dispatch = useDispatch();
-  const { tour, loading, error } = useSelector((state) => state.tours);
-  
-  useEffect(() => {
-    dispatch(fetchTourDetails(id));
-  }, [dispatch, id]);
 
-  if (loading) return <div>loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  // console.log(tour);
+  const { data: tour } = useQuery({
+    queryKey: ["Tour", id],
+    queryFn: () => fetchTourDetails(id),
+  });
 
   return (
     <div className={cx("wrap")}>
