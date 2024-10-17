@@ -162,22 +162,6 @@ function Details() {
                   <span className={cx("content__home-desc")}>
                    {tour.Description_Tour}
                   </span>
-                  {/* <div className={cx("content__home-sub-heading")}>
-                    Tàu biển từ cảng Sa Kỳ ra đảo Lý Sơn có giá 150.000đ -
-                    200.000đ/lượt tùy vào loại tàu thường hay tàu cao tốc, thời
-                    gian di chuyển sẽ mất 2 tiếng. Bạn có thể đặt mua vé tàu
-                    online hoặc mua vé tại cảng đều được.
-                  </div>
-                  <span className={cx("content__home-sub-desc")}>
-                    Phương tiện di chuyển chủ yếu khi đi du lịch Lý Sơn tự túc
-                    là xe máy, có rất nhiều điểm thuê xe máy trên đảo với mức
-                    giá từ 120.000đ - 200.000đ/ngày/xe. Bên cạnh đó, đa phần các
-                    khách sạn trên đảo đều có dịch vụ cho thuê xe nên bạn cũng
-                    có thể thuê luôn ở khách sạn mình đặt mà không cần để lại
-                    CMND hay cọc tiền thuê. Di chuyển giữa các đảo Lớn, đảo Bé
-                    và hòn Mù Cu thì sẽ đi bằng tàu cao tốc với giá khoảng
-                    35.000đ/lượt.
-                  </span> */}
                 </div>
                 <div className={cx("content__home-image")}>
                   <img
@@ -189,14 +173,6 @@ function Details() {
                     className={cx("content__home-image-w")}
                   />
                 </div>
-                {/* <p className={cx("content__home-desc")}>
-                  Ngoài ra, mình sẽ gợi ý thêm cho các bạn một số địa chỉ lưu
-                  trú tại đảo như Mường Thanh Holiday Lý Sơn với giá từ
-                  1.400.000đ/đêm, khách sạn Biển Ngọc Lý Sơn có giá từ
-                  300.000đ/đêm, Hoàng Sa Resort giá từ 400.000đ/đêm,... đều là
-                  những khách sạn được rất nhiều khách du lịch Lý Sơn tự túc yêu
-                  thích.
-                </p> */}
               </div>
 
 
