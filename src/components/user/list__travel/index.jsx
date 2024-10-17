@@ -21,15 +21,25 @@ function ListTravel() {
       {
         queryKey: ['News'],
         queryFn: fetchNewsData,
-        initialData: []
+        staleTime: 2000,
+        initialData: [],
+      
       },
       {
         queryKey: ['Featured_location'],
         queryFn: fetchFeaturedLocationData,
-        initialData: []
+        staleTime: 2000,
+        initialData: [],
+      
       },
-    ]
+       
+    ],
+
   })
+  // console.log(result[0].isLoading,result[0].isFetching);
+  console.log(result);
+
+
   // console.log(result[0].data); result[0] new| result[1] featured location
   const settings = {
     infinite: true,
@@ -61,7 +71,7 @@ function ListTravel() {
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
-        {result[0].isLoading || result[1].isLoading ? (
+        {result[0].isLoading && result[1].isLoading ? (
           <Skeleton variant="rectangular" width="100%" height={250} />
         ) : (
           <img
@@ -69,11 +79,13 @@ function ListTravel() {
             alt=""
             className={cx("banner__img")}
           />
+
         )}
-        {result[0].isLoading || result[1].isLoading ? (
+        {result[0].isLoading && result[1].isLoading ? (
           <Skeleton variant="rectangular" width="100%" height={250} />
         ) : (
           <h2 className={cx("banner__title")}>Tin tức</h2>
+
         )}
       </div>
 
@@ -81,7 +93,7 @@ function ListTravel() {
         <div className={cx("content")}>
           <div className={cx("content__main")}>
 
-            {result[0].isLoading || result[1].isLoading ? (
+            {result[0].isLoading && result[1].isLoading ? (
               <>
                 <Skeleton width={200} height={50} />
                 <Skeleton width={150} height={30} />
@@ -92,6 +104,7 @@ function ListTravel() {
                 <span className={cx("content__main-title")}>
                   Luôn dẫn đầu và nắm bắt những cảm hứng mới mẻ
                 </span>
+
               </div>
             )}
 
@@ -99,7 +112,7 @@ function ListTravel() {
               <div className={cx("content__home")}>
                 <div className={cx("content__home-outstanding")}>
                   <div className={cx("outstanding__list")}>
-                    {result[0].isLoading || result[1].isLoading ? (
+                    {result[0].isLoading && result[1].isLoading ? (
                       <Grid container spacing={2}>
                         <Skeleton width={700} height={300} />
                       </Grid>
@@ -119,7 +132,7 @@ function ListTravel() {
               </div>
               <aside className={cx("aside")}>
                 <div className={cx("aside__outstanding")}>
-                  {result[0].isLoading || result[1].isLoading ? (
+                  {result[0].isLoading && result[1].isLoading ? (
                     <Grid container spacing={2}>
                       <Skeleton width={300} height={150} />
                       <Skeleton width={300} height={150} />
@@ -151,14 +164,14 @@ function ListTravel() {
             </div>
 
             <div className={cx("content__list")}>
-              {result[0].isLoading || result[1].isLoading ? (
+              {result[0].isLoading && result[1].isLoading ? (
                 <Skeleton variant="rectangular" width="100%" height={250} />
               ) : (
                 <h3 className={cx("content__list-heading")}>
                   Địa danh nổi tiếng
                 </h3>
               )}
-              {result[0].isLoading || result[1].isLoading ? (
+              {result[0].isLoading && result[1].isLoading ? (
                 <Grid container spacing={2}>
                   {Array.from(new Array(3)).map((_, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
@@ -171,7 +184,7 @@ function ListTravel() {
                 <Slider {...settings}>
                   {result[1].data.map((item) => (
                     <Link to="/details" key={item.id} className={cx("outstanding__item")}>
-                      <img
+                      <img key={item._id}
                         src={item.Image_Location[0] && item.Image_Location[0].path ? item.Image_Location[0].path : 'https://gachtrangtri.vn/site/upload/generals/noimg.jpg'}
                         alt={item.Name_Location}
                         className={cx("outstanding__item-img")}
@@ -191,12 +204,12 @@ function ListTravel() {
             </div>
 
             <div className={cx("content__list")}>
-              {result[0].isLoading || result[1].isLoading ? (
+              {result[0].isLoading && result[1].isLoading ? (
                 <Skeleton variant="rectangular" width="100%" height={250} />
               ) : (
                 <h3 className={cx("content__list-heading")}>Ưu đãi</h3>
               )}
-              {result[0].isLoading || result[1].isLoading ? (
+              {result[0].isLoading && result[1].isLoading ? (
                 <Grid container spacing={2}>
                   {Array.from(new Array(3)).map((_, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
@@ -257,12 +270,12 @@ function ListTravel() {
             </div>
 
             <div className={cx("content__list")}>
-              {result[0].isLoading || result[1].isLoading ? (
+              {result[0].isLoading && result[1].isLoading ? (
                 <Skeleton variant="rectangular" width="100%" height={250} />
               ) : (
                 <h3 className={cx("content__list-heading")}>Khám phá Việt Nam</h3>
               )}
-              {result[0].isLoading || result[1].isLoading ? (
+              {result[0].isLoading && result[1].isLoading ? (
                 <Grid container spacing={2}>
                   {Array.from(new Array(3)).map((_, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
@@ -275,7 +288,7 @@ function ListTravel() {
                 <Slider {...settings}>
                   {result[0].data.map((item) => (
                     <Link to={`/details/${item.id}`} className={cx("outstanding__item")} key={item.id}>
-                      <img
+                      <img key={item._id}
                         src={item.Image[0].path}
                         alt={item.Name}
                         className={cx("outstanding__item-img")}
