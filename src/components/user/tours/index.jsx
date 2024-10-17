@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./tours.module.scss";
 import classNames from "classnames/bind";
 import Slider from "@mui/material/Slider";
@@ -10,14 +10,18 @@ import Skeleton from "@mui/material/Skeleton";
 
 import { Button, Tabs, Tab } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchToursData } from "../../../redux/features/tourSlice";
+import { fetchToursData } from "../../../services/fetchTours";
+
+import { useQuery } from "@tanstack/react-query";
 
 const cx = classNames.bind(styles);
 
 function Tour() {
-  const dispatch = useDispatch();
-  const { tours, loading, error } = useSelector((state) => state.tours);
+  const { data: tours = [], isLoading } = useQuery({
+    queryKey: ["tours"],
+    queryFn: fetchToursData,
+    initialData: [],
+  });
 
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -31,18 +35,13 @@ function Tour() {
     setSelectedTab(newValue);
   };
 
-  useEffect(() => {
-    dispatch(fetchToursData());
-  }, [dispatch]);
-  if (error) return <div>Errors: {error}</div>;
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
-        {loading ? (
+        {isLoading ? (
           <Skeleton variant="rectangular" width="100%" height={250} />
         ) : (
           <img
@@ -51,7 +50,7 @@ function Tour() {
             className={cx("banner__img")}
           />
         )}
-        {loading ? (
+        {isLoading ? (
           <Skeleton variant="rectangular" width="100%" height={250} />
         ) : (
           <h2 className={cx("banner__title")}>Chuyến đi</h2>
@@ -61,7 +60,7 @@ function Tour() {
         <div className={cx("content")}>
           <div className={cx("content__main")}>
             <div className={cx("aside")}>
-              {loading ? (
+              {isLoading ? (
                 <>
                   <Skeleton width={200} height={50} />
                   <Skeleton width={150} height={30} />
@@ -145,7 +144,7 @@ function Tour() {
             </div>
 
             <div className={cx("content__home")}>
-              {loading ? (
+              {isLoading ? (
                 <>
                   {Array.from(new Array(itemsPerPage)).map((_, index) => (
                     <div key={index} className={cx("content__home-item")}>
@@ -274,7 +273,7 @@ function Tour() {
                   </ul>
                 </>
               )}
-              {!loading && (
+              {!isLoading && (
                 <div className={cx("pagination")}>
 
                   <Stack spacing={10}>
