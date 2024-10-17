@@ -130,7 +130,7 @@ function Details() {
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  console.log(tour);
+  // console.log(tour);
 
   return (
     <div className={cx("wrap")}>
@@ -173,6 +173,7 @@ function Details() {
                     className={cx("content__home-image-w")}
                   />
                 </div>
+           
               </div>
 
 
