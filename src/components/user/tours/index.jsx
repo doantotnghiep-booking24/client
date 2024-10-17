@@ -247,12 +247,16 @@ function Tour() {
                               </p>
                             </div>
                             <div className={cx("action")}>
-                              <span className={cx("action__price-discount")}>
-                                920000đ
-                              </span>
-                              <h4 className={cx("action__price")}>
-                                2{tour.Price_Tour} VND
-                              </h4>
+                            {tour.Price_Tour && tour.After_Discount > 0 ? <div>
+                                <span className={cx("action__price-discount")}>
+                                  {tour.After_Discount.toLocaleString('vi-VN')+'VND'}
+                                </span>
+                                <h4 className={cx("action__price")}>
+                                  {tour.Price_Tour.toLocaleString('vi-VN')}VND
+                                </h4>
+                              </div> : <h4 className={cx("action__price")}>
+                                {tour.Price_Tour.toLocaleString('vi-VN')}VND
+                              </h4>}
                               <Button
                                 LinkComponent={Link}
                                 to={`/tours/${tour._id}`}
