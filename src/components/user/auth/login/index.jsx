@@ -40,7 +40,7 @@ function SigninForm({ onSwitchMode }) {
     const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
 
     // Cập nhật dữ liệu mới vào đối tượng dữ liệu
-    const updatedData = { ...existingData, [name]: value };
+    const updatedData = { ...existingData, ["Email"]: value };
 
     // Lưu đối tượng dữ liệu đã cập nhật vào localStorage
     localStorage.setItem("resetPass", JSON.stringify(updatedData));

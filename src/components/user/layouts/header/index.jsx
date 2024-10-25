@@ -70,7 +70,7 @@ function Header() {
   };
 
   const refreshAccessToken = async () => {
-    const api = "http://localhost:3001/User/RefreshToken"; 
+    const api = "http://localhost:3001/User/RefreshToken";
 
     try {
       const res = await axios.post(api, { token: dataAuth.RefreshToken });

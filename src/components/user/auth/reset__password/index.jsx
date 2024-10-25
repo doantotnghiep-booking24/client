@@ -11,10 +11,12 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
-
+import { CircularProgress } from "@mui/material";
+import ModalReset from "./components/ModalReset";
 const FormPasswordReset = () => {
   const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
-
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false)
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -24,17 +26,21 @@ const FormPasswordReset = () => {
   };
 
   const handleRequestCode = async () => {
+    setIsLoading(true);
     const api = "http://localhost:3001/User/Password-reset/request";
 
     const email = existingData.Email;
-    console.log(email);
 
     try {
       const result = await axios.post(api, { email });
       const data = await result.data;
-      console.log(data);
+      if (data) {
+        setIsOpen(true)
+      }
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,11 +98,16 @@ const FormPasswordReset = () => {
               fullWidth
               onClick={handleRequestCode}
             >
-              Thiết lập
+              {isLoading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                "Thiết lập"
+              )}
             </Button>
           </Grid>
         </Grid>
       </Paper>
+      <ModalReset isOpen={isOpen} setIsOpen={setIsOpen}/>
     </Box>
   );
 };
