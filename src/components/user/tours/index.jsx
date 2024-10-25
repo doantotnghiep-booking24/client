@@ -39,6 +39,8 @@ function Tour() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage);
 
+  console.log(selectedTours);
+  
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
@@ -229,9 +231,14 @@ function Tour() {
                               Tốt
                             </div>
                           </div>
+                          {/* -------------- */}
                           <Rating
                             name="size-small"
-                            defaultValue={5}
+                            defaultValue={
+                              tour.totalReview
+                                ? Math.floor(tour.totalReview)
+                                : 5
+                            }
                             size="small"
                           />
                           <p className={cx("section-content")}>
@@ -272,7 +279,6 @@ function Tour() {
               )}
               {!loading && (
                 <div className={cx("pagination")}>
-
                   <Stack spacing={10}>
                     <Pagination
                       count={Math.ceil(tours.length / itemsPerPage)}
@@ -295,7 +301,7 @@ function Tour() {
                           "&:hover": {
                             backgroundColor: "#3fd0d4",
                           },
-                        }
+                        },
                       }}
                     />
                   </Stack>

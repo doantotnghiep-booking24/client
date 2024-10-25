@@ -7,42 +7,93 @@ import Divider from "@mui/material/Divider";
 import styles from "./sider.module.scss";
 import classNames from "classnames/bind";
 import ClearIcon from "@mui/icons-material/Clear";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Rating from "@mui/material/Rating";
-import Avatar from "@mui/material/Avatar";
+import { Rating } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
+
+import ModalAddNew from "../modal/ModalAddNew";
+import { useParams } from "react-router-dom";
+
+import { useMemo } from "react";
+import { io } from "socket.io-client";
+
+import ModalReviewImg from "../modal/ModalReviewImg";
+import LoadingSidebar from "../loading/LoadingSidebar";
+import CommentList from "./CommentList/CommentList";
+import { useSelector } from "react-redux";
+
+
 const cx = classNames.bind(styles);
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-];
 
 export default function SideBarComponent({ reviewButton }) {
   const [state, setState] = React.useState({
     right: false,
   });
-  const [age, setAge] = React.useState("");
+  const [dataComment, setDataComment] = React.useState([]);
+  const [dataTour, setDataTour] = React.useState([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [openReviewImg, setOpenReviewImg] = React.useState(false);
+  const [imgReview, setImgReview] = React.useState([]);
+  const [contentReview, setContentReview] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const commentsPerPage = 10;
+  const { id } = useParams();
+  const socketRef = React.useRef(null);
+  const dataAuth = useSelector((state) => state.auth);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  React.useEffect(() => {
+    // Kết nối đến Socket.IO server
+
+    socketRef.current = io("http://localhost:3001"); // Lưu socket vào ref
+    socketRef.current.on("connect", () => {
+      console.log("Connecting sidebar...");
+    });
+    socketRef.current.on("comment liked", (updatedComment) => {
+      updateCommentState(updatedComment);
+    });
+
+    socketRef.current.on("comment disliked", (updatedComment) => {
+      updateCommentState(updatedComment);
+    });
+    return () => {
+      socketRef.current.disconnect(); // Cleanup
+    };
+  }, []);
+  React.useEffect(() => {
+    getAllDataReview();
+    getDataTour();
+  }, [id]);
+
+
+  const currentComments = useMemo(() => {
+    const indexOfLastComment = currentPage * commentsPerPage;
+    const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+    return dataComment?.slice(indexOfFirstComment, indexOfLastComment);
+  }, [currentPage, commentsPerPage, dataComment]);
+  const getAllDataReview = async () => {
+    const api = "http://localhost:3001/V1/Review/GetReview";
+    try {
+      const result = await fetch(`${api}/${id}`);
+      const data = await result.json();
+      console.log(data);
+      
+      setDataComment(data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  const getDataTour = async () => {
+    const api = "http://localhost:3001/V1/Tours/DetailTour";
+    try {
+      const result = await fetch(`${api}/${id}`);
+      const data = await result.json();
+      setDataTour(data.detailTour);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+ 
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -54,6 +105,33 @@ export default function SideBarComponent({ reviewButton }) {
     }
 
     setState({ ...state, [anchor]: open });
+  };
+
+  const handleLike = (commentId) => {
+    socketRef.current.emit("toggleLikeComment", {
+      commentId,
+      userId: dataAuth._id,
+    });
+  };
+
+  const handleDislike = (commentId) => {
+    socketRef.current.emit("toggleDisLikeComment", {
+      commentId,
+      userId: dataAuth._id,
+    });
+  };
+
+  const updateCommentState = (updatedComment) => {
+    setDataComment((prevComments) =>
+      prevComments.map((comment) =>
+        comment._id === updatedComment._id
+          ? {
+              ...comment,
+              ...updatedComment,
+            }
+          : comment
+      )
+    );
   };
 
   const list = (anchor) => (
@@ -69,135 +147,96 @@ export default function SideBarComponent({ reviewButton }) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <div>
-        <div className={cx("box-top")}>
-          <div className={cx("box-1")}>
-            <h4>Guest reviews for Căn hộ cao cấp The Sóng Vũng Tàu</h4>
-            <Button
-              style={{ padding: "5px" }}
-              onClick={toggleDrawer(reviewButton, false)}
-            >
-              <ClearIcon />
-            </Button>
-          </div>
-          <Button
-            style={{ padding: "5px", marginTop: "10px", fontWeight: "700" }}
-            variant="outlined"
-          >
-            Viết Đánh giá
-          </Button>
-        </div>
-        <div className={cx("box-top")}>
-          {" "}
-          <div className={cx("box-1")}>
-            <h4>Các đánh giá</h4>
-            <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-              <InputLabel id="demo-select-small-label">
-                Sắp xếp đánh giá theo:
-              </InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={age}
-                label="Age"
-                onChange={handleChange}
+        {dataTour.map((item) => (
+          <div key={item._id} className={cx("box-top")}>
+            <div className={cx("box-1")}>
+              <h4>{item.Title_Tour}</h4>
+              <Button
+                style={{
+                  padding: "5px",
+                  bgcolor: "white",
+                  "&:hover": {
+                    bgcolor: "white",
+                  },
+                }}
+                onClick={toggleDrawer(reviewButton, false)}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div>
-            <div className={cx("slider-item")}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              <div>
-                <h3 style={{ margin: 0 }}>{"Tran Quoc Duong"}</h3>
-                <p
-                  className="review-date"
-                  style={{ margin: 0, fontSize: "12px" }}
-                >
-                  October 1, 2024
-                </p>
-                <Rating name="size-small" defaultValue={1} size="small" />
-                <p
-                  className="review-content"
-                  style={{
-                    textOverflow: "ellipsis",
-                    whiteSpace: "wrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. In
-                  velit beatae officiis, deserunt doloribus autem ad voluptas
-                  ducimus voluptates ea natus rem dolore. Soluta recusandae, eum
-                  in sint totam earum.
-                </p>
+                <ClearIcon />
+              </Button>
+            </div>
 
-                <ImageList
-                  sx={{ width: 250, height: 90 }}
-                  cols={3}
-                  rowHeight={50}
-                  style={{
-                    margin: 0,
+            <div
+              className={cx("review-info")}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div
+                className={cx("review-summary")}
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
+                <Box
+                  sx={{
+                    bgcolor: "#003b95",
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "5px",
+                    color: "white",
+                    fontWeight: "bold",
+                    margin: "auto",
+                    display: "flex", // Sử dụng flexbox
+                    alignItems: "center", // Căn giữa theo chiều dọc
+                    justifyContent: "center", // Căn giữa theo chiều ngang
                   }}
                 >
-                  {itemData.map((item) => (
-                    <ImageListItem key={item.img}>
-                      <img
-                        srcSet={`${item.img}?w=160&h=160&fit=crop&auto=format&dpr=2 2x`}
-                        src={`${item.img}?w=160&h=160&fit=crop&auto=format`}
-                        alt={item.title}
-                        loading="lazy"
-                      />
-                    </ImageListItem>
-                  ))}
-                </ImageList>
-                <Button variant="text">
-                  <ThumbUpOffAltIcon />
-                </Button>
-                <Button variant="text">
-                  <ThumbDownOffAltIcon />
-                </Button>
+                  {item.totalReview}
+                </Box>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <Rating
+                    name="size-small"
+                    defaultValue={item.totalReview}
+                    size="small"
+                    sx={{ margin: 0 }}
+                  />
+                  <span>{dataComment?.length} đánh giá</span>
+                </div>
+                <span style={{ fontSize: "13px", color: "#003b95" }}>
+                  Chúng tôi hướng tới những đánh giá thực tế 100%
+                </span>
               </div>
-            </div>
-            <Divider />
-            <div className={cx("slider-item")}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              <div>
-                <h3 style={{ margin: 0 }}>{"Tran Quoc Duong"}</h3>
-                <p
-                  className="review-date"
-                  style={{ margin: 0, fontSize: "12px" }}
-                >
-                  October 1, 2024
-                </p>
-                <Rating name="size-small" defaultValue={1} size="small" />
-                <p
-                  className="review-content"
-                  style={{
-                    textOverflow: "ellipsis",
-                    whiteSpace: "wrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. In
-                  velit beatae officiis, deserunt doloribus autem ad voluptas
-                  ducimus voluptates ea natus rem dolore. Soluta recusandae, eum
-                  in sint totam earum.
-                </p>
-                <Button variant="text">
-                  <ThumbUpOffAltIcon />
-                </Button>
-                <Button variant="text">
-                  <ThumbDownOffAltIcon />
-                </Button>
-              </div>
+              <Button
+                variant="outlined"
+                sx={{
+                  fontWeight: "bold",
+                  border: "1px solid #003b95",
+                  color: "#006ce4",
+                  "&:hover": {
+                    border: "1px solid #003b95", // Màu nền khi hover
+                    color: "#006ce4", // Màu chữ khi hover
+                  },
+                }}
+                onClick={() => setIsOpen(true)}
+              >
+                Viết đánh giá
+              </Button>
             </div>
           </div>
-        </div>
+        ))}
+
+        <CommentList
+          dataComment={currentComments}
+          openReviewImg={openReviewImg}
+          setOpenReviewImg={setOpenReviewImg}
+          imgReview={imgReview}
+          setImgReview={setImgReview}
+          contentReview={contentReview}
+          setContentReview={setContentReview}
+          handleLike={handleLike}
+          handleDislike={handleDislike}
+        />
+
         <div
           style={{
             display: "flex",
@@ -205,7 +244,12 @@ export default function SideBarComponent({ reviewButton }) {
             padding: "10px",
           }}
         >
-          <Pagination count={10} shape="rounded" />
+          <Pagination
+            count={Math.ceil(dataComment?.length / commentsPerPage)} // Số lượng trang
+            page={currentPage}
+            onChange={(event, value) => setCurrentPage(value)} // Cập nhật trang
+            shape="rounded"
+          />
         </div>
       </div>
       <Divider />
@@ -219,30 +263,70 @@ export default function SideBarComponent({ reviewButton }) {
           <Button
             onClick={toggleDrawer(reviewButton, true)}
             variant="outlined"
-            sx={{ marginLeft: "10px", marginTop: "10px" }}
-          >
-            {"Tất cả đánh giá"}
-          </Button>
-          <SwipeableDrawer
-            anchor={reviewButton}
-            open={state[reviewButton]}
-            onClose={toggleDrawer(reviewButton, false)}
-            onOpen={toggleDrawer(reviewButton, true)}
             sx={{
-              "& .MuiDrawer-paper": {
-                // Target the drawer paper (the actual content area)
-                borderTopLeftRadius: "10px", // Set border-radius for top-left
-                borderBottomLeftRadius: "10px", // Set border-radius for bottom-left
-                width: {
-                  xs: "100%", // Full width on extra small screens
-                  sm: 450, // 400px on small screens
-                  md: 770, // 700px on medium screens and up
-                },
+              marginLeft: "10px",
+              marginTop: "10px",
+              border: "1px solid #003b95",
+              color: "#006ce4",
+              fontWeight: "bold",
+              "&:hover": {
+                border: "1px solid #003b95", // Màu nền khi hover
+                color: "#006ce4", // Màu chữ khi hover
               },
             }}
           >
-            {list(anchor)}
-          </SwipeableDrawer>
+            {"Tất cả đánh giá"}
+          </Button>
+          {isLoading ? (
+            <LoadingSidebar isLoading={isLoading} />
+          ) : (
+            <SwipeableDrawer
+              anchor={reviewButton}
+              open={state[reviewButton]}
+              onClose={toggleDrawer(reviewButton, false)}
+              onOpen={toggleDrawer(reviewButton, true)}
+              sx={{
+                "& .MuiDrawer-paper": {
+                  // Target the drawer paper (the actual content area)
+                  borderTopLeftRadius: "10px", // Set border-radius for top-left
+                  borderBottomLeftRadius: "10px", // Set border-radius for bottom-left
+                  width: {
+                    xs: "100%", // Full width on extra small screens
+                    sm: 450, // 400px on small screens
+                    md: 770, // 700px on medium screens and up
+                  },
+                },
+              }}
+            >
+              {list(anchor)}
+            </SwipeableDrawer>
+          )}
+
+          <ModalAddNew
+            nameTour={dataTour}
+            isOpen={isOpen}
+            toggleModel={(value) => {
+              setIsOpen(value);
+            }}
+            handleSetValueComment={(value) => {
+              setIsLoading(true);
+              setDataComment((prev) => (prev ? [value, ...prev] : [value]));
+
+              getAllDataReview();
+              setIsLoading(false);
+            }}
+          />
+          <ModalReviewImg
+            isOpen={openReviewImg}
+            toggleModelReviewDetail={(value) => {
+              setOpenReviewImg(value);
+            }}
+            imgReview={imgReview}
+            setImgReview={(value) => {
+              setImgReview(value);
+            }}
+            contentReview={contentReview}
+          />
         </React.Fragment>
       ))}
     </div>

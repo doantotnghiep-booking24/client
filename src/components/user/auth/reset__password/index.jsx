@@ -7,17 +7,13 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+import axios from "axios";
 
 const FormPasswordReset = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -25,6 +21,21 @@ const FormPasswordReset = () => {
 
   const handleMouseUpPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleRequestCode = async () => {
+    const api = "http://localhost:3001/User/Password-reset/request";
+
+    const email = existingData.Email;
+    console.log(email);
+
+    try {
+      const result = await axios.post(api, { email });
+      const data = await result.data;
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -39,63 +50,52 @@ const FormPasswordReset = () => {
       }}
     >
       <Paper sx={{ padding: 4, width: 400, maxWidth: "90%" }} elevation={3}>
-        <Typography variant="h4" gutterBottom align="center" fontWeight="bold" >
-          Thiết lập mật khẩu
+        <Typography variant="h4" gutterBottom align="center" fontWeight="bold">
+          Đặt lại mật khẩu
         </Typography>
-        <Typography sx={{mt: 3}} variant="body1" gutterBottom align="center" fontWeight="bold">
-          Tạo mật khẩu mới cho 
-        </Typography>
-        <Typography variant="body1" gutterBottom align="center" fontWeight="bold">
-          truongluong28082808@gmail.com
-        </Typography>
-        <form>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <FormControl fullWidth margin="dense">
-                <FormControl  variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Mật khẩu
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          onMouseUp={handleMouseUpPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Mật khẩu"
-                  />
-                </FormControl>
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <FormControl fullWidth margin="dense">
+              <FormControl variant="outlined">
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={"text"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onMouseDown={handleMouseDownPassword}
+                        onMouseUp={handleMouseUpPassword}
+                        edge="end"
+                      ></IconButton>
+                    </InputAdornment>
+                  }
+                  label=""
+                  value={existingData.Email}
+                />
               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  height: 40,
-                  backgroundColor: "#3fd0d4",
-                  color: "white",
-                  "&:hover": {
-                    backgroundColor: "#2fb3b7",
-                  },
-                }}
-                fullWidth
-              >
-                Thiết lập
-              </Button>
-            </Grid>
+            </FormControl>
           </Grid>
-        </form>
+          <Grid item xs={12}>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                height: 40,
+                backgroundColor: "#3fd0d4",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#2fb3b7",
+                },
+              }}
+              fullWidth
+              onClick={handleRequestCode}
+            >
+              Thiết lập
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
     </Box>
   );

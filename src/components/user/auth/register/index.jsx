@@ -1,8 +1,54 @@
 /* eslint-disable react/prop-types */
+import React, { useState } from "react";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import { ScreenMode } from "../../pages/siginPage";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import FilledInput from "@mui/material/FilledInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import CircularProgress from "@mui/material/CircularProgress";
 
+import axios from "axios";
 function SignupForm({ onSwitchMode }) {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [valueInput, setValueInput] = useState({
+    Name: "",
+    Email: "",
+    Password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleGetValueInput = (e) => {
+    const { value, name } = e.target;
+    setValueInput((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSignup = async () => {
+    setIsLoading(true);
+    const api = "http://localhost:3001/User/Register";
+    console.log(valueInput);
+    try {
+      const result = await axios.post(api, valueInput);
+      const data = await result.data;
+
+      data && onSwitchMode(ScreenMode.SIGN_IN);
+      setValueInput({});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(true);
+    }
+  };
   return (
     <Stack
       justifyContent="center"
@@ -40,10 +86,12 @@ function SignupForm({ onSwitchMode }) {
                 Họ và tên
               </Typography>
               <TextField
+                name="Name"
                 id="filled-search"
                 type="search"
                 variant="filled"
                 InputProps={{ style: { height: "45px" } }}
+                onChange={handleGetValueInput}
               />
             </Stack>
             <Stack spacing={1}>
@@ -51,22 +99,41 @@ function SignupForm({ onSwitchMode }) {
                 Email
               </Typography>
               <TextField
+                name="Email"
                 id="filled-search"
                 type="search"
                 variant="filled"
                 InputProps={{ style: { height: "45px" } }}
+                onChange={handleGetValueInput}
               />
             </Stack>
             <Stack spacing={1}>
               <Typography variant="subtitle1" color="#555">
                 Mật khẩu
               </Typography>
-              <TextField
-                id="filled-password-input"
-                type="password"
-                autoComplete="current-password"
-                variant="filled"
-                InputProps={{ style: { height: "45px" } }}
+              <FilledInput
+                name="Password"
+                id="filled-adornment-password"
+                sx={{ height: "45px" }}
+                type={showPassword ? "text" : "password"}
+                onChange={handleGetValueInput}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword
+                          ? "hide the password"
+                          : "display the password"
+                      }
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
             </Stack>
           </Stack>
@@ -83,8 +150,13 @@ function SignupForm({ onSwitchMode }) {
               padding: 1.5,
               borderRadius: 2,
             }}
+            onClick={handleSignup}
           >
-            Đăng ký
+            {isLoading ? (
+              <CircularProgress size={20} color="inherit" />
+            ) : (
+              "Đăng ký"
+            )}
           </Button>
         </Stack>
         <Stack

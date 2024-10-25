@@ -16,12 +16,15 @@ import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import ReorderIcon from "@mui/icons-material/Reorder";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import classNames from "classnames/bind";
 import styles from "./header.module.scss";
-
+import { addAuth, logoutAuth } from "../../../../redux/features/AuthSlice";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 // import Swal from "sweetalert2";
 
 const cx = classNames.bind(styles);
@@ -38,13 +41,85 @@ function Header() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
+  const dataAuth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  // Lấy thông tin auth từ cookie
+  const getDataFromCookies = () => {
+    const res = Cookies.get("auth");
+    if (res) {
+      try {
+        const tokenObject = JSON.parse(res);
+        dispatch(addAuth(tokenObject));
+      } catch (error) {
+        console.error("Error parsing auth cookie:", error);
+      }
+    }
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutAuth());
+  };
+
+  const isTokenExpired = (token) => {
+    if (!token) return true;
+    const decoded = jwtDecode(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp < currentTime;
+  };
+
+  const refreshAccessToken = async () => {
+    const api = "http://localhost:3001/User/RefreshToken"; 
+
+    try {
+      const res = await axios.post(api, { token: dataAuth.RefreshToken });
+      const data = await res.data;
+
+      if (data.NewAccessToken) {
+        dispatch(
+          addAuth({
+            ...dataAuth,
+            AccessToken: data.NewAccessToken,
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromCookies();
+  }, []);
+
+  useEffect(() => {
+    if (dataAuth.AccessToken) {
+      if (isTokenExpired(dataAuth.AccessToken)) {
+        console.log("Token đã hết hạn, cố gắng refresh lại token.");
+        refreshAccessToken();
+      }
+    } else {
+      console.log("Không có Access Token, kiểm tra cookie.");
+      const res = Cookies.get("auth");
+      if (!res) {
+        console.log("Không có token.");
+      }
+    }
+  }, [dataAuth.AccessToken]);
+
+  // Hàm để kiểm tra quyền đặt hàng
+  const canPlaceOrder = () => {
+    return dataAuth.AccessToken && !isTokenExpired(dataAuth.AccessToken);
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
     <div className={cx("wrap")}>
       <nav className={cx("nav__main")}>
@@ -108,6 +183,7 @@ function Header() {
                 />
               </div>
               {/* account mui */}
+
               <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
@@ -117,9 +193,10 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}> L</Avatar>
                 </IconButton>
               </Tooltip>
+              <label htmlFor="">{dataAuth && dataAuth.Name}</label>
 
               <Menu
                 anchorEl={anchorEl}
@@ -171,7 +248,7 @@ function Header() {
                   Cài đặt tài khoản
                 </MenuItem>
 
-                <MenuItem onClick={handleClose}>
+                <MenuItem>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
@@ -312,11 +389,19 @@ function Header() {
                   Cài đặt tài khoản
                 </MenuItem>
 
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Đăng xuất
+                <MenuItem>
+                  <div
+                    style={{ display: "flex", alignItems: "center" }}
+                    onClick={() => {
+                      handleLogout();
+                      handleClose();
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Đăng xuất
+                  </div>
                 </MenuItem>
               </Menu>
             </div>
