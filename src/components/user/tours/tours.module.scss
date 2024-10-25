@@ -36,7 +36,7 @@
   display: flex;
 }
 .aside {
-  width: 30%;
+  width: 25%;
 
   .filter {
     border-bottom: 1px dashed rgb(221, 220, 220);
@@ -109,7 +109,7 @@
   }
   .section {
     margin-left: 20px;
-    min-width: 480px;
+
     .section__heading {
       display: flex;
       align-items: center;
@@ -189,7 +189,7 @@
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .content__home {
     margin-left: 0px;
     .content__home-item {
@@ -219,6 +219,7 @@
     margin-left: 0px;
   }
   .content__home {
+    width: 100%;
     .content__home-list {
       padding-left: 0;
     }

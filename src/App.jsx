@@ -12,6 +12,7 @@ import FormPasswordReset from "./components/user/auth/reset__password";
 import SiginPage from "./components/user/pages/siginPage";
 
 import Tour from "./components/user/tours";
+import NewsDetail from "./components/user/news__detail";
 import "./styles/app.module.scss";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/list" element={<ListTravel />} />
+        <Route path="/news-detail" element={<NewsDetail />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour />} />
         <Route path="/tours/:id" element={<Details />} />
