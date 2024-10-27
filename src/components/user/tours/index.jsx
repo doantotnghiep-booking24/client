@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./tours.module.scss";
 import classNames from "classnames/bind";
 import Slider from "@mui/material/Slider";
@@ -6,9 +6,9 @@ import Checkbox from "@mui/material/Checkbox";
 import Rating from "@mui/material/Rating";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { Button, Tabs, Tab } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { Button, Tabs, Tab } from "@mui/material";
 import { fetchToursData } from "../../../services/fetchTours";
 import { fetchCategories } from "../../../services/fetchCategory";
 import { fetchTypeTours } from "../../../services/fetchTypeTours";
@@ -38,17 +38,25 @@ function Tour() {
   const [maxPrice, setMaxPrice] = useState(10000000);
   const [selectedTourNames, setSelectedTourNames] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedRating, setSelectedRating] = useState(0);
 
-  const filterTours = tours.filter((tour) => {
-    const checkPrice =
-      tour.Price_Tour >= minPrice && tour.Price_Tour <= maxPrice;
-    const checkTourName =
-      selectedTourNames.length === 0 ||
-      selectedTourNames.includes(tour.Name_Tour);
-    const checkCategory =
-      selectedCategory === "all" || tour.id_Category === selectedCategory;
-    return checkPrice && checkTourName && checkCategory;
-  });
+  const [filteredTours, setFilteredTours] = useState([]);
+
+  const filterTours = () => {
+    return tours.filter((tour) => {
+      const checkPrice =
+        tour.Price_Tour >= minPrice && tour.Price_Tour <= maxPrice;
+      const checkTourName =
+        selectedTourNames.length === 0 ||
+        selectedTourNames.includes(tour.Name_Tour);
+      const checkCategory =
+        selectedCategory === "all" || tour.id_Category === selectedCategory;
+      const checkRating =
+        selectedRating === 0 || tour.totalReview >= selectedRating;
+
+      return checkPrice && checkTourName && checkCategory && checkRating;
+    });
+  };
 
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,8 +80,21 @@ function Tour() {
     );
   };
 
+  useEffect(() => {
+    const filtered = filterTours();
+    setFilteredTours(filtered);
+    setCurrentPage(1);
+  }, [
+    minPrice,
+    maxPrice,
+    selectedTourNames,
+    selectedCategory,
+    selectedRating,
+    tours,
+  ]);
+
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const selectedTours = filterTours.slice(
+  const displayedTours = filteredTours.slice(
     startIndex,
     startIndex + itemsPerPage
   );
@@ -93,11 +114,12 @@ function Tour() {
         <div className={cx("content")}>
           <div className={cx("content__main")}>
             <div className={cx("aside")}>
-              <div className={cx("filter")}>
-                <h4>Lọc theo</h4>
+              <div className={cx("filter-header")}>
+                <h4 className={cx("filter-title")}>Lọc theo</h4>
               </div>
-              <div className={cx("price")}>
-                <h5 className={cx("price__heading")}>Giá</h5>
+
+              <div className={cx("price", "filter-section")}>
+                <h5 className={cx("section-heading")}>Giá</h5>
                 <Slider
                   size="small"
                   value={[minPrice, maxPrice]}
@@ -109,45 +131,78 @@ function Tour() {
                   valueLabelFormat={(value) => `${value.toLocaleString()} VND`}
                   min={1000000}
                   max={10000000}
-                  className={cx("price__range")}
+                  className={cx("price-slider")}
+                  sx={{
+                    color: "#3fd0d4",
+                    "& .MuiSlider-thumb": {
+                      borderRadius: "50%",
+                    },
+                  }}
                 />
-                <span className={cx("price__number")}>
+                <span className={cx("price-range")}>
                   {minPrice.toLocaleString()} đ - {maxPrice.toLocaleString()} đ
                 </span>
               </div>
-              <div className={cx("type")}>
-                <h5 className={cx("type__heading")}>Loại tour</h5>
+
+              <div className={cx("type", "filter-section")}>
+                <h5 className={cx("section-heading")}>Loại tour</h5>
                 {type.map((type) => (
-                  <div key={type._id} className={cx("type__wrap")}>
-                    <Checkbox name={type.Name_Type} />
-                    <label htmlFor={type.Name_Type}>{type.Name_Type}</label>
+                  <div key={type._id} className={cx("type-item")}>
+                    <Checkbox
+                      name={type.Name_Type}
+                      onChange={(e) => handleTourNameChange(e)}
+                      sx={{
+                        color: "#3fd0d4",
+                        "&.Mui-checked": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <label
+                      htmlFor={type.Name_Type}
+                      className={cx("type-label")}
+                    >
+                      {type.Name_Type}
+                    </label>
                   </div>
                 ))}
               </div>
-              <div className={cx("location")}>
-                <h5 className={cx("location__heading")}>Điểm đến</h5>
-                <h6 className={cx("location__sub")}>Việt Nam</h6>
+
+              <div className={cx("location", "filter-section")}>
+                <h5 className={cx("section-heading")}>Điểm đến</h5>
+                <h6 className={cx("sub-heading")}>Việt Nam</h6>
                 {tours.map((tour) => (
-                  <div key={tour._id} className={cx("tour-name-filter__wrap")}>
+                  <div key={tour._id} className={cx("location-item")}>
                     <Checkbox
                       name={tour.Name_Tour}
                       onChange={handleTourNameChange}
+                      sx={{
+                        color: "#3fd0d4",
+                        "&.Mui-checked": {
+                          color: "#3fd0d4",
+                        },
+                      }}
                     />
-                    <label htmlFor={tour.Name_Tour} style={{ marginTop: 10 }}>
+                    <label
+                      htmlFor={tour.Name_Tour}
+                      className={cx("location-label")}
+                    >
                       {tour.Name_Tour}
                     </label>
                   </div>
                 ))}
               </div>
-              <div className={cx("evaluate")}>
-                <h5 className={cx("evaluate__heading")}>Đánh giá</h5>
-                <div className={cx("evaluate__wrap")}>
-                  <Rating name="size-medium" defaultValue={0} max={5} /> <br />
-                  <Rating name="size-medium" defaultValue={0} max={4} /> <br />
-                  <Rating name="size-medium" defaultValue={0} max={3} /> <br />
-                  <Rating name="size-medium" defaultValue={0} max={2} /> <br />
-                  <Rating name="size-medium" defaultValue={0} max={1} />
-                </div>
+
+              <div className={cx("evaluate", "filter-section")}>
+                <h5 className={cx("section-heading")}>Đánh giá</h5>
+                <Rating
+                  name="rating"
+                  value={selectedRating}
+                  onChange={(event, newValue) => setSelectedRating(newValue)}
+                  sx={{
+                    color: "#3fd0d4",
+                  }}
+                />
               </div>
             </div>
 
@@ -187,7 +242,7 @@ function Tour() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-                {selectedTours.map((tour) => (
+                {displayedTours.map((tour) => (
                   <li key={tour._id} className={cx("content__home-item")}>
                     <img
                       className={cx("content__home-img")}
@@ -201,54 +256,89 @@ function Tour() {
                         </h5>
                         <div className={cx("section__heading-good")}>Tốt</div>
                       </div>
-                      <Rating
-                        name="size-small"
-                        defaultValue={
-                          tour.totalReview ? Math.floor(tour.totalReview) : 5
-                        }
-                        size="small"
-                      />
+                      {tour.totalReview > 0 && (
+                        <Rating
+                          name="size-small"
+                          value={tour.totalReview}
+                          size="small"
+                          precision={0.1}
+                          readOnly
+                          sx={{
+                            color: "#3fd0d4",
+                          }}
+                        />
+                      )}
                       <p className={cx("section-content")}>
                         {tour.Description_Tour}
                       </p>
                       <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
                       <div className={cx("bottom")}>
-                        <div className={cx("bottom__price")}>
-                          <span className={cx("bottom__price-old")}>
-                            {tour.Price_Tour.toLocaleString()} đ
-                          </span>
-                          <span className={cx("bottom__price-new")}>
-                            {tour.Discount} đ
-                          </span>
+                        <div>
+                          <p className={cx("outstanding")}>
+                            Tour du lịch nổi bật nhất
+                          </p>
                         </div>
-                        <Button
-                          component={Link}
-                          to={`/tours/${tour._id}`}
-                          sx={{
-                            backgroundColor: "#3fd0d4", // Màu nền
-                            color: "#fff", // Màu chữ
-                            "&:hover": {
-                              backgroundColor: "#31b0b2", // Màu khi hover
-                            },
-                          }}
-                        >
-                          Xem Thêm
-                        </Button>
+                        <div className={cx("action")}>
+                          {tour.Price_Tour && tour.After_Discount > 0 ? (
+                            <div>
+                              <span className={cx("action__price-discount")}>
+                                {tour.After_Discount.toLocaleString("vi-VN")}{" "}
+                                VND
+                              </span>
+                              <h4 className={cx("action__price")}>
+                                {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                              </h4>
+                            </div>
+                          ) : (
+                            <h4 className={cx("action__price")}>
+                              {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                            </h4>
+                          )}
+                          <Button
+                            LinkComponent={Link}
+                            to={`/tours/${tour._id}`}
+                            variant="contained"
+                            color="primary"
+                            className={cx("vacation__item-btn")}
+                          >
+                            Xen chi tiết
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </li>
                 ))}
               </ul>
-              <div className={cx("pagination")}>
-                <Stack spacing={2}>
-                  <Pagination
-                    count={Math.ceil(filterTours.length / itemsPerPage)}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    color="primary"
-                  />
-                </Stack>
-              </div>
+              {filteredTours.length > itemsPerPage && (
+                <div className={cx("pagination")}>
+                  <Stack spacing={2}>
+                    <Pagination
+                      count={Math.ceil(filteredTours.length / itemsPerPage)}
+                      page={currentPage}
+                      onChange={handlePageChange}
+                      variant="outlined"
+                      sx={{
+                        "& .MuiPaginationItem-root": {
+                          color: "#3fd0d4",
+                          borderColor: "#3fd0d4",
+                          "&:hover": {
+                            backgroundColor: "#3fd0d4",
+                            color: "#fff",
+                          },
+                        },
+                        "& .MuiPaginationItem-root.Mui-selected": {
+                          backgroundColor: "#3fd0d4",
+                          color: "#fff",
+                          borderColor: "#3fd0d4",
+                          "&:hover": {
+                            backgroundColor: "#3fd0d4",
+                          },
+                        },
+                      }}
+                    />
+                  </Stack>
+                </div>
+              )}
             </div>
           </div>
         </div>
