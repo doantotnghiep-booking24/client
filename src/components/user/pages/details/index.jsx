@@ -149,7 +149,7 @@ function Details() {
       const res = await axios.get(`${api}/${id}`);
       const data = await res.data;
       console.log(data.data);
-      
+
       setReviews(data.data);
     } catch (error) {
       console.log(error);
