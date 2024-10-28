@@ -225,11 +225,11 @@ function Header() {
                   Chuyến đi
                 </Link>
               </li>
-              <li className={cx("header__item")}>
+              {/* <li className={cx("header__item")}>
                 <Link to="/booking" className={cx("header__link")}>
                   Đặt vé
                 </Link>
-              </li>
+              </li> */}
               <li className={cx("header__item")}>
                 <Link to="/booking-history" className={cx("header__link")}>
                   Lịch sửa đặt vé

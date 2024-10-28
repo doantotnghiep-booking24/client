@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./tours.module.scss";
 import classNames from "classnames/bind";
 import Slider from "@mui/material/Slider";
@@ -22,6 +22,11 @@ function Tour() {
     queryFn: fetchToursData,
     initialData: [],
   });
+if(isLoading){
+  console.log('đang tải dữ liệu');
+}else{
+  console.log(' tải dữ liệu thành công');
+}
 
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -34,7 +39,12 @@ function Tour() {
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-
+const refScroll = useRef(null)
+useEffect(() => {
+  if (refScroll) {
+    refScroll.current.scrollIntoView({ behavior: 'smooth' })
+  }
+}, [currentPage])
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedTours = tours.slice(startIndex, startIndex + itemsPerPage);
 
@@ -163,7 +173,7 @@ function Tour() {
                 </>
               ) : (
                 <>
-                  <div className={cx("category")}>
+                  <div ref={refScroll} className={cx("category")}>
                     <Tabs
                       value={selectedTab}
                       onChange={handleTabChange}
@@ -211,7 +221,7 @@ function Tour() {
                       />
                     </Tabs>
                   </div>
-                  <ul className={cx("content__home-list")}>
+                  <ul  className={cx("content__home-list")}>
                     {selectedTours.map((tour) => (
                       <li key={tour._id} className={cx("content__home-item")}>
                         <img
@@ -248,10 +258,10 @@ function Tour() {
                             <div className={cx("action")}>
                             {tour.Price_Tour && tour.After_Discount > 0 ? <div>
                                 <span className={cx("action__price-discount")}>
-                                  {tour.After_Discount.toLocaleString('vi-VN')+'VND'}
+                                  {tour.Price_Tour.toLocaleString('vi-VN')+'VND'}
                                 </span>
                                 <h4 className={cx("action__price")}>
-                                  {tour.Price_Tour.toLocaleString('vi-VN')}VND
+                                  {tour.After_Discount.toLocaleString('vi-VN')}VND
                                 </h4>
                               </div> : <h4 className={cx("action__price")}>
                                 {tour.Price_Tour.toLocaleString('vi-VN')}VND
