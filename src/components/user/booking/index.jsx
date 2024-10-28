@@ -20,7 +20,6 @@ function Booking() {
   const { Data_ticket } = useSelector((state) => state.ticket)
   const [paymentMethod, setPaymentMethod] = useState("");
   const [getFormValue, setGetFormValue] = useState({
-    Create_By: 'Nguyễn Ngọc Hùng',
     Name_Custommer: '',
     Date_Of_Birth: '',
     Sex_Custommer: '',
@@ -40,8 +39,7 @@ function Booking() {
 
   useEffect(() => {
     dispatch(fetchServicesData());
-  }, [dispatch]);
-  console.log(Data_ticket);
+  }, [dispatch])
 
   useEffect(() => {
     const CallTicket = async () => {
@@ -131,10 +129,10 @@ function Booking() {
             }
             const res = await CreatePayment_Direct(data)
             console.log(res);
-            if(res.status === 200 && res.statusText === 'OK'){
+            if (res.status === 200 && res.statusText === 'OK') {
               Swal.fire('Thành công!', 'Đặt vé thành công.', 'success');
 
-                window.location.href = 'http://localhost:5173/booking-history'
+              window.location.href = 'http://localhost:5173/booking-history'
 
             }
           }

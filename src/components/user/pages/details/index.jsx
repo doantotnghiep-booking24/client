@@ -18,10 +18,12 @@ import SideBarComponent from "./sidebar/SideBarComment";
 import { useEffect, useRef, useState } from "react";
 import { CreateTicket } from "../../../../services/PostTicket";
 import { useDispatch, useSelector } from "react-redux";
+import Cookies from 'js-cookie'
 const cx = classNames.bind(styles);
 
 function Details() {
   const { id } = useParams();
+  const id_user = JSON.parse(Cookies.get('auth'))._id
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState()
   const [validate, setValidate] = useState(true)
@@ -58,7 +60,7 @@ function Details() {
       const ResponseTicket = async () => {
         const data = {
           id_tour: tour?._id,
-          id_user: 1,
+          id_user: id_user,
           id_Service: 2,
           id_Custommer: 3,
           id_Voucher: 4,
@@ -97,35 +99,6 @@ function Details() {
     const { name, value } = e.target
     setValueform({ ...valueform, [name]: parseInt(value) })
   }
-  // useEffect(() => {
-  //   const ResponseTicket = async () => {
-  //         const data = {
-  //           id_tour: tour?._id,
-  //           id_user: 1,
-  //           id_Service: 2,
-  //           id_Custommer: 3,
-  //           id_Voucher: 4,
-  //           Departure_Location: tour?.Start_Tour,
-  //           Destination: tour.End_Tour,
-  //           Departure_Date: valueDate,
-  //           Departure_Time: '8 : 00',
-  //           Total_DateTrip: tour?.total_Date,
-  //           Adult_fare: adult,
-  //           Children_fare: children,
-  //           Adult: valueform.Adult,
-  //           Children: valueform.Children,
-  //           Total_price: total,
-  //           Created_at_Booking: new Date(),
-  //           Status_Payment: 'Chưa Thanh Toán',
-  //           Payment_Method: ''
-  //         }
-  //         const res = await CreateTicket(data)
-  //         if(res.status === 200 && res.statusText === 'OK'){
-  //           navigate('/booking')
-  //           ResponseTicket()
-  //         }
-  //       }
-  // }, [idtour])
   const options = [
     { value: "date", label: "8h30 - 28-08-2004" },
     { value: "date", label: "8h30 - 28-08-2004" },
