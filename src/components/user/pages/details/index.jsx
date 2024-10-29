@@ -23,6 +23,7 @@ const cx = classNames.bind(styles);
 
 function Details() {
   const { id } = useParams();
+  // comment
   const id_user = JSON.parse(Cookies.get('auth'))._id
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState()
