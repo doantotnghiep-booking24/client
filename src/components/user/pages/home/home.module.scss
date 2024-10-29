@@ -125,6 +125,11 @@
   font-size: var(--font-size);
   line-height: 25px;
   text-align: justify;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .vacation__item-btn {
   margin-top: 20px !important;

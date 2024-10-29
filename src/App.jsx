@@ -10,27 +10,30 @@ import Booking from "./components/user/booking";
 import BookingHistory from "./components/user/booking__history";
 import FormPasswordReset from "./components/user/auth/reset__password";
 import SiginPage from "./components/user/pages/siginPage";
+
 import Tour from "./components/user/tours";
+import NewsDetail from "./components/user/news__detail";
 import "./styles/app.module.scss";
 
 function App() {
-
   return (
     <Router>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/list" element={<ListTravel />} />
+        <Route path="/booking/:id" element={<Booking />} />
+        <Route path="/news-detail" element={<NewsDetail />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour />} />
         <Route path="/tours/:id" element={<Details />} />
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />
+
       </Routes>
       <Footer />
     </Router>
-
   );
 }
 
