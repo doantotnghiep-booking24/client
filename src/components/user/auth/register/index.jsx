@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import axios from "axios";
+import SocialLogin from "../login/component/SocialLogin";
 function SignupForm({ onSwitchMode }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [valueInput, setValueInput] = useState({
@@ -158,7 +159,9 @@ function SignupForm({ onSwitchMode }) {
               "Đăng ký"
             )}
           </Button>
+          <SocialLogin />
         </Stack>
+
         <Stack
           direction="row"
           justifyContent="center"

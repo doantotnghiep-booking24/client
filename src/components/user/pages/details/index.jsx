@@ -231,7 +231,7 @@ function Details() {
                     <Slider {...settings}>
                       {reviews?.map((review, index) => (
                         <div key={index} className={cx("slider-item")}>
-                          <h3 style={{ margin: 0 }}>{review.userName}</h3>
+                          <h3 style={{ margin: 0 }}>{review?.userName}</h3>
                           <p
                             className="review-date"
                             style={{ margin: 0, fontSize: "12px" }}
