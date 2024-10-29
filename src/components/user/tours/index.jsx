@@ -150,7 +150,6 @@ function Tour() {
                   <div key={type._id} className={cx("type-item")}>
                     <Checkbox
                       name={type.Name_Type}
-                      onChange={(e) => handleTourNameChange(e)}
                       sx={{
                         color: "#3fd0d4",
                         "&.Mui-checked": {
