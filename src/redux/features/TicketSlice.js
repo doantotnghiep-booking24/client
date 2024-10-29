@@ -13,8 +13,8 @@ export const TicketSlice = createSlice({
     },
     Tickets_History: (state, action) => {
       const id_user = JSON.parse(Cookies.get('auth'))._id
-      state.Ticket_Filter = action.payload.filter(ticket => ticket.id_user === id_user)
-      console.log(state.Ticket_Filter);
+      state.Ticket_Filter = action.payload.filter(ticket => ticket.id_user === id_user && ticket.isCancle === true)
+      // console.log(state.Ticket_Filter);
     }
   },
 });

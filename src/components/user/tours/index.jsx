@@ -53,7 +53,7 @@ function Tour() {
         selectedCategory === "all" || tour.id_Category === selectedCategory;
       const checkRating =
         selectedRating === 0 || tour.totalReview >= selectedRating;
-
+      console.log(tour);
       return checkPrice && checkTourName && checkCategory && checkRating;
     });
   };
