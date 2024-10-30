@@ -17,6 +17,7 @@ import { addAuth } from "../../../../redux/features/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Swal from "sweetalert2";
+import SocialLogin from "./component/SocialLogin";
 function SigninForm({ onSwitchMode }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [valueInput, setValueInput] = useState({
@@ -169,6 +170,8 @@ function SigninForm({ onSwitchMode }) {
               " Đăng nhập"
             )}
           </Button>
+
+        <SocialLogin/>
         </Stack>
         <Stack
           direction="row"

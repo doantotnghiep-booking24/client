@@ -14,6 +14,7 @@ import styles from "./list.module.scss";
 import classNames from "classnames/bind";
 import formatDate from "../../../../../../utils/formatDate";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 const cx = classNames.bind(styles);
 
 const CommentList = ({
@@ -28,6 +29,16 @@ const CommentList = ({
   handleDislike,
 }) => {
   const dataAuth = useSelector((state) => state.auth);
+
+  const user = (() => {
+    try {
+      return JSON.parse(Cookies.get("auth")) || null;
+    } catch (error) {
+      console.error("Lỗi khi parse JSON từ cookie:", error);
+      return null; 
+    }
+  })();
+
   return (
     <div>
       <div className={cx("box-top")}>
@@ -36,11 +47,14 @@ const CommentList = ({
         </div>
         {dataComment?.map((item, index) => (
           <div key={index} className={cx("slider-item")}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar
+              alt="Remy Sharp"
+              src={item?.photoUrl ? item?.photoUrl : "L"}
+            />
             <div
               style={{ display: "flex", flexDirection: "column", gap: "5px" }}
             >
-              <h3 style={{ margin: 0 }}>{item.userName}</h3>
+              <h3 style={{ margin: 0 }}>{item?.userName}</h3>
               <p
                 className="review-date"
                 style={{ margin: 0, fontSize: "12px" }}
@@ -49,11 +63,11 @@ const CommentList = ({
               </p>
               <Rating
                 name="size-small"
-                defaultValue={item.rating}
-                value={item.rating}
+                defaultValue={item?.rating}
+                value={item?.rating}
                 size="small"
               />
-              <div key={item._id}>
+              <div key={item?._id}>
                 <p
                   className="review-content"
                   style={{
@@ -67,8 +81,8 @@ const CommentList = ({
                 {item?.Image?.map((imgItem, imgIndex) => (
                   <img
                     key={imgIndex}
-                    src={`${imgItem.path}`}
-                    alt={imgItem.title}
+                    src={`${imgItem?.path}`}
+                    alt={imgItem?.title}
                     style={{
                       width: "80px",
                       height: "100px",
@@ -96,10 +110,10 @@ const CommentList = ({
                 <Button
                   variant="text"
                   sx={{ display: "flex", alignItems: "center", gap: "3px" }}
-                  onClick={() => handleLike(item._id)}
+                  onClick={() => handleLike(item?._id)}
                 >
                   <span>Hữu ích</span>
-                  {item?.likes?.includes(dataAuth._id) ? (
+                  {item?.likes?.includes(dataAuth?._id) ? (
                     <ThumbUpIcon />
                   ) : (
                     <ThumbUpOffAltIcon />
@@ -111,10 +125,10 @@ const CommentList = ({
                 <Button
                   variant="text"
                   sx={{ display: "flex", alignItems: "center", gap: "3px" }}
-                  onClick={() => handleDislike(item._id)}
+                  onClick={() => handleDislike(item?._id)}
                 >
                   <span>Không hữu ích</span>
-                  {item?.dislikes?.includes(dataAuth._id) ? (
+                  {item?.dislikes?.includes(dataAuth?._id) ? (
                     <ThumbDownIcon />
                   ) : (
                     <ThumbDownOffAltIcon />
