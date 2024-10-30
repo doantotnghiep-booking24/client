@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import Cookies from "js-cookie";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 const style = {
@@ -43,12 +43,20 @@ export default function ModalAddNew({
   });
   const [urlImg, setUrlImg] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const socketRef = React.useRef(null); // Tạo tham chiếu cho socket
-  const dataAuth = useSelector((state) => state.auth)
+  const socketRef = React.useRef(null);
+  // kĩ thuật IIFE là gì quên rồi kiểu như mới vào gọi hàm này liền
+  const user = (() => {
+    try {
+      return JSON.parse(Cookies.get("auth")) || null;
+    } catch (error) {
+      console.error("Lỗi khi parse JSON từ cookie:", error);
+      return null;
+    }
+  })();
+
   React.useEffect(() => {
     // Kết nối đến Socket.IO server
-    socketRef.current = io("http://localhost:3001"); // Lưu socket vào ref
-
+    socketRef.current = io("http://localhost:3001");
     socketRef.current.on("connect", () => {
       console.log("Connecting...");
     });
@@ -92,7 +100,7 @@ export default function ModalAddNew({
     const formData = new FormData();
 
     // Thêm dữ liệu vào formData
-    formData.append("userId", dataAuth._id);
+    formData.append("userId", user._id);
     formData.append("tourId", id);
     formData.append("content", valueInput.content);
     formData.append("rating", valueInput.rating);
