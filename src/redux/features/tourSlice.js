@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
 const initialState = {
   tours: [],
   tour: null,
@@ -52,12 +53,15 @@ export const fetchTourDetails = (id) => async (dispatch) => {
   dispatch(fetchStart());
   try {
     const response = await axios.get(`http://localhost:3001/V1/Tours/DetailTour/${id}`);
+
     if (response.data && response.data.detailTour) {
       dispatch(fetchTourDetailSuccess(response.data.detailTour[0]));
     } else {
       throw new Error('Lỗi');
     }
   } catch (error) {
+
+
     dispatch(fetchFailure(error.message));
   }
 };

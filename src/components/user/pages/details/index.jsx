@@ -5,16 +5,16 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
-import { useEffect, useState } from "react";
+import { CreateTicket } from "../../../../services/PostTicket";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTourDetails } from "../../../../redux/features/tourSlice";
-
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-
+import Cookies from "js-cookie";
 import classNames from "classnames/bind";
 import styles from "./details.module.scss";
 import Slider from "react-slick";
@@ -22,43 +22,60 @@ import SideBarComponent from "./sidebar/SideBarComment";
 import ModalDetailReview from "./modal/ModalDetailReview";
 import axios from "axios";
 import formatDate from "../../../../utils/formatDate";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+
 const cx = classNames.bind(styles);
 
 function Details() {
-<<<<<<< HEAD
   const { id } = useParams();
-  // comment
-  const id_user = JSON.parse(Cookies.get('auth'))._id
+  const dispatch = useDispatch();
+  const [reviews, setReviews] = useState([]);
+  const userCookie = Cookies.get("auth");
+  const id_user = userCookie ? JSON.parse(userCookie)._id : null; // hoặc giá trị mặc định
+  const { tour, loading, error } = useSelector((state) => state.tours);
   const navigate = useNavigate();
-  const [valueDate, setValueDate] = useState()
-  const [validate, setValidate] = useState(true)
+  const [valueDate, setValueDate] = useState();
+  const [validate, setValidate] = useState(true);
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
-  })
-  const RefScroll = useRef(null)
-  const RefFocus = useRef(null)
+  });
+  const RefScroll = useRef(null);
+  const RefFocus = useRef(null);
+
   useEffect(() => {
     if (RefScroll) {
-      RefScroll.current.scrollIntoView({ behavior: 'smooth' })
+      RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [])
+  }, []);
 
+  // const { data: tour, isLoading } = useQuery({
+  //   queryKey: ["Tour", id],
+  //   queryFn: () => fetchTourDetails(id),
+  // });
 
+  let adult =
+    tour?.Price_Tour && tour?.After_Discount > 0
+      ? tour?.After_Discount
+      : tour?.Price_Tour;
+  adult = adult * valueform.Adult;
+  let children =
+    tour?.Price_Tour && tour?.After_Discount > 0
+      ? (tour?.After_Discount * (100 - 50)) / 100
+      : (tour?.Price_Tour * (100 - 50)) / 100;
+  children = children * valueform.Children;
+  let total = adult + children;
 
-  let adult = tour?.Price_Tour && tour?.After_Discount > 0 ? tour?.After_Discount : tour?.Price_Tour
-  adult = adult * valueform.Adult
-  let children = tour?.Price_Tour && tour?.After_Discount > 0 ? tour?.After_Discount * (100 - 50) / 100 : tour?.Price_Tour * (100 - 50) / 100
-  children = children * valueform.Children
-  let total = adult + children
   if (valueform.Adult <= 0) {
-    total = total - adult
+    total = total - adult;
   } else if (valueform.Children <= 0) {
-    total = total - children
+    total = total - children;
   }
-  const handleCreateTicket = () => {
+
+  const handleCreateTicket = async () => {
     if (valueDate) {
-      setValidate(true)
+      setValidate(true);
       const ResponseTicket = async () => {
         const data = {
           id_tour: tour?._id,
@@ -70,7 +87,7 @@ function Details() {
           Destination: tour?.End_Tour,
           Title_Tour: tour?.Title_Tour,
           Departure_Date: valueDate,
-          Departure_Time: '8 : 00',
+          Departure_Time: "8:00",
           Total_DateTrip: tour?.total_Date,
           Adult_fare: adult,
           Children_fare: children,
@@ -78,32 +95,28 @@ function Details() {
           Children: valueform.Children,
           Total_price: total,
           Created_at_Booking: new Date(),
-          Status_Payment: 'Chưa Thanh Toán',
-          Payment_Method: ''
-        }
+          Status_Payment: "Chưa Thanh Toán",
+          Payment_Method: "",
+        };
         setTimeout(async () => {
-          const res = await CreateTicket(data)
-          // localStorage.setItem("ticKetId",`${res.data.ticKetId.insertedId}`);
-          if (res.status === 200 && res.statusText === 'OK') {
-            navigate(`/booking/${res.data.ticKetId.insertedId}`)
+          const res = await CreateTicket(data);
+          if (res.status === 200 && res.statusText === "OK") {
+            navigate(`/booking/${res.data.ticKetId.insertedId}`);
           }
-        }, 2000)
-      }
-      ResponseTicket()
+        }, 2000);
+      };
+      ResponseTicket();
     } else {
-      setValidate(false)
-      RefFocus.current.focus()
-      RefScroll.current.scrollIntoView({ behavior: 'smooth' })
+      setValidate(false);
+      RefFocus.current.focus();
+      RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
+  };
 
-  }
   const handleGetvalueForm = (e) => {
-    const { name, value } = e.target
-    setValueform({ ...valueform, [name]: parseInt(value) })
-  }
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [reviews, setReviews] = useState([]);
+    const { name, value } = e.target;
+    setValueform({ ...valueform, [name]: parseInt(value) });
+  };
 
   const options = [
     { value: "date", label: "8h30 - 28-08-2004" },
@@ -148,76 +161,8 @@ function Details() {
     ],
   };
 
-  // const reviews = [
-  //   {
-  //     name: "Edward",
-  //     date: "October 1, 2024",
-  //     content:
-  //       "“I was thoroughly impressed with the amenities in this serviced apartment. The infinity pool was a highlight, perfect for relaxation after a busy day exploring the city.”",
-  //     rating: 5, // Rating out of 5
-  //   },
-  //   {
-  //     name: "Alice",
-  //     date: "October 2, 2024",
-  //     content:
-  //       "“The location was fantastic, and the staff were incredibly helpful throughout my stay.”",
-  //     rating: 4, // Rating out of 5
-  //   },
-  //   {
-  //     name: "John",
-  //     date: "October 3, 2024",
-  //     content:
-  //       "“Clean, spacious, and very comfortable. I will definitely be coming back.”",
-  //     rating: 5, // Rating out of 5
-  //   },
-  //   {
-  //     name: "Maria",
-  //     date: "October 4, 2024",
-  //     content:
-  //       "“A wonderful experience! The service was top-notch, and the breakfast was delightful.”",
-  //     rating: 5, // Rating out of 5
-  //   },
-  //   {
-  //     name: "David",
-  //     date: "October 5, 2024",
-  //     content: "“I loved the view from my room. It was breathtaking!”",
-  //     rating: 4, // Rating out of 5
-  //   },
-  //   {
-  //     name: "Sophia",
-  //     date: "October 6, 2024",
-  //     content:
-  //       "“Absolutely perfect for a weekend getaway. Highly recommended!”",
-  //     rating: 5, // Rating out of 5
-  //   },
-  //   {
-  //     name: "Mike",
-  //     date: "October 7, 2024",
-  //     content:
-  //       "“Great amenities and a beautiful room. I really enjoyed my stay.”",
-  //     rating: 4, // Rating out of 5
-  //   },
-  //   {
-  //     name: "Emma",
-  //     date: "October 8, 2024",
-  //     content: "“Wonderful stay! The staff went above and beyond.”",
-  //     rating: 5, // Rating out of 5
-  //   },
-  //   {
-  //     name: "James",
-  //     date: "October 9, 2024",
-  //     content: "“A perfect place for families. Very kid-friendly!”",
-  //     rating: 4, // Rating out of 5
-  //   },
-  // ];
-
-
-  const dispatch = useDispatch();
-  const { tour, loading, error } = useSelector((state) => state.tours);
-
   useEffect(() => {
     dispatch(fetchTourDetails(id));
-
     getCommentRating();
   }, [dispatch, id]);
 
@@ -227,17 +172,14 @@ function Details() {
       const res = await axios.get(`${api}/${id}`);
       const data = await res.data;
       console.log(data.data);
-
       setReviews(data.data);
     } catch (error) {
       console.log(error);
     }
   };
-  if (loading) return <div>loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className={cx("wrap")}>
+    <div ref={RefScroll} className={cx("wrap")}>
       <div className={cx("banner")}>
         <img
           src="https://imgcdn.tapchicongthuong.vn/tcct-media/20/5/20/daot_ly_son.jpg"
@@ -252,12 +194,14 @@ function Details() {
             <div className={cx("content__main")}>
               <div className={cx("content__home")}>
                 <img
-                  src={tour.Image_Tour[0].path}
-                  alt={tour.Name_Tour}
+                  src={tour?.Image_Tour[0]?.path}
+                  alt={tour?.Name_Tour}
                   className={cx("content__home-img")}
                 />
                 <div className={cx("content__home-text")}>
-                  <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1>
+                  <h1 className={cx("content__home-name")}>
+                    {tour?.Name_Tour}
+                  </h1>
                   <div className={cx("content__home-title")}>
                     <p className={cx("content__home-heading")}>
                       {tour.Title_Tour}
@@ -265,22 +209,6 @@ function Details() {
                     <span className={cx("content__home-desc")}>
                       {tour.Description_Tour}
                     </span>
-                    {/* <div className={cx("content__home-sub-heading")}>
-                    Tàu biển từ cảng Sa Kỳ ra đảo Lý Sơn có giá 150.000đ -
-                    200.000đ/lượt tùy vào loại tàu thường hay tàu cao tốc, thời
-                    gian di chuyển sẽ mất 2 tiếng. Bạn có thể đặt mua vé tàu
-                    online hoặc mua vé tại cảng đều được.
-                  </div>
-                  <span className={cx("content__home-sub-desc")}>
-                    Phương tiện di chuyển chủ yếu khi đi du lịch Lý Sơn tự túc
-                    là xe máy, có rất nhiều điểm thuê xe máy trên đảo với mức
-                    giá từ 120.000đ - 200.000đ/ngày/xe. Bên cạnh đó, đa phần các
-                    khách sạn trên đảo đều có dịch vụ cho thuê xe nên bạn cũng
-                    có thể thuê luôn ở khách sạn mình đặt mà không cần để lại
-                    CMND hay cọc tiền thuê. Di chuyển giữa các đảo Lớn, đảo Bé
-                    và hòn Mù Cu thì sẽ đi bằng tàu cao tốc với giá khoảng
-                    35.000đ/lượt.
-                  </span> */}
                   </div>
                   <div className={cx("content__home-image")}>
                     <img src={tour.Image_Tour[1].path} alt={tour.Name_Tour} />
@@ -290,59 +218,21 @@ function Details() {
                       className={cx("content__home-image-w")}
                     />
                   </div>
-                  {/* <p className={cx("content__home-desc")}>
-                  Ngoài ra, mình sẽ gợi ý thêm cho các bạn một số địa chỉ lưu
-                  trú tại đảo như Mường Thanh Holiday Lý Sơn với giá từ
-                  1.400.000đ/đêm, khách sạn Biển Ngọc Lý Sơn có giá từ
-                  300.000đ/đêm, Hoàng Sa Resort giá từ 400.000đ/đêm,... đều là
-                  những khách sạn được rất nhiều khách du lịch Lý Sơn tự túc yêu
-                  thích.
-                </p> */}
                 </div>
 
                 <div className="reviews">
-                  <h3 style={{ marginTop: 20 }}>Đánh giá</h3>
+                  <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
                   <div
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
                     <Slider {...settings}>
-                      {reviews?.map((review, index) => (
+                      {reviews.map((review, index) => (
                         <div key={index} className={cx("slider-item")}>
-                          <h3 style={{ margin: 0 }}>{review.userName}</h3>
-                          <p
-                            className="review-date"
-                            style={{ margin: 0, fontSize: "12px" }}
-                          >
-                            {formatDate(review?.Create_At)}
-                          </p>
-                          <Rating
-                            name="size-small"
-                            defaultValue={review?.rating}
-                            size="small"
-                            style={{ margin: 0 }}
-                          />
-                          <p
-                            className="review-content"
-                            style={{
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                            }}
-                          >
-                            {review?.content}
-                          </p>
-                          <Button onClick={() => setIsOpen(true)}>
-                            Read more
-                          </Button>
-
-                          <ModalDetailReview
-                            isOpen={isOpen}
-                            toggleModelReviewDetail={(value) => {
-                              setIsOpen(value);
-                            }}
-                            data={review}
-                          />
+                          <h3>{review.name}</h3>
+                          <p className="review-date">{review.date}</p>
+                          <p className="review-content">{review.content}</p>
+                          <a className={cx("read-more-button")}>Read more</a>
                         </div>
                       ))}
                     </Slider>{" "}
@@ -364,8 +254,8 @@ function Details() {
                 <div className={cx("aside__booking")}>
                   <div className={cx("aside__booking-action")}>
                     <div className={cx("heading")}>
-                      <h5>Quảng Ngãi</h5>
-                      <span>Đảo Lý Sơn</span>
+                      <h5>{tour.Name_Tour}</h5>
+                      <span>{tour.Title_Tour}</span>
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
@@ -379,6 +269,24 @@ function Details() {
                       </div>
                     </div>
                   </div>
+                  <div className={cx("aside__date")}>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      locale="vi"
+                    >
+                      <DatePicker
+                        onChange={(e) => setValueDate(e)}
+                        name="Date_time"
+                        ref={RefFocus}
+                        minDate={dayjs()}
+                      />
+                    </LocalizationProvider>
+                  </div>
+                  <p style={{ marginLeft: "12px", color: "red" }}>
+                    {validate === false && valueDate === undefined
+                      ? "Bạn cần chọn ngày đi của tour"
+                      : ""}
+                  </p>
                   <div className={cx("aside__booking-list")}>
                     <Select
                       options={options}
@@ -397,10 +305,21 @@ function Details() {
                             marginLeft: "10px",
                             width: "40px",
                           }}
+                          value={
+                            valueform.Adult <= 0
+                              ? (valueform.Adult = 0)
+                              : valueform.Adult
+                          }
+                          name="Adult"
+                          onChange={handleGetvalueForm}
                         />
+
                         <div className={cx("rate")}>
                           <span className={cx("rate-text")}>
-                            28.000.000 VNĐ
+                            {valueform.Adult >= 1
+                              ? adult.toLocaleString("vi-VN")
+                              : 0}
+                            VNĐ
                           </span>
                         </div>
                       </div>
@@ -415,10 +334,20 @@ function Details() {
                             marginLeft: "10px",
                             width: "40px",
                           }}
+                          value={
+                            valueform.Children <= 0
+                              ? (valueform.Children = 0)
+                              : valueform.Children
+                          }
+                          name="Children"
+                          onChange={handleGetvalueForm}
                         />
                         <div className={cx("rate")}>
                           <span className={cx("rate-text")}>
-                            28.000.000 VNĐ
+                            {valueform.Children >= 1
+                              ? children.toLocaleString("vi-VN")
+                              : 0}
+                            VND
                           </span>
                         </div>
                       </div>
@@ -426,14 +355,14 @@ function Details() {
                         <span className="total-type">Tổng tiền</span>
                         <div className={cx("rate")}>
                           <span className={cx("rate-text")}>
-                            28.000.000 VNĐ
+                            {total.toLocaleString("vi-VN")}VNĐ
                           </span>
                         </div>
                       </div>
                     </div>
                     <Button
-                      LinkComponent={Link}
-                      to="/booking"
+                      // LinkComponent={Link}
+                      // to="/booking"
                       variant="outlined"
                       type="button"
                       sx={{
@@ -445,15 +374,11 @@ function Details() {
                         },
                       }}
                       className={cx("aside__booking-btn")}
+                      onClick={handleCreateTicket}
                     >
                       Đặt ngay
                     </Button>
                   </div>
-                </div>
-                <div className={cx("aside__date")}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <StaticDatePicker />
-                  </LocalizationProvider>
                 </div>
                 <ul className={cx("aside__list")}>
                   <h4 className={cx("aside__list-heding")}>Bạn đã thích</h4>
