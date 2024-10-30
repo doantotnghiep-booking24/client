@@ -27,6 +27,7 @@
     "classnames": "^2.5.1",
     "date-fns": "^2.25.0",
     "dayjs": "^1.11.12",
+    "firebase": "^10.14.1",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",

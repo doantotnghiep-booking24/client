@@ -20,8 +20,7 @@ import ModalReviewImg from "../modal/ModalReviewImg";
 import LoadingSidebar from "../loading/LoadingSidebar";
 import CommentList from "./CommentList/CommentList";
 import { useSelector } from "react-redux";
-
-
+import Cookies from "js-cookie";
 const cx = classNames.bind(styles);
 
 export default function SideBarComponent({ reviewButton }) {
@@ -64,7 +63,6 @@ export default function SideBarComponent({ reviewButton }) {
     getDataTour();
   }, [id]);
 
-
   const currentComments = useMemo(() => {
     const indexOfLastComment = currentPage * commentsPerPage;
     const indexOfFirstComment = indexOfLastComment - commentsPerPage;
@@ -75,8 +73,7 @@ export default function SideBarComponent({ reviewButton }) {
     try {
       const result = await fetch(`${api}/${id}`);
       const data = await result.json();
-      console.log(data);
-      
+
       setDataComment(data.data);
     } catch (error) {
       console.log(error);
@@ -92,8 +89,6 @@ export default function SideBarComponent({ reviewButton }) {
       console.log(error);
     }
   };
-
- 
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (

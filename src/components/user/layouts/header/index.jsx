@@ -43,7 +43,6 @@ function Header() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const dataAuth = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   // Lấy thông tin auth từ cookie
   const getDataFromCookies = () => {
@@ -193,7 +192,11 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}> L</Avatar>
+                  <Avatar
+                    sx={{ width: 32, height: 32 }}
+                    alt={dataAuth.Name}
+                    src={dataAuth.photoUrl ? dataAuth.photoUrl : "L"}
+                  ></Avatar>
                 </IconButton>
               </Tooltip>
               <label htmlFor="">{dataAuth && dataAuth.Name}</label>
@@ -309,7 +312,7 @@ function Header() {
               </li> */}
               <li className={cx("header__item")}>
                 <Link to="/news-detail" className={cx("header__link")}>
-                  chi tiết 
+                  chi tiết
                 </Link>
               </li>
               <li className={cx("header__item")}>

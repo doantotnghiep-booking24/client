@@ -3,30 +3,34 @@ import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import { TextField, Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import { Link, useNavigate } from "react-router-dom";
-import { DatePicker, LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
+import { Link } from "react-router-dom";
+import Rating from "@mui/material/Rating";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import { CreateTicket } from "../../../../services/PostTicket";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import { useQuery } from '@tanstack/react-query';
+import { useDispatch, useSelector } from "react-redux";
+// import { fetchTourDetails } from "../../../../redux/features/tourSlice";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import Cookies from "js-cookie";
 import classNames from "classnames/bind";
 import styles from "./details.module.scss";
 import Slider from "react-slick";
 import SideBarComponent from "./sidebar/SideBarComment";
-import { useEffect, useRef, useState } from "react";
-import { CreateTicket } from "../../../../services/PostTicket";
-import { useDispatch, useSelector } from "react-redux";
 import { Tabs, Tab } from "@mui/material";
-import Cookies from 'js-cookie'
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { fetchTourDetails } from "../../../../services/fetchTourDetails";
+import dayjs from "dayjs";
+import axios from "axios";
 const cx = classNames.bind(styles);
 
 function Details() {
   const { id } = useParams();
   const Name_user = JSON.parse(Cookies.get('auth')).Name
-
+  const [reviews, setReviews] = useState([]);
   const id_user = JSON.parse(Cookies.get('auth'))._id
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState()
@@ -37,6 +41,7 @@ function Details() {
     googleMapsApiKey: 'AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc',
   });
 
+  console.log(reviews);
 
   const [valueform, setValueform] = useState({
     Adult: 1,
@@ -53,28 +58,35 @@ function Details() {
   }
   useEffect(() => {
     if (RefScroll) {
-      RefScroll.current.scrollIntoView({ behavior: 'smooth' })
+      RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [])
+  }, []);
 
   const { data: tour, isLoading } = useQuery({
     queryKey: ["Tour", id],
     queryFn: () => fetchTourDetails(id),
   });
 
-  let adult = tour?.Price_Tour && tour?.After_Discount > 0 ? tour?.After_Discount : tour?.Price_Tour
-  adult = adult * valueform.Adult
-  let children = tour?.Price_Tour && tour?.After_Discount > 0 ? tour?.After_Discount * (100 - 50) / 100 : tour?.Price_Tour * (100 - 50) / 100
-  children = children * valueform.Children
-  let total = adult + children
+  let adult =
+    tour?.Price_Tour && tour?.After_Discount > 0
+      ? tour?.After_Discount
+      : tour?.Price_Tour;
+  adult = adult * valueform.Adult;
+  let children =
+    tour?.Price_Tour && tour?.After_Discount > 0
+      ? (tour?.After_Discount * (100 - 50)) / 100
+      : (tour?.Price_Tour * (100 - 50)) / 100;
+  children = children * valueform.Children;
+  let total = adult + children;
+
   if (valueform.Adult <= 0) {
-    total = total - adult
+    total = total - adult;
   } else if (valueform.Children <= 0) {
-    total = total - children
+    total = total - children;
   }
-  const handleCreateTicket = () => {
+  const handleCreateTicket = async () => {
     if (valueDate) {
-      setValidate(true)
+      setValidate(true);
       const ResponseTicket = async () => {
         const data = {
           id_tour: tour?._id,
@@ -86,7 +98,7 @@ function Details() {
           Destination: tour?.End_Tour,
           Title_Tour: tour?.Title_Tour,
           Departure_Date: valueDate,
-          Departure_Time: '8 : 00',
+          Departure_Time: "8:00",
           Total_DateTrip: tour?.total_Date,
           Adult_fare: adult,
           Children_fare: children,
@@ -94,29 +106,29 @@ function Details() {
           Children: valueform.Children,
           Total_price: total,
           Created_at_Booking: new Date(),
-          Status_Payment: 'Chưa Thanh Toán',
-          Payment_Method: ''
-        }
+          Status_Payment: "Chưa Thanh Toán",
+          Payment_Method: "",
+        };
         setTimeout(async () => {
-          const res = await CreateTicket(data)
-          // localStorage.setItem("ticKetId",`${res.data.ticKetId.insertedId}`);
-          if (res.status === 200 && res.statusText === 'OK') {
-            navigate(`/booking/${res.data.ticKetId.insertedId}`)
+          const res = await CreateTicket(data);
+          if (res.status === 200 && res.statusText === "OK") {
+            navigate(`/booking/${res.data.ticKetId.insertedId}`);
           }
-        }, 2000)
-      }
-      ResponseTicket()
+        }, 2000);
+      };
+      ResponseTicket();
     } else {
-      setValidate(false)
-      RefFocus.current.focus()
-      RefScroll.current.scrollIntoView({ behavior: 'smooth' })
+      setValidate(false);
+      RefFocus.current.focus();
+      RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
+  };
 
-  }
   const handleGetvalueForm = (e) => {
-    const { name, value } = e.target
-    setValueform({ ...valueform, [name]: parseInt(value) })
-  }
+    const { name, value } = e.target;
+    setValueform({ ...valueform, [name]: parseInt(value) });
+  };
+
   const options = [
     { value: "date", label: "8h30 - 28-08-2004" },
     { value: "date", label: "8h30 - 28-08-2004" },
@@ -160,59 +172,24 @@ function Details() {
     ],
   };
 
-  const reviews = [
-    {
-      name: "Edward",
-      date: "October 1, 2024",
-      content:
-        "“I was thoroughly impressed with the amenities in this serviced apartment. The infinity pool was a highlight, perfect for relaxation after a busy day exploring the city.”",
-    },
-    {
-      name: "Alice",
-      date: "October 2, 2024",
-      content:
-        "“The location was fantastic, and the staff were incredibly helpful throughout my stay.”",
-    },
-    {
-      name: "John",
-      date: "October 3, 2024",
-      content:
-        "“Clean, spacious, and very comfortable. I will definitely be coming back.”",
-    },
-    {
-      name: "Maria",
-      date: "October 4, 2024",
-      content:
-        "“A wonderful experience! The service was top-notch, and the breakfast was delightful.”",
-    },
-    {
-      name: "David",
-      date: "October 5, 2024",
-      content: "“I loved the view from my room. It was breathtaking!”",
-    },
-    {
-      name: "Sophia",
-      date: "October 6, 2024",
-      content:
-        "“Absolutely perfect for a weekend getaway. Highly recommended!”",
-    },
-    {
-      name: "Mike",
-      date: "October 7, 2024",
-      content:
-        "“Great amenities and a beautiful room. I really enjoyed my stay.”",
-    },
-    {
-      name: "Emma",
-      date: "October 8, 2024",
-      content: "“Wonderful stay! The staff went above and beyond.”",
-    },
-    {
-      name: "James",
-      date: "October 9, 2024",
-      content: "“A perfect place for families. Very kid-friendly!”",
-    },
-  ];
+  useEffect(() => {
+    // dispatch(fetchTourDetails(id));
+    getCommentRating();
+  }, [id]);
+
+  const getCommentRating = async () => {
+    const api = "http://localhost:3001/V1/Tours/AllComment";
+    try {
+      const res = await axios.get(`${api}/${id}`);
+      console.log(res.data);
+
+      const data = await res.data;
+      console.log(data.data);
+      setReviews(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div ref={RefScroll} className={cx("wrap")}>
@@ -228,10 +205,10 @@ function Details() {
         <div className={cx("container")}>
           <div className={cx("content")}>
             <div className={cx("content__main")}>
-
               <div className={cx("content__home")}>
                 <img
-                  src={tour.Image_Tour[0].path} alt={tour.Name_Tour}
+                  src={tour?.Image_Tour[0]?.path}
+                  alt={tour?.Name_Tour}
                   className={cx("content__home-img")}
                 />
                 <div className={cx("Tabs_detail")}>
@@ -295,7 +272,8 @@ function Details() {
 
                     />
                     <img
-                      src={tour.Image_Tour[2].path} alt={tour.Name_Tour}
+                      src={tour.Image_Tour[2].path}
+                      alt={tour.Name_Tour}
                       className={cx("content__home-image-w")}
                     />
                   </div> : ''}
@@ -329,14 +307,16 @@ function Details() {
                   zoom={13}
                 >
                   <Marker
-                    // key={location.id}
-                    // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  // key={location.id}
+                  // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
                   /></GoogleMap>)}
-
 
                 <div className="reviews">
                   <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
-                  <div className="slider-container" style={{ padding: "20px 0" }}>
+                  <div
+                    className="slider-container"
+                    style={{ padding: "20px 0" }}
+                  >
                     <Slider {...settings}>
                       {reviews.map((review, index) => (
                         <div key={index} className={cx("slider-item")}>
@@ -349,9 +329,7 @@ function Details() {
                     </Slider>{" "}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
-
                 </div>
-
               </div>
               <aside className={cx("aside")}>
                 <div className={cx("aside__account")}>
@@ -406,16 +384,23 @@ function Details() {
                             marginTop: "-25px",
                             marginLeft: "10px",
                             width: "40px",
-
                           }}
-
-                          value={valueform.Adult <= 0 ? valueform.Adult = 0 : valueform.Adult}
+                          value={
+                            valueform.Adult <= 0
+                              ? (valueform.Adult = 0)
+                              : valueform.Adult
+                          }
                           name="Adult"
                           onChange={handleGetvalueForm}
                         />
 
                         <div className={cx("rate")}>
-                          <span className={cx("rate-text")}>{valueform.Adult >= 1 ? adult.toLocaleString('vi-VN') : 0}VNĐ</span>
+                          <span className={cx("rate-text")}>
+                            {valueform.Adult >= 1
+                              ? adult.toLocaleString("vi-VN")
+                              : 0}
+                            VNĐ
+                          </span>
                         </div>
                       </div>
                       <div className={cx("children")}>
@@ -429,18 +414,29 @@ function Details() {
                             marginLeft: "10px",
                             width: "40px",
                           }}
-                          value={valueform.Children <= 0 ? valueform.Children = 0 : valueform.Children}
+                          value={
+                            valueform.Children <= 0
+                              ? (valueform.Children = 0)
+                              : valueform.Children
+                          }
                           name="Children"
                           onChange={handleGetvalueForm}
                         />
                         <div className={cx("rate")}>
-                          <span className={cx("rate-text")}>{valueform.Children >= 1 ? children.toLocaleString('vi-VN') : 0}VND</span>
+                          <span className={cx("rate-text")}>
+                            {valueform.Children >= 1
+                              ? children.toLocaleString("vi-VN")
+                              : 0}
+                            VND
+                          </span>
                         </div>
                       </div>
                       <div className={cx("total")}>
                         <span className="total-type">Tổng tiền</span>
                         <div className={cx("rate")}>
-                          <span className={cx("rate-text")}>{total.toLocaleString('vi-VN')}VNĐ</span>
+                          <span className={cx("rate-text")}>
+                            {total.toLocaleString("vi-VN")}VNĐ
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -550,7 +546,6 @@ function Details() {
               </aside>
             </div>
           </div>
-
         </div>
       )}
     </div>
@@ -558,4 +553,3 @@ function Details() {
 }
 
 export default Details;
-
