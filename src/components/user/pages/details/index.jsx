@@ -18,21 +18,39 @@ import SideBarComponent from "./sidebar/SideBarComment";
 import { useEffect, useRef, useState } from "react";
 import { CreateTicket } from "../../../../services/PostTicket";
 import { useDispatch, useSelector } from "react-redux";
+import { Tabs, Tab } from "@mui/material";
 import Cookies from 'js-cookie'
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 const cx = classNames.bind(styles);
 
 function Details() {
   const { id } = useParams();
+  const Name_user = JSON.parse(Cookies.get('auth')).Name
+
   const id_user = JSON.parse(Cookies.get('auth'))._id
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState()
   const [validate, setValidate] = useState(true)
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc',
+  });
+
+
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
   })
   const RefScroll = useRef(null)
   const RefFocus = useRef(null)
+  const handleSelected = (e) => {
+    setSelectedTab(parseInt(e.target.dataset.id))
+
+  }
+  const handleClick = () => {
+    setIsExpanded(!isExpanded)
+  }
   useEffect(() => {
     if (RefScroll) {
       RefScroll.current.scrollIntoView({ behavior: 'smooth' })
@@ -216,17 +234,62 @@ function Details() {
                   src={tour.Image_Tour[0].path} alt={tour.Name_Tour}
                   className={cx("content__home-img")}
                 />
-                <div className={cx("content__home-text")}>
-                  <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1>
+                <div className={cx("Tabs_detail")}>
+                  <Tabs
+                    value={selectedTab}
+                    TabIndicatorProps={{
+                      style: {
+                        backgroundColor: "#3fd0d4",
+                      },
+                    }}
+                  >
+                    <Tab
+                      onClick={(e) => handleSelected(e)}
+                      data-id='0'
+                      label="Tổng Quan"
+                      sx={{
+                        color: selectedTab === 0 ? "#3fd0d4" : "inherit",
+                        "&.Mui-selected": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <Tab
+                      onClick={(e) => handleSelected(e)}
+                      data-id='1'
+                      label="Lịch Trình"
+                      sx={{
+                        color: selectedTab === 1 ? "#3fd0d4" : "inherit",
+                        "&.Mui-selected": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <Tab
+                      onClick={(e) => handleSelected(e)}
+                      data-id='2'
+                      label="Bản Đồ"
+                      sx={{
+                        color: selectedTab === 2 ? "#3fd0d4" : "inherit",
+                        "&.Mui-selected": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                  </Tabs>
+                </div>
+                {selectedTab === 0 ? <div className={cx(`content__home-text `)}>
+                  {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
                   <div className={cx("content__home-title")}>
                     <p className={cx("content__home-heading")}>
                       {tour.Title_Tour}
                     </p>
                     <span className={cx("content__home-desc")}>
-                      {tour.Description_Tour}
+                      {tour.Description_Tour.slice(0, isExpanded ? tour.Description_Tour.length : 300)}
                     </span>
                   </div>
-                  <div className={cx("content__home-image")}>
+                  {/* <div className={cx("content__home-image")}> */}
+                  {isExpanded ? <div className={cx("content__home-image")}>
                     <img
                       src={tour.Image_Tour[1].path} alt={tour.Name_Tour}
 
@@ -235,9 +298,40 @@ function Details() {
                       src={tour.Image_Tour[2].path} alt={tour.Name_Tour}
                       className={cx("content__home-image-w")}
                     />
-                  </div>
+                  </div> : ''}
+                  {/* </div> */}
+                  <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
 
-                </div>
+                </div> : (selectedTab === 1 ? <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <div>
+                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                    </div>
+                    <div>
+                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                    </div>
+                    <div>
+                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                    </div>
+                  </div>
+                </div> : <GoogleMap
+                  mapContainerStyle={{ height: '400px', width: '100%' }}
+                  center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  zoom={13}
+                >
+                  <Marker
+                    // key={location.id}
+                    // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  /></GoogleMap>)}
 
 
                 <div className="reviews">
@@ -266,7 +360,7 @@ function Details() {
                     alt=""
                     className={cx("account__img")}
                   />
-                  <h3 className={cx("account__name")}>Van Luong</h3>
+                  <h3 className={cx("account__name")}>{Name_user}</h3>
                   <LogoutIcon className={cx("account__icon")} />
                 </div>
 
@@ -288,13 +382,13 @@ function Details() {
                       </div>
                     </div>
                   </div>
-                  <div className={cx("aside__date")} >
+                  <div st className={cx("aside__date")} >
                     <LocalizationProvider dateAdapter={AdapterDayjs} locale="vi">
-                      <DatePicker onChange={(e) => setValueDate(e)} name="Date_time" ref={RefFocus} minDate={dayjs()}/>
-                        
+                      <DatePicker onChange={(e) => setValueDate(e)} name="Date_time" ref={RefFocus} minDate={dayjs()} />
+
                     </LocalizationProvider>
                   </div>
-                  <p style={{marginLeft : '12px', color : 'red'}}>{validate === false && valueDate === undefined ? 'Bạn cần chọn ngày đi của tour' : ''}</p>
+                  <p style={{ marginLeft: '12px', color: 'red' }}>{validate === false && valueDate === undefined ? 'Bạn cần chọn ngày đi của tour' : ''}</p>
                   <div className={cx("aside__booking-list")}>
                     <Select
                       options={options}
