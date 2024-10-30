@@ -19,8 +19,6 @@ function ListTravel() {
   const querynews = useQuery({ queryKey: ['news'], queryFn: fetchNewsData, initialData: [] })
   const queryfeatured = useQuery({ queryKey: ['featured'], queryFn: fetchFeaturedLocationData, initialData: [] })
 
-  console.log(querynews.isLoading)
-
   const settings = {
     infinite: true,
     speed: 800,

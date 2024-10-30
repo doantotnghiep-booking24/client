@@ -53,7 +53,7 @@ function Tour() {
         selectedCategory === "all" || tour.id_Category === selectedCategory;
       const checkRating =
         selectedRating === 0 || tour.totalReview >= selectedRating;
-
+      console.log(tour);
       return checkPrice && checkTourName && checkCategory && checkRating;
     });
   };
@@ -281,11 +281,11 @@ function Tour() {
                           {tour.Price_Tour && tour.After_Discount > 0 ? (
                             <div>
                               <span className={cx("action__price-discount")}>
-                                {tour.After_Discount.toLocaleString("vi-VN")}{" "}
+                                {tour.Price_Tour.toLocaleString("vi-VN")}{" "}
                                 VND
                               </span>
                               <h4 className={cx("action__price")}>
-                                {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                                {tour.After_Discount.toLocaleString("vi-VN")} VND
                               </h4>
                             </div>
                           ) : (
@@ -300,7 +300,7 @@ function Tour() {
                             color="primary"
                             className={cx("vacation__item-btn")}
                           >
-                            Xen chi tiết
+                            Xem chi tiết
                           </Button>
                         </div>
                       </div>
