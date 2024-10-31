@@ -1,7 +1,6 @@
 import { Button, MenuItem, Select } from "@mui/material";
 import classNames from "classnames/bind";
 import styles from "./booking.module.scss";
-
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchServicesData } from "../../../redux/features/serviceSlice";
@@ -27,6 +26,10 @@ function Booking() {
     Citizen_Identification: '',
     Address: ''
   })
+  // const { enqueueSnackbar } = useNotifications();
+  // if (getFormValue.Address === '') {
+  //   enqueueSnackbar('This is a success message!', { variant: 'success' });
+  // }
   const { id } = useParams()
   const reftFocus = useRef(null)
   const handleGetvalueformSelect = (e) => {

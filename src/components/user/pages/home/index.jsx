@@ -11,6 +11,9 @@ import dayjs from "dayjs";
 
 import { useState } from "react";
 
+// import {useQuery} from "@tanstack/react-query";
+// import { fetchTours, searchTours } from "../../../../services/fetchSearch";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,6 +25,8 @@ import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 function Home() {
+
+
   const settings = {
     infinite: true,
     speed: 800,
@@ -111,6 +116,7 @@ function Home() {
                 </Button>
               </div>
             </form>
+
           </div>
         </div>
       </div>

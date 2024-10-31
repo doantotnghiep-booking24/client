@@ -41,7 +41,7 @@
 }
 .content__home-img {
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 .content__home-name {
   letter-spacing: -1px;
@@ -194,10 +194,10 @@
     font-weight: 700;
     font-size: 18px;
     margin: 0;
+    width: 180px;
   }
   .account__icon {
-    flex: 1;
-    margin-left: 70px;
+    margin-left: 30px;
   }
 }
 
@@ -271,9 +271,19 @@
   margin-top: 30px !important;
   width: 100%;
 }
-
+.seeMore {
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+.seeMore:hover{
+  color: #3fd0d4;
+  cursor: pointer;
+}
 // aside date
 .aside__date {
+
   margin: 12px;
   color: var(--color-primary);
 

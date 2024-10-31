@@ -5,13 +5,14 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { CreateTicket } from "../../../../services/PostTicket";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTourDetails } from "../../../../redux/features/tourSlice";
+// import { fetchTourDetails } from "../../../../redux/features/tourSlice";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Cookies from "js-cookie";
@@ -19,41 +20,52 @@ import classNames from "classnames/bind";
 import styles from "./details.module.scss";
 import Slider from "react-slick";
 import SideBarComponent from "./sidebar/SideBarComment";
-import ModalDetailReview from "./modal/ModalDetailReview";
-import axios from "axios";
-import formatDate from "../../../../utils/formatDate";
-import { DatePicker } from "@mui/x-date-pickers";
+import { Tabs, Tab } from "@mui/material";
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
-
+import axios from "axios";
 const cx = classNames.bind(styles);
 
 function Details() {
   const { id } = useParams();
-  const dispatch = useDispatch();
+  const Name_user = JSON.parse(Cookies.get('auth')).Name
   const [reviews, setReviews] = useState([]);
-  const userCookie = Cookies.get("auth");
-  const id_user = userCookie ? JSON.parse(userCookie)._id : null; // hoặc giá trị mặc định
-  const { tour, loading, error } = useSelector((state) => state.tours);
+  const id_user = JSON.parse(Cookies.get('auth'))._id
   const navigate = useNavigate();
-  const [valueDate, setValueDate] = useState();
-  const [validate, setValidate] = useState(true);
+  const [valueDate, setValueDate] = useState()
+  const [validate, setValidate] = useState(true)
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc',
+  });
+
+  console.log(reviews);
+
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
-  });
-  const RefScroll = useRef(null);
-  const RefFocus = useRef(null);
+  })
+  const RefScroll = useRef(null)
+  const RefFocus = useRef(null)
+  const handleSelected = (e) => {
+    setSelectedTab(parseInt(e.target.dataset.id))
 
+  }
+  const handleClick = () => {
+    setIsExpanded(!isExpanded)
+  }
   useEffect(() => {
     if (RefScroll) {
       RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
-  // const { data: tour, isLoading } = useQuery({
-  //   queryKey: ["Tour", id],
-  //   queryFn: () => fetchTourDetails(id),
-  // });
+  const { data: tour, isLoading } = useQuery({
+    queryKey: ["Tour", id],
+    queryFn: () => fetchTourDetails(id),
+  });
 
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
@@ -72,7 +84,6 @@ function Details() {
   } else if (valueform.Children <= 0) {
     total = total - children;
   }
-
   const handleCreateTicket = async () => {
     if (valueDate) {
       setValidate(true);
@@ -162,14 +173,16 @@ function Details() {
   };
 
   useEffect(() => {
-    dispatch(fetchTourDetails(id));
+    // dispatch(fetchTourDetails(id));
     getCommentRating();
-  }, [dispatch, id]);
+  }, [id]);
 
   const getCommentRating = async () => {
     const api = "http://localhost:3001/V1/Tours/AllComment";
     try {
       const res = await axios.get(`${api}/${id}`);
+      console.log(res.data);
+
       const data = await res.data;
       console.log(data.data);
       setReviews(data.data);
@@ -198,27 +211,105 @@ function Details() {
                   alt={tour?.Name_Tour}
                   className={cx("content__home-img")}
                 />
-                <div className={cx("content__home-text")}>
-                  <h1 className={cx("content__home-name")}>
-                    {tour?.Name_Tour}
-                  </h1>
+                <div className={cx("Tabs_detail")}>
+                  <Tabs
+                    value={selectedTab}
+                    TabIndicatorProps={{
+                      style: {
+                        backgroundColor: "#3fd0d4",
+                      },
+                    }}
+                  >
+                    <Tab
+                      onClick={(e) => handleSelected(e)}
+                      data-id='0'
+                      label="Tổng Quan"
+                      sx={{
+                        color: selectedTab === 0 ? "#3fd0d4" : "inherit",
+                        "&.Mui-selected": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <Tab
+                      onClick={(e) => handleSelected(e)}
+                      data-id='1'
+                      label="Lịch Trình"
+                      sx={{
+                        color: selectedTab === 1 ? "#3fd0d4" : "inherit",
+                        "&.Mui-selected": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <Tab
+                      onClick={(e) => handleSelected(e)}
+                      data-id='2'
+                      label="Bản Đồ"
+                      sx={{
+                        color: selectedTab === 2 ? "#3fd0d4" : "inherit",
+                        "&.Mui-selected": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                  </Tabs>
+                </div>
+                {selectedTab === 0 ? <div className={cx(`content__home-text `)}>
+                  {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
                   <div className={cx("content__home-title")}>
                     <p className={cx("content__home-heading")}>
                       {tour.Title_Tour}
                     </p>
                     <span className={cx("content__home-desc")}>
-                      {tour.Description_Tour}
+                      {tour.Description_Tour.slice(0, isExpanded ? tour.Description_Tour.length : 300)}
                     </span>
                   </div>
-                  <div className={cx("content__home-image")}>
-                    <img src={tour.Image_Tour[1].path} alt={tour.Name_Tour} />
+                  {/* <div className={cx("content__home-image")}> */}
+                  {isExpanded ? <div className={cx("content__home-image")}>
+                    <img
+                      src={tour.Image_Tour[1].path} alt={tour.Name_Tour}
+
+                    />
                     <img
                       src={tour.Image_Tour[2].path}
                       alt={tour.Name_Tour}
                       className={cx("content__home-image-w")}
                     />
+                  </div> : ''}
+                  {/* </div> */}
+                  <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
+
+                </div> : (selectedTab === 1 ? <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <div>
+                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                    </div>
+                    <div>
+                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                    </div>
+                    <div>
+                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                      <p>- Đón khách tại Nha Trang</p>
+                    </div>
                   </div>
-                </div>
+                </div> : <GoogleMap
+                  mapContainerStyle={{ height: '400px', width: '100%' }}
+                  center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  zoom={13}
+                >
+                  <Marker
+                  // key={location.id}
+                  // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  /></GoogleMap>)}
 
                 <div className="reviews">
                   <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
@@ -247,7 +338,7 @@ function Details() {
                     alt=""
                     className={cx("account__img")}
                   />
-                  <h3 className={cx("account__name")}>Van Luong</h3>
+                  <h3 className={cx("account__name")}>{Name_user}</h3>
                   <LogoutIcon className={cx("account__icon")} />
                 </div>
 
@@ -269,24 +360,13 @@ function Details() {
                       </div>
                     </div>
                   </div>
-                  <div className={cx("aside__date")}>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      locale="vi"
-                    >
-                      <DatePicker
-                        onChange={(e) => setValueDate(e)}
-                        name="Date_time"
-                        ref={RefFocus}
-                        minDate={dayjs()}
-                      />
+                  <div st className={cx("aside__date")} >
+                    <LocalizationProvider dateAdapter={AdapterDayjs} locale="vi">
+                      <DatePicker onChange={(e) => setValueDate(e)} name="Date_time" ref={RefFocus} minDate={dayjs()} />
+
                     </LocalizationProvider>
                   </div>
-                  <p style={{ marginLeft: "12px", color: "red" }}>
-                    {validate === false && valueDate === undefined
-                      ? "Bạn cần chọn ngày đi của tour"
-                      : ""}
-                  </p>
+                  <p style={{ marginLeft: '12px', color: 'red' }}>{validate === false && valueDate === undefined ? 'Bạn cần chọn ngày đi của tour' : ''}</p>
                   <div className={cx("aside__booking-list")}>
                     <Select
                       options={options}
