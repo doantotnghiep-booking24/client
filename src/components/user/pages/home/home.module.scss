@@ -41,7 +41,7 @@
   padding: 55px 30px;
 
   .banner__section-search-select,
-  .banner__section-date-select,
+  .price-range-container,
   .banner__section-type-select {
     width: 240px;
     background-color: #fff;
@@ -52,6 +52,22 @@
     background-color: var(--bg-primary) !important;
   }
 }
+
+.banner__section-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+// .price-range-container {
+//   display: flex;
+//   align-items: center;
+//   gap: 10px;
+//   width: 100%;
+// }
+
+
 
 // Content
 .content {
@@ -89,7 +105,7 @@
 .vacation__item-location {
   display: flex;
   align-items: center;
-  margin: 5px;
+  margin: 10px 5px 5px 0;
   color: #9a9a9a;
   letter-spacing: 2px;
   font-size: var(--font-size);
