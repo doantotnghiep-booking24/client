@@ -3,30 +3,89 @@ import StarHalfOutlinedIcon from "@mui/icons-material/StarHalfOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { Button } from "@mui/material";
 
-import { MenuItem, Select, TextField } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
+import { MenuItem, Select } from "@mui/material";
 
 import { useState } from "react";
 
-// import {useQuery} from "@tanstack/react-query";
-// import { fetchTours, searchTours } from "../../../../services/fetchSearch";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
-import Slider from "react-slick";
+import axios from "axios";
+
+import SlickSlider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
 import { Link } from "react-router-dom";
+import Slider from "@mui/material/Slider";
+
+import { fetchToursData } from "../../../../services/fetchTours";
+import { fetchTypeTours } from "../../../../services/fetchTypeTours";
 
 const cx = classNames.bind(styles);
 
+const BASE_URL = "http://localhost:3001/V1/Tours";
+
+const fetchRandomTours = async () => {
+  const response = await axios.get(`${BASE_URL}/GetTours?page=1&limit=3`);
+  return response.data.Tours.datas;
+};
+
+const searchTours = async ({ name, price }) => {
+  const response = await axios.get(`${BASE_URL}/SearchTour`, {
+    params: {
+      NameSearch: name,
+      PriceSearch: price,
+      page: 1,
+      limit: 3,
+    },
+  });
+  return response.data.search.datas;
+};
+
 function Home() {
+  const [searchName, setSearchName] = useState("");
+  const [searchType, setSeatchType] = useState("");
+  const [searchPrice, setSearchPrice] = useState(0);
+  const [filteredTours, setFilteredTours] = useState(null);
 
+  const { data: selectTours } = useQuery({
+    queryKey: ["tours"],
+    queryFn: fetchToursData,
+    initialData: [],
+  });
+  const tourNames = Array.from(
+    new Set(selectTours.map((tour) => tour.Name_Tour))
+  );
+  const { data: TypeTours } = useQuery({
+    queryKey: ["typeTours"],
+    queryFn: fetchTypeTours,
+    initialData: [],
+  });
 
+  const {
+    data: initialTours,
+    isLoading,
+  } = useQuery({
+    queryKey: ["randomTours"],
+    queryFn: fetchRandomTours,
+  });
+
+  const { mutate: searchTour } = useMutation({
+    mutationFn: searchTours,
+    onSuccess: (data) => {
+      setFilteredTours(data);
+    },
+  });
+
+  const handleSearch = () => {
+    searchTour({ name: searchName, price: searchPrice, type: searchType});
+  };
+
+  if (isLoading) return <p>Loading tours...</p>;
+
+  const toursToDisplay = filteredTours || initialTours;
   const settings = {
     infinite: true,
     speed: 800,
@@ -56,8 +115,6 @@ function Home() {
     ],
   };
 
-  const [selectedDate, setSelectedDate] = useState(dayjs());
-
   return (
     <div className={cx("main")}>
       <div className={cx("banner")}>
@@ -74,156 +131,116 @@ function Home() {
               <h1>Hãy tìm kiếm kỳ nghỉ của bạn</h1>
             </div>
 
-            <form action="#" className={cx("banner__section")}>
+            <div className={cx("banner__section")}>
               <div className={cx("banner__section-search")}>
                 <Select
-                  defaultValue="1"
+                  value={searchName}
+                  onChange={(e) => setSearchName(e.target.value)}
+                  displayEmpty
                   className={cx("banner__section-search-select")}
                 >
-                  <MenuItem value="1">Đi đâu</MenuItem>
-                  <MenuItem value="2">Quảng Ngãi</MenuItem>
-                  <MenuItem value="3">Đà Nẵng</MenuItem>
+                  <MenuItem value="">Chuyến đi</MenuItem>
+                  {tourNames.map((name, index) => (
+                    <MenuItem key={index} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
                 </Select>
-              </div>
-              <div className={cx("banner__section-date")}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    className={cx("banner__section-date-select")}
-                    value={selectedDate}
-                    onChange={(newDate) => setSelectedDate(newDate)}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
               </div>
               <div className={cx("banner__section-type")}>
                 <Select
-                  defaultValue="type"
+                  value={searchType}
+                  onChange={(e) => setSeatchType(e.target.value)}
+                  displayEmpty
                   className={cx("banner__section-type-select")}
                 >
-                  <MenuItem value="type">Loại tour</MenuItem>
-                  <MenuItem value="daily">Tour hàng ngày</MenuItem>
-                  <MenuItem value="travel">Tour du lịch</MenuItem>
+                  <MenuItem value="">Loại tour</MenuItem>
+                  {TypeTours.map((type) => (
+                    <MenuItem key={type._id} value={type.Name_Type}>
+                      {type.Name_Type}
+                    </MenuItem>
+                  ))}
                 </Select>
               </div>
+
+              <div className={cx("banner__section-price")}>
+                <div className={cx("price-range-container")}>
+                  <Slider
+                  size="large"
+                  value={searchPrice}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={(value) => `${value.toLocaleString()} VND`}
+                  min={1000000}
+                  max={10000000}
+                  onChange={(e) => setSearchPrice(Number(e.target.value))}
+                  className={cx("price-slider")}
+                  sx={{
+                    color: "#3fd0d4",
+                    "& .MuiSlider-thumb": {
+                      borderRadius: "50%",
+                    },
+                  }}
+                />
+                </div>
+              </div>
+
+            
               <div className={cx("banner__section-btn")}>
                 <Button
+                  onClick={handleSearch}
                   className={cx("banner__section-btn-main")}
                   variant="contained"
                   color="primary"
-                  type="submit"
                 >
                   Tìm kiếm
                 </Button>
               </div>
-            </form>
-
+            </div>
           </div>
         </div>
       </div>
-
       <div className={cx("content")}>
         <div className={cx("container")}>
           <div className={cx("vacation")}>
             <div className={cx("vacation__list")}>
-              <div className={cx("vacation__item")}>
-                <img
-                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
-                  alt=""
-                  className={cx("vacation__item-img")}
-                />
-                <div className={cx("vacation__item-text")}>
-                  <h4 className={cx("vacation__item-name")}>Đảo Lý Sơn</h4>
-                  <div className={cx("vacation__item-location")}>
-                    <LocationOnOutlinedIcon className={cx("icon")} />
-                    <span>Lý Sơn</span>
+              {toursToDisplay && toursToDisplay.length > 0 ? (
+                toursToDisplay.map((tour) => (
+                  <div key={tour._id} className={cx("vacation__item")}>
+                    <img
+                      src={tour.Image_Tour[0].path}
+                      alt={tour.Name_Tour}
+                      className={cx("vacation__item-img")}
+                    />
+                    <div className={cx("vacation__item-text")}>
+                      <h4 className={cx("vacation__item-name")}>
+                        {tour.Name_Tour}
+                      </h4>
+                      <div className={cx("vacation__item-location")}>
+                        <LocationOnOutlinedIcon className={cx("icon")} />
+                        <span>{tour.Title_Tour}</span>
+                      </div>
+                      <div className={cx("vacation__item-price")}>
+                        <span>{tour.total_Date}</span>
+                        <p> {tour.Price_Tour.toLocaleString("vi-VN")} VND</p>
+                      </div>
+                      <p className={cx("vacation__item-title")}>
+                        {tour.Description_Tour}
+                      </p>
+                      <Button
+                        LinkComponent={Link}
+                        to={`/tours/${tour._id}`}
+                        className={cx("vacation__item-btn")}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Khám phá
+                      </Button>
+                    </div>
                   </div>
-                  <div className={cx("vacation__item-price")}>
-                    <span>2 ngày 1 đêm</span>
-                    <p>1.999.999 VNĐ</p>
-                  </div>
-                  <p className={cx("vacation__item-title")}>
-                    Lý Sơn giống như một ốc đảo thần tiên giấu mình trong vẻ đẹp
-                    hoang sơ giữa bao la đất trời. Hãy cùng Vietravel du lịch
-                    đảo Lý Sơn để khám phá những thú vị về “thiên đường giữa
-                    biển khơi” - một báu vật tự nhiên của Quảng Ngãi.
-                  </p>
-                  <Button
-                    LinkComponent={Link}
-                    to="/details"
-                    className={cx("vacation__item-btn")}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Khám phá
-                  </Button>
-                </div>
-              </div>
-              <div className={cx("vacation__item")}>
-                <img
-                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
-                  alt=""
-                  className={cx("vacation__item-img")}
-                />
-                <div className={cx("vacation__item-text")}>
-                  <h4 className={cx("vacation__item-name")}>Đảo Lý Sơn</h4>
-                  <div className={cx("vacation__item-location")}>
-                    <LocationOnOutlinedIcon className={cx("icon")} />
-                    <span>Lý Sơn</span>
-                  </div>
-                  <div className={cx("vacation__item-price")}>
-                    <span>2 ngày 1 đêm</span>
-                    <p>1.999.999 VNĐ</p>
-                  </div>
-                  <p className={cx("vacation__item-title")}>
-                    Lý Sơn giống như một ốc đảo thần tiên giấu mình trong vẻ đẹp
-                    hoang sơ giữa bao la đất trời. Hãy cùng Vietravel du lịch
-                    đảo Lý Sơn để khám phá những thú vị về “thiên đường giữa
-                    biển khơi” - một báu vật tự nhiên của Quảng Ngãi.
-                  </p>
-                  <Button
-                    LinkComponent={Link}
-                    to="/details"
-                    className={cx("vacation__item-btn")}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Khám phá
-                  </Button>
-                </div>
-              </div>
-              <div className={cx("vacation__item")}>
-                <img
-                  src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
-                  alt=""
-                  className={cx("vacation__item-img")}
-                />
-                <div className={cx("vacation__item-text")}>
-                  <h4 className={cx("vacation__item-name")}>Đảo Lý Sơn</h4>
-                  <div className={cx("vacation__item-location")}>
-                    <LocationOnOutlinedIcon className={cx("icon")} />
-                    <span>Lý Sơn</span>
-                  </div>
-                  <div className={cx("vacation__item-price")}>
-                    <span>2 ngày 1 đêm</span>
-                    <p>1.999.999 VNĐ</p>
-                  </div>
-                  <p className={cx("vacation__item-title")}>
-                    Lý Sơn giống như một ốc đảo thần tiên giấu mình trong vẻ đẹp
-                    hoang sơ giữa bao la đất trời. Hãy cùng Vietravel du lịch
-                    đảo Lý Sơn để khám phá những thú vị về “thiên đường giữa
-                    biển khơi” - một báu vật tự nhiên của Quảng Ngãi.
-                  </p>
-                  <Button
-                    LinkComponent={Link}
-                    to="/details"
-                    className={cx("vacation__item-btn")}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Khám phá
-                  </Button>
-                </div>
-              </div>
+                ))
+              ) : (
+                <p>No tours found</p>
+              )}
             </div>
           </div>
         </div>
@@ -245,7 +262,7 @@ function Home() {
             </div>
             <div className={cx("container")}>
               <div className={cx("travel__review-list")}>
-                <Slider {...settings}>
+                <SlickSlider {...settings}>
                   <Link to="tours" className={cx("travel__review-item")}>
                     <img
                       src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
@@ -312,7 +329,7 @@ function Home() {
                       <p className={cx("location")}>Quảng Ngãi</p>
                     </div>
                   </Link>
-                </Slider>
+                </SlickSlider>
               </div>
             </div>
           </div>
