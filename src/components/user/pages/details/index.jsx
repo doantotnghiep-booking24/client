@@ -25,9 +25,14 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
 import axios from "axios";
+import { GetTours_Related } from "../../../../services/getTours_Related";
+import { ToursRelateds, Shedule_tour_Byid } from "../../../../redux/features/Tour_RelatedDetailSlice";
+import { getScheduleByid } from "../../../../services/GetSchedule_Travel";
 const cx = classNames.bind(styles);
 
 function Details() {
+  const dispatch = useDispatch()
+  const { Data_ToursRelated, Data_SheduleTourByid } = useSelector((state) => state.ToursRelated)
   const { id } = useParams();
   const Name_user = JSON.parse(Cookies.get('auth')).Name
   const [reviews, setReviews] = useState([]);
@@ -41,7 +46,7 @@ function Details() {
     googleMapsApiKey: 'AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc',
   });
 
-  console.log(reviews);
+
 
   const [valueform, setValueform] = useState({
     Adult: 1,
@@ -57,6 +62,17 @@ function Details() {
     setIsExpanded(!isExpanded)
   }
   useEffect(() => {
+
+    const handleGetSchedule = async () => {
+      const res = await getScheduleByid(tour.id_Schedule_Travel)
+      dispatch(Shedule_tour_Byid(res.Schedule_Travel))
+    }
+    handleGetSchedule()
+  }, [selectedTab])
+
+  const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
+
+  useEffect(() => {
     if (RefScroll) {
       RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -66,7 +82,13 @@ function Details() {
     queryKey: ["Tour", id],
     queryFn: () => fetchTourDetails(id),
   });
-
+  useEffect(() => {
+    const Tour_Related = async () => {
+      const res = await GetTours_Related()
+      dispatch(ToursRelateds(res.data.Tours_Related))
+    }
+    Tour_Related()
+  }, [])
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
@@ -91,12 +113,14 @@ function Details() {
         const data = {
           id_tour: tour?._id,
           id_user: id_user,
-          id_Service: 2,
-          id_Custommer: 3,
-          id_Voucher: 4,
+          id_Service: null,
+          id_Custommer: null,
+          id_Voucher: null,
           Departure_Location: tour?.Start_Tour,
           Destination: tour?.End_Tour,
           Title_Tour: tour?.Title_Tour,
+          Price_Tour: tour?.Price_Tour,
+          After_Discount: tour?.After_Discount,
           Departure_Date: valueDate,
           Departure_Time: "8:00",
           Total_DateTrip: tour?.total_Date,
@@ -181,10 +205,10 @@ function Details() {
     const api = "http://localhost:3001/V1/Tours/AllComment";
     try {
       const res = await axios.get(`${api}/${id}`);
-      console.log(res.data);
+      // console.log(res.data);
 
       const data = await res.data;
-      console.log(data.data);
+      // console.log(data.data);
       setReviews(data.data);
     } catch (error) {
       console.log(error);
@@ -268,11 +292,10 @@ function Details() {
                   {/* <div className={cx("content__home-image")}> */}
                   {isExpanded ? <div className={cx("content__home-image")}>
                     <img
-                      src={tour.Image_Tour[1].path} alt={tour.Name_Tour}
-
+                      src={tour.Image_Tour[1]?.path} alt={tour.Name_Tour}
                     />
                     <img
-                      src={tour.Image_Tour[2].path}
+                      src={tour.Image_Tour[2]?.path}
                       alt={tour.Name_Tour}
                       className={cx("content__home-image-w")}
                     />
@@ -281,26 +304,20 @@ function Details() {
                   <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
 
                 </div> : (selectedTab === 1 ? <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                    <div>
-                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
-                      <p>- Đón khách tại Nha Trang</p>
-                      <p>- Đón khách tại Nha Trang</p>
-                      <p>- Đón khách tại Nha Trang</p>
-                    </div>
-                    <div>
-                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
-                      <p>- Đón khách tại Nha Trang</p>
-                      <p>- Đón khách tại Nha Trang</p>
-                      <p>- Đón khách tại Nha Trang</p>
-                    </div>
-                    <div>
-                      <h4 style={{ marginTop: '15px', marginBottom: '20px' }}>8h30</h4>
-                      <p>- Đón khách tại Nha Trang</p>
-                      <p>- Đón khách tại Nha Trang</p>
-                      <p>- Đón khách tại Nha Trang</p>
-                    </div>
+                  {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
+                  <div className={cx("content__home-title")}>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
+                    </span>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
+                    </span>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
+                    </span>
                   </div>
+
+                  {/* </div> */}
                 </div> : <GoogleMap
                   mapContainerStyle={{ height: '400px', width: '100%' }}
                   center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
@@ -461,87 +478,37 @@ function Details() {
                   </div>
                 </div>
                 <ul className={cx("aside__list")}>
-                  <h4 className={cx("aside__list-heding")}>Bạn đã thích</h4>
-                  <li className={cx("aside__item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
-                      alt=""
-                      className={cx("aside__item-img")}
-                    />
-                    <div className={cx("aside__item-text")}>
-                      <Link to="/tours" className={cx("aside__item-text-name")}>
-                        Cảm nhận của khách hàng
-                      </Link>
-                      <div className={cx("aside__item-text-price")}>
-                        <LocalOfferOutlinedIcon fontSize="small" />
-                        <span>10.000.000 VNĐ</span>
+                  <h4 className={cx("aside__list-heding")}>Chuyến đi liên quan</h4>
+                  {result.map(tour_Related => (
+                    <li className={cx("aside__item")}>
+                      <img
+                        src={tour_Related.Image_Tour[0].path}
+                        alt=""
+                        className={cx("aside__item-img")}
+                      />
+                      <div className={cx("aside__item-text")}>
+                        <Link to={`/tours/${tour_Related._id}`} className={cx("aside__item-text-name")}>
+                          {`${tour_Related.Start_Tour} - ${tour_Related.End_Tour}`}
+                        </Link>
+                        <div>
+                          <Rating
+                            name="size-small"
+                            value={tour_Related.totalReview}
+                            size="small"
+                            precision={0.1}
+                            readOnly
+                            sx={{
+                              color: "#FFC300",
+                            }}
+                          />
+                        </div>
+                        <div className={cx("aside__item-text-price")}>
+                          <LocalOfferOutlinedIcon fontSize="small" />
+                          <span style={{ color: ' #3fd0d4' }}>~ {tour_Related.After_Discount > 0 ? tour_Related.After_Discount.toLocaleString("vi-VN") + ' VND' : tour_Related.Price_Tour.toLocaleString("vi-VN") + ' VND'}</span>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                  <li className={cx("aside__item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
-                      alt=""
-                      className={cx("aside__item-img")}
-                    />
-                    <div className={cx("aside__item-text")}>
-                      <Link to="/tours" className={cx("aside__item-text-name")}>
-                        Cảm nhận của khách hàng
-                      </Link>
-                      <div className={cx("aside__item-text-price")}>
-                        <LocalOfferOutlinedIcon fontSize="small" />
-                        <span>10.000.000 VNĐ</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li className={cx("aside__item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
-                      alt=""
-                      className={cx("aside__item-img")}
-                    />
-                    <div className={cx("aside__item-text")}>
-                      <Link to="/tours" className={cx("aside__item-text-name")}>
-                        Cảm nhận của khách hàng
-                      </Link>
-                      <div className={cx("aside__item-text-price")}>
-                        <LocalOfferOutlinedIcon fontSize="small" />
-                        <span>10.000.000 VNĐ</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li className={cx("aside__item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
-                      alt=""
-                      className={cx("aside__item-img")}
-                    />
-                    <div className={cx("aside__item-text")}>
-                      <Link to="/tours" className={cx("aside__item-text-name")}>
-                        Cảm nhận của khách hàng
-                      </Link>
-                      <div className={cx("aside__item-text-price")}>
-                        <LocalOfferOutlinedIcon fontSize="small" />
-                        <span>10.000.000 VNĐ</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li className={cx("aside__item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/blog-img-23-150x150.jpg"
-                      alt=""
-                      className={cx("aside__item-img")}
-                    />
-                    <div className={cx("aside__item-text")}>
-                      <Link to="/tours" className={cx("aside__item-text-name")}>
-                        Cảm nhận của khách hàng
-                      </Link>
-                      <div className={cx("aside__item-text-price")}>
-                        <LocalOfferOutlinedIcon fontSize="small" />
-                        <span>10.000.000 VNĐ</span>
-                      </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
               </aside>
             </div>
