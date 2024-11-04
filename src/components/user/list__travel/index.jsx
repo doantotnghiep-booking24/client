@@ -265,7 +265,7 @@ function ListTravel() {
               ) : (
                 <Slider {...settings}>
                   {querynews.data.map((item) => (
-                    <Link to={`/details/${item.id}`} className={cx("outstanding__item")} key={item.id}>
+                    <Link to={`/news-detail/${item._id}`} className={cx("outstanding__item")} key={item.id}>
                       <img key={item._id}
                         src={item.Image[0].path}
                         alt={item.Name}
