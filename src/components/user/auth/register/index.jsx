@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { Button, Stack, TextField, Typography } from "@mui/material";
@@ -5,12 +6,13 @@ import { ScreenMode } from "../../pages/siginPage";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import Swal from "sweetalert2";
 import axios from "axios";
 import SocialLogin from "../login/component/SocialLogin";
+import { checkValidateName } from "../../../../utils/validateForm";
+import checkValidateEmail from "../../../../utils/validateForm";
 function SignupForm({ onSwitchMode }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [valueInput, setValueInput] = useState({
@@ -18,7 +20,13 @@ function SignupForm({ onSwitchMode }) {
     Email: "",
     Password: "",
   });
+  const [emailError, setEmailError] = useState(false);
+  const [emailHelperText, setEmailHelperText] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordHelperText, setPasswordHelperText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [nameTextField, setNameHelperText] = useState("");
+  const [nameError, setNameError] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -32,22 +40,73 @@ function SignupForm({ onSwitchMode }) {
   const handleGetValueInput = (e) => {
     const { value, name } = e.target;
     setValueInput((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "Email") {
+      if (!checkValidateEmail(value)) {
+        setEmailError(true);
+        setEmailHelperText("Email không hợp lệ");
+      } else {
+        setEmailError(false);
+        setEmailHelperText("");
+      }
+    }
+
+    // Validate password
+    if (name === "Password") {
+      if (value.length < 6) {
+        setPasswordError(true);
+        setPasswordHelperText("Mật khẩu phải có ít nhất 6 ký tự");
+      } else {
+        setPasswordError(false);
+        setPasswordHelperText("");
+      }
+    }
+
+    if (name === "Name") {
+      if (value.trim().length < 2) {
+        // Kiểm tra độ dài tối thiểu
+        setNameError(true);
+        setNameHelperText("Tên phải có ít nhất 2 ký tự");
+      } else if (!checkValidateName(value)) {
+        // Kiểm tra ký tự hợp lệ (chỉ cho phép chữ cái và khoảng trắng)
+        setNameError(true);
+        setNameHelperText("Tên không được chứa ký tự đặc biệt");
+      } else {
+        setNameError(false);
+        setNameHelperText("");
+      }
+    }
   };
 
   const handleSignup = async () => {
     setIsLoading(true);
     const api = "http://localhost:3001/User/Register";
-    console.log(valueInput);
+    if (emailError || passwordError || nameError) {
+      setIsLoading(false);
+      return Swal.fire({
+        title: "Đăng nhập thất bại!",
+        text: "Vui lòng nhập đúng format Name,  Email và Password",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+
     try {
       const result = await axios.post(api, valueInput);
       const data = await result.data;
 
       data && onSwitchMode(ScreenMode.SIGN_IN);
-      setValueInput({});
+      setValueInput({ Name: "", Email: "", Password: "" });
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+      Swal.fire({
+        title: "Đăng ký thất bại!",
+        text: error.response.data.error,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   };
   return (
@@ -92,7 +151,10 @@ function SignupForm({ onSwitchMode }) {
                 type="search"
                 variant="filled"
                 InputProps={{ style: { height: "45px" } }}
+                error={nameError}
+                helperText={nameError ? nameTextField : " "}
                 onChange={handleGetValueInput}
+                sx={{ margin: 0, padding: 0 }}
               />
             </Stack>
             <Stack spacing={1}>
@@ -105,36 +167,45 @@ function SignupForm({ onSwitchMode }) {
                 type="search"
                 variant="filled"
                 InputProps={{ style: { height: "45px" } }}
+                error={emailError}
+                helperText={emailError ? emailHelperText : " "}
                 onChange={handleGetValueInput}
+                sx={{ margin: 0, padding: 0 }}
               />
             </Stack>
             <Stack spacing={1}>
               <Typography variant="subtitle1" color="#555">
                 Mật khẩu
               </Typography>
-              <FilledInput
+              <TextField
                 name="Password"
-                id="filled-adornment-password"
-                sx={{ height: "45px" }}
-                type={showPassword ? "text" : "password"}
                 onChange={handleGetValueInput}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label={
-                        showPassword
-                          ? "hide the password"
-                          : "display the password"
-                      }
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+                id="filled-adornment-password"
+                error={passwordError} // Show error state if there is a password error
+                helperText={passwordError ? passwordHelperText : " "} // Display helper text based on the error state
+                sx={{ height: "45px", margin: 0, padding: 0 }}
+                type={showPassword ? "text" : "password"}
+                variant="filled"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label={
+                          showPassword
+                            ? "hide the password"
+                            : "show the password"
+                        }
+                        onClick={handleClickShowPassword} // Toggle password visibility
+                        onMouseDown={handleMouseDownPassword}
+                        onMouseUp={handleMouseUpPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  style: { height: "45px" },
+                }}
               />
             </Stack>
           </Stack>

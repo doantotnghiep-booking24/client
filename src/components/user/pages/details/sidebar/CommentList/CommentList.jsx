@@ -59,7 +59,7 @@ const CommentList = ({
                 className="review-date"
                 style={{ margin: 0, fontSize: "12px" }}
               >
-                {formatDate(item?.Create_At?.slice(0, 10))}
+              Đã đánh giá:   {formatDate(item?.Create_At?.slice(0, 10))}
               </p>
               <Rating
                 name="size-small"

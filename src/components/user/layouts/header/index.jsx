@@ -1,7 +1,7 @@
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -25,6 +25,7 @@ import styles from "./header.module.scss";
 import { addAuth, logoutAuth } from "../../../../redux/features/AuthSlice";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 // import Swal from "sweetalert2";
 
 const cx = classNames.bind(styles);
@@ -43,6 +44,15 @@ function Header() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const dataAuth = useSelector((state) => state.auth);
+
+  const user = (() => {
+    try {
+      return JSON.parse(Cookies.get("auth")) || null;
+    } catch (error) {
+      console.error("Lỗi khi parse JSON từ cookie:", error);
+      return null;
+    }
+  })();
 
   // Lấy thông tin auth từ cookie
   const getDataFromCookies = () => {
@@ -65,6 +75,8 @@ function Header() {
     if (!token) return true;
     const decoded = jwtDecode(token);
     const currentTime = Math.floor(Date.now() / 1000);
+    console.log(decoded.exp < currentTime);
+
     return decoded.exp < currentTime;
   };
 
@@ -72,7 +84,9 @@ function Header() {
     const api = "http://localhost:3001/User/RefreshToken";
 
     try {
-      const res = await axios.post(api, { token: dataAuth.RefreshToken });
+      console.log(user.RefreshToken);
+
+      const res = await axios.post(api, { token: user.RefreshToken });
       const data = await res.data;
 
       if (data.NewAccessToken) {
@@ -80,6 +94,7 @@ function Header() {
           addAuth({
             ...dataAuth,
             AccessToken: data.NewAccessToken,
+            RefeshToken: user.RefreshToken,
           })
         );
       }
@@ -93,8 +108,8 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    if (dataAuth.AccessToken) {
-      if (isTokenExpired(dataAuth.AccessToken)) {
+    if (user?.AccessToken) {
+      if (isTokenExpired(user?.AccessToken)) {
         console.log("Token đã hết hạn, cố gắng refresh lại token.");
         refreshAccessToken();
       }
@@ -106,11 +121,6 @@ function Header() {
       }
     }
   }, [dataAuth.AccessToken]);
-
-  // Hàm để kiểm tra quyền đặt hàng
-  const canPlaceOrder = () => {
-    return dataAuth.AccessToken && !isTokenExpired(dataAuth.AccessToken);
-  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -182,82 +192,118 @@ function Header() {
                 />
               </div>
               {/* account mui */}
-
-              <Tooltip title="Account settings">
-                <IconButton
+              {user ? (
+                <div
                   onClick={handleClick}
-                  size="small"
-                  sx={{ ml: 2 }}
-                  aria-controls={open ? "account-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
+                  style={{
+                    cursor: "pointer",
+                  }}
                 >
-                  <Avatar
-                    sx={{ width: 32, height: 32 }}
-                    alt={dataAuth.Name}
-                    src={dataAuth.photoUrl ? dataAuth.photoUrl : "L"}
-                  ></Avatar>
-                </IconButton>
-              </Tooltip>
-              <label htmlFor="">{dataAuth && dataAuth.Name}</label>
+                  <Tooltip title="Account settings">
+                    <IconButton
+                      size="small"
+                      sx={{ ml: 2 }}
+                      aria-controls={open ? "account-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                    >
+                      <Avatar
+                        sx={{ width: 32, height: 32 }}
+                        alt={dataAuth.Name}
+                        src={dataAuth.photoUrl ? dataAuth.photoUrl : "L"}
+                      ></Avatar>
+                    </IconButton>
+                  </Tooltip>
+                  <label htmlFor="" style={{ cursor: "pointer" }}>
+                    {dataAuth && dataAuth.Name}
+                  </label>
 
-              <Menu
-                anchorEl={anchorEl}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&::before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              >
-                <MenuItem component={Link} to="/auth" onClick={handleClose}>
-                  <Avatar fontSize="small" /> Tài khoản của tôi
-                </MenuItem>
-                <Divider />
-                <MenuItem
-                  component={Link}
-                  to="/reset-password"
-                  onClick={handleClose}
-                >
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Cài đặt tài khoản
-                </MenuItem>
+                  <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    PaperProps={{
+                      elevation: 0,
+                      sx: {
+                        overflow: "visible",
+                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                        mt: 1.5,
+                        "& .MuiAvatar-root": {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
+                        },
+                        "&::before": {
+                          content: '""',
+                          display: "block",
+                          position: "absolute",
+                          top: 0,
+                          right: 14,
+                          width: 10,
+                          height: 10,
+                          bgcolor: "background.paper",
+                          transform: "translateY(-50%) rotate(45deg)",
+                          zIndex: 0,
+                        },
+                      },
+                    }}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to="/auth"
+                      onClick={handleClose}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <PermIdentityIcon />
+                      Quản lý tài khoản
+                    </MenuItem>
+                    <Divider />
 
-                <MenuItem>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Đăng xuất
-                </MenuItem>
-              </Menu>
+                    <MenuItem>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "5px",
+                        }}
+                        onClick={() => {
+                          handleLogout();
+                          handleClose();
+                        }}
+                      >
+                        <Logout fontSize="small" />
+                        Đăng xuất
+                      </div>
+                    </MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
+                  <Button
+                    component={Link}
+                    to="/auth"
+                    sx={{
+                      bgcolor: "white",
+                      fontWeight: "bold",
+                      textTransform: "capitalize",
+                      "&:hover": {
+                        bgcolor: "whitesmoke",
+                      },
+                    }}
+                  >
+                    Đăng nhập
+                  </Button>
+                </Box>
+              )}
             </div>
           </div>
         </div>
@@ -356,6 +402,9 @@ function Header() {
                 PaperProps={{
                   elevation: 0,
                   sx: {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                     overflow: "visible",
                     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                     mt: 1.5,
@@ -382,32 +431,34 @@ function Header() {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem component={Link} to="/auth" onClick={handleClose}>
-                  <Avatar fontSize="small" /> Tài khoản của tôi
-                </MenuItem>
-                <Divider />
                 <MenuItem
                   component={Link}
-                  to="/reset-password"
+                  to="/edit-profile"
                   onClick={handleClose}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                  }}
                 >
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Cài đặt tài khoản
+                  <PermIdentityIcon />
+                  Quản lý tài khoản
                 </MenuItem>
+                <Divider />
 
                 <MenuItem>
                   <div
-                    style={{ display: "flex", alignItems: "center" }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
                     onClick={() => {
                       handleLogout();
                       handleClose();
                     }}
                   >
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
+                    <Logout fontSize="small" />
                     Đăng xuất
                   </div>
                 </MenuItem>

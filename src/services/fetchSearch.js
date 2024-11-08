@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const fetchTours = async (page, limit, nameSearch = '', priceSearch = { min: 0, max: 0 }, categoryId = '') => {
   const { data } = await axios.get('http://localhost:3001/V1/Tours/SearchTour', {
+    withCredentials: true,
     params: {
       page,
       limit,

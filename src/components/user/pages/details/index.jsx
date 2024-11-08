@@ -1,6 +1,6 @@
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, Avatar } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import { Link } from "react-router-dom";
@@ -169,7 +169,7 @@ function Details() {
   const getCommentRating = async () => {
     const api = "http://localhost:3001/V1/Tours/AllComment";
     try {
-      const res = await axios.get(`${api}/${id}`);
+      const res = await axios.get(`${api}/${id}`,{ withCredentials: true});
       const data = await res.data;
       console.log(data.data);
       setReviews(data.data);
@@ -211,9 +211,12 @@ function Details() {
                     </span>
                   </div>
                   <div className={cx("content__home-image")}>
-                    <img src={tour.Image_Tour[1].path} alt={tour.Name_Tour} />
                     <img
-                      src={tour.Image_Tour[2].path}
+                      src={tour?.Image_Tour[1]?.path}
+                      alt={tour?.Name_Tour}
+                    />
+                    <img
+                      src={tour?.Image_Tour[2]?.path}
                       alt={tour.Name_Tour}
                       className={cx("content__home-image-w")}
                     />
@@ -227,12 +230,47 @@ function Details() {
                     style={{ padding: "20px 0" }}
                   >
                     <Slider {...settings}>
-                      {reviews.map((review, index) => (
+                      {reviews?.map((review, index) => (
                         <div key={index} className={cx("slider-item")}>
-                          <h3>{review.name}</h3>
-                          <p className="review-date">{review.date}</p>
-                          <p className="review-content">{review.content}</p>
-                          <a className={cx("read-more-button")}>Read more</a>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "5px",
+                            }}
+                          >
+                            {" "}
+                            <Avatar
+                              src={review ? review.photoUrl : ""}
+                              sx={{ width: 50, height: 50 }}
+                            />
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <h4
+                                style={{
+                                  margin: 0,
+                                }}
+                              >
+                                {review.userName}
+                              </h4>
+                              <Rating
+                                name="size-small"
+                                defaultValue={review.rating}
+                                size="small"
+                              />
+                              <span className="review-date">
+                                {formatDate(review.Create_At)}
+                              </span>
+                            </div>
+                          </div>
+
+                          <p className="review-content">
+                            &quot;{review.content}&quot;
+                          </p>
                         </div>
                       ))}
                     </Slider>{" "}
@@ -254,8 +292,8 @@ function Details() {
                 <div className={cx("aside__booking")}>
                   <div className={cx("aside__booking-action")}>
                     <div className={cx("heading")}>
-                      <h5>{tour.Name_Tour}</h5>
-                      <span>{tour.Title_Tour}</span>
+                      <h5>{tour?.Name_Tour}</h5>
+                      <span>{tour?.Title_Tour}</span>
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>

@@ -16,6 +16,10 @@ import NewsDetail from "./components/user/news__detail";
 
 import "./styles/app.module.scss";
 
+import EditProfile from "./components/user/auth/editProfile/index.jsx";
+import Profile_Detail from "./components/user/auth/editProfile/components/Profile_Detail.jsx";
+import Setting from "./components/user/auth/editProfile/components/Setting.jsx";
+
 function App() {
   useEffect(() => {
     const interceptor = axios.interceptors.request.use(
@@ -23,6 +27,8 @@ function App() {
         const cookieData = Cookies.get("auth");
         if (cookieData) {
           const token = JSON.parse(cookieData).AccessToken;
+          console.log(token);
+          
           if (token) {
             config.headers["Authorization"] = `Bearer ${token}`;
           }
@@ -54,6 +60,19 @@ function App() {
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />
+      </Routes>
+
+      <Routes>
+        <Route path="/edit-profile" element={<EditProfile />}>
+          <Route
+            path="/edit-profile"
+            element={<Profile_Detail />}
+          />
+          <Route
+            path="setting"
+            element={<Setting />}
+          />
+        </Route>
       </Routes>
       <Footer />
     </Router>
