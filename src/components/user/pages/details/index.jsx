@@ -401,87 +401,54 @@ function Details() {
                     />
                   </Tabs>
                 </div>
-                {selectedTab === 0 ? (
-                  <div className={cx(`content__home-text `)}>
-                    {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
-                    <div className={cx("content__home-title")}>
-                      <p className={cx("content__home-heading")}>
-                        {tour.Title_Tour}
-                      </p>
-                      <span className={cx("content__home-desc")}>
-                        {tour.Description_Tour.slice(
-                          0,
-                          isExpanded ? tour.Description_Tour.length : 300
-                        )}
-                      </span>
-                    </div>
-                    {/* <div className={cx("content__home-image")}> */}
-                    {isExpanded ? (
-                      <div className={cx("content__home-image")}>
-                        <img
-                          src={tour.Image_Tour[1]?.path}
-                          alt={tour.Name_Tour}
-                        />
-                        <img
-                          src={tour.Image_Tour[2]?.path}
-                          alt={tour.Name_Tour}
-                          className={cx("content__home-image-w")}
-                        />
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                    {/* </div> */}
-                    <p className={cx("seeMore")} onClick={handleClick}>
-                      {isExpanded ? "Thu gọn" : "Xem thêm"}
+                {selectedTab === 0 ? <div className={cx(`content__home-text `)}>
+                  {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
+                  <div className={cx("content__home-title")}>
+                    <p className={cx("content__home-heading")}>
+                      {tour.Title_Tour}
                     </p>
+                    <span className={cx("content__home-desc")}>
+                      {tour.Description_Tour.slice(0, `${isExpanded ? tour.Description_Tour.length : 300}`)}
+                    </span>
                   </div>
-                ) : selectedTab === 1 ? (
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <div>
-                        <h4 style={{ marginTop: "15px", marginBottom: "20px" }}>
-                          8h30
-                        </h4>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                      </div>
-                      <div>
-                        <h4 style={{ marginTop: "15px", marginBottom: "20px" }}>
-                          8h30
-                        </h4>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                      </div>
-                      <div>
-                        <h4 style={{ marginTop: "15px", marginBottom: "20px" }}>
-                          8h30
-                        </h4>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <GoogleMap
-                    mapContainerStyle={{ height: "400px", width: "100%" }}
-                    center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
-                    zoom={13}
-                  >
-                    <Marker
-                    // key={location.id}
-                    // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  {/* <div className={cx("content__home-image")}> */}
+                  {isExpanded ? <div className={cx("content__home-image")}>
+                    <img
+                      src={tour.Image_Tour[1]?.path} alt={tour.Name_Tour}
                     />
-                  </GoogleMap>
-                )}
+                    <img
+                      src={tour.Image_Tour[2]?.path}
+                      alt={tour.Name_Tour}
+                      className={cx("content__home-image-w")}
+                    />
+                  </div> : ''}
+                  {/* </div> */}
+                  <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
+
+                </div> : (selectedTab === 1 ? <div>
+                  {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
+                  <div className={cx("content__home-title")}>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
+                    </span>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
+                    </span>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
+                    </span>
+                  </div>
+
+                  {/* </div> */}
+                </div> : <GoogleMap
+                  mapContainerStyle={{ height: '400px', width: '100%' }}
+                  center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  zoom={13}
+                >
+                  <Marker
+                  // key={location.id}
+                  // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  /></GoogleMap>)}
 
                 <div className="reviews">
                   <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
