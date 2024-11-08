@@ -62,9 +62,6 @@ function Details() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [is_Loading, setIs_Loading] = useState(false);
-  const [result_TourFavourite, setResult_TourFavourite] = useState()
-  const [tour_TourFav, setTour_TourFav] = useState([])
-  const [ischeckTourFav, setIscheckTourFav] = useState([])
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc",
   });
