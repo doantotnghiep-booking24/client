@@ -18,6 +18,7 @@ function Booking() {
   const { services, loading, error } = useSelector((state) => state.services);
   const { Data_ticket } = useSelector((state) => state.ticket)
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [value_CusNearest, setvalue_CusNearest] = useState('')
   const [getFormValue, setGetFormValue] = useState({
     Name_Custommer: '',
     Date_Of_Birth: '',
@@ -26,10 +27,6 @@ function Booking() {
     Citizen_Identification: '',
     Address: ''
   })
-  // const { enqueueSnackbar } = useNotifications();
-  // if (getFormValue.Address === '') {
-  //   enqueueSnackbar('This is a success message!', { variant: 'success' });
-  // }
   const { id } = useParams()
   const reftFocus = useRef(null)
   const handleGetvalueformSelect = (e) => {
@@ -39,7 +36,6 @@ function Booking() {
     const { name, value } = e.target
     setGetFormValue({ ...getFormValue, [name]: value })
   }
-
   useEffect(() => {
     dispatch(fetchServicesData());
   }, [dispatch])
