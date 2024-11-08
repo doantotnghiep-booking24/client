@@ -207,7 +207,7 @@ function Home() {
                 toursToDisplay.map((tour) => (
                   <div key={tour._id} className={cx("vacation__item")}>
                     <img
-                      src={tour.Image_Tour[0].path}
+                      src={tour.Image_Tour[0]?.path}
                       alt={tour.Name_Tour}
                       className={cx("vacation__item-img")}
                     />

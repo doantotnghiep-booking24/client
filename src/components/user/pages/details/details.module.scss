@@ -1,6 +1,7 @@
 .wrap {
   margin-bottom: 100px;
 }
+
 .banner {
   position: relative;
 
@@ -9,6 +10,7 @@
     height: 500px;
     object-fit: cover;
   }
+
   .banner__title {
     position: absolute;
     top: 50%;
@@ -22,6 +24,7 @@
     padding: 4px 0 8px 0px;
   }
 }
+
 .content {
   position: relative;
   width: 100%;
@@ -31,6 +34,7 @@
   margin-top: -80px;
   z-index: 100;
 }
+
 .content__main {
   padding: 50px 50px 100px 50px;
   display: flex;
@@ -39,15 +43,18 @@
 .content__home {
   width: 70%;
 }
+
 .content__home-img {
   width: 100%;
   margin-bottom: 10px;
 }
+
 .content__home-name {
   letter-spacing: -1px;
   font-weight: 700;
   color: var(--color-text);
 }
+
 .content__home-title {
   margin-top: 20px;
 
@@ -55,17 +62,20 @@
     font-size: 17px;
     color: var(--color-content);
   }
+
   .content__home-desc {
     font-size: var(--font-size);
     color: var(--color-content);
     margin-top: 20px;
     display: block;
   }
+
   .content__home-sub-heading {
     margin-top: 20px;
     font-size: 18px;
     color: var(--color-primary);
   }
+
   .content__home-sub-desc {
     margin-top: 20px;
     display: block;
@@ -73,9 +83,11 @@
     color: var(--color-content);
   }
 }
+
 .content__home-image {
   margin-top: 40px;
 }
+
 .content__home-desc {
   margin-top: 30px;
   color: var(--color-content);
@@ -84,40 +96,48 @@
 
 .content__home-image {
   display: flex;
+
   img {
     width: 30%;
     height: 230px;
     object-fit: cover;
   }
+
   .content__home-image-w {
     width: 70%;
     margin-left: 20px;
   }
 }
+
 // comments
 
 .content__home-comment {
   margin-top: 80px;
 }
+
 .content__home-comment-title {
   color: var(--color-text);
   font-weight: 700;
 }
+
 .content__home-comment-list {
   margin-top: 60px;
   list-style: none;
   padding: 0;
 }
+
 .content__home-comment-item {
   margin-top: 50px;
   display: flex;
 }
+
 .content__home-comment-img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
+
 .content__home-comment-content {
   margin-left: 30px;
 
@@ -126,11 +146,13 @@
     font-size: 18px;
     margin: 0;
   }
+
   .content__home-comment-text {
     margin: 8px 0 10px 0;
     font-size: var(--font-size);
     color: var(--color-content);
   }
+
   .content__home-comment-date {
     font-size: 15px;
     font-weight: 600;
@@ -156,6 +178,7 @@
 .reviews {
   padding: 10px 0;
 }
+
 .slider-item {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -175,10 +198,12 @@
 .read-more-button {
   text-decoration: none;
 }
+
 // aside styles
 .aside {
   margin-left: 50px;
 }
+
 .aside__account {
   display: flex;
   align-items: center;
@@ -190,12 +215,14 @@
     object-fit: cover;
     margin-right: 40px;
   }
+
   .account__name {
     font-weight: 700;
     font-size: 18px;
     margin: 0;
     width: 180px;
   }
+
   .account__icon {
     margin-left: 30px;
   }
@@ -208,6 +235,7 @@
   padding: 20px;
   border-radius: 20px;
 }
+
 .aside__booking-action {
   display: flex;
   justify-content: space-between;
@@ -223,6 +251,7 @@
 
   .sub {
     display: flex;
+
     .heart,
     .share {
       margin-left: 10px;
@@ -234,15 +263,18 @@
     }
   }
 }
+
 .aside__booking-list {
   padding: 0 12px;
 }
+
 .aside__booking-select {
   margin-top: 20px;
   font-weight: 600;
   font-size: var(--font-size);
   color: var(--color-content);
 }
+
 .aside__booking-price {
   margin-top: 10px;
 
@@ -267,20 +299,24 @@
     }
   }
 }
+
 .aside__booking-btn {
   margin-top: 30px !important;
   width: 100%;
 }
+
 .seeMore {
   margin-top: 20px;
   font-size: 15px;
   font-weight: bold;
   text-align: center;
 }
-.seeMore:hover{
+
+.seeMore:hover {
   color: #3fd0d4;
   cursor: pointer;
 }
+
 // aside date
 .aside__date {
 
@@ -298,35 +334,40 @@
   list-style: none;
   padding: 0;
 }
+
 .aside__list-heding {
   color: var(--color-text);
   font-weight: 700;
 }
+
 .aside__item {
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
 
   .aside__item-img {
-    width: 80px;
-    height: 70px;
+    width: 150px;
+    height: 120px;
     border-radius: 10px;
     object-fit: cover;
     margin-right: 20px;
   }
 }
+
 .aside__item-text {
   .aside__item-text-name {
     text-decoration: none;
     color: var(--color-text);
     font-weight: 600;
     font-size: 17px;
+    // width: 250px;
 
     &:hover {
       color: var(--color-primary);
       text-decoration: underline;
     }
   }
+
   .aside__item-text-price {
     margin-top: 10px;
     color: var(--color-content);
@@ -342,9 +383,11 @@
   .content__main {
     display: block;
   }
+
   .content__home {
     width: 100%;
   }
+
   .aside {
     margin-left: 0px;
   }
@@ -362,6 +405,7 @@
       font-size: 50px;
     }
   }
+
   .content__main {
     padding: 30px 10px 100px 10px;
   }

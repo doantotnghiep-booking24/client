@@ -37,10 +37,13 @@ function BookingHistory() {
   useEffect(() => {
     const handleCallTickets = async () => {
       const res = await GetAllTicket()
+      
       dispatch(Tickets_History(res.data.Tickets))
     }
     handleCallTickets()
   }, [])
+  // console.log(Ticket_Filter);
+  
   const handleOpenticket = (ticket) => {
     setOpen(!open)
     dispatch(Ticket_Modal(ticket))
