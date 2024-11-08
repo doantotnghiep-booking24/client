@@ -1,6 +1,5 @@
-import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import StarHalfOutlinedIcon from "@mui/icons-material/StarHalfOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import Rating from "@mui/material/Rating";
 import { Button } from "@mui/material";
 
 import { MenuItem, Select } from "@mui/material";
@@ -64,10 +63,7 @@ function Home() {
     initialData: [],
   });
 
-  const {
-    data: initialTours,
-    isLoading,
-  } = useQuery({
+  const { data: initialTours, isLoading } = useQuery({
     queryKey: ["randomTours"],
     queryFn: fetchRandomTours,
   });
@@ -80,7 +76,7 @@ function Home() {
   });
 
   const handleSearch = () => {
-    searchTour({ name: searchName, price: searchPrice, type: searchType});
+    searchTour({ name: searchName, price: searchPrice, type: searchType });
   };
 
   if (isLoading) return <p>Loading tours...</p>;
@@ -166,25 +162,26 @@ function Home() {
               <div className={cx("banner__section-price")}>
                 <div className={cx("price-range-container")}>
                   <Slider
-                  size="large"
-                  value={searchPrice}
-                  valueLabelDisplay="auto"
-                  valueLabelFormat={(value) => `${value.toLocaleString()} VND`}
-                  min={1000000}
-                  max={10000000}
-                  onChange={(e) => setSearchPrice(Number(e.target.value))}
-                  className={cx("price-slider")}
-                  sx={{
-                    color: "#3fd0d4",
-                    "& .MuiSlider-thumb": {
-                      borderRadius: "50%",
-                    },
-                  }}
-                />
+                    size="large"
+                    value={searchPrice}
+                    valueLabelDisplay="auto"
+                    valueLabelFormat={(value) =>
+                      `${value.toLocaleString()} VND`
+                    }
+                    min={1000000}
+                    max={10000000}
+                    onChange={(e) => setSearchPrice(Number(e.target.value))}
+                    className={cx("price-slider")}
+                    sx={{
+                      color: "#3fd0d4",
+                      "& .MuiSlider-thumb": {
+                        borderRadius: "50%",
+                      },
+                    }}
+                  />
                 </div>
               </div>
 
-            
               <div className={cx("banner__section-btn")}>
                 <Button
                   onClick={handleSearch}
@@ -263,72 +260,40 @@ function Home() {
             <div className={cx("container")}>
               <div className={cx("travel__review-list")}>
                 <SlickSlider {...settings}>
-                  <Link to="tours" className={cx("travel__review-item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
-                      className={cx("travel__review-item-img")}
-                      alt=""
-                    />
-                    <div className={cx("travel__review-item-text")}>
-                      <h4 className={cx("name")}>Đảo Lý Sơn</h4>
-                      <div className={cx("star")}>
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarHalfOutlinedIcon className={cx("start-icon")} />
-                      </div>
-                      <span className={cx("title")}>
-                        Lý Sơn giống như một ốc đảo thần tiên có vẻ đẹp hoang sơ
-                        giữa bao la đất trời
-                      </span>
-                      <p className={cx("location")}>Quảng Ngãi</p>
-                    </div>
-                  </Link>
-                  <Link to="tours" className={cx("travel__review-item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
-                      className={cx("travel__review-item-img")}
-                      alt=""
-                    />
-                    <div className={cx("travel__review-item-text")}>
-                      <h4 className={cx("name")}>Đảo Lý Sơn</h4>
-                      <div className={cx("star")}>
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarHalfOutlinedIcon className={cx("start-icon")} />
-                      </div>
-                      <span className={cx("title")}>
-                        Lý Sơn giống như một ốc đảo thần tiên có vẻ đẹp hoang sơ
-                        giữa bao la đất trời
-                      </span>
-                      <p className={cx("location")}>Quảng Ngãi</p>
-                    </div>
-                  </Link>
-                  <Link to="tours" className={cx("travel__review-item")}>
-                    <img
-                      src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/10/tour-featured-img-3.jpg"
-                      className={cx("travel__review-item-img")}
-                      alt=""
-                    />
-                    <div className={cx("travel__review-item-text")}>
-                      <h4 className={cx("name")}>Đảo Lý Sơn</h4>
-                      <div className={cx("star")}>
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarBorderOutlinedIcon className={cx("start-icon")} />
-                        <StarHalfOutlinedIcon className={cx("start-icon")} />
-                      </div>
-                      <span className={cx("title")}>
-                        Lý Sơn giống như một ốc đảo thần tiên có vẻ đẹp hoang sơ
-                        giữa bao la đất trời
-                      </span>
-                      <p className={cx("location")}>Quảng Ngãi</p>
-                    </div>
-                  </Link>
+                  {selectTours
+                    .filter((tour) => tour.totalReview === 5)
+                    .map((tour) => (
+                      <Link
+                        to={`/tours/${tour._id}`}
+                        key={tour._id}
+                        className={cx("travel__review-item")}
+                      >
+                        <img
+                          src={tour.Image_Tour[0].path}
+                          alt={tour.Name_Tour}
+                          className={cx("travel__review-item-img")}
+                        />
+                        <div className={cx("travel__review-item-text")}>
+                          <h4 className={cx("name")}>{tour.Title_Tour}</h4>
+                          <div className={cx("star")}>
+                            <Rating
+                              name="size-small"
+                              value={tour.totalReview}
+                              size="small"
+                              precision={0.1}
+                              readOnly
+                              sx={{
+                                color: "#3fd0d4",
+                              }}
+                            />
+                          </div>
+                          <span className={cx("title")}>
+                            {tour.Description_Tour}
+                          </span>
+                          <p className={cx("location")}>{tour.Name_Tour}</p>
+                        </div>
+                      </Link>
+                    ))}
                 </SlickSlider>
               </div>
             </div>

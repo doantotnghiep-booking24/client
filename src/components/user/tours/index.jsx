@@ -22,6 +22,10 @@ function Tour() {
     initialData: [],
   });
 
+  const tourNames = Array.from(
+    new Set(tours.map((tour) => tour.Name_Tour))
+  );
+
   const { data: categories } = useQuery({
     queryKey: ["cate"],
     queryFn: fetchCategories,
@@ -170,10 +174,10 @@ function Tour() {
               <div className={cx("location", "filter-section")}>
                 <h5 className={cx("section-heading")}>Điểm đến</h5>
                 <h6 className={cx("sub-heading")}>Việt Nam</h6>
-                {tours.map((tour) => (
-                  <div key={tour._id} className={cx("location-item")}>
+                {tourNames.map((name, index) => (
+                  <div key={index} className={cx("location-item")}>
                     <Checkbox
-                      name={tour.Name_Tour}
+                      name={name}
                       onChange={handleTourNameChange}
                       sx={{
                         color: "#3fd0d4",
@@ -183,10 +187,10 @@ function Tour() {
                       }}
                     />
                     <label
-                      htmlFor={tour.Name_Tour}
+                      htmlFor={name}
                       className={cx("location-label")}
                     >
-                      {tour.Name_Tour}
+                      {name}
                     </label>
                   </div>
                 ))}
@@ -198,9 +202,6 @@ function Tour() {
                   name="rating"
                   value={selectedRating}
                   onChange={(event, newValue) => setSelectedRating(newValue)}
-                  sx={{
-                    color: "#3fd0d4",
-                  }}
                 />
               </div>
             </div>
@@ -262,9 +263,6 @@ function Tour() {
                           size="small"
                           precision={0.1}
                           readOnly
-                          sx={{
-                            color: "#3fd0d4",
-                          }}
                         />
                       )}
                       <p className={cx("section-content")}>
