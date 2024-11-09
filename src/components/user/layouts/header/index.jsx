@@ -84,7 +84,7 @@ function Header() {
     const api = "http://localhost:3001/User/RefreshToken";
 
     try {
-      console.log(user.RefreshToken);
+      console.log("reffffff",user.RefreshToken);
 
       const res = await axios.post(api, { token: user.RefreshToken });
       const data = await res.data;
@@ -94,7 +94,7 @@ function Header() {
           addAuth({
             ...dataAuth,
             AccessToken: data.NewAccessToken,
-            RefeshToken: user.RefreshToken,
+            RefreshToken: user.RefreshToken,
           })
         );
       }

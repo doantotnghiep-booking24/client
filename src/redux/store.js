@@ -7,7 +7,7 @@ import authReducer from "./features/AuthSlice"
 import newsReducer from './features/newsSlice';
 import TicketReducer from './features/TicketSlice'
 import featured_locationReducer from './features/newsSlice';
-
+import ToursRelatedReducer from './features/Tour_RelatedDetailSlice'
 
 const store = configureStore({
   reducer: {
@@ -19,6 +19,7 @@ const store = configureStore({
     news: newsReducer,
     featured_location: featured_locationReducer,
     ticket : TicketReducer,
+    ToursRelated : ToursRelatedReducer
   },
 });
 

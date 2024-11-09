@@ -1,7 +1,6 @@
 import { Button, MenuItem, Select } from "@mui/material";
 import classNames from "classnames/bind";
 import styles from "./booking.module.scss";
-
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchServicesData } from "../../../redux/features/serviceSlice";
@@ -17,43 +16,50 @@ const cx = classNames.bind(styles);
 function Booking() {
   const dispatch = useDispatch();
   const { services, loading, error } = useSelector((state) => state.services);
-  const { Data_ticket } = useSelector((state) => state.ticket)
+  const { Data_ticket } = useSelector((state) => state.ticket);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [value_CusNearest, setvalue_CusNearest] = useState("");
   const [getFormValue, setGetFormValue] = useState({
-    Name_Custommer: '',
-    Date_Of_Birth: '',
-    Sex_Custommer: '',
-    Phone_Number: '',
-    Citizen_Identification: '',
-    Address: ''
-  })
-  const { id } = useParams()
-  const reftFocus = useRef(null)
+    Name_Custommer: "",
+    Date_Of_Birth: "",
+    Sex_Custommer: "",
+    Phone_Number: "",
+    Citizen_Identification: "",
+    Address: "",
+  });
+  const { id } = useParams();
+  const reftFocus = useRef(null);
   const handleGetvalueformSelect = (e) => {
-    setGetFormValue({ ...getFormValue, Sex_Custommer: e.target.value })
-  }
+    setGetFormValue({ ...getFormValue, Sex_Custommer: e.target.value });
+  };
   const handleGetvalueform = (e) => {
-    const { name, value } = e.target
-    setGetFormValue({ ...getFormValue, [name]: value })
-  }
-
+    const { name, value } = e.target;
+    setGetFormValue({ ...getFormValue, [name]: value });
+  };
   useEffect(() => {
     dispatch(fetchServicesData());
-  }, [dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     const CallTicket = async () => {
-      const res = await getTicket(id)
-      dispatch(Ticket(res.data.Ticket))
-    }
-    CallTicket()
-  }, [])
+      const res = await getTicket(id);
+
+      dispatch(Ticket(res.data.Ticket));
+    };
+    CallTicket();
+  }, []);
 
   const handlePaymentChange = (event) => {
     setPaymentMethod(event.target.value);
   };
   const handlePayZaloPay = () => {
-    if (getFormValue['Name_Custommer'] !== '' && getFormValue['Date_Of_Birth'] !== '' && getFormValue['Sex_Custommer'] !== '' && getFormValue['Phone_Number'] !== '' && getFormValue['Citizen_Identification'] !== '') {
+    if (
+      getFormValue["Name_Custommer"] !== "" &&
+      getFormValue["Date_Of_Birth"] !== "" &&
+      getFormValue["Sex_Custommer"] !== "" &&
+      getFormValue["Phone_Number"] !== "" &&
+      getFormValue["Citizen_Identification"] !== ""
+    ) {
       const postZalopay = async () => {
         const data = {
           id_Ticket: Data_ticket[0]._id,
@@ -71,45 +77,56 @@ function Booking() {
           id_user: Data_ticket[0].id_user,
           id_Service: Data_ticket[0].id_Service,
           id_Voucher: Data_ticket[0].id_Voucher,
-          ...getFormValue
+          ...getFormValue,
+        };
+        const res = await CreateUrlZalopay(data);
+        if (res.status === 200 && res.statusText === "OK") {
+          window.location.href = `${res.data.Message.order_url}`;
         }
-        const res = await CreateUrlZalopay(data)
-        if (res.status === 200 && res.statusText === 'OK') {
-          window.location.href = `${res.data.Message.order_url}`
-        }
-
-      }
-      postZalopay()
+      };
+      postZalopay();
     } else {
-      reftFocus.current.focus()
+      reftFocus.current.focus();
     }
-  }
+  };
   const handlePayVnPay = () => {
-    if (getFormValue['Name_Custommer'] !== '' && getFormValue['Date_Of_Birth'] !== '' && getFormValue['Sex_Custommer'] !== '' && getFormValue['Phone_Number'] !== '' && getFormValue['Citizen_Identification'] !== '') {
+    if (
+      getFormValue["Name_Custommer"] !== "" &&
+      getFormValue["Date_Of_Birth"] !== "" &&
+      getFormValue["Sex_Custommer"] !== "" &&
+      getFormValue["Phone_Number"] !== "" &&
+      getFormValue["Citizen_Identification"] !== ""
+    ) {
       const postVnpay = async () => {
         const data = {
           amount: Data_ticket[0].Total_price,
-          bankCode: 'NCB',
-          language: 'vn',
+          bankCode: "NCB",
+          language: "vn",
           ticket_id: Data_ticket[0]._id,
           id_tour: Data_ticket[0].id_tour,
           id_user: Data_ticket[0].id_user,
           id_Service: Data_ticket[0].id_Service,
           id_Voucher: Data_ticket[0].id_Voucher,
-          ...getFormValue
+          ...getFormValue,
+        };
+        const res = await CreateUrlVnpay(data);
+        if (res.status === 200 && res.statusText === "OK") {
+          window.location.href = `${res.data}`;
         }
-        const res = await CreateUrlVnpay(data)
-        if (res.status === 200 && res.statusText === 'OK') {
-          window.location.href = `${res.data}`
-        }
-      }
-      postVnpay()
+      };
+      postVnpay();
     } else {
-      reftFocus.current.focus()
+      reftFocus.current.focus();
     }
-  }
+  };
   const handlePaymentDirect = () => {
-    if (getFormValue['Name_Custommer'] !== '' && getFormValue['Date_Of_Birth'] !== '' && getFormValue['Sex_Custommer'] !== '' && getFormValue['Phone_Number'] !== '' && getFormValue['Citizen_Identification'] !== '') {
+    if (
+      getFormValue["Name_Custommer"] !== "" &&
+      getFormValue["Date_Of_Birth"] !== "" &&
+      getFormValue["Sex_Custommer"] !== "" &&
+      getFormValue["Phone_Number"] !== "" &&
+      getFormValue["Citizen_Identification"] !== ""
+    ) {
       Swal.fire({
         title: "Bạn có chắc chắn muốn đặt vé không?",
         icon: "question",
@@ -125,22 +142,21 @@ function Booking() {
               id_user: Data_ticket[0].id_user,
               id_Service: Data_ticket[0].id_Service,
               id_Voucher: Data_ticket[0].id_Voucher,
-              ...getFormValue
-            }
-            const res = await CreatePayment_Direct(data)
+              ...getFormValue,
+            };
+            const res = await CreatePayment_Direct(data);
             console.log(res);
-            if (res.status === 200 && res.statusText === 'OK') {
-              Swal.fire('Thành công!', 'Đặt vé thành công.', 'success');
+            if (res.status === 200 && res.statusText === "OK") {
+              Swal.fire("Thành công!", "Đặt vé thành công.", "success");
 
-              window.location.href = 'http://localhost:5173/booking-history'
-
+              window.location.href = "http://localhost:5173/booking-history";
             }
-          }
-          postPaymentDirect()
+          };
+          postPaymentDirect();
         }
       });
     }
-  }
+  };
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -183,7 +199,6 @@ function Booking() {
                   <span>{ticket_info.Departure_Date.slice(0, 10)}</span>
                 </div>
               </div>
-
             </div>
             <div className={cx("information")}>
               <div className={cx("booking__form-adult")}>
@@ -194,28 +209,55 @@ function Booking() {
                 <div className={cx("information-adult-hed")}>
                   <div className={cx("information-adult__name")}>
                     Họ và tên:
-                    <input type="text" placeholder="Họ và tên" name="Name_Custommer" onChange={handleGetvalueform} ref={reftFocus} />
+                    <input
+                      type="text"
+                      placeholder="Họ và tên"
+                      name="Name_Custommer"
+                      onChange={handleGetvalueform}
+                      ref={reftFocus}
+                    />
                   </div>
                   <div className={cx("information-adult__birth")}>
                     Ngày sinh:
-                    <input type="date" name="Date_Of_Birth" onChange={handleGetvalueform} />
+                    <input
+                      type="date"
+                      name="Date_Of_Birth"
+                      onChange={handleGetvalueform}
+                    />
                   </div>
                   <div className={cx("information-adult__sect")}>
                     Giới tính:
-                    <select name="Sex_Custommer" onChange={handleGetvalueformSelect}>
-                      <option data-sex={"Nam"} value="Nam">Nam</option>
-                      <option data-sex={"Nữ"} value="Nữ">Nữ</option>
+                    <select
+                      name="Sex_Custommer"
+                      onChange={handleGetvalueformSelect}
+                    >
+                      <option data-sex={"Nam"} value="Nam">
+                        Nam
+                      </option>
+                      <option data-sex={"Nữ"} value="Nữ">
+                        Nữ
+                      </option>
                     </select>
                   </div>
                 </div>
                 <div className={cx("information-adult-sub")}>
                   <div className={cx("information-adult__phone")}>
                     Số điện thoại:
-                    <input type="text" placeholder="Số điện thoại" name="Phone_Number" onChange={handleGetvalueform} />
+                    <input
+                      type="text"
+                      placeholder="Số điện thoại"
+                      name="Phone_Number"
+                      onChange={handleGetvalueform}
+                    />
                   </div>
                   <div className={cx("information-adult__cccd")}>
                     Căn cước:
-                    <input type="text" placeholder="CCCD" name="Citizen_Identification" onChange={handleGetvalueform} />
+                    <input
+                      type="text"
+                      placeholder="CCCD"
+                      name="Citizen_Identification"
+                      onChange={handleGetvalueform}
+                    />
                   </div>
                 </div>
               </div>
@@ -233,7 +275,9 @@ function Booking() {
                 </div>
                 <div className={cx("pay__sub-total")}>
                   Tạm tính:
-                  <span>{ticket_info.Total_price.toLocaleString('vi-VN')}VND</span>
+                  <span>
+                    {ticket_info.Total_price.toLocaleString("vi-VN")}VND
+                  </span>
                 </div>
                 <div className={cx("pay__sub-discount")}>
                   Ưu đãi:
@@ -241,7 +285,9 @@ function Booking() {
                 </div>
                 <div className={cx("pay__sub-total-pay")}>
                   Tổng tiền thanh toán:
-                  <span>{ticket_info.Total_price.toLocaleString('vi-VN')}VND</span>
+                  <span>
+                    {ticket_info.Total_price.toLocaleString("vi-VN")}VND
+                  </span>
                 </div>
                 <div className={cx("pay__sub-code")}>
                   Nhập mã:
@@ -258,7 +304,6 @@ function Booking() {
               </div>
               <div className={cx("pay__sub-payment")}>
                 <h5>Phương thức thanh toán</h5>
-
                 <Button
                   variant="outlined"
                   type="button"
@@ -274,7 +319,8 @@ function Booking() {
                   onClick={handlePaymentDirect}
                 >
                   Thanh toán trực tiếp
-                </Button> <br />
+                </Button>{" "}
+                <br />
                 <Select
                   value={paymentMethod}
                   onChange={handlePaymentChange}
@@ -298,14 +344,36 @@ function Booking() {
                   }}
                   className={cx("select-payment")}
                 >
-                  <MenuItem value="" disabled >
+                  <MenuItem value="" disabled>
                     Chọn phương thức thanh toán
                   </MenuItem>
-                  <MenuItem onClick={handlePayZaloPay} value="zalopay"> <img style={{ width: '40px', height: '40px', marginRight: '5px' }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe6SEQ293X0nfFojf6nsCWKA8dNGOrqn21jg&s" alt="" />ZaloPay</MenuItem>
-                  <MenuItem onClick={handlePayVnPay} value="vnpay"> <img style={{ width: '40px', height: '25px', marginRight: '5px' }} src="https://i.pinimg.com/1200x/f9/5e/a2/f95ea23c297af3170d9d75173bed9d7e.jpg" alt="" />VNPay</MenuItem>
+                  <MenuItem onClick={handlePayZaloPay} value="zalopay">
+                    {" "}
+                    <img
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        marginRight: "5px",
+                      }}
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe6SEQ293X0nfFojf6nsCWKA8dNGOrqn21jg&s"
+                      alt=""
+                    />
+                    ZaloPay
+                  </MenuItem>
+                  <MenuItem onClick={handlePayVnPay} value="vnpay">
+                    {" "}
+                    <img
+                      style={{
+                        width: "40px",
+                        height: "25px",
+                        marginRight: "5px",
+                      }}
+                      src="https://i.pinimg.com/1200x/f9/5e/a2/f95ea23c297af3170d9d75173bed9d7e.jpg"
+                      alt=""
+                    />
+                    VNPay
+                  </MenuItem>
                 </Select>
-
-
               </div>
             </div>
           </form>

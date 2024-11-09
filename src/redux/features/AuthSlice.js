@@ -7,7 +7,7 @@ const initialState = {
     Name: "",
     photoUrl: "",
     AccessToken: "",
-    RefeshToken: ""
+    RefreshToken: ""
 };
 
 const authSlice = createSlice({
@@ -20,9 +20,14 @@ const authSlice = createSlice({
             state.Name = action.payload.Name;
             state.photoUrl = action.payload.photoUrl;
             state.AccessToken = action.payload.AccessToken;
-            state.RefeshToken = action.payload.RefeshToken;
+            state.RefreshToken = action.payload.RefreshToken;
 
-            Cookies.set("auth", JSON.stringify(action.payload), { sameSite: 'Strict', expires: 3 });
+            Cookies.set("auth", JSON.stringify(action.payload), {
+                sameSite: "Lax",
+                expires: 3,
+                path: '/',
+                domain: 'localhost'
+            });
         },
         logoutAuth: (state) => {
             state._id = null;
@@ -30,7 +35,7 @@ const authSlice = createSlice({
             state.Name = "";
             state.photoUrl = "";
             state.AccessToken = "";
-            state.RefeshToken = "";
+            state.RefreshToken = "";
 
             Cookies.remove("auth");
         },
