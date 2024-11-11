@@ -4,8 +4,9 @@ const initialState = {
   Data_ToursRelated: [],
   Data_SheduleTourByid: [],
   Data_TourFavourite: [],
+  Data_Hotels: []
 };
-export const ToursRelatedSlice = createSlice({
+export const PageDetail = createSlice({
   name: 'getToursRelated',
   initialState,
   reducers: {
@@ -18,8 +19,13 @@ export const ToursRelatedSlice = createSlice({
     TourFavourite: (state, action) => {
       state.Data_TourFavourite = action.payload
     },
+    Hotels: (state, action) => {
+      state.Data_Hotels = action.payload
+      console.log(state.Data_Hotels);
+      
+    }
   },
 });
 
-export const { ToursRelateds, Shedule_tour_Byid, TourFavourite } = ToursRelatedSlice.actions;
-export default ToursRelatedSlice.reducer;
+export const { ToursRelateds, Shedule_tour_Byid, TourFavourite, Hotels } = PageDetail.actions;
+export default PageDetail.reducer;
