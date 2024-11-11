@@ -16,6 +16,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { CreateTicket } from "../../../../services/PostTicket";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useQuery } from "@tanstack/react-query";
 // import { useDispatch, useSelector } from "react-redux";
 // import { fetchTourDetails } from "../../../../redux/features/tourSlice";
@@ -39,9 +41,17 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
 import axios from "axios";
+import { GetTours_Related } from "../../../../services/getTours_Related";
+import { ToursRelateds, Shedule_tour_Byid, TourFavourite } from "../../../../redux/features/Tour_RelatedDetailSlice";
+import { getScheduleByid } from "../../../../services/GetSchedule_Travel";
+import { CreateTourFavourite, CancleTourFavourite, GetToursFavourite } from "../../../../services/Tour_Favourite";
 const cx = classNames.bind(styles);
 
 function Details() {
+  const dispatch = useDispatch()
+  let resultcheckTourFavourite = localStorage.getItem('isCheckTourFavourite')
+
+  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite } = useSelector((state) => state.ToursRelated)
   const { id } = useParams();
   const Name_user = JSON.parse(Cookies.get("auth")).Name;
   const [reviews, setReviews] = useState([]);
@@ -51,11 +61,11 @@ function Details() {
   const [validate, setValidate] = useState(true);
   const [selectedTab, setSelectedTab] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [is_Loading, setIs_Loading] = useState(false);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc",
   });
 
-  console.log(reviews);
 
   const [valueform, setValueform] = useState({
     Adult: 1,
@@ -70,6 +80,19 @@ function Details() {
     setIsExpanded(!isExpanded);
   };
   useEffect(() => {
+
+    const handleGetSchedule = async () => {
+      const res = await getScheduleByid(tour?.id_Schedule_Travel)
+
+      dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid))
+    }
+    handleGetSchedule()
+  }, [selectedTab])
+
+  const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
+  
+
+  useEffect(() => {
     if (RefScroll) {
       RefScroll.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -79,7 +102,13 @@ function Details() {
     queryKey: ["Tour", id],
     queryFn: () => fetchTourDetails(id),
   });
-
+  useEffect(() => {
+    const Tour_Related = async () => {
+      const res = await GetTours_Related()
+      dispatch(ToursRelateds(res.data.Tours_Related))
+    }
+    Tour_Related()
+  }, [])
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
@@ -97,6 +126,31 @@ function Details() {
   } else if (valueform.Children <= 0) {
     total = total - children;
   }
+
+  const ress = Data_TourFavourite?.some(tour_Fav => tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id))
+
+  const handleGetTourFavourite = async () => {
+    const res = await GetToursFavourite()
+    dispatch(TourFavourite(res.TourFavourite))
+  }
+
+  useEffect(() => {
+    handleGetTourFavourite()
+  }, [])
+
+  const handleTourFavourite = async () => {
+    const data = { id_user, id }
+    setIs_Loading(true)
+    const res = await CreateTourFavourite(data)
+    if (res) {
+      dispatch(TourFavourite(res.CheckIsTourFav))
+      handleGetTourFavourite()
+      setTimeout(() => {
+        setIs_Loading(false)
+      }, 1500)
+    }
+  }
+
   const handleCreateTicket = async () => {
     if (valueDate) {
       setValidate(true);
@@ -104,12 +158,14 @@ function Details() {
         const data = {
           id_tour: tour?._id,
           id_user: id_user,
-          id_Service: 2,
-          id_Custommer: 3,
-          id_Voucher: 4,
+          id_Service: null,
+          id_Custommer: null,
+          id_Voucher: null,
           Departure_Location: tour?.Start_Tour,
           Destination: tour?.End_Tour,
           Title_Tour: tour?.Title_Tour,
+          Price_Tour: tour?.Price_Tour,
+          After_Discount: tour?.After_Discount,
           Departure_Date: valueDate,
           Departure_Time: "8:00",
           Total_DateTrip: tour?.total_Date,
@@ -223,11 +279,11 @@ function Details() {
     const api = "http://localhost:3001/V1/Tours/AllComment";
     try {
       const res = await axios.get(`${api}/${id}`);
-      console.log(res.data);
+      // console.log(res.data);
 
       const data = await res.data;
-      console.log(data.data);
-      setReviews(data.data);
+      // console.log(data.data);
+      setReviews(data.data)
     } catch (error) {
       console.log(error);
     }
@@ -345,87 +401,54 @@ function Details() {
                     />
                   </Tabs>
                 </div>
-                {selectedTab === 0 ? (
-                  <div className={cx(`content__home-text `)}>
-                    {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
-                    <div className={cx("content__home-title")}>
-                      <p className={cx("content__home-heading")}>
-                        {tour.Title_Tour}
-                      </p>
-                      <span className={cx("content__home-desc")}>
-                        {tour.Description_Tour.slice(
-                          0,
-                          isExpanded ? tour.Description_Tour.length : 300
-                        )}
-                      </span>
-                    </div>
-                    {/* <div className={cx("content__home-image")}> */}
-                    {isExpanded ? (
-                      <div className={cx("content__home-image")}>
-                        <img
-                          src={tour.Image_Tour[1].path}
-                          alt={tour.Name_Tour}
-                        />
-                        <img
-                          src={tour.Image_Tour[2].path}
-                          alt={tour.Name_Tour}
-                          className={cx("content__home-image-w")}
-                        />
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                    {/* </div> */}
-                    <p className={cx("seeMore")} onClick={handleClick}>
-                      {isExpanded ? "Thu gọn" : "Xem thêm"}
+                {selectedTab === 0 ? <div className={cx(`content__home-text `)}>
+                  {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
+                  <div className={cx("content__home-title")}>
+                    <p className={cx("content__home-heading")}>
+                      {tour.Title_Tour}
                     </p>
+                    <span className={cx("content__home-desc")}>
+                      {tour.Description_Tour.slice(0, `${isExpanded ? tour.Description_Tour.length : 300}`)}
+                    </span>
                   </div>
-                ) : selectedTab === 1 ? (
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <div>
-                        <h4 style={{ marginTop: "15px", marginBottom: "20px" }}>
-                          8h30
-                        </h4>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                      </div>
-                      <div>
-                        <h4 style={{ marginTop: "15px", marginBottom: "20px" }}>
-                          8h30
-                        </h4>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                      </div>
-                      <div>
-                        <h4 style={{ marginTop: "15px", marginBottom: "20px" }}>
-                          8h30
-                        </h4>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                        <p>- Đón khách tại Nha Trang</p>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <GoogleMap
-                    mapContainerStyle={{ height: "400px", width: "100%" }}
-                    center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
-                    zoom={13}
-                  >
-                    <Marker
-                    // key={location.id}
-                    // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  {/* <div className={cx("content__home-image")}> */}
+                  {isExpanded ? <div className={cx("content__home-image")}>
+                    <img
+                      src={tour.Image_Tour[1]?.path} alt={tour.Name_Tour}
                     />
-                  </GoogleMap>
-                )}
+                    <img
+                      src={tour.Image_Tour[2]?.path}
+                      alt={tour.Name_Tour}
+                      className={cx("content__home-image-w")}
+                    />
+                  </div> : ''}
+                  {/* </div> */}
+                  <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
+
+                </div> : (selectedTab === 1 ? <div>
+                  {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
+                  <div className={cx("content__home-title")}>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
+                    </span>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
+                    </span>
+                    <span className={cx("content__home-desc")}>
+                      {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
+                    </span>
+                  </div>
+
+                  {/* </div> */}
+                </div> : <GoogleMap
+                  mapContainerStyle={{ height: '400px', width: '100%' }}
+                  center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  zoom={13}
+                >
+                  <Marker
+                  // key={location.id}
+                  // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                  /></GoogleMap>)}
 
                 <div className="reviews">
                   <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
@@ -466,10 +489,12 @@ function Details() {
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
-                        <FavoriteIcon
-                          fontSize="small"
-                          sx={{ color: "#ff1744" }}
-                        />
+                        {is_Loading ? <CircularProgress size={20} color="inherit" /> : <FavoriteIcon
+                          fontSize="medium"
+                          sx={ress ? { color: "red", cursor: 'pointer' } : { color: "gray", cursor: 'pointer' }}
+                          onClick={handleTourFavourite}
+                        // ff1744 
+                        />}
                       </div>
                       <div className={cx("share")}>
                         <ShareOutlinedIcon fontSize="small" />
@@ -671,8 +696,8 @@ function Details() {
                   </li>
                 </ul> */}
                 <div className={cx("aside__list")}>
-                  <h3 className={cx("aside__list-heding")}>
-                    Danh sách khách sạn
+                  <h3 style={{textAlign :'center'}} className={cx("aside__list-heding")}>
+                    Lựa chọn đi kèm
                   </h3>
                   <div className={cx("hotels")}>
                     <img

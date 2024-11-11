@@ -8,7 +8,7 @@ import { fetchNewsData } from "../../../services/fetchNews";
 const cx = classNames.bind(styles);
 
 function NewsDetail() {
-  const querynews = useQuery({ queryKey: ['news'], queryFn: fetchNewsData, initialData: [] })
+  const querynews = useQuery({ queryKey: ['news'], queryFn: fetchNewsData, initialData: [], staleTime: 180000 })
 
 
   const { id } = useParams(); // Lấy id từ URL
