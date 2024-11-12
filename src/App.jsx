@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import Tour from "./components/user/tours";
 import NewsDetail from "./components/user/news__detail";
-
+import Booked from "./components/user/booked";
 import "./styles/app.module.scss";
 
 function App() {
@@ -51,6 +51,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour />} />
         <Route path="/tours/:id" element={<Details />} />
+        <Route path="/booked" element={<Booked />} />
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />
