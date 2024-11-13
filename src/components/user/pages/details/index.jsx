@@ -322,7 +322,7 @@ function Details() {
       const res = await axios.get(`${api}/${id}`);
       // console.log(res.data);
 
-      const data = await res.data;
+      const data = await res.data
       // console.log(data.data);
       setReviews(data.data)
     } catch (error) {
