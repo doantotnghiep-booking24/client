@@ -75,7 +75,6 @@ function Header() {
     if (!token) return true;
     const decoded = jwtDecode(token);
     const currentTime = Math.floor(Date.now() / 1000);
-    console.log(decoded.exp < currentTime);
 
     return decoded.exp < currentTime;
   };

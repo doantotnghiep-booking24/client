@@ -34,29 +34,38 @@ import styles from "./details.module.scss";
 import Slider from "react-slick";
 import SideBarComponent from "./sidebar/SideBarComment";
 import { Tabs, Tab } from "@mui/material";
-import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
-import WifiOutlinedIcon from '@mui/icons-material/WifiOutlined';
-import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
-import DeckOutlinedIcon from '@mui/icons-material/DeckOutlined';
-import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import AcUnitOutlinedIcon from '@mui/icons-material/AcUnitOutlined';
-import Rating from '@mui/material/Rating';
+import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
+import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
+import Diversity3OutlinedIcon from "@mui/icons-material/Diversity3Outlined";
+import DeckOutlinedIcon from "@mui/icons-material/DeckOutlined";
+import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import AcUnitOutlinedIcon from "@mui/icons-material/AcUnitOutlined";
+import Rating from "@mui/material/Rating";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
 import axios from "axios";
 import { GetTours_Related } from "../../../../services/getTours_Related";
-import { ToursRelateds, Shedule_tour_Byid, TourFavourite } from "../../../../redux/features/Tour_RelatedDetailSlice";
+import {
+  ToursRelateds,
+  Shedule_tour_Byid,
+  TourFavourite,
+} from "../../../../redux/features/Tour_RelatedDetailSlice";
 import { getScheduleByid } from "../../../../services/GetSchedule_Travel";
-import { CreateTourFavourite, CancleTourFavourite, GetToursFavourite } from "../../../../services/Tour_Favourite";
+import {
+  CreateTourFavourite,
+  CancleTourFavourite,
+  GetToursFavourite,
+} from "../../../../services/Tour_Favourite";
 const cx = classNames.bind(styles);
 import formatDate from "../../../../utils/formatDate";
 
 function Details() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite } = useSelector((state) => state.ToursRelated)
+  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite } =
+    useSelector((state) => state.ToursRelated);
   const { id } = useParams();
   const Name_user = JSON.parse(Cookies.get("auth")).Name;
   const [reviews, setReviews] = useState([]);
@@ -71,7 +80,6 @@ function Details() {
     googleMapsApiKey: "AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc",
   });
 
-
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
@@ -85,17 +93,17 @@ function Details() {
     setIsExpanded(!isExpanded);
   };
   useEffect(() => {
-
     const handleGetSchedule = async () => {
-      const res = await getScheduleByid(tour?.id_Schedule_Travel)
+      const res = await getScheduleByid(tour?.id_Schedule_Travel);
 
-      dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid))
-    }
-    handleGetSchedule()
-  }, [selectedTab])
+      dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid));
+    };
+    handleGetSchedule();
+  }, [selectedTab]);
 
-  const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
-  
+  const result = Data_ToursRelated.filter(
+    (toursRelated) => toursRelated._id !== id
+  );
 
   useEffect(() => {
     if (RefScroll) {
@@ -109,11 +117,11 @@ function Details() {
   });
   useEffect(() => {
     const Tour_Related = async () => {
-      const res = await GetTours_Related()
-      dispatch(ToursRelateds(res.data.Tours_Related))
-    }
-    Tour_Related()
-  }, [])
+      const res = await GetTours_Related();
+      dispatch(ToursRelateds(res.data.Tours_Related));
+    };
+    Tour_Related();
+  }, []);
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
@@ -132,29 +140,32 @@ function Details() {
     total = total - children;
   }
 
-  const ress = Data_TourFavourite?.some(tour_Fav => tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id))
+  const ress = Data_TourFavourite?.some(
+    (tour_Fav) =>
+      tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id)
+  );
 
   const handleGetTourFavourite = async () => {
-    const res = await GetToursFavourite()
-    dispatch(TourFavourite(res.TourFavourite))
-  }
+    const res = await GetToursFavourite();
+    dispatch(TourFavourite(res.TourFavourite));
+  };
 
   useEffect(() => {
-    handleGetTourFavourite()
-  }, [])
+    handleGetTourFavourite();
+  }, []);
 
   const handleTourFavourite = async () => {
-    const data = { id_user, id }
-    setIs_Loading(true)
-    const res = await CreateTourFavourite(data)
+    const data = { id_user, id };
+    setIs_Loading(true);
+    const res = await CreateTourFavourite(data);
     if (res) {
-      dispatch(TourFavourite(res.CheckIsTourFav))
-      handleGetTourFavourite()
+      dispatch(TourFavourite(res.CheckIsTourFav));
+      handleGetTourFavourite();
       setTimeout(() => {
-        setIs_Loading(false)
-      }, 1500)
+        setIs_Loading(false);
+      }, 1500);
     }
-  }
+  };
 
   const handleCreateTicket = async () => {
     if (valueDate) {
@@ -283,16 +294,13 @@ function Details() {
   const getCommentRating = async () => {
     const api = "http://localhost:3001/V1/Tours/AllComment";
     try {
-
-      const res = await axios.get(`${api}/${id}`,{ withCredentials: true});
-
+      const res = await axios.get(`${api}/${id}`, { withCredentials: true });
 
       // console.log(res.data);
 
-
       const data = await res.data;
-      // console.log(data.data);
-      setReviews(data.data)
+
+      setReviews(data.data);
     } catch (error) {
       console.log(error);
     }
@@ -346,6 +354,8 @@ function Details() {
     setDetailOpen(false);
     setSelectedHotel(null);
   };
+
+
   return (
     <div ref={RefScroll} className={cx("wrap")}>
       <div className={cx("banner")}>
@@ -410,54 +420,70 @@ function Details() {
                     />
                   </Tabs>
                 </div>
-                {selectedTab === 0 ? <div className={cx(`content__home-text `)}>
-                  {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
-                  <div className={cx("content__home-title")}>
-                    <p className={cx("content__home-heading")}>
-                      {tour.Title_Tour}
+                {selectedTab === 0 ? (
+                  <div className={cx(`content__home-text `)}>
+                    {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
+                    <div className={cx("content__home-title")}>
+                      <p className={cx("content__home-heading")}>
+                        {tour.Title_Tour}
+                      </p>
+                      <span className={cx("content__home-desc")}>
+                        {tour.Description_Tour.slice(
+                          0,
+                          `${isExpanded ? tour.Description_Tour.length : 300}`
+                        )}
+                      </span>
+                    </div>
+                    {/* <div className={cx("content__home-image")}> */}
+                    {isExpanded ? (
+                      <div className={cx("content__home-image")}>
+                        <img
+                          src={tour.Image_Tour[1]?.path}
+                          alt={tour.Name_Tour}
+                        />
+                        <img
+                          src={tour.Image_Tour[2]?.path}
+                          alt={tour.Name_Tour}
+                          className={cx("content__home-image-w")}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {/* </div> */}
+                    <p className={cx("seeMore")} onClick={handleClick}>
+                      {isExpanded ? "Thu gọn" : "Xem thêm"}
                     </p>
-                    <span className={cx("content__home-desc")}>
-                      {tour.Description_Tour.slice(0, `${isExpanded ? tour.Description_Tour.length : 300}`)}
-                    </span>
                   </div>
-                  {/* <div className={cx("content__home-image")}> */}
-                  {isExpanded ? <div className={cx("content__home-image")}>
-                    <img
-                      src={tour.Image_Tour[1]?.path} alt={tour.Name_Tour}
-                    />
-                    <img
-                      src={tour.Image_Tour[2]?.path}
-                      alt={tour.Name_Tour}
-                      className={cx("content__home-image-w")}
-                    />
-                  </div> : ''}
-                  {/* </div> */}
-                  <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
+                ) : selectedTab === 1 ? (
+                  <div>
+                    {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
+                    <div className={cx("content__home-title")}>
+                      <span className={cx("content__home-desc")}>
+                        {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
+                      </span>
+                      <span className={cx("content__home-desc")}>
+                        {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
+                      </span>
+                      <span className={cx("content__home-desc")}>
+                        {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
+                      </span>
+                    </div>
 
-                </div> : (selectedTab === 1 ? <div>
-                  {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
-                  <div className={cx("content__home-title")}>
-                    <span className={cx("content__home-desc")}>
-                      {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
-                    </span>
-                    <span className={cx("content__home-desc")}>
-                      {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
-                    </span>
-                    <span className={cx("content__home-desc")}>
-                      {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
-                    </span>
+                    {/* </div> */}
                   </div>
-
-                  {/* </div> */}
-                </div> : <GoogleMap
-                  mapContainerStyle={{ height: '400px', width: '100%' }}
-                  center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
-                  zoom={13}
-                >
-                  <Marker
-                  // key={location.id}
-                  // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
-                  /></GoogleMap>)}
+                ) : (
+                  <GoogleMap
+                    mapContainerStyle={{ height: "400px", width: "100%" }}
+                    center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                    zoom={13}
+                  >
+                    <Marker
+                    // key={location.id}
+                    // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                    />
+                  </GoogleMap>
+                )}
 
                 <div className="reviews">
                   <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
@@ -465,51 +491,100 @@ function Details() {
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
-                    <Slider {...settings}>
-                      {reviews?.map((review, index) => (
-                        <div key={index} className={cx("slider-item")}>
+                    {reviews.length > 1 ? (
+                     <Slider {...settings}>
+                     {reviews?.map((review, index) => (
+                       <div key={index} className={cx("slider-item")}>
+                         <div
+                           style={{
+                             display: "flex",
+                             alignItems: "center",
+                             gap: "5px",
+                           }}
+                         >
+                           {" "}
+                           <Avatar
+                             src={review ? review.photoUrl : ""}
+                             sx={{ width: 50, height: 50 }}
+                           />
+                           <div
+                             style={{
+                               display: "flex",
+                               flexDirection: "column",
+                             }}
+                           >
+                             <h4
+                               style={{
+                                 margin: 0,
+                               }}
+                             >
+                               {review.userName}
+                             </h4>
+                             <Rating
+                               name="size-small"
+                               defaultValue={review.rating}
+                               size="small"
+                             />
+                             <span className="review-date">
+                               {formatDate(review.Create_At)}
+                             </span>
+                           </div>
+                         </div>
+
+                         <p className="review-content">
+                           &quot;{review.content}&quot;
+                         </p>
+                       </div>
+                     ))}
+                   </Slider>
+                    ) : (
+                      <>
+                      <div key={reviews[0]?._id} className={cx("slider-item")}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          {" "}
+                          <Avatar
+                            src={reviews[0] ? reviews[0]?.photoUrl : ""}
+                            sx={{ width: 50, height: 50 }}
+                          />
                           <div
                             style={{
                               display: "flex",
-                              alignItems: "center",
-                              gap: "5px",
+                              flexDirection: "column",
                             }}
                           >
-                            {" "}
-                            <Avatar
-                              src={review ? review.photoUrl : ""}
-                              sx={{ width: 50, height: 50 }}
-                            />
-                            <div
+                            <h4
                               style={{
-                                display: "flex",
-                                flexDirection: "column",
+                                margin: 0,
                               }}
                             >
-                              <h4
-                                style={{
-                                  margin: 0,
-                                }}
-                              >
-                                {review.userName}
-                              </h4>
-                              <Rating
-                                name="size-small"
-                                defaultValue={review.rating}
-                                size="small"
-                              />
-                              <span className="review-date">
-                                {formatDate(review.Create_At)}
-                              </span>
-                            </div>
+                              {reviews[0]?.userName}
+                            </h4>
+                            <Rating
+                              name="size-small"
+                              defaultValue={reviews[0]?.rating}
+                              size="small"
+                            />
+                            <span className="review-date">
+                              {formatDate(reviews[0]?.Create_At)}
+                            </span>
                           </div>
-
-                          <p className="review-content">
-                            &quot;{review.content}&quot;
-                          </p>
                         </div>
-                      ))}
-                    </Slider>{" "}
+
+                        <p className="review-content">
+                          &quot;{reviews[0]?.content}&quot;
+                        </p>
+                      </div>
+                    </>
+
+
+                      
+                    )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
                 </div>
@@ -533,19 +608,27 @@ function Details() {
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
-                        {is_Loading ? <CircularProgress size={20} color="inherit" /> : <FavoriteIcon
-                          fontSize="medium"
-                          sx={ress ? { color: "red", cursor: 'pointer' } : { color: "gray", cursor: 'pointer' }}
-                          onClick={handleTourFavourite}
-                        // ff1744 
-                        />}
+                        {is_Loading ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : (
+                          <FavoriteIcon
+                            fontSize="medium"
+                            sx={
+                              ress
+                                ? { color: "red", cursor: "pointer" }
+                                : { color: "gray", cursor: "pointer" }
+                            }
+                            onClick={handleTourFavourite}
+                            // ff1744
+                          />
+                        )}
                       </div>
                       <div className={cx("share")}>
                         <ShareOutlinedIcon fontSize="small" />
                       </div>
                     </div>
                   </div>
-                  <div  className={cx("aside__date")}>
+                  <div className={cx("aside__date")}>
                     <LocalizationProvider
                       dateAdapter={AdapterDayjs}
                       locale="vi"
@@ -740,7 +823,10 @@ function Details() {
                   </li>
                 </ul> */}
                 <div className={cx("aside__list")}>
-                  <h3 style={{textAlign :'center'}} className={cx("aside__list-heding")}>
+                  <h3
+                    style={{ textAlign: "center" }}
+                    className={cx("aside__list-heding")}
+                  >
                     Lựa chọn đi kèm
                   </h3>
                   <div className={cx("hotels")}>
@@ -752,7 +838,7 @@ function Details() {
                       <h4 className={cx("hotel__content-name")}>
                         Aparthotel Stare Miasto
                       </h4>
-                      <Rating  defaultValue={5} readOnly size="small"/>
+                      <Rating defaultValue={5} readOnly size="small" />
                       <p className={cx("hotel__content-des")}>
                         Nằm trong một tòa nhà cổ xưa, Aparthotel Stare Miasto có
                         thiết kế nội thất độc đáo với tông màu ấm của gạch cùng
@@ -814,7 +900,7 @@ function Details() {
                           >
                             {hotel.name}
                           </h4>
-                        <Rating  defaultValue={5} readOnly size="small"/>
+                          <Rating defaultValue={5} readOnly size="small" />
                           <p className={cx("hotel__content-des")}>
                             {hotel.description}
                           </p>
@@ -869,7 +955,11 @@ function Details() {
                     </DialogTitle>
                     <DialogContent
                       dividers
-                      style={{ backgroundColor: "#f7f7f7", padding: "20px", display: "flex",  }}
+                      style={{
+                        backgroundColor: "#f7f7f7",
+                        padding: "20px",
+                        display: "flex",
+                      }}
                     >
                       <div>
                         <h3>GM Serviced Apartment (SHA Certified)</h3>
@@ -956,35 +1046,35 @@ function Details() {
                         </div>
                         <ul className={cx("list-service")}>
                           <li className={cx("item-service")}>
-                             <HouseOutlinedIcon fontSize="large"/>
-                             <span>Căn hộ</span>
+                            <HouseOutlinedIcon fontSize="large" />
+                            <span>Căn hộ</span>
                           </li>
                           <li className={cx("item-service")}>
-                             <WifiOutlinedIcon fontSize="large"/>
-                             <span>WiFi miễn phí</span>
+                            <WifiOutlinedIcon fontSize="large" />
+                            <span>WiFi miễn phí</span>
                           </li>
                           <li className={cx("item-service")}>
-                             <Diversity3OutlinedIcon fontSize="large"/>
-                             <span>Phòng gia đình</span>
+                            <Diversity3OutlinedIcon fontSize="large" />
+                            <span>Phòng gia đình</span>
                           </li>
                           <li className={cx("item-service")}>
-                             <DeckOutlinedIcon fontSize="large"/>
-                             <span>Ban công</span>
+                            <DeckOutlinedIcon fontSize="large" />
+                            <span>Ban công</span>
                           </li>
                           <li className={cx("item-service")}>
-                             <AcUnitOutlinedIcon fontSize="large"/>
-                             <span>Điều hòa</span>
+                            <AcUnitOutlinedIcon fontSize="large" />
+                            <span>Điều hòa</span>
                           </li>
                           <li className={cx("item-service")}>
-                             <BathtubOutlinedIcon fontSize="large"/>
-                             <span>Phòng tắm riêng</span>
+                            <BathtubOutlinedIcon fontSize="large" />
+                            <span>Phòng tắm riêng</span>
                           </li>
                           <li className={cx("item-service")}>
-                             <RemoveRedEyeOutlinedIcon fontSize="large"/>
-                             <span>Tầm nhìn ra khung cảnh</span>
+                            <RemoveRedEyeOutlinedIcon fontSize="large" />
+                            <span>Tầm nhìn ra khung cảnh</span>
                           </li>
                         </ul>
-                        <p style={{marginTop: 10}}>
+                        <p style={{ marginTop: 10 }}>
                           Thông tin uy tín:Khách nói rằng mô tả và hình ảnh chỗ
                           nghỉ này đúng với sự thật. GM Serviced Apartment chiếm
                           vị trí thuận tiện ở trung tâm Thành phố Bangkok. Nơi

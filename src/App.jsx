@@ -19,9 +19,7 @@ import "./styles/app.module.scss";
 import EditProfile from "./components/user/auth/editProfile/index.jsx";
 import Profile_Detail from "./components/user/auth/editProfile/components/Profile_Detail.jsx";
 import Setting from "./components/user/auth/editProfile/components/Setting.jsx";
-import { jwtDecode } from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
-import { addAuth } from "./redux/features/AuthSlice.js";
+
 function App() {
   useEffect(() => {
     const interceptor = axios.interceptors.request.use(
