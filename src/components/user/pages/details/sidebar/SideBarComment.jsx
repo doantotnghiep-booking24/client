@@ -41,9 +41,7 @@ export default function SideBarComponent({ reviewButton }) {
   const dataAuth = useSelector((state) => state.auth);
 
   React.useEffect(() => {
-    // Kết nối đến Socket.IO server
-
-    socketRef.current = io("http://localhost:3001"); // Lưu socket vào ref
+    socketRef.current = io("http://localhost:3001");
     socketRef.current.on("connect", () => {
       console.log("Connecting sidebar...");
     });
@@ -71,7 +69,7 @@ export default function SideBarComponent({ reviewButton }) {
   const getAllDataReview = async () => {
     const api = "http://localhost:3001/V1/Review/GetReview";
     try {
-      const result = await fetch(`${api}/${id}`);
+      const result = await fetch(`${api}/${id}`, { credentials: "include" });
       const data = await result.json();
 
       setDataComment(data.data);
@@ -82,7 +80,7 @@ export default function SideBarComponent({ reviewButton }) {
   const getDataTour = async () => {
     const api = "http://localhost:3001/V1/Tours/DetailTour";
     try {
-      const result = await fetch(`${api}/${id}`);
+      const result = await fetch(`${api}/${id}`, { credentials: "include" });
       const data = await result.json();
       setDataTour(data.detailTour);
     } catch (error) {

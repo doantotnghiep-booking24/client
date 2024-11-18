@@ -66,7 +66,7 @@ export default function ModalReviewImg({
                 height: "100%",
               }}
             >
-              {imgReview.map((item, index) => (
+              {imgReview?.map((item, index) => (
                 <div
                   key={index}
                   className="slide"
@@ -74,16 +74,16 @@ export default function ModalReviewImg({
                     minWidth: "100%",
                     boxSizing: "border-box",
                     display: "flex",
-                    justifyContent: "center", // Căn giữa ảnh theo chiều ngang
-                    alignItems: "center", // Căn giữa ảnh theo chiều dọc
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   <img
                     src={item.path}
                     alt={item.title}
                     style={{
-                      maxWidth: "100%",
-                      maxHeight: "90%", // Đảm bảo ảnh không vượt quá kích thước modal
+                      maxWidth: "90%",
+                      maxHeight: "80%", // Đảm bảo ảnh không vượt quá kích thước modal
                       objectFit: "cover", // Phủ kín ảnh mà không bị méo
                       borderRadius: "8px", // Bo tròn các góc của ảnh
                     }}

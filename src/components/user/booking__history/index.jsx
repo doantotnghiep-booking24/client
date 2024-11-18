@@ -108,7 +108,7 @@ function BookingHistory() {
                       <div className={cx("ticket__time")}>
                         <div className={cx("ticket__time-date")}>
                           <span>Ngày đặt vé: </span>
-                          <p>{ticket_history.Created_at_Booking.slice(0, 10)}</p>
+                          <p>{ticket_history.Created_at_Booking?.slice(0, 10)}</p>
                         </div>
                         <div className={cx("ticket__time-date-departure ")}>
                           <span>Ngày khởi hành: </span>
