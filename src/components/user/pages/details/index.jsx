@@ -222,7 +222,7 @@ function Details() {
         setTimeout(async () => {
           const res = await CreateTicket(data);
           if (res.status === 200 && res.statusText === "OK") {
-            navigate(`/booking/${res.data.ticKetId.insertedId}`);
+            navigate(`/booked/${res.data.ticKetId.insertedId}`);
           }
         }, 2000);
       };
@@ -322,7 +322,7 @@ function Details() {
       const res = await axios.get(`${api}/${id}`);
       // console.log(res.data);
 
-      const data = await res.data;
+      const data = await res.data
       // console.log(data.data);
       setReviews(data.data)
     } catch (error) {

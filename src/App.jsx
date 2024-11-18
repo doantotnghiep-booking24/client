@@ -51,7 +51,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour />} />
         <Route path="/tours/:id" element={<Details />} />
-        <Route path="/booked" element={<Booked />} />
+        <Route path="/booked/:id" element={<Booked />} />
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />
