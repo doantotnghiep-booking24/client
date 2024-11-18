@@ -222,7 +222,7 @@ function Details() {
         setTimeout(async () => {
           const res = await CreateTicket(data);
           if (res.status === 200 && res.statusText === "OK") {
-            navigate(`/booking/${res.data.ticKetId.insertedId}`);
+            navigate(`/booked/${res.data.ticKetId.insertedId}`);
           }
         }, 2000);
       };
