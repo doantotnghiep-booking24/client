@@ -280,7 +280,7 @@ function BookingForm() {
         {isloadings ? <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', }} className="submit-btn" onClick={handleBookingTicket}>Đang xử lý, vui lòng chờ! <CircularProgress style={{ width: '20px', height: '20px', marginLeft: '7px' }} /> </button> : <button className="submit-btn" onClick={handleBookingTicket}>Đặt tour</button>}
       </div>
       {Data_ticket?.map((ticket_info, index) => (
-        <div className="summary-card">
+        <div key={index} className="summary-card">
           <div style={{ display: 'flex' }}>
             <h3>{ticket_info.Title_Tour}</h3>
             <div style={{ position: 'absolute', right: 0, marginRight: '63px' }} className='name-tour'>

@@ -52,7 +52,7 @@ export const fetchToursData = () => async (dispatch) => {
 export const fetchTourDetails = (id) => async (dispatch) => {
   dispatch(fetchStart());
   try {
-    const response = await axios.get(`http://localhost:3001/V1/Tours/DetailTour/${id}`);
+    const response = await axios.get(`http://localhost:3001/V1/Tours/DetailTour/${id}`,{ withCredentials: true});
 
     if (response.data && response.data.detailTour) {
       dispatch(fetchTourDetailSuccess(response.data.detailTour[0]));

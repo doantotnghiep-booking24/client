@@ -119,6 +119,7 @@ export default function ModalAddNew({
         {
           method: "POST",
           body: formData,
+          credentials: "include",
         }
       );
 

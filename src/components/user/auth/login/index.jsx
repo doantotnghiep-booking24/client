@@ -4,7 +4,6 @@ import { Button, Stack, TextField, Typography } from "@mui/material";
 import { ScreenMode } from "../../pages/siginPage";
 
 import IconButton from "@mui/material/IconButton";
-import FilledInput from "@mui/material/FilledInput";
 
 import InputAdornment from "@mui/material/InputAdornment";
 
@@ -18,12 +17,18 @@ import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Swal from "sweetalert2";
 import SocialLogin from "./component/SocialLogin";
+import checkValidateEmail from "../../../../utils/validateForm";
 function SigninForm({ onSwitchMode }) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [valueInput, setValueInput] = useState({
     Email: "",
     Password: "",
   });
+  const [emailError, setEmailError] = useState(false);
+  const [emailHelperText, setEmailHelperText] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordHelperText, setPasswordHelperText] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,37 +45,71 @@ function SigninForm({ onSwitchMode }) {
     const { value, name } = e.target;
     const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
 
-    // Cập nhật dữ liệu mới vào đối tượng dữ liệu
     const updatedData = { ...existingData, ["Email"]: value };
 
-    // Lưu đối tượng dữ liệu đã cập nhật vào localStorage
     localStorage.setItem("resetPass", JSON.stringify(updatedData));
     setValueInput((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "Email") {
+      if (!checkValidateEmail(value)) {
+        setEmailError(true);
+        setEmailHelperText("Email không hợp lệ");
+      } else {
+        setEmailError(false);
+        setEmailHelperText("");
+      }
+    }
+
+    // Validate password
+    if (name === "Password") {
+      if (value.length < 6) {
+        setPasswordError(true);
+        setPasswordHelperText("Mật khẩu phải có ít nhất 6 ký tự");
+      } else {
+        setPasswordError(false);
+        setPasswordHelperText("");
+      }
+    }
   };
 
   const handleLogin = async () => {
     const api = "http://localhost:3001/User/Login";
-
+    if (emailError || passwordError)
+      return Swal.fire({
+        title: "Đăng nhập thất bại!",
+        text: "Vui lòng nhập đúng format Email và Password",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const res = await axios.post(api, valueInput);
       const data = await res.data;
+      console.log(data);
 
       if (data) {
         dispatch(addAuth(data.inforUser));
         setIsLoading(false);
-        // Thông báo thành công
         Swal.fire({
           title: "Đăng nhập thành công!",
           text: "Chào mừng bạn đến với hệ thống.",
           icon: "success",
           confirmButtonText: "OK",
         }).then(() => {
-          navigate("/"); // Chuyển hướng sau khi người dùng nhấn OK
+          navigate("/");
         });
+      } else {
+        console.log("error");
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
+      Swal.fire({
+        title: "Đăng nhập thất bại!",
+        text: error.response.data.message,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -116,6 +155,8 @@ function SigninForm({ onSwitchMode }) {
                 id="filled-search"
                 type="search"
                 variant="filled"
+                error={emailError}
+                helperText={emailError ? emailHelperText : " "}
                 InputProps={{ style: { height: "45px" } }}
               />
             </Stack>
@@ -123,29 +164,35 @@ function SigninForm({ onSwitchMode }) {
               <Typography variant="subtitle1" color="#555">
                 Mật khẩu
               </Typography>
-              <FilledInput
+              <TextField
                 name="Password"
                 onChange={handleGetValueInput}
                 id="filled-adornment-password"
+                error={passwordError} // Show error state if there is a password error
+                helperText={passwordError ? passwordHelperText : " "} // Display helper text based on the error state
                 sx={{ height: "45px" }}
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label={
-                        showPassword
-                          ? "hide the password"
-                          : "display the password"
-                      }
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
+                type={showPassword ? "text" : "password"} // Toggle between text and password
+                variant="filled"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label={
+                          showPassword
+                            ? "hide the password"
+                            : "show the password"
+                        }
+                        onClick={handleClickShowPassword} // Toggle password visibility
+                        onMouseDown={handleMouseDownPassword}
+                        onMouseUp={handleMouseUpPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  style: { height: "45px" },
+                }}
               />
             </Stack>
           </Stack>
@@ -171,7 +218,7 @@ function SigninForm({ onSwitchMode }) {
             )}
           </Button>
 
-        <SocialLogin/>
+          <SocialLogin />
         </Stack>
         <Stack
           direction="row"

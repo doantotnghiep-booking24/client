@@ -1,12 +1,17 @@
 import LogoutIcon from "@mui/icons-material/Logout";
+
+import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
+import { TextField, Button, Avatar } from "@mui/material";
+
 // import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import { TextField, Button } from "@mui/material";
+
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@mui/material";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 // import { Link } from "react-router-dom";
@@ -29,14 +34,14 @@ import styles from "./details.module.scss";
 import Slider from "react-slick";
 import SideBarComponent from "./sidebar/SideBarComment";
 import { Tabs, Tab } from "@mui/material";
-import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
-import WifiOutlinedIcon from '@mui/icons-material/WifiOutlined';
-import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
-import DeckOutlinedIcon from '@mui/icons-material/DeckOutlined';
-import BathtubOutlinedIcon from '@mui/icons-material/BathtubOutlined';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import AcUnitOutlinedIcon from '@mui/icons-material/AcUnitOutlined';
-import Rating from '@mui/material/Rating';
+import HouseOutlinedIcon from "@mui/icons-material/HouseOutlined";
+import WifiOutlinedIcon from "@mui/icons-material/WifiOutlined";
+import Diversity3OutlinedIcon from "@mui/icons-material/Diversity3Outlined";
+import DeckOutlinedIcon from "@mui/icons-material/DeckOutlined";
+import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import AcUnitOutlinedIcon from "@mui/icons-material/AcUnitOutlined";
+import Rating from "@mui/material/Rating";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
@@ -47,6 +52,7 @@ import { getScheduleByid } from "../../../../services/GetSchedule_Travel";
 import { CreateTourFavourite, CancleTourFavourite, GetToursFavourite } from "../../../../services/Tour_Favourite";
 import { getHotels } from "../../../../services/GetHotels";
 const cx = classNames.bind(styles);
+import formatDate from "../../../../utils/formatDate";
 
 function Details() {
   const dispatch = useDispatch()
@@ -86,7 +92,6 @@ function Details() {
     googleMapsApiKey: "AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc",
   });
 
-
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
@@ -101,17 +106,15 @@ function Details() {
     setIsExpanded(!isExpanded);
   };
   useEffect(() => {
-
     const handleGetSchedule = async () => {
-      const res = await getScheduleByid(tour?.id_Schedule_Travel)
+      const res = await getScheduleByid(tour?.id_Schedule_Travel);
 
-      dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid))
-    }
-    handleGetSchedule()
-  }, [selectedTab])
+      dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid));
+    };
+    handleGetSchedule();
+  }, [selectedTab]);
 
   // const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
-
 
   useEffect(() => {
     if (RefScroll) {
@@ -125,11 +128,11 @@ function Details() {
   });
   useEffect(() => {
     const Tour_Related = async () => {
-      const res = await GetTours_Related()
-      dispatch(ToursRelateds(res.data.Tours_Related))
-    }
-    Tour_Related()
-  }, [])
+      const res = await GetTours_Related();
+      dispatch(ToursRelateds(res.data.Tours_Related));
+    };
+    Tour_Related();
+  }, []);
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
@@ -159,9 +162,9 @@ function Details() {
   const ress = Data_TourFavourite?.some(tour_Fav => tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id))
 
   const handleGetTourFavourite = async () => {
-    const res = await GetToursFavourite()
-    dispatch(TourFavourite(res.TourFavourite))
-  }
+    const res = await GetToursFavourite();
+    dispatch(TourFavourite(res.TourFavourite));
+  };
 
   useEffect(() => {
     const handleGetHotels = async () => {
@@ -177,17 +180,17 @@ function Details() {
   }, [])
 
   const handleTourFavourite = async () => {
-    const data = { id_user, id }
-    setIs_Loading(true)
-    const res = await CreateTourFavourite(data)
+    const data = { id_user, id };
+    setIs_Loading(true);
+    const res = await CreateTourFavourite(data);
     if (res) {
-      dispatch(TourFavourite(res.CheckIsTourFav))
-      handleGetTourFavourite()
+      dispatch(TourFavourite(res.CheckIsTourFav));
+      handleGetTourFavourite();
       setTimeout(() => {
-        setIs_Loading(false)
-      }, 1500)
+        setIs_Loading(false);
+      }, 1500);
     }
-  }
+  };
 
   const handleCreateTicket = async () => {
     if (valueDate) {
@@ -319,7 +322,8 @@ function Details() {
   const getCommentRating = async () => {
     const api = "http://localhost:3001/V1/Tours/AllComment";
     try {
-      const res = await axios.get(`${api}/${id}`);
+      const res = await axios.get(`${api}/${id}`, { withCredentials: true });
+
       // console.log(res.data);
 
       const data = await res.data
@@ -393,54 +397,70 @@ function Details() {
                     />
                   </Tabs>
                 </div>
-                {selectedTab === 0 ? <div className={cx(`content__home-text `)}>
-                  {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
-                  <div className={cx("content__home-title")}>
-                    <p className={cx("content__home-heading")}>
-                      {tour.Title_Tour}
+                {selectedTab === 0 ? (
+                  <div className={cx(`content__home-text `)}>
+                    {/* <h1 className={cx("content__home-name")}>{tour.Name_Tour}</h1> */}
+                    <div className={cx("content__home-title")}>
+                      <p className={cx("content__home-heading")}>
+                        {tour.Title_Tour}
+                      </p>
+                      <span className={cx("content__home-desc")}>
+                        {tour.Description_Tour.slice(
+                          0,
+                          `${isExpanded ? tour.Description_Tour.length : 300}`
+                        )}
+                      </span>
+                    </div>
+                    {/* <div className={cx("content__home-image")}> */}
+                    {isExpanded ? (
+                      <div className={cx("content__home-image")}>
+                        <img
+                          src={tour.Image_Tour[1]?.path}
+                          alt={tour.Name_Tour}
+                        />
+                        <img
+                          src={tour.Image_Tour[2]?.path}
+                          alt={tour.Name_Tour}
+                          className={cx("content__home-image-w")}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {/* </div> */}
+                    <p className={cx("seeMore")} onClick={handleClick}>
+                      {isExpanded ? "Thu gọn" : "Xem thêm"}
                     </p>
-                    <span className={cx("content__home-desc")}>
-                      {tour.Description_Tour.slice(0, `${isExpanded ? tour.Description_Tour.length : 300}`)}
-                    </span>
                   </div>
-                  {/* <div className={cx("content__home-image")}> */}
-                  {isExpanded ? <div className={cx("content__home-image")}>
-                    <img
-                      src={tour.Image_Tour[1]?.path} alt={tour.Name_Tour}
-                    />
-                    <img
-                      src={tour.Image_Tour[2]?.path}
-                      alt={tour.Name_Tour}
-                      className={cx("content__home-image-w")}
-                    />
-                  </div> : ''}
-                  {/* </div> */}
-                  <p className={cx("seeMore")} onClick={handleClick}>{isExpanded ? 'Thu gọn' : 'Xem thêm'}</p>
+                ) : selectedTab === 1 ? (
+                  <div>
+                    {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
+                    <div className={cx("content__home-title")}>
+                      <span className={cx("content__home-desc")}>
+                        {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
+                      </span>
+                      <span className={cx("content__home-desc")}>
+                        {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
+                      </span>
+                      <span className={cx("content__home-desc")}>
+                        {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
+                      </span>
+                    </div>
 
-                </div> : (selectedTab === 1 ? <div>
-                  {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
-                  <div className={cx("content__home-title")}>
-                    <span className={cx("content__home-desc")}>
-                      {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
-                    </span>
-                    <span className={cx("content__home-desc")}>
-                      {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
-                    </span>
-                    <span className={cx("content__home-desc")}>
-                      {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
-                    </span>
+                    {/* </div> */}
                   </div>
-
-                  {/* </div> */}
-                </div> : <GoogleMap
-                  mapContainerStyle={{ height: '400px', width: '100%' }}
-                  center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
-                  zoom={13}
-                >
-                  <Marker
-                  // key={location.id}
-                  // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
-                  /></GoogleMap>)}
+                ) : (
+                  <GoogleMap
+                    mapContainerStyle={{ height: "400px", width: "100%" }}
+                    center={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                    zoom={13}
+                  >
+                    <Marker
+                    // key={location.id}
+                    // position={{ lat: 16.04952236055185, lng: 108.07036972283223 }}
+                    />
+                  </GoogleMap>
+                )}
 
                 <div className="reviews">
                   <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
@@ -448,16 +468,100 @@ function Details() {
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
-                    <Slider {...settings}>
-                      {reviews.map((review, index) => (
-                        <div key={index} className={cx("slider-item")}>
-                          <h3>{review.name}</h3>
-                          <p className="review-date">{review.date}</p>
-                          <p className="review-content">{review.content}</p>
-                          <a className={cx("read-more-button")}>Read more</a>
+                    {reviews.length > 1 ? (
+                      <Slider {...settings}>
+                        {reviews?.map((review, index) => (
+                          <div key={index} className={cx("slider-item")}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "5px",
+                              }}
+                            >
+                              {" "}
+                              <Avatar
+                                src={review ? review.photoUrl : ""}
+                                sx={{ width: 50, height: 50 }}
+                              />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <h4
+                                  style={{
+                                    margin: 0,
+                                  }}
+                                >
+                                  {review.userName}
+                                </h4>
+                                <Rating
+                                  name="size-small"
+                                  defaultValue={review.rating}
+                                  size="small"
+                                />
+                                <span className="review-date">
+                                  {formatDate(review.Create_At)}
+                                </span>
+                              </div>
+                            </div>
+
+                            <p className="review-content">
+                              &quot;{review.content}&quot;
+                            </p>
+                          </div>
+                        ))}
+                      </Slider>
+                    ) : (
+                      <>
+                        <div
+                          key={reviews[0]?._id}
+                          className={cx("slider-item")}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "5px",
+                            }}
+                          >
+                            {" "}
+                            <Avatar
+                              src={reviews[0] ? reviews[0]?.photoUrl : ""}
+                              sx={{ width: 50, height: 50 }}
+                            />
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <h4
+                                style={{
+                                  margin: 0,
+                                }}
+                              >
+                                {reviews[0]?.userName}
+                              </h4>
+                              <Rating
+                                name="size-small"
+                                defaultValue={reviews[0]?.rating}
+                                size="small"
+                              />
+                              <span className="review-date">
+                                {formatDate(reviews[0]?.Create_At)}
+                              </span>
+                            </div>
+                          </div>
+
+                          <p className="review-content">
+                            &quot;{reviews[0]?.content}&quot;
+                          </p>
                         </div>
-                      ))}
-                    </Slider>{" "}
+                      </>
+                    )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
                 </div>
@@ -476,17 +580,25 @@ function Details() {
                 <div className={cx("aside__booking")}>
                   <div className={cx("aside__booking-action")}>
                     <div className={cx("heading")}>
-                      <h5>{tour.Name_Tour}</h5>
-                      <span>{tour.Title_Tour}</span>
+                      <h5>{tour?.Name_Tour}</h5>
+                      <span>{tour?.Title_Tour}</span>
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
-                        {is_Loading ? <CircularProgress size={20} color="inherit" /> : <FavoriteIcon
-                          fontSize="medium"
-                          sx={ress ? { color: "red", cursor: 'pointer' } : { color: "gray", cursor: 'pointer' }}
-                          onClick={handleTourFavourite}
-                        // ff1744 
-                        />}
+                        {is_Loading ? (
+                          <CircularProgress size={20} color="inherit" />
+                        ) : (
+                          <FavoriteIcon
+                            fontSize="medium"
+                            sx={
+                              ress
+                                ? { color: "red", cursor: "pointer" }
+                                : { color: "gray", cursor: "pointer" }
+                            }
+                            onClick={handleTourFavourite}
+                            // ff1744
+                          />
+                        )}
                       </div>
                       <div className={cx("share")}>
                         <ShareOutlinedIcon fontSize="small" />
@@ -720,7 +832,7 @@ function Details() {
                     Lựa chọn đi kèm
                   </h3> */}
                   {HotelFilter?.slice(0, 1).map((hotel, index) => (
-                    <div className={cx("hotels")}>
+                    <div key={index} className={cx("hotels")}>
                       <img
                         src={hotel.Image_Hotel[0].path}
                         alt=""
