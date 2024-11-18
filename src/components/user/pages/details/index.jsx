@@ -51,21 +51,27 @@ import {
   ToursRelateds,
   Shedule_tour_Byid,
   TourFavourite,
-} from "../../../../redux/features/Tour_RelatedDetailSlice";
+  Hotels,
+} from "../../../../redux/features/PageDetail";
 import { getScheduleByid } from "../../../../services/GetSchedule_Travel";
 import {
   CreateTourFavourite,
   CancleTourFavourite,
   GetToursFavourite,
 } from "../../../../services/Tour_Favourite";
+import { getHotels } from "../../../../services/GetHotels";
 const cx = classNames.bind(styles);
 import formatDate from "../../../../utils/formatDate";
 
 function Details() {
   const dispatch = useDispatch();
 
-  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite } =
-    useSelector((state) => state.ToursRelated);
+  const {
+    Data_ToursRelated,
+    Data_SheduleTourByid,
+    Data_TourFavourite,
+    Data_Hotels,
+  } = useSelector((state) => state.PageDetail);
   const { id } = useParams();
   const Name_user = JSON.parse(Cookies.get("auth")).Name;
   const [reviews, setReviews] = useState([]);
@@ -76,6 +82,26 @@ function Details() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [is_Loading, setIs_Loading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [dataHotel, setDataHotel] = useState();
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleDetailOpen = (hotel) => {
+    setSelectedHotel(hotel);
+    setDetailOpen(true);
+  };
+  const handleChoseHotel = (hotel) => {
+    setDataHotel(hotel);
+    handleClose();
+  };
+  // console.log(dataHotel);
+
+  const handleDetailClose = () => {
+    setDetailOpen(false);
+    setSelectedHotel(null);
+  };
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyCRpDqXA3ZGykElXufSRdv-D197WGBoLjc",
   });
@@ -83,6 +109,7 @@ function Details() {
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
+    Hotel: 1,
   });
   const RefScroll = useRef(null);
   const RefFocus = useRef(null);
@@ -101,9 +128,7 @@ function Details() {
     handleGetSchedule();
   }, [selectedTab]);
 
-  const result = Data_ToursRelated.filter(
-    (toursRelated) => toursRelated._id !== id
-  );
+  // const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
 
   useEffect(() => {
     if (RefScroll) {
@@ -132,12 +157,16 @@ function Details() {
       ? (tour?.After_Discount * (100 - 50)) / 100
       : (tour?.Price_Tour * (100 - 50)) / 100;
   children = children * valueform.Children;
-  let total = adult + children;
+  let Hotel = dataHotel?.Price_Hotel ? dataHotel?.Price_Hotel : 0;
+  Hotel = Hotel * valueform.Hotel;
+  let total = adult + children + Hotel;
 
   if (valueform.Adult <= 0) {
     total = total - adult;
   } else if (valueform.Children <= 0) {
     total = total - children;
+  } else if (valueform.Hotel <= 0) {
+    total = total - Hotel;
   }
 
   const ress = Data_TourFavourite?.some(
@@ -149,6 +178,17 @@ function Details() {
     const res = await GetToursFavourite();
     dispatch(TourFavourite(res.TourFavourite));
   };
+
+  useEffect(() => {
+    const handleGetHotels = async () => {
+      const res = await getHotels();
+      dispatch(Hotels(res.Hotel));
+    };
+    handleGetHotels();
+  }, []);
+  const HotelFilter = Data_Hotels.filter(
+    (hotel) => hotel?.Adress_Hotel === tour?.End_Tour
+  );
 
   useEffect(() => {
     handleGetTourFavourite();
@@ -177,6 +217,10 @@ function Details() {
           id_Service: null,
           id_Custommer: null,
           id_Voucher: null,
+          id_Hotel: dataHotel?._id,
+          Name_Hotel: dataHotel?.Name_Hotel,
+          Price_Hotel: dataHotel?.Price_Hotel,
+          Number_Of_Hotel: valueform?.Hotel,
           Departure_Location: tour?.Start_Tour,
           Destination: tour?.End_Tour,
           Title_Tour: tour?.Title_Tour,
@@ -190,7 +234,6 @@ function Details() {
           Adult: valueform.Adult,
           Children: valueform.Children,
           Total_price: total,
-          Created_at_Booking: new Date(),
           Status_Payment: "Chưa Thanh Toán",
           Payment_Method: "",
         };
@@ -339,22 +382,21 @@ function Details() {
       price: "2.500.000 VNĐ",
     },
   ];
-  const [open, setOpen] = useState(false);
-  const [detailOpen, setDetailOpen] = useState(false);
-  const [selectedHotel, setSelectedHotel] = useState(null);
+  // const [open, setOpen] = useState(false);
+  // const [detailOpen, setDetailOpen] = useState(false);
+  // const [selectedHotel, setSelectedHotel] = useState(null);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleDetailOpen = (hotel) => {
-    setSelectedHotel(hotel);
-    setDetailOpen(true);
-  };
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
+  // const handleDetailOpen = (hotel) => {
+  //   setSelectedHotel(hotel);
+  //   setDetailOpen(true);
+  // };
 
-  const handleDetailClose = () => {
-    setDetailOpen(false);
-    setSelectedHotel(null);
-  };
-
+  // const handleDetailClose = () => {
+  //   setDetailOpen(false);
+  //   setSelectedHotel(null);
+  // };
 
   return (
     <div ref={RefScroll} className={cx("wrap")}>
@@ -492,98 +534,98 @@ function Details() {
                     style={{ padding: "20px 0" }}
                   >
                     {reviews.length > 1 ? (
-                     <Slider {...settings}>
-                     {reviews?.map((review, index) => (
-                       <div key={index} className={cx("slider-item")}>
-                         <div
-                           style={{
-                             display: "flex",
-                             alignItems: "center",
-                             gap: "5px",
-                           }}
-                         >
-                           {" "}
-                           <Avatar
-                             src={review ? review.photoUrl : ""}
-                             sx={{ width: 50, height: 50 }}
-                           />
-                           <div
-                             style={{
-                               display: "flex",
-                               flexDirection: "column",
-                             }}
-                           >
-                             <h4
-                               style={{
-                                 margin: 0,
-                               }}
-                             >
-                               {review.userName}
-                             </h4>
-                             <Rating
-                               name="size-small"
-                               defaultValue={review.rating}
-                               size="small"
-                             />
-                             <span className="review-date">
-                               {formatDate(review.Create_At)}
-                             </span>
-                           </div>
-                         </div>
+                      <Slider {...settings}>
+                        {reviews?.map((review, index) => (
+                          <div key={index} className={cx("slider-item")}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "5px",
+                              }}
+                            >
+                              {" "}
+                              <Avatar
+                                src={review ? review.photoUrl : ""}
+                                sx={{ width: 50, height: 50 }}
+                              />
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <h4
+                                  style={{
+                                    margin: 0,
+                                  }}
+                                >
+                                  {review.userName}
+                                </h4>
+                                <Rating
+                                  name="size-small"
+                                  defaultValue={review.rating}
+                                  size="small"
+                                />
+                                <span className="review-date">
+                                  {formatDate(review.Create_At)}
+                                </span>
+                              </div>
+                            </div>
 
-                         <p className="review-content">
-                           &quot;{review.content}&quot;
-                         </p>
-                       </div>
-                     ))}
-                   </Slider>
+                            <p className="review-content">
+                              &quot;{review.content}&quot;
+                            </p>
+                          </div>
+                        ))}
+                      </Slider>
                     ) : (
                       <>
-                      <div key={reviews[0]?._id} className={cx("slider-item")}>
                         <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "5px",
-                          }}
+                          key={reviews[0]?._id}
+                          className={cx("slider-item")}
                         >
-                          {" "}
-                          <Avatar
-                            src={reviews[0] ? reviews[0]?.photoUrl : ""}
-                            sx={{ width: 50, height: 50 }}
-                          />
                           <div
                             style={{
                               display: "flex",
-                              flexDirection: "column",
+                              alignItems: "center",
+                              gap: "5px",
                             }}
                           >
-                            <h4
+                            {" "}
+                            <Avatar
+                              src={reviews[0] ? reviews[0]?.photoUrl : ""}
+                              sx={{ width: 50, height: 50 }}
+                            />
+                            <div
                               style={{
-                                margin: 0,
+                                display: "flex",
+                                flexDirection: "column",
                               }}
                             >
-                              {reviews[0]?.userName}
-                            </h4>
-                            <Rating
-                              name="size-small"
-                              defaultValue={reviews[0]?.rating}
-                              size="small"
-                            />
-                            <span className="review-date">
-                              {formatDate(reviews[0]?.Create_At)}
-                            </span>
+                              <h4
+                                style={{
+                                  margin: 0,
+                                }}
+                              >
+                                {reviews[0]?.userName}
+                              </h4>
+                              <Rating
+                                name="size-small"
+                                defaultValue={reviews[0]?.rating}
+                                size="small"
+                              />
+                              <span className="review-date">
+                                {formatDate(reviews[0]?.Create_At)}
+                              </span>
+                            </div>
                           </div>
+
+                          <p className="review-content">
+                            &quot;{reviews[0]?.content}&quot;
+                          </p>
                         </div>
-
-                        <p className="review-content">
-                          &quot;{reviews[0]?.content}&quot;
-                        </p>
-                      </div>
-                    </>
-
-
-                      
+                      </>
                     )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
@@ -672,8 +714,7 @@ function Details() {
                           name="Adult"
                           onChange={handleGetvalueForm}
                         />
-
-                        <div className={cx("rate")}>
+                        <div style={{ width: "110px" }} className={cx("rate")}>
                           <span className={cx("rate-text")}>
                             {valueform.Adult >= 1
                               ? adult.toLocaleString("vi-VN")
@@ -690,8 +731,9 @@ function Details() {
                           variant="standard"
                           style={{
                             marginTop: "-25px",
-                            marginLeft: "10px",
+                            marginLeft: "30px",
                             width: "40px",
+                            textAlign: "center",
                           }}
                           value={
                             valueform.Children <= 0
@@ -701,7 +743,7 @@ function Details() {
                           name="Children"
                           onChange={handleGetvalueForm}
                         />
-                        <div className={cx("rate")}>
+                        <div style={{ width: "110px" }} className={cx("rate")}>
                           <span className={cx("rate-text")}>
                             {valueform.Children >= 1
                               ? children.toLocaleString("vi-VN")
@@ -710,6 +752,41 @@ function Details() {
                           </span>
                         </div>
                       </div>
+                      {dataHotel ? (
+                        <div className={cx("children")}>
+                          <span className="children-name">Khách sạn</span>
+                          <TextField
+                            id="standard-number"
+                            type="number"
+                            variant="standard"
+                            style={{
+                              marginTop: "-25px",
+                              marginLeft: "10px",
+                              width: "40px",
+                            }}
+                            value={
+                              valueform.Hotel <= 0
+                                ? (valueform.Hotel = 0)
+                                : valueform.Hotel
+                            }
+                            name="Hotel"
+                            onChange={handleGetvalueForm}
+                          />
+                          <div
+                            style={{ width: "110px" }}
+                            className={cx("rate")}
+                          >
+                            <span className={cx("rate-text")}>
+                              {valueform.Hotel >= 1
+                                ? Hotel.toLocaleString("vi-VN")
+                                : 0}
+                              VND
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <div className={cx("total")}>
                         <span className="total-type">Tổng tiền</span>
                         <div className={cx("rate")}>
@@ -823,48 +900,45 @@ function Details() {
                   </li>
                 </ul> */}
                 <div className={cx("aside__list")}>
-                  <h3
-                    style={{ textAlign: "center" }}
-                    className={cx("aside__list-heding")}
-                  >
+                  {/* <h3 style={{ textAlign: 'center' }} className={cx("aside__list-heding")}>
                     Lựa chọn đi kèm
-                  </h3>
-                  <div className={cx("hotels")}>
-                    <img
-                      src="https://cf2.bstatic.com/xdata/images/hotel/square600/13125860.webp?k=35b70a7e8a17a71896996cd55d84f742cd15724c3aebaed0d9b5ba19c53c430b&o="
-                      alt=""
-                    />
-                    <div className={cx("hotel__content")}>
-                      <h4 className={cx("hotel__content-name")}>
-                        Aparthotel Stare Miasto
-                      </h4>
-                      <Rating defaultValue={5} readOnly size="small" />
-                      <p className={cx("hotel__content-des")}>
-                        Nằm trong một tòa nhà cổ xưa, Aparthotel Stare Miasto có
-                        thiết kế nội thất độc đáo với tông màu ấm của gạch cùng
-                        các chi tiết gỗ.
-                      </p>
-                      <div className={cx("action")}>
-                        <Button
-                          className={cx("action-btn")}
-                          variant="contained"
-                          color="primary"
-                          style={{ padding: 10, height: 28 }}
-                          onClick={handleOpen}
+                  </h3> */}
+                  {HotelFilter?.slice(0, 1).map((hotel, index) => (
+                    <div  key={index} className={cx("hotels")}>
+                      <img src={hotel.Image_Hotel[0].path} alt="" />
+                      <div className={cx("hotel__content")}>
+                        <h4
+                          style={{ height: "50px" }}
+                          className={cx("hotel__content-name")}
                         >
-                          Xem thêm
-                        </Button>
-                        <div className={cx("action-price")}>
-                          <span style={{ fontSize: 14, marginRight: 5 }}>
-                            Giá từ{" "}
-                          </span>
-                          <span className={cx("action-price-number")}>
-                            1.000.000 VNĐ
-                          </span>
+                          {hotel.Name_Hotel}
+                          <Rating defaultValue={5} readOnly size="small" />
+                        </h4>
+                        <p className={cx("hotel__content-des")}>
+                          {hotel.Description_Hotel}
+                        </p>
+                        <div className={cx("action")}>
+                          <Button
+                            className={cx("action-btn")}
+                            variant="contained"
+                            color="primary"
+                            style={{ padding: 10, height: 28 }}
+                            onClick={handleOpen}
+                          >
+                            Xem thêm
+                          </Button>
+                          <div className={cx("action-price")}>
+                            <span style={{ fontSize: 14, marginRight: 5 }}>
+                              Giá từ{" "}
+                            </span>
+                            <span className={cx("action-price-number")}>
+                              {hotel.Price_Hotel.toLocaleString("vi-VN")} VND
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </aside>
               {/* Modal Dialog */}
@@ -872,7 +946,7 @@ function Details() {
                 <DialogTitle
                   style={{ backgroundColor: "#3fd0d4", color: "#fff" }}
                 >
-                  Danh sách các tour
+                  Danh sách khách sạn {selectedHotel?.Name_Hotel}
                 </DialogTitle>
                 <DialogContent
                   dividers
@@ -884,10 +958,10 @@ function Details() {
                   }}
                 >
                   <Slider {...sliderSettings}>
-                    {hotels.map((hotel, index) => (
+                    {HotelFilter.map((hotel, index) => (
                       <div key={index} className={cx("hotels")}>
                         <img
-                          src={hotel.image}
+                          src={hotel.Image_Hotel[0].path}
                           alt=""
                           style={{ cursor: "pointer" }}
                           onClick={() => handleDetailOpen(hotel)}
@@ -898,11 +972,11 @@ function Details() {
                             style={{ cursor: "pointer" }}
                             onClick={() => handleDetailOpen(hotel)}
                           >
-                            {hotel.name}
+                            {hotel.Name_Hotel.slice(0, 26)}
                           </h4>
                           <Rating defaultValue={5} readOnly size="small" />
                           <p className={cx("hotel__content-des")}>
-                            {hotel.description}
+                            {hotel.Description_Hotel}
                           </p>
                           <div className={cx("action")}>
                             <Button
@@ -910,6 +984,7 @@ function Details() {
                               variant="contained"
                               color="primary"
                               style={{ padding: 10, height: 28 }}
+                              onClick={() => handleChoseHotel(hotel)}
                             >
                               Chọn
                             </Button>
@@ -918,7 +993,7 @@ function Details() {
                                 Giá từ{" "}
                               </span>
                               <span className={cx("action-price-number")}>
-                                {hotel.price}
+                                {hotel.Price_Hotel.toLocaleString("vi-VN")} VND
                               </span>
                             </div>
                           </div>
@@ -962,7 +1037,7 @@ function Details() {
                       }}
                     >
                       <div>
-                        <h3>GM Serviced Apartment (SHA Certified)</h3>
+                        <h3>{selectedHotel.Name_Hotel}</h3>
                         <p>
                           {" "}
                           47 Sukhumvit Road, Sukhumvit 20, Klongtoey, Khlong
@@ -973,13 +1048,13 @@ function Details() {
                           <div style={{ display: "flex" }}>
                             <div>
                               <img
-                                src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206641816.jpg?k=c21c07d094cc82e60de33595af9a8062e849fc5b6aa72ee584d090dff3c0e116&o=&hp=1"
+                                src={selectedHotel.Image_Hotel[0].path}
                                 style={{ width: 280, height: 170 }}
                                 alt=""
                               />{" "}
                               <br />
                               <img
-                                src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206641826.jpg?k=122458ece00cbbbebec8217d764c57c726b20de4f6a59f75544a36df643bee4d&o=&hp=1"
+                                src={selectedHotel.Image_Hotel[1].path}
                                 style={{
                                   width: 280,
                                   height: 170,
@@ -990,7 +1065,7 @@ function Details() {
                             </div>
                             <div>
                               <img
-                                src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206641174.jpg?k=a1ac48ce4d2dacaea9cb809c25c9c1545467e7f811d9ba4444626b9a7d44cc7f&o=&hp=1"
+                                src={selectedHotel.Image_Hotel[2].path}
                                 style={{
                                   width: 550,
                                   height: 350,
@@ -1002,12 +1077,12 @@ function Details() {
                           </div>
                           <div style={{ marginTop: 10 }}>
                             <img
-                              src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206639829.jpg?k=78d4815d1fe6c48c17f51d9899effdfe8025be4680775d73063ecd9324758f80&o=&hp=1"
+                              src={selectedHotel.Image_Hotel[3].path}
                               style={{ width: 160, height: 110 }}
                               alt=""
                             />
                             <img
-                              src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206641617.jpg?k=dca472eabaeb86fac55c92b3ed831bb67920310bbf6eca41f601a6e59886032b&o=&hp=1"
+                              src={selectedHotel.Image_Hotel[4].path}
                               style={{
                                 width: 160,
                                 height: 110,
@@ -1016,7 +1091,7 @@ function Details() {
                               alt=""
                             />
                             <img
-                              src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206641631.jpg?k=e48569da86bb8747fd76ad06f7ef94a74b30b417e1e58aeb63f7b47ec904350b&o=&hp=1"
+                              src={selectedHotel.Image_Hotel[5].path}
                               style={{
                                 width: 160,
                                 height: 110,
@@ -1025,7 +1100,7 @@ function Details() {
                               alt=""
                             />
                             <img
-                              src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/265989089.jpg?k=218ea311dd929c892ca055e5c6606fbab7f45f58070581b5b48b3a1335026b45&o=&hp=1"
+                              src={selectedHotel.Image_Hotel[6].path}
                               style={{
                                 width: 160,
                                 height: 110,
@@ -1034,7 +1109,7 @@ function Details() {
                               alt=""
                             />
                             <img
-                              src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/206641825.jpg?k=c31e1b15743630eb8a964d8599ba812314cbec81dc546b20dea0858db291beac&o=&hp=1"
+                              src={selectedHotel.Image_Hotel[7].path}
                               style={{
                                 width: 160,
                                 height: 110,
@@ -1075,20 +1150,7 @@ function Details() {
                           </li>
                         </ul>
                         <p style={{ marginTop: 10 }}>
-                          Thông tin uy tín:Khách nói rằng mô tả và hình ảnh chỗ
-                          nghỉ này đúng với sự thật. GM Serviced Apartment chiếm
-                          vị trí thuận tiện ở trung tâm Thành phố Bangkok. Nơi
-                          nghỉ có hồ bơi ngoài trời và trung tâm thể dục. Wi-Fi
-                          được cung cấp miễn phí trong toàn bộ khuôn viên. Ga
-                          Tàu BTS Asoke và Trung tâm Mua sắm Terminal 21 nằm
-                          cách GM Serviced Apartment 10 phút lái xe. Sân bay
-                          Quốc tế Suvarnabhumi cách đó 45 phút lái xe. Tất cả
-                          các phòng tại đây đều được trang bị máy lạnh, truyền
-                          hình cáp màn hình phẳng và tủ lạnh. Phòng tắm riêng đi
-                          kèm tiện nghi vòi sen. Căn hộ có dịch vụ lễ tân 24 giờ
-                          và bàn đặt tour giúp khách bố trí các chuyến đi tham
-                          quan. Một loạt các cửa hàng ăn uống địa phương nằm
-                          xung quanh căn hộ này.
+                          {selectedHotel.Description_Hotel}
                         </p>
                       </div>
                       {/* <img

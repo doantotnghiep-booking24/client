@@ -13,12 +13,13 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import Tour from "./components/user/tours";
 import NewsDetail from "./components/user/news__detail";
-
+import Booked from "./components/user/booked";
 import "./styles/app.module.scss";
 
 import EditProfile from "./components/user/auth/editProfile/index.jsx";
 import Profile_Detail from "./components/user/auth/editProfile/components/Profile_Detail.jsx";
 import Setting from "./components/user/auth/editProfile/components/Setting.jsx";
+import Tour_Demo from "./components/user/tour_demo/Tour_Demo.jsx";
 
 function App() {
   useEffect(() => {
@@ -54,8 +55,9 @@ function App() {
         <Route path="/booking/:id" element={<Booking />} />
         <Route path="/news-detail/:id" element={<NewsDetail />} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/tours" element={<Tour />} />
+        <Route path="/tours" element={<Tour_Demo />} />
         <Route path="/tours/:id" element={<Details />} />
+        <Route path="/booked" element={<Booked />} />
         <Route path="/booking-history" element={<BookingHistory />} />
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />

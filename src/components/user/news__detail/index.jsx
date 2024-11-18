@@ -64,7 +64,7 @@ function NewsDetail() {
                       <Link to={`/news-detail/${item._id}`} key={item._id} style={{ textDecoration: 'none' }}>
                         <div >
                           <img key={item._id}
-                            src={item.Image[0].path}
+                            src={item.Image[0]?.path}
                             alt={item.Name} style={{ width: '99%', height: '150px' }} />
                           <p style={{ textDecoration: 'none', fontSize: '1.2vw' }}>{item.Name} </p>
                         </div>
