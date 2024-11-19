@@ -21,6 +21,8 @@ function Tour() {
     queryFn: fetchToursData,
     initialData: [],
   });
+  console.log(tours)
+
 
   const tourNames = Array.from(
     new Set(tours.map((tour) => tour.Name_Tour))
@@ -252,7 +254,7 @@ function Tour() {
                     <div className={cx("section")}>
                       <div className={cx("section__heading")}>
                         <h5 className={cx("section__heading-title")}>
-                          {tour.Title_Tour}
+                         {tour.Name_Tour}
                         </h5>
                         <div className={cx("section__heading-good")}>Tốt</div>
                       </div>
