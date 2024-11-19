@@ -252,7 +252,7 @@ function Tour() {
                     <div className={cx("section")}>
                       <div className={cx("section__heading")}>
                         <h5 className={cx("section__heading-title")}>
-                          {tour.Title_Tour}
+                          {tour.Name_Tour}
                         </h5>
                         <div className={cx("section__heading-good")}>Tốt</div>
                       </div>

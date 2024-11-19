@@ -28,7 +28,8 @@ const BASE_URL = "http://localhost:3001/V1/Tours";
 
 const fetchRandomTours = async () => {
   const response = await axios.get(`${BASE_URL}/GetTours?page=1&limit=3`);
-  return response.data.Tours.datas;
+  const result = response.data.Tours.datas.filter((t) => t.isDeleted === false);
+  return result;
 };
 
 const searchTours = async ({ name, price }) => {
@@ -82,6 +83,8 @@ function Home() {
   if (isLoading) return <p>Loading tours...</p>;
 
   const toursToDisplay = filteredTours || initialTours;
+
+
   const settings = {
     infinite: true,
     speed: 800,
@@ -204,7 +207,7 @@ function Home() {
                 toursToDisplay.map((tour) => (
                   <div key={tour._id} className={cx("vacation__item")}>
                     <img
-                      src={tour.Image_Tour[0]?.path}
+                      src={tour?.Image_Tour[0]?.path}
                       alt={tour.Name_Tour}
                       className={cx("vacation__item-img")}
                     />
@@ -269,7 +272,7 @@ function Home() {
                         className={cx("travel__review-item")}
                       >
                         <img
-                          src={tour.Image_Tour[0].path}
+                          src={tour?.Image_Tour[0]?.path}
                           alt={tour.Name_Tour}
                           className={cx("travel__review-item-img")}
                         />

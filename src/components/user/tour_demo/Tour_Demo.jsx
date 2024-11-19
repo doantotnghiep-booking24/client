@@ -62,7 +62,7 @@ function Tour_Demo() {
 
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 9;
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -250,7 +250,7 @@ function Tour_Demo() {
                     <div className={cx("section")}>
                       <div className={cx("section__heading")}>
                         <h5 className={cx("section__heading-title")}>
-                          {tour.Title_Tour}
+                          {tour.Name_Tour}
                         </h5>
                         <div className={cx("section__heading-good")}>Tốt</div>
                       </div>
