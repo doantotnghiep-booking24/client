@@ -56,12 +56,19 @@ import formatDate from "../../../../utils/formatDate";
 
 function Details() {
   const dispatch = useDispatch()
-
+  const user = (() => {
+    try {
+      return JSON.parse(Cookies.get("auth")) || null;
+    } catch (error) {
+      console.error("Lỗi khi parse JSON từ cookie:", error);
+      return {};
+    }
+  })();
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
   const { id } = useParams();
-  const Name_user = JSON.parse(Cookies.get("auth")).Name;
+  const Name_user = user ? user?.Name: null;
   const [reviews, setReviews] = useState([]);
-  const id_user = JSON.parse(Cookies.get("auth"))._id;
+  const id_user = user?._id;
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState();
   const [validate, setValidate] = useState(true);
@@ -468,7 +475,7 @@ function Details() {
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
-                    {reviews.length > 1 ? (
+                    {reviews?.length > 1 ? (
                       <Slider {...settings}>
                         {reviews?.map((review, index) => (
                           <div key={index} className={cx("slider-item")}>
@@ -481,7 +488,7 @@ function Details() {
                             >
                               {" "}
                               <Avatar
-                                src={review ? review.photoUrl : ""}
+                                src={review ? review?.photoUrl : ""}
                                 sx={{ width: 50, height: 50 }}
                               />
                               <div
@@ -514,7 +521,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : (
+                    ) : reviews?.length === 1 ?(
                       <>
                         <div
                           key={reviews[0]?._id}
@@ -561,6 +568,8 @@ function Details() {
                           </p>
                         </div>
                       </>
+                    ) : (
+                      <p>Không có đánh giá nào.</p>
                     )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
@@ -573,7 +582,7 @@ function Details() {
                     alt=""
                     className={cx("account__img")}
                   />
-                  <h3 className={cx("account__name")}>{Name_user}</h3>
+                  <h3 className={cx("account__name")}>{Name_user  || "User"}</h3>
                   <LogoutIcon className={cx("account__icon")} />
                 </div>
 
