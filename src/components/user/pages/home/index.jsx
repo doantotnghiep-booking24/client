@@ -2,7 +2,7 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Rating from "@mui/material/Rating";
 import { Button } from "@mui/material";
 
-import { MenuItem, Select } from "@mui/material";
+import { TextField, Box } from "@mui/material";
 
 import { useState } from "react";
 
@@ -17,25 +17,50 @@ import "slick-carousel/slick/slick-theme.css";
 import classNames from "classnames/bind";
 import styles from "./home.module.scss";
 import { Link } from "react-router-dom";
-import Slider from "@mui/material/Slider";
 
 import { fetchToursData } from "../../../../services/fetchTours";
-import { fetchTypeTours } from "../../../../services/fetchTypeTours";
 
 const cx = classNames.bind(styles);
 
 const BASE_URL = "http://localhost:3001/V1/Tours";
 
 const fetchRandomTours = async () => {
-  const response = await axios.get(`${BASE_URL}/GetTours?page=1&limit=3`);
-  return response.data.Tours.datas;
+  const limit = 3;
+  let tours = [];
+  let page = 1;
+
+  while (tours.length < limit) {
+    const response = await axios.get(`${BASE_URL}/GetTours`, {
+      params: { page, limit },
+    });
+
+    const availableTours = response.data.Tours.datas.filter(
+      (tour) => !tour.isDeleted
+    );
+
+    tours = [...tours, ...availableTours];
+
+    if (response.data.Tours.datas.length === 0) break;
+
+    page++;
+  }
+
+  return tours.slice(0, limit);
+};
+const fetchMenuTours = async () => {
+  const response = await axios.get(`${BASE_URL}/GetTours`, {
+    params: { page: 1, limit: 10 },
+  });
+  const availableTours = response.data.Tours.datas.filter(
+    (tour) => !tour.isDeleted
+  );
+  return availableTours;
 };
 
-const searchTours = async ({ name, price }) => {
+const searchTours = async (name) => {
   const response = await axios.get(`${BASE_URL}/SearchTour`, {
     params: {
       NameSearch: name,
-      PriceSearch: price,
       page: 1,
       limit: 3,
     },
@@ -43,24 +68,17 @@ const searchTours = async ({ name, price }) => {
   return response.data.search.datas;
 };
 
+
 function Home() {
+ 
   const [searchName, setSearchName] = useState("");
-  const [searchType, setSeatchType] = useState("");
-  const [searchPrice, setSearchPrice] = useState(0);
   const [filteredTours, setFilteredTours] = useState(null);
+  const [nameSuggestions, setNameSuggestions] = useState([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
 
   const { data: selectTours } = useQuery({
     queryKey: ["tours"],
     queryFn: fetchToursData,
-    initialData: [],
-  });
-  console.log(selectTours)
-  const tourNames = Array.from(
-    new Set(selectTours.map((tour) => tour.Name_Tour))
-  );
-  const { data: TypeTours } = useQuery({
-    queryKey: ["typeTours"],
-    queryFn: fetchTypeTours,
     initialData: [],
   });
 
@@ -68,21 +86,61 @@ function Home() {
     queryKey: ["randomTours"],
     queryFn: fetchRandomTours,
   });
+  const { data: menuTours } = useQuery({
+    queryKey: ["menuTours"],
+    queryFn: fetchMenuTours,
+  });
 
   const { mutate: searchTour } = useMutation({
     mutationFn: searchTours,
     onSuccess: (data) => {
-      setFilteredTours(data);
+      const filtered = data.filter((tour) => !tour.isDeleted);
+      setFilteredTours(filtered);
     },
   });
 
-  const handleSearch = () => {
-    searchTour({ name: searchName, price: searchPrice, type: searchType });
+  console.log(selectTours);
+
+    // Xử lý khi gõ vào ô input
+    const handleNameInput = (event) => {
+      const value = event.target.value;
+      setSearchName(value);
+
+      if (value.trim()) {
+          const tourNames = selectTours
+              .filter((tour) => !tour.isDeleted && tour.Name_Tour.toLowerCase().includes(value.toLowerCase()))
+              .map((tour) => tour.Name_Tour);
+          setNameSuggestions([...new Set(tourNames)]);
+          setIsSuggestionsVisible(true);
+      } else {
+          setNameSuggestions([]);
+          setIsSuggestionsVisible(false);
+      }
   };
 
+  const handleSearch = () => {
+    if (searchName.trim()) {
+        searchTour(searchName);
+    }
+};
+  console.log(searchName);
+
+  const handleSuggestionClick = (value) => {
+    setSearchName(value);
+    setIsSuggestionsVisible(false);
+  };
+
+  const closeSuggestions = () => {
+    setTimeout(() => setIsSuggestionsVisible(false), 200);
+  };
   if (isLoading) return <p>Loading tours...</p>;
 
-  const toursToDisplay = filteredTours || initialTours;
+  // Lọc tour chưa bị xóa mềm
+  const toursToDisplay = (filteredTours || initialTours)?.filter(
+    (tour) => !tour.isDeleted
+  );
+
+  console.log(toursToDisplay);
   const settings = {
     infinite: true,
     speed: 800,
@@ -124,74 +182,105 @@ function Home() {
         <div className={cx("banner__heading")}>
           <div className={cx("container")}>
             <div className={cx("banner__text")}>
-              <span>Gói của chúng tôi</span>
-              <h1>Hãy tìm kiếm kỳ nghỉ của bạn</h1>
+              <h1>Hãy tìm kiếm kỳ nghỉ</h1>
+              <span>
+                Khám phá niềm vui của bạn mọi lúc, mọi nơi - từ chuyến du lịch
+                ngẫu hứng tới những cuộc phiêu lưu khắp thế giới
+              </span>
             </div>
 
             <div className={cx("banner__section")}>
               <div className={cx("banner__section-search")}>
-                <Select
+                <TextField
+                  className={cx("banner__section-search-name")}
                   value={searchName}
-                  onChange={(e) => setSearchName(e.target.value)}
-                  displayEmpty
-                  className={cx("banner__section-search-select")}
-                >
-                  <MenuItem value="">Chuyến đi</MenuItem>
-                  {tourNames.map((name, index) => (
-                    <MenuItem key={index} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
-              <div className={cx("banner__section-type")}>
-                <Select
-                  value={searchType}
-                  onChange={(e) => setSeatchType(e.target.value)}
-                  displayEmpty
-                  className={cx("banner__section-type-select")}
-                >
-                  <MenuItem value="">Loại tour</MenuItem>
-                  {TypeTours.map((type) => (
-                    <MenuItem key={type._id} value={type.Name_Type}>
-                      {type.Name_Type}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
-
-              <div className={cx("banner__section-price")}>
-                <div className={cx("price-range-container")}>
-                  <Slider
-                    size="large"
-                    value={searchPrice}
-                    valueLabelDisplay="auto"
-                    valueLabelFormat={(value) =>
-                      `${value.toLocaleString()} VND`
-                    }
-                    min={1000000}
-                    max={10000000}
-                    onChange={(e) => setSearchPrice(Number(e.target.value))}
-                    className={cx("price-slider")}
-                    sx={{
-                      color: "#3fd0d4",
-                      "& .MuiSlider-thumb": {
-                        borderRadius: "50%",
+                  onChange={handleNameInput}
+                  placeholder="Nhập tên chuyến đi"
+                  variant="outlined"
+                  fullWidth
+                  onBlur={closeSuggestions}
+                  onFocus={() => setIsSuggestionsVisible(true)}
+                  InputProps={{
+                    endAdornment: (
+                      <Button
+                        onClick={handleSearch}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        className={cx("banner__section-btn")}
+                      >
+                        Tìm kiếm
+                      </Button>
+                    ),
+                  }}
+                  sx={{
+                    borderRadius: "12px",
+                    height: "60px",
+                    backgroundColor: "#fff",
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "12px",
+                      height: "60px",
+                      "&:hover fieldset": {
+                        borderColor: "#3fd0d4", // Màu khi hover
                       },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#3fd0d4", // Màu khi chọn
+                      },
+                    },
+                  }}
+                />
+                {isSuggestionsVisible && nameSuggestions.length > 0 && (
+                  <Box
+                    className={cx("suggestion-box")}
+                    sx={{
+                      position: "absolute",
+                      backgroundColor: "#fff",
+                      width: "100%", // Đồng bộ chiều rộng với TextField
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                      borderRadius: "8px",
+                      maxHeight: "400px",
+                      overflowY: "auto",
+                      zIndex: 1000,
                     }}
-                  />
-                </div>
-              </div>
-
-              <div className={cx("banner__section-btn")}>
-                <Button
-                  onClick={handleSearch}
-                  className={cx("banner__section-btn-main")}
-                  variant="contained"
-                  color="primary"
-                >
-                  Tìm kiếm
-                </Button>
+                  >
+                    {nameSuggestions.map((name, index) => (
+                      <Box
+                        key={index}
+                        onClick={() => handleSuggestionClick(name)}
+                        className={cx("suggestion-item")}
+                        sx={{
+                          padding: "10px",
+                          cursor: "pointer",
+                          "&:hover": {
+                            backgroundColor: "#f0f0f0",
+                          },
+                        }}
+                      >
+                        {name}
+                      </Box>
+                    ))}
+                    <ul className={cx("search__menu-list")}>
+                      {menuTours?.map((tour) => (
+                        <Link to={`/tours/${tour._id}`} key={tour._id} className={cx("search__menu-item")}>
+                          <img
+                            src={tour?.Image_Tour[0]?.path}
+                            alt=""
+                            className={cx("search__menu-image")}
+                          />
+                          <div className={cx("search__menu-heding")}>
+                            <p className={cx("name")}>{tour.Name_Tour}</p>
+                            <div className={cx("search__menu-sub")}>
+                              <span className={cx("end")}>{tour.End_Tour}</span>
+                              <span className={cx("price")}>
+                                {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                              </span>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </ul>
+                  </Box>
+                )}
               </div>
             </div>
           </div>
@@ -262,7 +351,7 @@ function Home() {
               <div className={cx("travel__review-list")}>
                 <SlickSlider {...settings}>
                   {selectTours
-                    .filter((tour) => tour.totalReview === 5)
+                    .filter((tour) => !tour.isDeleted && tour.totalReview === 5)
                     .map((tour) => (
                       <Link
                         to={`/tours/${tour._id}`}
@@ -291,7 +380,7 @@ function Home() {
                           <span className={cx("title")}>
                             {tour.Description_Tour}
                           </span>
-                          <p className={cx("location")}>{tour.Start_Tour}</p>
+                          <p className={cx("location")}>{tour.End_Tour}</p>
                         </div>
                       </Link>
                     ))}

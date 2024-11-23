@@ -22,7 +22,7 @@ function Tour_Demo() {
     initialData: [],
   });
 
-  const tourNames = Array.from(new Set(tours.map((tour) => tour.Name_Tour)));
+  const tourNames = Array.from(new Set(tours.filter((tour) => !tour.isDeleted).map((tour) => tour.Name_Tour)));
 
   const { data: categories } = useQuery({
     queryKey: ["cate"],
@@ -96,7 +96,7 @@ function Tour_Demo() {
   ]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const displayedTours = filteredTours.slice(
+  const displayedTours = filteredTours.filter((tour) => !tour.isDeleted).slice(
     startIndex,
     startIndex + itemsPerPage
   );
