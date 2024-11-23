@@ -9,7 +9,6 @@ const initialState = {
     AccessToken: "",
     RefreshToken: ""
 };
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,

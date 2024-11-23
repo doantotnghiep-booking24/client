@@ -14,7 +14,7 @@ export const TicketSlice = createSlice({
     },
     Tickets_History: (state, action) => {
       const id_user = JSON.parse(Cookies.get('auth'))._id
-      state.Ticket_Filter = action.payload.filter(ticket => ticket.id_user === id_user && ticket.isCancle === false)
+      state.Ticket_Filter = action.payload.filter(ticket => ticket.id_user === id_user )
       // console.log(state.Ticket_Filter);
     },
     Ticket_Modal: (state, action) => {
