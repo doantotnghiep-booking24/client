@@ -299,6 +299,7 @@ export default function SideBarComponent({ reviewButton }) {
             nameTour={dataTour}
             isOpen={isOpen}
             toggleModel={(value) => {
+              
               setIsOpen(value);
             }}
             handleSetValueComment={(value) => {

@@ -15,6 +15,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import { Update_StatusCancelTicketsByClient } from '../../../services/RequestCancleTicket';
 const cx = classNames.bind(styles);
 const style = {
   position: 'absolute',
@@ -24,7 +25,7 @@ const style = {
   width: 800,
   bgcolor: 'background.paper',
   border: '2px solid #000',
-  borderRadius : '10px',
+  borderRadius: '10px',
   p: 4,
 };
 function BookingHistory() {
@@ -37,28 +38,32 @@ function BookingHistory() {
   useEffect(() => {
     const handleCallTickets = async () => {
       const res = await GetAllTicket()
-      
+
       dispatch(Tickets_History(res.data.Tickets))
     }
     handleCallTickets()
   }, [])
   // console.log(Ticket_Filter);
-  
+
   const handleOpenticket = (ticket) => {
     setOpen(!open)
     dispatch(Ticket_Modal(ticket))
 
   }
-  const handleCancelClick = () => {
+  const handleCancelClick = (id_Ticket) => {
     Swal.fire({
       title: "Bạn có chắc chắn muốn hủy vé không?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Có, hủy vé!",
       cancelButtonText: "Không, giữ lại",
-    }).then((result) => {
+    }).then( async (result) => {
       if (result.isConfirmed) {
-        console.log("Vé đã được hủy");
+        console.log(id_Ticket);
+        
+       const res = await Update_StatusCancelTicketsByClient(id_Ticket)
+       console.log(res);
+       
         Swal.fire("Đã hủy!", "Vé của bạn đã được hủy.", "success");
       }
     });
@@ -70,10 +75,29 @@ function BookingHistory() {
           <h1>Lịch sử đặt vé</h1>
           <ul className={cx("booking__history-list")}>
             {Ticket_Filter && Ticket_Filter.map((ticket_history, index) => (
-              <div  key={index} onClick={() => handleOpenticket(ticket_history)}  style={open ? {opacity : '0.3'} : {display: 'flex', alignItems: 'center', cursor: 'pointer'}} className="booking__history-main__item">
+              <div key={index} className="booking__history-main__item">
                 <li className={cx("booking__history-item")}>
                   <div className={cx("booking__history-top")}>
-                    <h4>Booking Travel</h4>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex' }}>
+                        <div style={ticket_history.Status_Payment === 'Chưa Thanh Toán' ? { width: '30px', height: '30px', borderRadius: '100%', background: '#1E90FF', border: '1px solid gray' } : { width: '30px', height: '30px', borderRadius: '100%', background: '#ced4da', border: '1px solid gray' }}>
+                          <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', lineHeight: '30px', color: 'white' }}>1</span>
+                        </div>
+                        <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Đặt vé</span>
+                      </div>
+                      <div style={{ display: 'flex' }}>
+                        <div style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Tiếp nhận' ? { width: '30px', height: '30px', borderRadius: '100%', background: '#1E90FF', border: '1px solid gray' } : { width: '30px', height: '30px', borderRadius: '100%', background: '#ced4da', border: '1px solid gray' }}>
+                          <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', lineHeight: '30px', color: 'white' }}>1</span>
+                        </div>
+                        <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Thanh toán</span>
+                      </div>
+                      <div style={{ display: 'flex' }}>
+                        <div style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Đã Xác Nhận' ? { width: '30px', height: '30px', borderRadius: '100%', background: '#1E90FF', border: '1px solid gray' } : { width: '30px', height: '30px', borderRadius: '100%', background: '#ced4da', border: '1px solid gray' }}>
+                          <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', lineHeight: '30px', color: 'white' }}>1</span>
+                        </div>
+                        <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Xác nhận</span>
+                      </div>
+                    </div>
                   </div>
                   <div className={cx("ticket")}>
                     <div className={cx("ticket__barcode")}>
@@ -89,41 +113,42 @@ function BookingHistory() {
                     <div className={cx("ticket__content")}>
                       <div className={cx("ticket__location")}>
                         <div className={cx("ticket__location-to")}>
-                          <span>Địa điểm đi: </span>
+                          <span>Địa điểm đi : </span>
                           <p>{ticket_history.Departure_Location}</p>
                         </div>
                         <div className={cx("ticket__location-from")}>
-                          <span>Địa điểm đến: </span>
+                          <span>Địa điểm đến : </span>
                           <p>{ticket_history.Destination}</p>
                         </div>
                         <div className={cx("ticket__location-live")}>
-                          <span>Thời gian: </span>
+                          <span>Thời gian : </span>
                           <p>{ticket_history.Total_DateTrip}</p>
                         </div>
-                        {/* <div className={cx("ticket__location-live")}>
-                          <span>Tên chuyến đi: </span>
-                          <p>{ticket_history.Title_Tour}</p>
-                        </div> */}
+                        <div className={cx("ticket__location-live")}>
+                          <span>Giá vé : </span>
+                          <p>{ticket_history.Total_price.toLocaleString("vi-VN")} đ</p>
+                        </div>
                       </div>
                       <div className={cx("ticket__time")}>
                         <div className={cx("ticket__time-date")}>
-                          <span>Ngày đặt vé: </span>
+                          <span>Ngày đặt vé : </span>
                           <p>{ticket_history.Created_at_Booking?.slice(0, 10)}</p>
                         </div>
                         <div className={cx("ticket__time-date-departure ")}>
-                          <span>Ngày khởi hành: </span>
+                          <span>Ngày khởi hành : </span>
                           <p>{ticket_history.Departure_Date.slice(0, 10)}</p>
                           <div className={cx("ticket__time-departure ")}>
-                            <span>Giờ khởi hành: </span>
+                            <span>Giờ khởi hành : </span>
                             <p>{ticket_history.Departure_Time}</p>
                           </div>
                         </div>
-                        {/* <div className={cx("ticket__time-departure ")}>
-                            <span>Trạng thái thanh toán: </span>
-                            <p>{ticket_history.Status_Payment}</p>
-                          </div> */}
+                        <div className={cx("ticket__time-departure ")}>
+                          <span>Trạng thái thanh toán : </span>
+                          <p>{ticket_history.Status_Payment}</p>
+                        </div>
                       </div>
                     </div>
+
                     <div className={cx("ticket__qrcode")}>
                       <QRCode
                         className={cx("ticket__qrcode-main")}
@@ -134,113 +159,34 @@ function BookingHistory() {
                       />
                     </div>
                   </div>
+                  {/* <button>Hủy vé</button> */}
                   <div className={cx("booking__history-bottom")}></div>
                 </li>
-                {/* <div style={{ marginLeft: '40px' }} className={cx("booking__history-cancel")}>
-                  <Button
-                    onClick={handleCancelClick}
+
+                <div style={{ marginLeft: '' }} className={cx("booking__history-cancel")}>
+                  {ticket_history.Status_Payment === 'Chưa Thanh Toán' ? <Button
+                    href={`/booked/${ticket_history._id}`}
+                    variant="outlined"
+                    color="error"
+                    style={{ marginTop: "20px" }}
+                  >
+                    Tiến hành thanh toán
+                  </Button> : <Button
+                    onClick={() => handleCancelClick(ticket_history._id)}
                     variant="outlined"
                     color="error"
                     style={{ marginTop: "20px" }}
                   >
                     Hủy vé
-                  </Button>
-                </div> */}
+                  </Button>}
+
+                </div>
               </div>
             ))}
           </ul>
         </div>
-      </div>
-      <div>
-        <Modal
-          keepMounted
-          open={open}
-          onClose={() => setOpen(!open)}
-          aria-labelledby="keep-mounted-modal-title"
-          aria-describedby="keep-mounted-modal-description"
-        >
-          <Box sx={style}>
-              <div  style={{  }} className="booking__history-main__item">
-                <li className={cx("booking__history-item")}>
-                  <div className={cx("booking__history-top")}>
-                    <h4>Booking Travel</h4>
-                  </div>
-                  <div className={cx("ticket")}>
-                    <div className={cx("ticket__barcode")}>
-                      <Barcode
-                        className={cx("ticket__barcode-main")}
-                        value={barcodeValue}
-                        width={2}
-                        height={40}
-                        format="CODE128"
-                        displayValue={false}
-                      />
-                    </div>
-                    <div className={cx("ticket__content")}>
-                      <div className={cx("ticket__location")}>
-                        <div className={cx("ticket__location-to")}>
-                          <span>Địa điểm đi: </span>
-                          <p>{Data_TicketModal.Departure_Location}</p>
-                        </div>
-                        <div className={cx("ticket__location-from")}>
-                          <span>Địa điểm đến: </span>
-                          <p>{Data_TicketModal.Destination}</p>
-                        </div>
-                        <div className={cx("ticket__location-live")}>
-                          <span>Thời gian: </span>
-                          <p>{Data_TicketModal.Total_DateTrip}</p>
-                        </div>
-                        {/* <div className={cx("ticket__location-live")}>
-                          <span>Tên chuyến đi: </span>
-                          <p>{Data_TicketModal.Title_Tour}</p>
-                        </div> */}
-                      </div>
-                      <div className={cx("ticket__time")}>
-                        <div className={cx("ticket__time-date")}>
-                          <span>Ngày đặt vé: </span>
-                          <p>{Data_TicketModal.Created_at_Booking}</p>
-                        </div>
-                        <div className={cx("ticket__time-date-departure ")}>
-                          <span>Ngày khởi hành: </span>
-                          <p>{Data_TicketModal.Departure_Date}</p>
-                          <div className={cx("ticket__time-departure ")}>
-                            <span>Giờ khởi hành: </span>
-                            <p>{Data_TicketModal.Departure_Time}</p>
-                          </div>
-                        </div>
-                        {/* <div className={cx("ticket__time-departure ")}>
-                            <span>Trạng thái thanh toán: </span>
-                            <p>{ticket_history.Status_Payment}</p>
-                          </div> */}
-                      </div>
-                    </div>
-                    <div className={cx("ticket__qrcode")}>
-                      <QRCode
-                        className={cx("ticket__qrcode-main")}
-                        value={qrValue}
-                        size={150}
-                        level="H"
-
-                      />
-                    </div>
-                  </div>
-                  <div className={cx("booking__history-bottom")}></div>
-                </li>
-                <div style={{ marginLeft: '40px' }} className={cx("booking__history-cancel")}>
-                  <Button
-                    onClick={handleCancelClick}
-                    variant="outlined"
-                    color="error"
-                    style={{ marginTop: "20px" }}
-                  >
-                    Hủy vé
-                  </Button>
-                </div>
-              </div>
-          </Box>
-        </Modal>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 

@@ -59,11 +59,10 @@ function Tour() {
         selectedCategory === "all" || tour.id_Category === selectedCategory;
       const checkRating =
         selectedRating === 0 || tour.totalReview >= selectedRating;
-      console.log(tour);
+      // console.log(tour);
       return checkPrice && checkTourName && checkCategory && checkRating;
     });
   };
-
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
@@ -104,6 +103,7 @@ function Tour() {
     startIndex,
     startIndex + itemsPerPage
   );
+// console.log(displayedTours);
 
   return (
     <div className={cx("wrap")}>
@@ -244,7 +244,7 @@ function Tour() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-                {displayedTours.map((tour) => (
+                {displayedTours.filter(tour => tour.isDeleted === false).map((tour) => (
                   <li key={tour._id} className={cx("content__home-item")}>
                     <img
                       className={cx("content__home-img")}
@@ -279,7 +279,9 @@ function Tour() {
                         </div>
                         <div className={cx("action")}>
                           {tour.Price_Tour && tour.After_Discount > 0 ? (
+                            
                             <div>
+                              {/* {console.log(tour.Price_Tour,tour.After_Discount)} */}
                               <span className={cx("action__price-discount")}>
                                 {tour.Price_Tour.toLocaleString("vi-VN")}{" "}
                                 VND
