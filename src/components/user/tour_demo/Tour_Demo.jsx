@@ -55,14 +55,14 @@ function Tour_Demo() {
         selectedCategory === "all" || tour.id_Category === selectedCategory;
       const checkRating =
         selectedRating === 0 || tour.totalReview >= selectedRating;
-      console.log(tour);
+      // console.log(tour);
       return checkPrice && checkTourName && checkCategory && checkRating;
     });
   };
 
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 6;
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -240,7 +240,7 @@ function Tour_Demo() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-                {displayedTours.map((tour) => (
+                {displayedTours.filter(tour => tour.isDeleted === false).map((tour) => (
                   <li key={tour._id} className={cx("content__home-item")}>
                     <img
                       className={cx("content__home-img")}

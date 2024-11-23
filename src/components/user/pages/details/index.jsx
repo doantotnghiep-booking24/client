@@ -64,28 +64,13 @@ const cx = classNames.bind(styles);
 import formatDate from "../../../../utils/formatDate";
 
 function Details() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const {
-    Data_ToursRelated,
-    Data_SheduleTourByid,
-    Data_TourFavourite,
-    Data_Hotels,
-  } = useSelector((state) => state.PageDetail);
+  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
   const { id } = useParams();
-  const authCookie = (() => {
-    try {
-      return JSON.parse(Cookies.get("auth")) || {};
-    } catch (error) {
-      console.error("Error parsing auth cookie:", error);
-      return {};
-    }
-  })();
-
-  
-  const Name_user = authCookie ? authCookie?.Name : null
+  const Name_user = JSON.parse(Cookies.get("auth")).Name;
   const [reviews, setReviews] = useState([]);
-  const id_user = authCookie?._id;
+  const id_user = JSON.parse(Cookies.get("auth"))._id;
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState();
   const [validate, setValidate] = useState(true);
@@ -132,7 +117,6 @@ function Details() {
   useEffect(() => {
     const handleGetSchedule = async () => {
       const res = await getScheduleByid(tour?.id_Schedule_Travel);
-
       dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid));
     };
     handleGetSchedule();
@@ -150,13 +134,13 @@ function Details() {
     queryKey: ["Tour", id],
     queryFn: () => fetchTourDetails(id),
   });
-  useEffect(() => {
-    const Tour_Related = async () => {
-      const res = await GetTours_Related();
-      dispatch(ToursRelateds(res.data.Tours_Related));
-    };
-    Tour_Related();
-  }, []);
+  // useEffect(() => {
+  //   const Tour_Related = async () => {
+  //     const res = await GetTours_Related();
+  //     dispatch(ToursRelateds(res.data.Tours_Related));
+  //   };
+  //   Tour_Related();
+  // }, []);
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
@@ -506,7 +490,7 @@ function Details() {
                             >
                               {" "}
                               <Avatar
-                                src={review ? review.photoUrl : ""}
+                                src={review ? review?.photoUrl : ""}
                                 sx={{ width: 50, height: 50 }}
                               />
                               <div
@@ -539,7 +523,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : reviews?.length === 1 ? (
+                    ) : (
                       <>
                         <div
                           key={reviews[0]?._id}
@@ -586,10 +570,6 @@ function Details() {
                           </p>
                         </div>
                       </>
-                    ) : (
-                      <div className={cx("slider-item")}>
-                        Hiện tại không có đánh giá nào 
-                      </div>
                     )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
@@ -602,7 +582,7 @@ function Details() {
                     alt=""
                     className={cx("account__img")}
                   />
-                  <h3 className={cx("account__name")}>{Name_user || "user"}</h3>
+                  <h3 className={cx("account__name")}>{Name_user}</h3>
                   <LogoutIcon className={cx("account__icon")} />
                 </div>
 

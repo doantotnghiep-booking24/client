@@ -44,6 +44,7 @@ function Header() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const dataAuth = useSelector((state) => state.auth);
+console.log(dataAuth);
 
   const user = (() => {
     try {
@@ -353,11 +354,11 @@ function Header() {
                   Đặt vé
                 </Link>
               </li> */}
-              <li className={cx("header__item")}>
+              {/* <li className={cx("header__item")}>
                 <Link to="/news-detail" className={cx("header__link")}>
                   chi tiết
                 </Link>
-              </li>
+              </li> */}
               <li className={cx("header__item")}>
                 <Link to="/booking-history" className={cx("header__link")}>
                   Lịch sửa đặt vé

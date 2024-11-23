@@ -12,7 +12,6 @@ export default function LoadingSidebar({isLoading}) {
   const handleOpen = () => {
     setOpen(true);
   };
-
   return (
     <Box sx={{ position: 'relative', width: '100%', height: '100%', border: '1px solid #ccc', padding: '20px' }}>
 
