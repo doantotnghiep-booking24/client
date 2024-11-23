@@ -282,7 +282,7 @@ function BookingForm() {
       {Data_ticket?.map((ticket_info, index) => (
         <div key={index} className="summary-card">
           <div style={{ display: 'flex' }}>
-            <h3>{ticket_info.Title_Tour}</h3>
+            <h3 style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ticket_info.Title_Tour}</h3>
             <div style={{ position: 'absolute', right: 0, marginRight: '63px' }} className='name-tour'>
               <RoomIcon className="icon" />
               <label>{ticket_info.Destination}</label>

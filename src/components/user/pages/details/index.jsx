@@ -115,7 +115,6 @@ function Details() {
   useEffect(() => {
     const handleGetSchedule = async () => {
       const res = await getScheduleByid(tour?.id_Schedule_Travel);
-
       dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid));
     };
     handleGetSchedule();
@@ -133,13 +132,13 @@ function Details() {
     queryKey: ["Tour", id],
     queryFn: () => fetchTourDetails(id),
   });
-  useEffect(() => {
-    const Tour_Related = async () => {
-      const res = await GetTours_Related();
-      dispatch(ToursRelateds(res.data.Tours_Related));
-    };
-    Tour_Related();
-  }, []);
+  // useEffect(() => {
+  //   const Tour_Related = async () => {
+  //     const res = await GetTours_Related();
+  //     dispatch(ToursRelateds(res.data.Tours_Related));
+  //   };
+  //   Tour_Related();
+  // }, []);
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
