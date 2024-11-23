@@ -64,28 +64,20 @@ const cx = classNames.bind(styles);
 import formatDate from "../../../../utils/formatDate";
 
 function Details() {
-  const dispatch = useDispatch();
-
-  const {
-    Data_ToursRelated,
-    Data_SheduleTourByid,
-    Data_TourFavourite,
-    Data_Hotels,
-  } = useSelector((state) => state.PageDetail);
-  const { id } = useParams();
-  const authCookie = (() => {
+  const dispatch = useDispatch()
+  const user = (() => {
     try {
-      return JSON.parse(Cookies.get("auth")) || {};
+      return JSON.parse(Cookies.get("auth")) || null;
     } catch (error) {
-      console.error("Error parsing auth cookie:", error);
+      console.error("Lỗi khi parse JSON từ cookie:", error);
       return {};
     }
   })();
-
-  
-  const Name_user = authCookie ? authCookie?.Name : null
+  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
+  const { id } = useParams();
+  const Name_user = user ? user?.Name: null;
   const [reviews, setReviews] = useState([]);
-  const id_user = authCookie?._id;
+  const id_user = user?._id;
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState();
   const [validate, setValidate] = useState(true);
@@ -131,6 +123,7 @@ function Details() {
   };
   useEffect(() => {
     const handleGetSchedule = async () => {
+      
       const res = await getScheduleByid(tour?.id_Schedule_Travel);
 
       dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid));
@@ -303,7 +296,7 @@ function Details() {
   };
 
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     slidesToShow: 2,
     slidesToScroll: 1,
@@ -506,7 +499,7 @@ function Details() {
                             >
                               {" "}
                               <Avatar
-                                src={review ? review.photoUrl : ""}
+                                src={review ? review?.photoUrl : ""}
                                 sx={{ width: 50, height: 50 }}
                               />
                               <div
@@ -539,7 +532,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : reviews?.length === 1 ? (
+                    ) : reviews?.length === 1 ?(
                       <>
                         <div
                           key={reviews[0]?._id}

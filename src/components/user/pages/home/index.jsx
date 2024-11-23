@@ -55,6 +55,7 @@ function Home() {
     queryFn: fetchToursData,
     initialData: [],
   });
+  console.log(selectTours)
   const tourNames = Array.from(
     new Set(selectTours.map((tour) => tour.Name_Tour))
   );
@@ -217,7 +218,7 @@ function Home() {
                       </h4>
                       <div className={cx("vacation__item-location")}>
                         <LocationOnOutlinedIcon className={cx("icon")} />
-                        <span>{tour.Title_Tour}</span>
+                        <span>{tour.Start_Tour}</span>
                       </div>
                       <div className={cx("vacation__item-price")}>
                         <span>{tour.total_Date}</span>
@@ -277,7 +278,7 @@ function Home() {
                           className={cx("travel__review-item-img")}
                         />
                         <div className={cx("travel__review-item-text")}>
-                          <h4 className={cx("name")}>{tour.Title_Tour}</h4>
+                          <h4 className={cx("name")}>{tour.Name_Tour}</h4>
                           <div className={cx("star")}>
                             <Rating
                               name="size-small"
@@ -293,7 +294,7 @@ function Home() {
                           <span className={cx("title")}>
                             {tour.Description_Tour}
                           </span>
-                          <p className={cx("location")}>{tour.Name_Tour}</p>
+                          <p className={cx("location")}>{tour.Start_Tour}</p>
                         </div>
                       </Link>
                     ))}

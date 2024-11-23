@@ -62,7 +62,7 @@ function Tour_Demo() {
 
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 6;
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
