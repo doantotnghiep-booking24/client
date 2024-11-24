@@ -13,6 +13,7 @@ import { CreatePayment_Direct } from "../../../services/CreatePayment_Direct";
 import { ThreeDots } from 'react-loader-spinner';
 import CircularProgress from '@mui/material/CircularProgress';
 function BookingForm() {
+  const RefScroll = useRef(null);
   const dispatch = useDispatch();
   const { services, loading, error } = useSelector((state) => state.services);
   const { Data_ticket } = useSelector((state) => state.ticket)
@@ -27,7 +28,12 @@ function BookingForm() {
     Citizen_Identification: '',
     Address: ''
   })
-  console.log(getFormValue);
+  // console.log(getFormValue);
+  useEffect(() => {
+    if (RefScroll) {
+      RefScroll.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
 
   const { id } = useParams()
   const reftFocus = useRef(null)
@@ -210,7 +216,7 @@ function BookingForm() {
   //   }
   // }
   return (
-    <div className="containers">
+    <div ref={RefScroll} className="containers">
       <div className="booking-form">
         <h2>Thông tin khách hàng</h2>
         <form>
