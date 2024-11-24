@@ -1,0 +1,60 @@
+/* ChatBox.css */
+.chatbox-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px; /* Adjust width as needed */
+  max-height: 500px; /* Adjust height as needed */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(100%); /* Hidden by default */
+}
+
+.chatbox-header {
+  background-color: #f44336; /* Adjust to your theme */
+  padding: 10px;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chatbox-content {
+  padding: 10px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.chatbox-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+
+.chatbox-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.chatbox-input button {
+  margin-left: 10px;
+  background-color: #f44336; /* Adjust to your theme */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chatbox-open {
+  transform: translateY(0); /* Visible */
+}
