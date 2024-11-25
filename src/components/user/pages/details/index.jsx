@@ -112,7 +112,7 @@ function Details() {
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
-    Hotel: 1,
+    Hotel: 0,
   });
   const RefScroll = useRef(null);
   const RefFocus = useRef(null);
@@ -244,7 +244,7 @@ function Details() {
           if (res.status === 200 && res.statusText === "OK") {
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
           }
-        }, 2000);
+        },500);
       };
       ResponseTicket();
     } else {

@@ -8,7 +8,8 @@ import newsReducer from './features/newsSlice';
 import TicketReducer from './features/TicketSlice'
 import featured_locationReducer from './features/newsSlice';
 import PageDetails from './features/PageDetail'
-
+// import ToursRelatedReducer from './features/Tour_RelatedDetailSlice'
+import chatReducer from './features/ChatSlice'
 const store = configureStore({
   reducer: {
     services: serviceReducer,
@@ -19,7 +20,10 @@ const store = configureStore({
     news: newsReducer,
     featured_location: featured_locationReducer,
     ticket : TicketReducer,
-    PageDetail : PageDetails
+    PageDetail : PageDetails,
+    // ToursRelated : ToursRelatedReducer,
+
+    chat: chatReducer,
   },
 });
 
