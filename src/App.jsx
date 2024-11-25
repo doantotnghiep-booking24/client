@@ -15,6 +15,7 @@ import Tour from "./components/user/tours";
 import NewsDetail from "./components/user/news__detail";
 import Booked from "./components/user/booked";
 import "./styles/app.module.scss";
+import Chat from "./components/user/chat/chat1";
 
 import EditProfile from "./components/user/auth/editProfile/index.jsx";
 import Profile_Detail from "./components/user/auth/editProfile/components/Profile_Detail.jsx";
@@ -62,13 +63,13 @@ function App() {
         <Route path="/reset-password" element={<FormPasswordReset />} />
         <Route path="/auth" element={<SiginPage />} />
       </Routes>
-
       <Routes>
         <Route path="/edit-profile" element={<EditProfile />}>
           <Route path="/edit-profile" element={<Profile_Detail />} />
           <Route path="setting" element={<Setting />} />
         </Route>
       </Routes>
+      <Chat />
       <Footer />
     </Router>
   );
