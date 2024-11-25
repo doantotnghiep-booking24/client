@@ -47,28 +47,30 @@ import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
 import axios from "axios";
 import { GetTours_Related } from "../../../../services/getTours_Related";
-import { ToursRelateds, Shedule_tour_Byid, TourFavourite, Hotels } from "../../../../redux/features/PageDetail";
+import {
+  ToursRelateds,
+  Shedule_tour_Byid,
+  TourFavourite,
+  Hotels,
+} from "../../../../redux/features/PageDetail";
 import { getScheduleByid } from "../../../../services/GetSchedule_Travel";
-import { CreateTourFavourite, CancleTourFavourite, GetToursFavourite } from "../../../../services/Tour_Favourite";
+import {
+  CreateTourFavourite,
+  CancleTourFavourite,
+  GetToursFavourite,
+} from "../../../../services/Tour_Favourite";
 import { getHotels } from "../../../../services/GetHotels";
 const cx = classNames.bind(styles);
 import formatDate from "../../../../utils/formatDate";
 
 function Details() {
   const dispatch = useDispatch()
-  const user = (() => {
-    try {
-      return JSON.parse(Cookies.get("auth")) || null;
-    } catch (error) {
-      console.error("Lỗi khi parse JSON từ cookie:", error);
-      return {};
-    }
-  })();
+
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
   const { id } = useParams();
-  const Name_user = user ? user?.Name: null;
+  const Name_user = JSON.parse(Cookies.get("auth")).Name;
   const [reviews, setReviews] = useState([]);
-  const id_user = user?._id;
+  const id_user = JSON.parse(Cookies.get("auth"))._id;
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState();
   const [validate, setValidate] = useState(true);
@@ -78,7 +80,7 @@ function Details() {
   const [open, setOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
-  const [dataHotel, setDataHotel] = useState()
+  const [dataHotel, setDataHotel] = useState();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleDetailOpen = (hotel) => {
@@ -86,9 +88,9 @@ function Details() {
     setDetailOpen(true);
   };
   const handleChoseHotel = (hotel) => {
-    setDataHotel(hotel)
-    handleClose()
-  }
+    setDataHotel(hotel);
+    handleClose();
+  };
   // console.log(dataHotel);
 
   const handleDetailClose = () => {
@@ -102,7 +104,7 @@ function Details() {
   const [valueform, setValueform] = useState({
     Adult: 1,
     Children: 1,
-    Hotel: 1
+    Hotel: 0,
   });
   const RefScroll = useRef(null);
   const RefFocus = useRef(null);
@@ -149,10 +151,7 @@ function Details() {
       ? (tour?.After_Discount * (100 - 50)) / 100
       : (tour?.Price_Tour * (100 - 50)) / 100;
   children = children * valueform.Children;
-  let Hotel =
-    dataHotel?.Price_Hotel
-      ? dataHotel?.Price_Hotel
-      : 0
+  let Hotel = dataHotel?.Price_Hotel ? dataHotel?.Price_Hotel : 0;
   Hotel = Hotel * valueform.Hotel;
   let total = adult + children + Hotel;
 
@@ -164,8 +163,10 @@ function Details() {
     total = total - Hotel;
   }
 
-
-  const ress = Data_TourFavourite?.some(tour_Fav => tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id))
+  const ress = Data_TourFavourite?.some(
+    (tour_Fav) =>
+      tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id)
+  );
 
   const handleGetTourFavourite = async () => {
     const res = await GetToursFavourite();
@@ -174,16 +175,18 @@ function Details() {
 
   useEffect(() => {
     const handleGetHotels = async () => {
-      const res = await getHotels()
-      dispatch(Hotels(res.Hotel))
-    }
-    handleGetHotels()
-  }, [])
-  const HotelFilter = Data_Hotels.filter(hotel => hotel?.Adress_Hotel === tour?.End_Tour)
+      const res = await getHotels();
+      dispatch(Hotels(res.Hotel));
+    };
+    handleGetHotels();
+  }, []);
+  const HotelFilter = Data_Hotels.filter(
+    (hotel) => hotel?.Adress_Hotel === tour?.End_Tour
+  );
 
   useEffect(() => {
-    handleGetTourFavourite()
-  }, [])
+    handleGetTourFavourite();
+  }, []);
 
   const handleTourFavourite = async () => {
     const data = { id_user, id };
@@ -204,14 +207,14 @@ function Details() {
       const ResponseTicket = async () => {
         const data = {
           id_tour: tour?._id,
-          id_user: id_user,
+          id_user: id_user || null,
           id_Service: null,
           id_Custommer: null,
           id_Voucher: null,
-          id_Hotel : dataHotel?._id,
-          Name_Hotel : dataHotel?.Name_Hotel,
-          Price_Hotel : dataHotel?.Price_Hotel,
-          Number_Of_Hotel : valueform?.Hotel,
+          id_Hotel: dataHotel?._id,
+          Name_Hotel: dataHotel?.Name_Hotel,
+          Price_Hotel: dataHotel?.Price_Hotel,
+          Number_Of_Hotel: valueform?.Hotel,
           Departure_Location: tour?.Start_Tour,
           Destination: tour?.End_Tour,
           Title_Tour: tour?.Title_Tour,
@@ -233,7 +236,7 @@ function Details() {
           if (res.status === 200 && res.statusText === "OK") {
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
           }
-        }, 2000);
+        },500);
       };
       ResponseTicket();
     } else {
@@ -332,9 +335,9 @@ function Details() {
 
       // console.log(res.data);
 
-      const data = await res.data
+      const data = await res.data;
       // console.log(data.data);
-      setReviews(data.data)
+      setReviews(data.data);
     } catch (error) {
       console.log(error);
     }
@@ -520,7 +523,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : reviews?.length === 1 ?(
+                    ) : (
                       <>
                         <div
                           key={reviews[0]?._id}
@@ -567,8 +570,6 @@ function Details() {
                           </p>
                         </div>
                       </>
-                    ) : (
-                      <p>Không có đánh giá nào.</p>
                     )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />
@@ -581,7 +582,7 @@ function Details() {
                     alt=""
                     className={cx("account__img")}
                   />
-                  <h3 className={cx("account__name")}>{Name_user  || "User"}</h3>
+                  <h3 className={cx("account__name")}>{Name_user}</h3>
                   <LogoutIcon className={cx("account__icon")} />
                 </div>
 
@@ -657,7 +658,7 @@ function Details() {
                           name="Adult"
                           onChange={handleGetvalueForm}
                         />
-                        <div style={{ width: '110px' }} className={cx("rate")}>
+                        <div style={{ width: "110px" }} className={cx("rate")}>
                           <span className={cx("rate-text")}>
                             {valueform.Adult >= 1
                               ? adult.toLocaleString("vi-VN")
@@ -676,7 +677,7 @@ function Details() {
                             marginTop: "-25px",
                             marginLeft: "30px",
                             width: "40px",
-                            textAlign: 'center',
+                            textAlign: "center",
                           }}
                           value={
                             valueform.Children <= 0
@@ -686,7 +687,7 @@ function Details() {
                           name="Children"
                           onChange={handleGetvalueForm}
                         />
-                        <div style={{ width: '110px' }} className={cx("rate")}>
+                        <div style={{ width: "110px" }} className={cx("rate")}>
                           <span className={cx("rate-text")}>
                             {valueform.Children >= 1
                               ? children.toLocaleString("vi-VN")
@@ -695,34 +696,41 @@ function Details() {
                           </span>
                         </div>
                       </div>
-                      {dataHotel ? <div className={cx("children")}>
-                        <span className="children-name">Khách sạn</span>
-                        <TextField
-                          id="standard-number"
-                          type="number"
-                          variant="standard"
-                          style={{
-                            marginTop: "-25px",
-                            marginLeft: "10px",
-                            width: "40px",
-                          }}
-                          value={
-                            valueform.Hotel <= 0
-                              ? (valueform.Hotel = 0)
-                              : valueform.Hotel
-                          }
-                          name="Hotel"
-                          onChange={handleGetvalueForm}
-                        />
-                        <div style={{ width: '110px' }} className={cx("rate")}>
-                          <span className={cx("rate-text")}>
-                            {valueform.Hotel >= 1
-                              ? Hotel.toLocaleString("vi-VN")
-                              : 0}
-                            VND
-                          </span>
+                      {dataHotel ? (
+                        <div className={cx("children")}>
+                          <span className="children-name">Khách sạn</span>
+                          <TextField
+                            id="standard-number"
+                            type="number"
+                            variant="standard"
+                            style={{
+                              marginTop: "-25px",
+                              marginLeft: "10px",
+                              width: "40px",
+                            }}
+                            value={
+                              valueform.Hotel <= 0
+                                ? (valueform.Hotel = 0)
+                                : valueform.Hotel
+                            }
+                            name="Hotel"
+                            onChange={handleGetvalueForm}
+                          />
+                          <div
+                            style={{ width: "110px" }}
+                            className={cx("rate")}
+                          >
+                            <span className={cx("rate-text")}>
+                              {valueform.Hotel >= 1
+                                ? Hotel.toLocaleString("vi-VN")
+                                : 0}
+                              VND
+                            </span>
+                          </div>
                         </div>
-                      </div> : ''}
+                      ) : (
+                        ""
+                      )}
                       <div className={cx("total")}>
                         <span className="total-type">Tổng tiền</span>
                         <div className={cx("rate")}>
@@ -841,12 +849,12 @@ function Details() {
                   </h3> */}
                   {HotelFilter?.slice(0, 1).map((hotel, index) => (
                     <div key={index} className={cx("hotels")}>
-                      <img
-                        src={hotel.Image_Hotel[0].path}
-                        alt=""
-                      />
+                      <img src={hotel.Image_Hotel[0].path} alt="" />
                       <div className={cx("hotel__content")}>
-                        <h4 style={{ height: '50px' }} className={cx("hotel__content-name")}>
+                        <h4
+                          style={{ height: "50px" }}
+                          className={cx("hotel__content-name")}
+                        >
                           {hotel.Name_Hotel}
                           <Rating defaultValue={5} readOnly size="small" />
                         </h4>
@@ -929,7 +937,7 @@ function Details() {
                                 Giá từ{" "}
                               </span>
                               <span className={cx("action-price-number")}>
-                                {hotel.Price_Hotel.toLocaleString('vi-VN')} VND
+                                {hotel.Price_Hotel.toLocaleString("vi-VN")} VND
                               </span>
                             </div>
                           </div>
@@ -966,7 +974,11 @@ function Details() {
                     </DialogTitle>
                     <DialogContent
                       dividers
-                      style={{ backgroundColor: "#f7f7f7", padding: "20px", display: "flex", }}
+                      style={{
+                        backgroundColor: "#f7f7f7",
+                        padding: "20px",
+                        display: "flex",
+                      }}
                     >
                       <div>
                         <h3>{selectedHotel.Name_Hotel}</h3>

@@ -100,6 +100,7 @@ function Home() {
   });
 
   console.log(selectTours);
+  console.log(menuTours);
 
     const handleNameInput = (event) => {
       const value = event.target.value;
