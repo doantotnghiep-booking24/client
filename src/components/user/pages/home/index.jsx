@@ -101,7 +101,6 @@ function Home() {
 
   console.log(selectTours);
 
-    // Xử lý khi gõ vào ô input
     const handleNameInput = (event) => {
       const value = event.target.value;
       setSearchName(value);
@@ -131,7 +130,7 @@ function Home() {
   };
 
   const closeSuggestions = () => {
-    setTimeout(() => setIsSuggestionsVisible(false), 200);
+    setTimeout(() => setIsSuggestionsVisible(false), 300);
   };
   if (isLoading) return <p>Loading tours...</p>;
 
@@ -221,10 +220,10 @@ function Home() {
                       borderRadius: "12px",
                       height: "60px",
                       "&:hover fieldset": {
-                        borderColor: "#3fd0d4", // Màu khi hover
+                        borderColor: "#3fd0d4", 
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#3fd0d4", // Màu khi chọn
+                        borderColor: "#3fd0d4", 
                       },
                     },
                   }}
@@ -235,7 +234,7 @@ function Home() {
                     sx={{
                       position: "absolute",
                       backgroundColor: "#fff",
-                      width: "100%", // Đồng bộ chiều rộng với TextField
+                      width: "100%", 
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                       borderRadius: "8px",
                       maxHeight: "400px",

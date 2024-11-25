@@ -20,23 +20,25 @@
 .banner__text {
   color: var(--font-color);
 
-  span {
-    text-transform: uppercase;
-    font-size: var(--font-size);
-  }
   h1 {
     margin-top: 10px;
     font-weight: 600;
     font-size: 60px;
     text-transform: uppercase;
   }
+  span {
+    text-transform: uppercase;
+    font-size: var(--font-size);
+    display: block ; 
+    margin-top: 10px;
+  }
 }
 
 .banner__section {
-  margin-top: 20px;
+  margin-top: 30px;
   .banner__section-btn {
     width: 180px;
-    height: 48px;
+    height: 48px;     
     background-color: var(--bg-primary) !important;
     border-radius: 8px;
   }
