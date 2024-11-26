@@ -55,7 +55,7 @@ function Home() {
     queryFn: fetchToursData,
     initialData: [],
   });
-  console.log(selectTours)
+  // console.log(selectTours)
   const tourNames = Array.from(
     new Set(selectTours.map((tour) => tour.Name_Tour))
   );
