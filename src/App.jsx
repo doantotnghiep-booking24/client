@@ -29,7 +29,7 @@ function App() {
         const cookieData = Cookies.get("auth");
         if (cookieData) {
           const token = JSON.parse(cookieData).AccessToken;
-          console.log(token);
+          // console.log(token);
 
           if (token) {
             config.headers["Authorization"] = `Bearer ${token}`;

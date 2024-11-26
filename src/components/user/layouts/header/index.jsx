@@ -44,7 +44,7 @@ function Header() {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const dataAuth = useSelector((state) => state.auth);
-console.log(dataAuth);
+// console.log(dataAuth);
 
   const user = (() => {
     try {
