@@ -1,21 +1,20 @@
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import { Box, Button } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import PinterestIcon from "@mui/icons-material/Pinterest";
+import { Box, Button, TextField } from "@mui/material";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import InstagramIcon from "@mui/icons-material/Instagram";
+// import LinkedInIcon from "@mui/icons-material/LinkedIn";
+// import PinterestIcon from "@mui/icons-material/Pinterest";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import ReorderIcon from "@mui/icons-material/Reorder";
+import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,25 +25,79 @@ import { addAuth, logoutAuth } from "../../../../redux/features/AuthSlice";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-// import Swal from "sweetalert2";
+import { fetchToursData } from "../../../../services/fetchTours";
+import { useQuery } from "@tanstack/react-query";
 
 const cx = classNames.bind(styles);
+const BASE_URL = "http://localhost:3001/V1/Tours";
+
+const fetchMenuTours = async () => {
+  const response = await axios.get(`${BASE_URL}/GetTours`, {
+    params: { page: 1, limit: 10 },
+  });
+  const availableTours = response.data.Tours.datas.filter(
+    (tour) => !tour.isDeleted
+  );
+  return availableTours;
+};
 
 function Header() {
-  // const showSwal = () => {
-  //   Swal.fire({
-  //     title: "Đặt vé thành công!",
-  //     text: "Cảm ơn bạn đã đặt vé",
-  //     icon: "success",
-  //     confirmButtonText: "OK",
-  //   });
-  // };
+  const { data: selectTours } = useQuery({
+    queryKey: ["tours"],
+    queryFn: fetchToursData,
+    initialData: [],
+  });
+  const { data: menuTours } = useQuery({
+    queryKey: ["menuTours"],
+    queryFn: fetchMenuTours,
+  });
+
+  const [searchName, setSearchName] = useState("");
+  const [nameSuggestions, setNameSuggestions] = useState([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNameInput = (event) => {
+    const value = event.target.value;
+    setSearchName(value);
+
+    if (value.trim()) {
+      const tourNames = selectTours
+        .filter(
+          (tour) =>
+            !tour.isDeleted &&
+            tour.Name_Tour.toLowerCase().includes(value.toLowerCase())
+        )
+        .map((tour) => tour.Name_Tour);
+      setNameSuggestions([...new Set(tourNames)]);
+      setIsSuggestionsVisible(true);
+    } else {
+      setNameSuggestions([]);
+      setIsSuggestionsVisible(false);
+    }
+  };
+
+  const handleSearch = (name) => {
+    if (searchName.trim()) {
+      navigate(`/tours?search=${encodeURIComponent(name)}`);
+      setSearchName("");
+    }
+  };
+  const handleSuggestionClick = (value) => {
+    setSearchName(value);
+    setIsSuggestionsVisible(false);
+    handleSearch(value);
+  };
+
+  const closeSuggestions = () => {
+    setTimeout(() => setIsSuggestionsVisible(false), 300);
+  };
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const dataAuth = useSelector((state) => state.auth);
-// console.log(dataAuth);
+  // console.log(dataAuth);
 
   const user = (() => {
     try {
@@ -84,7 +137,11 @@ function Header() {
     const api = "http://localhost:3001/User/RefreshToken";
 
     try {
-      const res = await axios.post(api, { token: user.RefreshToken }, { withCredentials: true});
+      const res = await axios.post(
+        api,
+        { token: user.RefreshToken },
+        { withCredentials: true }
+      );
       const data = await res.data;
 
       if (data.NewAccessToken) {
@@ -169,9 +226,11 @@ function Header() {
                   Nguyễn Huy Tưởng, Đà Nẵng
                 </span>
               </a>
+
+             
             </div>
             <div className={cx("navbar__action")}>
-              <div className={cx("navbar__social")}>
+              {/* <div className={cx("navbar__social")}>
                 <FacebookIcon
                   fontSize="small"
                   className={cx("navbar__social-icon")}
@@ -188,8 +247,117 @@ function Header() {
                   fontSize="small"
                   className={cx("navbar__social-icon")}
                 />
+              </div> */}
+               <div className={cx("banner__section-search")}>
+                <TextField
+                  className={cx("banner__section-search-name")}
+                  value={searchName}
+                  onChange={handleNameInput}
+                  placeholder="Tìm kiếm điểm đến"
+                  variant="outlined"
+                  fullWidth
+                  onBlur={closeSuggestions}
+                  onFocus={() => setIsSuggestionsVisible(true)}
+                  sx={{
+                    borderRadius: "18px",
+                    backgroundColor: "#f5f5f5",
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "18px",
+                      height: "35px",
+                      "& input": {
+                        lineHeight: "1.5", 
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#3fd0d4",
+                      },
+                    },
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <SearchIcon
+                        sx={{
+                          color: "#757575",
+                          marginRight: "8px",
+                        }}
+                      />
+                    ),
+                  }}
+                />
+                {isSuggestionsVisible && (
+                  <Box
+                    className={cx("suggestion-box")}
+                    sx={{
+                      position: "absolute",
+                      backgroundColor: "#fff",
+                      width: "480px",
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                      borderRadius: "8px",
+                      maxHeight: "500px",
+                      overflowY: "auto",
+                      zIndex: 1000,
+                      color: "#212121",
+                    }}
+                  >
+                    {searchName.trim() === "" && (
+                      <ul className={cx("search__menu-list")}>
+                        <span className={cx("heading")}>Top tìm kiếm</span>
+                        {menuTours?.map((tour) => (
+                          <Link
+                            to={`/tours/${tour._id}`}
+                            key={tour._id}
+                            className={cx("search__menu-item")}
+                          >
+                            <img
+                              src={tour?.Image_Tour[0]?.path}
+                              alt=""
+                              className={cx("search__menu-image")}
+                            />
+                            <div className={cx("search__menu-heding")}>
+                              <p className={cx("name")}>{tour.Name_Tour}</p>
+                              <div className={cx("search__menu-sub")}>
+                                <span className={cx("end")}>
+                                  {tour.End_Tour}
+                                </span>
+                                <span className={cx("price")}>
+                                  {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                                </span>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </ul>
+                    )}
+                    {searchName.trim() !== "" &&
+                      nameSuggestions.map((name, index) => (
+                        <Box
+                          key={index}
+                          onClick={() => handleSuggestionClick(name)}
+                          className={cx("suggestion-item")}
+                          sx={{
+                            padding: "10px",
+                            cursor: "pointer",
+                            "&:hover": {
+                              backgroundColor: "#f0f0f0",
+                            },
+                          }}
+                        >
+                          <SearchIcon
+                            sx={{ marginRight: "10px", color: "#757575" }}
+                          />
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: name.replace(
+                                new RegExp(searchName, "gi"),
+                                (match) =>
+                                  `<span style="color: #3fd0d4">${match}</span>`
+                              ),
+                            }}
+                          />
+                        </Box>
+                      ))}
+                  </Box>
+                )}
               </div>
-              {/* account mui */}
               {user ? (
                 <div
                   onClick={handleClick}
