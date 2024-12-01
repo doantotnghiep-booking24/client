@@ -83,7 +83,7 @@ function Tour_Demo() {
   };
 
   const handleTourNameChange = (event) => {
-    const { name, checked } = event.target;
+    const { name, checked } = event.target
 
     setSelectedTourNames((prev) =>
       checked ? [...prev, name] : prev.filter((tourName) => tourName !== name)
