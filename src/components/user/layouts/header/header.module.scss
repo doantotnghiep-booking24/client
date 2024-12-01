@@ -36,6 +36,56 @@
     color: var(--color-primary);
   }
 }
+.search__menu-list{
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  .heading{
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0 2px;
+    font-size: 16px;
+  }
+  .search__menu-item{
+    text-decoration: none;
+    color: var(--color-text);
+    display: flex;
+    margin-top: 20px;
+  }
+  .search__menu-image{
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+  }
+  .search__menu-heding{
+    margin: -2px 0 0 12px;
+    width: 100%;
+
+    .name{
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    margin-bottom: 0;
+    }
+  }
+  .search__menu-sub{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    .end{
+      color: #9e9e9e;
+    }
+
+    .price{
+      color: var(--color-primary);
+    }
+  }
+}
 .navbar__action {
   display: flex;
   align-items: center;
