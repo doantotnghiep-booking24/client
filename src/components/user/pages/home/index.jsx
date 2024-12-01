@@ -1,12 +1,13 @@
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Rating from "@mui/material/Rating";
 import { Button } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { TextField, Box } from "@mui/material";
 
 import { useState } from "react";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import axios from "axios";
 
@@ -19,6 +20,7 @@ import styles from "./home.module.scss";
 import { Link } from "react-router-dom";
 
 import { fetchToursData } from "../../../../services/fetchTours";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -57,24 +59,14 @@ const fetchMenuTours = async () => {
   return availableTours;
 };
 
-const searchTours = async (name) => {
-  const response = await axios.get(`${BASE_URL}/SearchTour`, {
-    params: {
-      NameSearch: name,
-      page: 1,
-      limit: 3,
-    },
-  });
-  return response.data.search.datas;
-};
-
 
 function Home() {
- 
   const [searchName, setSearchName] = useState("");
   const [filteredTours, setFilteredTours] = useState(null);
   const [nameSuggestions, setNameSuggestions] = useState([]);
   const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const { data: selectTours } = useQuery({
     queryKey: ["tours"],
@@ -91,43 +83,40 @@ function Home() {
     queryFn: fetchMenuTours,
   });
 
-  const { mutate: searchTour } = useMutation({
-    mutationFn: searchTours,
-    onSuccess: (data) => {
-      const filtered = data.filter((tour) => !tour.isDeleted);
-      setFilteredTours(filtered);
-    },
-  });
-
   console.log(selectTours);
   console.log(menuTours);
 
-    const handleNameInput = (event) => {
-      const value = event.target.value;
-      setSearchName(value);
+  const handleNameInput = (event) => {
+    const value = event.target.value;
+    setSearchName(value);
 
-      if (value.trim()) {
-          const tourNames = selectTours
-              .filter((tour) => !tour.isDeleted && tour.Name_Tour.toLowerCase().includes(value.toLowerCase()))
-              .map((tour) => tour.Name_Tour);
-          setNameSuggestions([...new Set(tourNames)]);
-          setIsSuggestionsVisible(true);
-      } else {
-          setNameSuggestions([]);
-          setIsSuggestionsVisible(false);
-      }
+    if (value.trim()) {
+      const tourNames = selectTours
+        .filter(
+          (tour) =>
+            !tour.isDeleted &&
+            tour.Name_Tour.toLowerCase().includes(value.toLowerCase())
+        )
+        .map((tour) => tour.Name_Tour);
+      setNameSuggestions([...new Set(tourNames)]);
+      setIsSuggestionsVisible(true);
+    } else {
+      setNameSuggestions([]);
+      setIsSuggestionsVisible(false);
+    }
   };
 
   const handleSearch = () => {
     if (searchName.trim()) {
-        searchTour(searchName);
+      navigate(`/tours?search=${encodeURIComponent(searchName)}`);
     }
-};
+  };
   console.log(searchName);
 
   const handleSuggestionClick = (value) => {
     setSearchName(value);
     setIsSuggestionsVisible(false);
+    // handleSearch(value); 
   };
 
   const closeSuggestions = () => {
@@ -195,7 +184,7 @@ function Home() {
                   className={cx("banner__section-search-name")}
                   value={searchName}
                   onChange={handleNameInput}
-                  placeholder="Nhập tên chuyến đi"
+                  placeholder="Tìm kiếm tên chuyến đi"
                   variant="outlined"
                   fullWidth
                   onBlur={closeSuggestions}
@@ -221,21 +210,21 @@ function Home() {
                       borderRadius: "12px",
                       height: "60px",
                       "&:hover fieldset": {
-                        borderColor: "#3fd0d4", 
+                        borderColor: "#3fd0d4",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#3fd0d4", 
+                        borderColor: "#3fd0d4",
                       },
                     },
                   }}
                 />
-                {isSuggestionsVisible && nameSuggestions.length > 0 && (
+                {isSuggestionsVisible && (
                   <Box
                     className={cx("suggestion-box")}
                     sx={{
                       position: "absolute",
                       backgroundColor: "#fff",
-                      width: "100%", 
+                      width: "100%",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                       borderRadius: "8px",
                       maxHeight: "400px",
@@ -243,42 +232,63 @@ function Home() {
                       zIndex: 1000,
                     }}
                   >
-                    {nameSuggestions.map((name, index) => (
-                      <Box
-                        key={index}
-                        onClick={() => handleSuggestionClick(name)}
-                        className={cx("suggestion-item")}
-                        sx={{
-                          padding: "10px",
-                          cursor: "pointer",
-                          "&:hover": {
-                            backgroundColor: "#f0f0f0",
-                          },
-                        }}
-                      >
-                        {name}
-                      </Box>
-                    ))}
-                    <ul className={cx("search__menu-list")}>
-                      {menuTours?.map((tour) => (
-                        <Link to={`/tours/${tour._id}`} key={tour._id} className={cx("search__menu-item")}>
-                          <img
-                            src={tour?.Image_Tour[0]?.path}
-                            alt=""
-                            className={cx("search__menu-image")}
-                          />
-                          <div className={cx("search__menu-heding")}>
-                            <p className={cx("name")}>{tour.Name_Tour}</p>
-                            <div className={cx("search__menu-sub")}>
-                              <span className={cx("end")}>{tour.End_Tour}</span>
-                              <span className={cx("price")}>
-                                {tour.Price_Tour.toLocaleString("vi-VN")} VND
-                              </span>
+                    {searchName.trim() === "" && (
+                      <ul className={cx("search__menu-list")}>
+                        <span className={cx("heading")}>Top tìm kiếm</span>
+                        {menuTours?.map((tour) => (
+                          <Link
+                            to={`/tours/${tour._id}`}
+                            key={tour._id}
+                            className={cx("search__menu-item")}
+                          >
+                            <img
+                              src={tour?.Image_Tour[0]?.path}
+                              alt=""
+                              className={cx("search__menu-image")}
+                            />
+                            <div className={cx("search__menu-heding")}>
+                              <p className={cx("name")}>{tour.Name_Tour}</p>
+                              <div className={cx("search__menu-sub")}>
+                                <span className={cx("end")}>
+                                  {tour.End_Tour}
+                                </span>
+                                <span className={cx("price")}>
+                                  {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
+                          </Link>
+                        ))}
+                      </ul>
+                    )}
+                    {searchName.trim() !== "" &&
+                      nameSuggestions.map((name, index) => (
+                        <Box
+                          key={index}
+                          onClick={() => handleSuggestionClick(name)}
+                          className={cx("suggestion-item")}
+                          sx={{
+                            padding: "10px",
+                            cursor: "pointer",
+                            "&:hover": {
+                              backgroundColor: "#f0f0f0",
+                            },
+                          }}
+                        >
+                           <SearchIcon
+                            sx={{ marginRight: "10px", color: "#3fd0d4" }}
+                          />
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: name.replace(
+                                new RegExp(searchName, "gi"),
+                                (match) =>
+                                  `<span style="color: #3fd0d4">${match}</span>`
+                              ),
+                            }}
+                          />
+                        </Box>
                       ))}
-                    </ul>
                   </Box>
                 )}
               </div>
@@ -290,8 +300,7 @@ function Home() {
         <div className={cx("container")}>
           <div className={cx("vacation")}>
             <div className={cx("vacation__list")}>
-              {toursToDisplay && toursToDisplay.length > 0 ? (
-                toursToDisplay.map((tour) => (
+                {toursToDisplay.map((tour) => (
                   <div key={tour._id} className={cx("vacation__item")}>
                     <img
                       src={tour?.Image_Tour[0]?.path}
@@ -324,9 +333,7 @@ function Home() {
                       </Button>
                     </div>
                   </div>
-                ))
-              ) : (
-                <p>No tours found</p>
+                )
               )}
             </div>
           </div>
@@ -407,7 +414,7 @@ function Home() {
                 alt=""
               />
               <div className={cx("blog-item-title")}>
-                <Link to="details" className={cx("blog-item-hed")}>
+                <Link to="#" className={cx("blog-item-hed")}>
                   Chuyến tham quan tuyệt vời
                 </Link>
                 <span className={cx("blog-item-sub")}>
@@ -436,7 +443,7 @@ function Home() {
                 alt=""
               />
               <div className={cx("blog-item-title")}>
-                <Link to="details" className={cx("blog-item-hed")}>
+                <Link to="#" className={cx("blog-item-hed")}>
                   Chuyến tham quan tuyệt vời
                 </Link>
                 <span className={cx("blog-item-sub")}>
