@@ -81,7 +81,7 @@ const Chat = () => {
     return () => {
       socket.off('receiveMessage');  // Hủy lắng nghe khi component unmount
     };
-  }, [dispatch]);
+  }, [dispatch])
 
 
 

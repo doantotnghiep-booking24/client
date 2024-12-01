@@ -299,7 +299,7 @@ function Home() {
                       className={cx("vacation__item-img")}
                     />
                     <div className={cx("vacation__item-text")}>
-                      <h4 className={cx("vacation__item-name")}>
+                      <h4 className={cx("vacation__item-name")} style={{ width: '340px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {tour.Name_Tour}
                       </h4>
                       <div className={cx("vacation__item-location")}>
