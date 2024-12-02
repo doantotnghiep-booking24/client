@@ -68,7 +68,7 @@ function Details() {
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
 
   const { id } = useParams();
-  const Name_user = JSON.parse(Cookies.get("auth")).Name;
+  const Name_user = JSON.parse(Cookies.get("auth"))?.Name ? JSON.parse(Cookies.get("auth"))?.Name : 'User';
   const photoUrl_user = JSON.parse(Cookies.get("auth")).photoUrl;
   const [reviews, setReviews] = useState([]);
   const id_user = JSON.parse(Cookies.get("auth"))._id;
