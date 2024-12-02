@@ -83,8 +83,8 @@ function Home() {
     queryFn: fetchMenuTours,
   });
 
-  console.log(selectTours);
-  console.log(menuTours);
+  // console.log(selectTours);
+  // console.log(menuTours);
 
   const handleNameInput = (event) => {
     const value = event.target.value;
@@ -102,7 +102,7 @@ function Home() {
       setIsSuggestionsVisible(true);
     } else {
       setNameSuggestions([]);
-      setIsSuggestionsVisible(false);
+      setIsSuggestionsVisible(true);
     }
   };
 
@@ -222,11 +222,14 @@ function Home() {
                     sx={{
                       position: "absolute",
                       backgroundColor: "#fff",
-                      width: "100%",
+                      width: "840px",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                       borderRadius: "8px",
+                      msOverflowStyle : 'none',
+                      scrollbarWidth : 'none',
                       maxHeight: "400px",
                       overflowY: "auto",
+                      marginTop : '2px',
                       zIndex: 1000,
                     }}
                   >
@@ -298,7 +301,7 @@ function Home() {
         <div className={cx("container")}>
           <div className={cx("vacation")}>
             <div className={cx("vacation__list")}>
-                {toursToDisplay.map((tour) => (
+                {toursToDisplay?.map((tour) => (
                   <div key={tour._id} className={cx("vacation__item")}>
                     <img
                       src={tour?.Image_Tour[0]?.path}
@@ -306,7 +309,7 @@ function Home() {
                       className={cx("vacation__item-img")}
                     />
                     <div className={cx("vacation__item-text")}>
-                      <h4 className={cx("vacation__item-name")}>
+                      <h4 className={cx("vacation__item-name")} style={{ width: '340px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {tour.Name_Tour}
                       </h4>
                       <div className={cx("vacation__item-location")}>

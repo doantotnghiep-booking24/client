@@ -64,7 +64,7 @@ function BookingHistory() {
        const res = await Update_StatusCancelTicketsByClient(id_Ticket)
        console.log(res);
        
-        Swal.fire("Đã hủy!", "Vé của bạn đã được hủy.", "success");
+        Swal.fire("Đã gửi yêu cầu hủy vé!", "Vui lòng chờ trong lúc xác nhận", "success");
       }
     });
   };

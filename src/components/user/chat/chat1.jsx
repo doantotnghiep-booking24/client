@@ -81,13 +81,13 @@ const Chat = () => {
     return () => {
       socket.off('receiveMessage');  // Hủy lắng nghe khi component unmount
     };
-  }, [dispatch]);
+  }, [dispatch])
 
 
 
   const callMessages = async () => {
     const res = await fetchChat(userId)
-    dispatch(dataChat(res[0].messages))
+    dispatch(dataChat(res[0]?.messages))
   }
   useEffect(() => {
     callMessages()
