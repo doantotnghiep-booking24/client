@@ -1,17 +1,13 @@
 import LogoutIcon from "@mui/icons-material/Logout";
-
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import { TextField, Button, Avatar } from "@mui/material";
-
 // import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from "@mui/material";
-
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 // import { Link } from "react-router-dom";
@@ -46,7 +42,8 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
 import axios from "axios";
-import { GetTours_Related } from "../../../../services/getTours_Related";
+import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
 import {
   ToursRelateds,
   Shedule_tour_Byid,
@@ -62,13 +59,17 @@ import {
 import { getHotels } from "../../../../services/GetHotels";
 const cx = classNames.bind(styles);
 import formatDate from "../../../../utils/formatDate";
-
+import { FaBus } from "react-icons/fa";
+import { MdLunchDining } from "react-icons/md";
+import { MdLocalHotel } from "react-icons/md";
 function Details() {
   const dispatch = useDispatch()
 
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
+
   const { id } = useParams();
   const Name_user = JSON.parse(Cookies.get("auth")).Name;
+  const photoUrl_user = JSON.parse(Cookies.get("auth")).photoUrl;
   const [reviews, setReviews] = useState([]);
   const id_user = JSON.parse(Cookies.get("auth"))._id;
   const navigate = useNavigate();
@@ -117,6 +118,8 @@ function Details() {
   useEffect(() => {
     const handleGetSchedule = async () => {
       const res = await getScheduleByid(tour?.id_Schedule_Travel);
+      console.log(res);
+
       dispatch(Shedule_tour_Byid(res.Schedule_Travelbyid));
     };
     handleGetSchedule();
@@ -236,7 +239,7 @@ function Details() {
           if (res.status === 200 && res.statusText === "OK") {
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
           }
-        },500);
+        }, 500);
       };
       ResponseTicket();
     } else {
@@ -336,8 +339,10 @@ function Details() {
       // console.log(res.data);
 
       const data = await res.data;
-      // console.log(data.data);
-      setReviews(data.data);
+      console.log(data.data);
+      if (data) {
+        setReviews(data.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -445,7 +450,54 @@ function Details() {
                   <div>
                     {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
                     <div className={cx("content__home-title")}>
-                      <span className={cx("content__home-desc")}>
+                      <VerticalTimeline style={{height : '100px'}} lineColor="#C0C0C0" >
+                        <VerticalTimelineElement
+                          className="vertical-timeline-element--work"
+                          contentStyle={{ background: '#a3cef1', color: 'black' }}
+                          contentArrowStyle={{ borderRight: '7px solid #a3cef1' }}
+                          date={`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule}`}
+                          iconStyle={{ background: '#a3cef1',marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          icon={<FaBus />}
+
+                        >
+                          {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
+                          <h4 className="vertical-timeline-element-subtitle">Sáng</h4>
+                          <p>
+                            {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
+                          </p>
+                        </VerticalTimelineElement>
+                        <VerticalTimelineElement
+                          className="vertical-timeline-element--work"
+                          contentStyle={{ background: '#fbd1a2', color: 'black' }}
+                          contentArrowStyle={{ borderRight: '7px solid  #fbd1a2' }}
+                          date={`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule}`}
+                          iconStyle={{ background: '#fbd1a2',marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          icon={<MdLunchDining />}
+
+                        >
+                          {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
+                          <h4 className="vertical-timeline-element-subtitle">Trưa</h4>
+                          <p>
+                            {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
+                          </p>
+                        </VerticalTimelineElement>
+                        <VerticalTimelineElement
+                          className="vertical-timeline-element--work"
+                          contentStyle={{ background: '#7dcfb6', color: 'black' }}
+                          contentArrowStyle={{ borderRight: '7px solid  #7dcfb6' }}
+                          date={`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule}`}
+                          iconStyle={{ background: '#7dcfb6', marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          icon={<MdLocalHotel />}
+                        >
+                          {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
+                          <h4 className="vertical-timeline-element-subtitle">Chiều - Tối</h4>
+                          <p>
+                            {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
+                          </p>
+                        </VerticalTimelineElement>
+                        
+                      </VerticalTimeline>
+                      {/* <span className={cx("content__home-desc")}>
                         {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
                       </span>
                       <span className={cx("content__home-desc")}>
@@ -453,7 +505,7 @@ function Details() {
                       </span>
                       <span className={cx("content__home-desc")}>
                         {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
-                      </span>
+                      </span> */}
                     </div>
 
                     {/* </div> */}
@@ -578,7 +630,7 @@ function Details() {
               <aside className={cx("aside")}>
                 <div className={cx("aside__account")}>
                   <img
-                    src="https://apps.odoo.com/web/image/loempia.module/31305/icon_image?unique=4696166"
+                    src={photoUrl_user}
                     alt=""
                     className={cx("account__img")}
                   />
@@ -605,7 +657,7 @@ function Details() {
                                 : { color: "gray", cursor: "pointer" }
                             }
                             onClick={handleTourFavourite}
-                            // ff1744
+                          // ff1744
                           />
                         )}
                       </div>

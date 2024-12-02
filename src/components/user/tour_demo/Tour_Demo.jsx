@@ -13,6 +13,8 @@ import { Button, Tabs, Tab } from "@mui/material";
 // import { fetchToursData } from "../../../services/fetchTours";
 import { fetchCategories } from "../../../services/fetchCategory";
 import { fetchTypeTours } from "../../../services/fetchTypeTours";
+import { GetAllTicket } from "../../../services/getTicketsHistory";
+import RoomIcon from '@mui/icons-material/Room';
 import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
@@ -66,9 +68,15 @@ function Tour_Demo() {
   const [selectedTourNames, setSelectedTourNames] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedRating, setSelectedRating] = useState(0);
-
   const [filteredTours, setFilteredTours] = useState([]);
-
+  const [bookedTickets, setBookedTickets] = useState([])
+  useEffect(() => {
+    const handleGetTickets = async () => {
+      const res = await GetAllTicket()
+      setBookedTickets(res.data.Tickets)
+    }
+    handleGetTickets()
+  }, [])
   const filterTours = () => {
     return tours.filter((tour) => {
       const checkPrice =
@@ -102,6 +110,7 @@ function Tour_Demo() {
 
   const handleTourNameChange = (event) => {
     const { name, checked } = event.target;
+
     setSelectedTourNames((prev) =>
       checked ? [...prev, name] : prev.filter((tourName) => tourName !== name)
     );
@@ -264,71 +273,79 @@ function Tour_Demo() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-                {displayedTours
-                  .filter((tour) => tour.isDeleted === false)
-                  .map((tour) => (
-                    <li key={tour._id} className={cx("content__home-item")}>
+                {displayedTours.filter(tour => tour.isDeleted === false).map((tour) => (
+                  <Link to={`/tours/${tour._id}`} style={{ textDecoration: 'none' }} className={cx("content__home-item")}>
+                    <div style={{ position: 'relative' }}>
                       <img
                         className={cx("content__home-img")}
-                        src={tour.Image_Tour[0].path}
+                        src={tour.Image_Tour[0]?.path}
                         alt={tour.Name_Tour}
                       />
-                      <div className={cx("section")}>
-                        <div className={cx("section__heading")}>
-                          <h5 className={cx("section__heading-title")}>
-                            {tour.Name_Tour}
-                          </h5>
-                          <div className={cx("section__heading-good")}>Tốt</div>
-                        </div>
-                        {tour.totalReview > 0 && (
-                          <Rating
-                            name="size-small"
-                            value={tour.totalReview}
-                            size="small"
-                            precision={0.1}
-                            readOnly
-                          />
-                        )}
-                        <p className={cx("section-content")}>
-                          {tour.Description_Tour}
-                        </p>
-                        <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
-                        <div className={cx("bottom")}>
-                          <div>
-                            <p className={cx("outstanding")}>
-                              Tour du lịch nổi bật nhất
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className={cx("action")}>
-                          {tour.Price_Tour && tour.After_Discount > 0 ? (
-                            <div>
-                              <span className={cx("action__price-discount")}>
-                                {tour.Price_Tour.toLocaleString("vi-VN")} ₫
-                              </span>
-                              <h4 className={cx("action__price")}>
-                                {tour.After_Discount.toLocaleString("vi-VN")}₫
-                              </h4>
-                            </div>
-                          ) : (
-                            <h4 className={cx("action__price")}>
-                              {tour.Price_Tour.toLocaleString("vi-VN")} ₫
-                            </h4>
-                          )}
-                          <Button
-                            LinkComponent={Link}
-                            to={`/tours/${tour._id}`}
-                            variant="contained"
-                            color="primary"
-                            className={cx("vacation__item-btn")}
-                          >
-                            Xem chi tiết
-                          </Button>
-                        </div>
+                      <div style={{ position: 'absolute', width: '100px', height: '30px', background: 'rgba(0, 0, 0, 0.5)', borderRadius: '4px', margin: '8px 166px', top: 0 }}>
+                        <p style={{ textAlign: 'center', lineHeight: '30px', color: '#fff' }}>{tour.End_Tour}</p>
                       </div>
-                    </li>
-                  ))}
+                    </div>
+                    <div className={cx("section")}>
+                      {/* <h6 style={{ color: 'rgb(117, 117, 117)' }}>{tour.End_Tour}</h6> */}
+                      <div className={cx("section__heading")}>
+                        <h5 style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} className={cx("section__heading-title")}>
+                          {tour.Name_Tour}
+                        </h5>
+                        {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Trung Bình</div> : <div className={cx("section__heading-good")}>Tệ</div>)}
+                      </div>
+                      {tour.totalReview > 0 && (
+                        <Rating style={{ marginTop: '2px', color: '#f09b0a', }}
+                          name="size-small"
+                          value={tour.totalReview}
+                          size="small"
+                          precision={0.1}
+                          readOnly
+                        // emptyIcon
+                        />
+                      )}
+                      {tour.After_Discount > 0 ? <p className={cx("section-content")}>
+                        {tour.Description_Tour}
+                      </p> : <p className={cx("section-contents")}>
+                        {tour.Description_Tour}
+                      </p>}
+                      {tour.After_Discount > 0 && <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>}
+                      {/* <span className={cx("endow")}>{tour.After_Discount > 0 ? 'Ưu Đãi Mùa Du Lịch' : <span></span>}</span> */}
+                      {/* <div className={cx("bottom")}>
+                        <div>
+                          <p className={cx("outstanding")}>
+                            Tour du lịch nổi bật nhất
+                          </p>
+                        </div>
+                      </div> */}
+
+                      <div style={{ marginTop: '10px' }} className={cx("action")}>
+                        {tour.Price_Tour && tour.After_Discount > 0 ? (
+                          <div style={{ display: 'flex', gap: 5, lineHeight: '22px' }}>
+                            <h4 className={cx("action__price")}>
+                              {tour.After_Discount.toLocaleString("vi-VN")}₫
+                            </h4>
+                            <span className={cx("action__price-discount")}>
+                              {tour.Price_Tour.toLocaleString("vi-VN")} ₫
+                            </span>
+                          </div>
+                        ) : (
+                          <h4 className={cx("action__price")}>
+                            {tour.Price_Tour.toLocaleString("vi-VN")} ₫
+                          </h4>
+                        )}
+                        {/* <Button
+                          LinkComponent={Link}
+                          to={`/tours/${tour._id}`}
+                          variant="contained"
+                          color="primary"
+                          className={cx("vacation__item-btn")}
+                        >
+                          Xem chi tiết
+                        </Button> */}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </ul>
               {filteredTours.length > itemsPerPage && (
                 <div className={cx("pagination")}>
