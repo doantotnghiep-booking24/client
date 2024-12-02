@@ -137,6 +137,7 @@ export default function ModalAddNew({
     }
   };
 
+
   return (
     <Modal
       open={isOpen}
@@ -147,7 +148,7 @@ export default function ModalAddNew({
       <Box sx={style}>
         {nameTour?.map((item) => (
           <h4 key={item._id} style={{ fontWeight: "700" }}>
-            {item.Title_Tour}
+            {item.Name_Tour}
           </h4>
         ))}
 

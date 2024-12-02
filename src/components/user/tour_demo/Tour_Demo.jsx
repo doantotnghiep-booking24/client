@@ -6,23 +6,48 @@ import Checkbox from "@mui/material/Checkbox";
 import Rating from "@mui/material/Rating";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Tabs, Tab } from "@mui/material";
-import { fetchToursData } from "../../../services/fetchTours";
+// import { fetchToursData } from "../../../services/fetchTours";
 import { fetchCategories } from "../../../services/fetchCategory";
 import { fetchTypeTours } from "../../../services/fetchTypeTours";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
+const BASE_URL = "http://localhost:3001/V1/Tours";
+
+const searchTours = async (name) => {
+  const response = await axios.get(`${BASE_URL}/SearchTour`, {
+    params: {
+      NameSearch: name,
+    },
+  });
+  return response.data.search.datas.filter((tour) => !tour.isDeleted);
+};
 function Tour_Demo() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get("search") || "";
+
   const { data: tours } = useQuery({
-    queryKey: ["tours"],
-    queryFn: fetchToursData,
+    queryKey: ["tours", searchQuery], 
+    queryFn: () => searchTours(searchQuery), 
     initialData: [],
   });
+  // const { data: tours } = useQuery({
+  //   queryKey: ["tours"],
+  //   queryFn: fetchToursData,
+  //   initialData: [],
+  // });
 
-  const tourNames = Array.from(new Set(tours.filter((tour) => !tour.isDeleted).map((tour) => tour.Name_Tour)));
+  const tourNames = Array.from(
+    new Set(
+      tours.filter((tour) => !tour.isDeleted).map((tour) => tour.Name_Tour)
+    )
+  );
 
   const { data: categories } = useQuery({
     queryKey: ["cate"],
@@ -96,10 +121,9 @@ function Tour_Demo() {
   ]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const displayedTours = filteredTours.filter((tour) => !tour.isDeleted).slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const displayedTours = filteredTours
+    .filter((tour) => !tour.isDeleted)
+    .slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className={cx("wrap")}>
@@ -240,69 +264,71 @@ function Tour_Demo() {
                 </Tabs>
               </div>
               <ul className={cx("content__home-list")}>
-                {displayedTours.filter(tour => tour.isDeleted === false).map((tour) => (
-                  <li key={tour._id} className={cx("content__home-item")}>
-                    <img
-                      className={cx("content__home-img")}
-                      src={tour.Image_Tour[0].path}
-                      alt={tour.Name_Tour}
-                    />
-                    <div className={cx("section")}>
-                      <div className={cx("section__heading")}>
-                        <h5 className={cx("section__heading-title")}>
-                          {tour.Name_Tour}
-                        </h5>
-                        <div className={cx("section__heading-good")}>Tốt</div>
-                      </div>
-                      {tour.totalReview > 0 && (
-                        <Rating
-                          name="size-small"
-                          value={tour.totalReview}
-                          size="small"
-                          precision={0.1}
-                          readOnly
-                        />
-                      )}
-                      <p className={cx("section-content")}>
-                        {tour.Description_Tour}
-                      </p>
-                      <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
-                      <div className={cx("bottom")}>
-                        <div>
-                          <p className={cx("outstanding")}>
-                            Tour du lịch nổi bật nhất
-                          </p>
+                {displayedTours
+                  .filter((tour) => tour.isDeleted === false)
+                  .map((tour) => (
+                    <li key={tour._id} className={cx("content__home-item")}>
+                      <img
+                        className={cx("content__home-img")}
+                        src={tour?.Image_Tour[0]?.path}
+                        alt={tour?.Name_Tour}
+                      />
+                      <div className={cx("section")}>
+                        <div className={cx("section__heading")}>
+                          <h5 className={cx("section__heading-title")}>
+                            {tour?.Name_Tour}
+                          </h5>
+                          <div className={cx("section__heading-good")}>Tốt</div>
+                        </div>
+                        {tour.totalReview > 0 && (
+                          <Rating
+                            name="size-small"
+                            value={tour.totalReview}
+                            size="small"
+                            precision={0.1}
+                            readOnly
+                          />
+                        )}
+                        <p className={cx("section-content")}>
+                          {tour.Description_Tour}
+                        </p>
+                        <span className={cx("endow")}>Ưu Đãi Mùa Du Lịch</span>
+                        <div className={cx("bottom")}>
+                          <div>
+                            <p className={cx("outstanding")}>
+                              Tour du lịch nổi bật nhất
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className={cx("action")}>
+                          {tour.Price_Tour && tour.After_Discount > 0 ? (
+                            <div>
+                              <span className={cx("action__price-discount")}>
+                                {tour.Price_Tour.toLocaleString("vi-VN")} ₫
+                              </span>
+                              <h4 className={cx("action__price")}>
+                                {tour.After_Discount.toLocaleString("vi-VN")}₫
+                              </h4>
+                            </div>
+                          ) : (
+                            <h4 className={cx("action__price")}>
+                              {tour.Price_Tour.toLocaleString("vi-VN")} ₫
+                            </h4>
+                          )}
+                          <Button
+                            LinkComponent={Link}
+                            to={`/tours/${tour._id}`}
+                            variant="contained"
+                            color="primary"
+                            className={cx("vacation__item-btn")}
+                          >
+                            Xem chi tiết
+                          </Button>
                         </div>
                       </div>
-
-                      <div className={cx("action")}>
-                        {tour.Price_Tour && tour.After_Discount > 0 ? (
-                          <div>
-                            <span className={cx("action__price-discount")}>
-                              {tour.Price_Tour.toLocaleString("vi-VN")} ₫
-                            </span>
-                            <h4 className={cx("action__price")}>
-                              {tour.After_Discount.toLocaleString("vi-VN")}₫
-                            </h4>
-                          </div>
-                        ) : (
-                          <h4 className={cx("action__price")}>
-                            {tour.Price_Tour.toLocaleString("vi-VN")} ₫
-                          </h4>
-                        )}
-                        <Button
-                          LinkComponent={Link}
-                          to={`/tours/${tour._id}`}
-                          variant="contained"
-                          color="primary"
-                          className={cx("vacation__item-btn")}
-                        >
-                          Xem chi tiết
-                        </Button>
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  ))}
               </ul>
               {filteredTours.length > itemsPerPage && (
                 <div className={cx("pagination")}>
