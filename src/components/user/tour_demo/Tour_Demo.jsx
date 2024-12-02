@@ -6,24 +6,50 @@ import Checkbox from "@mui/material/Checkbox";
 import Rating from "@mui/material/Rating";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Tabs, Tab } from "@mui/material";
-import { fetchToursData } from "../../../services/fetchTours";
+// import { fetchToursData } from "../../../services/fetchTours";
 import { fetchCategories } from "../../../services/fetchCategory";
 import { fetchTypeTours } from "../../../services/fetchTypeTours";
 import { GetAllTicket } from "../../../services/getTicketsHistory";
 import RoomIcon from '@mui/icons-material/Room';
+import { useLocation } from "react-router-dom";
+
 const cx = classNames.bind(styles);
 
+const BASE_URL = "http://localhost:3001/V1/Tours";
+
+const searchTours = async (name) => {
+  const response = await axios.get(`${BASE_URL}/SearchTour`, {
+    params: {
+      NameSearch: name,
+    },
+  });
+  return response.data.search.datas.filter((tour) => !tour.isDeleted);
+};
 function Tour_Demo() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get("search") || "";
+
   const { data: tours } = useQuery({
-    queryKey: ["tours"],
-    queryFn: fetchToursData,
+    queryKey: ["tours", searchQuery], 
+    queryFn: () => searchTours(searchQuery), 
     initialData: [],
   });
+  // const { data: tours } = useQuery({
+  //   queryKey: ["tours"],
+  //   queryFn: fetchToursData,
+  //   initialData: [],
+  // });
 
-  const tourNames = Array.from(new Set(tours.filter((tour) => !tour.isDeleted).map((tour) => tour.Name_Tour)));
+  const tourNames = Array.from(
+    new Set(
+      tours.filter((tour) => !tour.isDeleted).map((tour) => tour.Name_Tour)
+    )
+  );
 
   const { data: categories } = useQuery({
     queryKey: ["cate"],
@@ -104,10 +130,10 @@ function Tour_Demo() {
   ]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const displayedTours = filteredTours.filter((tour) => !tour.isDeleted).slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const displayedTours = filteredTours
+    .filter((tour) => !tour.isDeleted)
+    .slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>
@@ -252,7 +278,7 @@ function Tour_Demo() {
                     <div style={{ position: 'relative' }}>
                       <img
                         className={cx("content__home-img")}
-                        src={tour.Image_Tour[0].path}
+                        src={tour.Image_Tour[0]?.path}
                         alt={tour.Name_Tour}
                       />
                       <div style={{ position: 'absolute', width: '100px', height: '30px', background: 'rgba(0, 0, 0, 0.5)', borderRadius: '4px', margin: '8px 166px', top: 0 }}>
@@ -265,7 +291,7 @@ function Tour_Demo() {
                         <h5 style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} className={cx("section__heading-title")}>
                           {tour.Name_Tour}
                         </h5>
-                        {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Trung Bình</div> : <div className={cx("section__heading-good")}>Tệ</div> )}
+                        {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Trung Bình</div> : <div className={cx("section__heading-good")}>Tệ</div>)}
                       </div>
                       {tour.totalReview > 0 && (
                         <Rating style={{ marginTop: '2px', color: '#f09b0a', }}
