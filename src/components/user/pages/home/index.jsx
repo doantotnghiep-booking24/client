@@ -99,8 +99,6 @@ function Home() {
     },
   });
 
-  console.log(selectTours);
-  console.log(menuTours);
 
     const handleNameInput = (event) => {
       const value = event.target.value;
@@ -123,13 +121,10 @@ function Home() {
         searchTour(searchName);
     }
 };
-  console.log(searchName);
-
   const handleSuggestionClick = (value) => {
     setSearchName(value);
     setIsSuggestionsVisible(false);
   };
-
   const closeSuggestions = () => {
     setTimeout(() => setIsSuggestionsVisible(false), 300);
   };
@@ -140,7 +135,6 @@ function Home() {
     (tour) => !tour.isDeleted
   );
 
-  console.log(toursToDisplay);
   const settings = {
     infinite: true,
     speed: 800,
