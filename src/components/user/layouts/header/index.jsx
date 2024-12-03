@@ -1,6 +1,7 @@
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import { Box, Button, TextField } from "@mui/material";
 // import FacebookIcon from "@mui/icons-material/Facebook";
 // import InstagramIcon from "@mui/icons-material/Instagram";
@@ -87,11 +88,6 @@ function Header() {
     setIsSuggestionsVisible(false);
     handleSearch(value);
   };
-  // localStorage.setItem('historySearch', JSON.stringify(arrayHistorySearch))
-  // const resultHistory = localStorage.getItem('historySearch')
-  // if (resultHistory) {
-  //   var resultValueHistory = JSON.parse(resultHistory)
-  // }
 
   const closeSuggestions = (e) => {
     setTimeout(() => setIsSuggestionsVisible(false), 300);
@@ -234,7 +230,21 @@ function Header() {
                     "navbar__location-title"
                   )}
                 >
-                  Nguyễn Huy Tưởng, Đà Nẵng
+                  Nguyễn Huy Tưởng - TP Đà Nẵng
+                </span>
+              </a>
+              <a href="#" className={cx("navbar__help")}>
+                <HelpCenterIcon
+                  fontSize="small"
+                  className={cx("navbar__location-icon")}
+                />
+                <span
+                  className={cx(
+                    "navbar__address-text",
+                    "navbar__location-title"
+                  )}
+                >
+                  Trợ giúp
                 </span>
               </a>
 
@@ -282,7 +292,7 @@ function Header() {
                       ></Avatar>
                     </IconButton>
                   </Tooltip>
-                  <label htmlFor="" style={{ cursor: "pointer" }}>
+                  <label htmlFor="" style={{ cursor: "pointer",fontSize : '14px' }}>
                     {dataAuth && dataAuth.Name}
                   </label>
 
@@ -494,7 +504,7 @@ function Header() {
                                 {tour.End_Tour}
                               </span>
                               <span className={cx("price")}>
-                                {tour.Price_Tour.toLocaleString("vi-VN")} VND
+                                {tour.After_Discount > 0 ? tour.After_Discount.toLocaleString("vi-VN") : tour.Price_Tour.toLocaleString("vi-VN")}đ
                               </span>
                             </div>
                           </div>
