@@ -53,20 +53,20 @@ function NewsDetail() {
                   </div>
                 </div>
                 <div className="new-detail" style={{ display: 'flex', marginTop: '10px' }}>
-                  <div className="left-detail" style={{ width: '65%', marginRight: '5%' }}>
+                  <div className="left-detail" style={{ width: '65%', }}>
                     <h4 className={cx("name")}>{newsItem.Name}</h4>
                     <h5 className={cx("title")}>{newsItem.Title}</h5>
                     <p className={cx("description")} >{newsItem.Content}</p>
                   </div>
-                  <div className="right-detail" style={{ width: '30%', backgroundColor: '#fff' }}>
+                  <div className="right-detail" style={{ width: '30%', backgroundColor: '#fff', marginLeft: 10 }}>
                     <h2>CÁC BÀI VIẾT KHÁC</h2>
                     {querynews.data.sort(() => Math.random() - 0.5).slice(0, 3).map((item) => (
                       <Link to={`/news-detail/${item._id}`} key={item._id} style={{ textDecoration: 'none' }}>
                         <div >
                           <img key={item._id}
                             src={item.Image[0]?.path}
-                            alt={item.Name} style={{ width: '99%', height: '150px' }} />
-                          <p style={{ textDecoration: 'none', fontSize: '1.2vw' }}>{item.Name} </p>
+                            alt={item.Name} style={{ width: '380px', height: '180px', borderRadius: 5 }} />
+                          <p style={{ textDecoration: 'none', fontSize: '1.2vw', color: "#212121", marginTop: 2 }}>{item.Name} </p>
                         </div>
                       </Link>
                     ))}

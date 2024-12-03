@@ -394,26 +394,26 @@ function Header() {
               <TextField
                 className={cx("banner__section-search-name")}
                 value={searchName}
+                color="secondary"
                 onChange={handleNameInput}
                 placeholder="Tìm kiếm điểm đến"
-                variant="outlined"
                 onBlur={(e) => closeSuggestions(e)}
                 onFocus={() => setIsSuggestionsVisible(true)}
-                sx={{
-                  borderColor: 'none',
+                sx={{                        
                   width: '280px',
                   borderRadius: "18px",
                   backgroundColor: "#f5f5f5",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "18px",
-                    height: "35px",
+                    height: "40px",
                     "& input": {
                       lineHeight: "1.5",
-                      height: '100px'
+                      height: '100px',
                     },
                     "&.Mui-focused fieldset": {
                       borderColor: "#3fd0d4",
                     },
+                    
                   },
                 }}
                 InputProps={{

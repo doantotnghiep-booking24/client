@@ -237,8 +237,8 @@ function Home() {
                   >
                     {searchName.trim() === "" && (
                       <ul className={cx("search__menu-list")}>
-                        <span className={cx("heading")}>Top tìm kiếm</span>
-                        {menuTours?.map((tour) => (
+                        <span className={cx("heading")}>Top tìm kiếm và đánh giá cao</span>
+                        {menuTours?.filter(tour => tour.totalReview >= 4 && tour.totalReview <= 5)?.map((tour) => (
                           <Link
                             to={`/tours/${tour._id}`}
                             key={tour._id}
@@ -251,6 +251,16 @@ function Home() {
                             />
                             <div className={cx("search__menu-heding")}>
                               <p className={cx("name")}>{tour.Name_Tour}</p>
+                              {tour.totalReview > 0 && (
+                              <Rating style={{ marginTop: '2px', color: '#f09b0a', }}
+                                name="size-small"
+                                value={tour.totalReview}
+                                size="small"
+                                precision={0.1}
+                                readOnly
+                              // emptyIcon
+                              />
+                            )}
                               <div className={cx("search__menu-sub")}>
                                 <span className={cx("end")}>
                                   {tour.End_Tour}
@@ -304,7 +314,7 @@ function Home() {
           <div className={cx("vacation")}>
             <div className={cx("vacation__list")}>
                 {toursToDisplay.map((tour) => (
-                  <div key={tour._id} className={cx("vacation__item")}>
+                  <Link to={`tours/${tour._id}`} key={tour._id} className={cx("vacation__item")}>
                     <img
                       src={tour?.Image_Tour[0]?.path}
                       alt={tour.Name_Tour}
@@ -335,7 +345,7 @@ function Home() {
                         Khám phá
                       </Button>
                     </div>
-                  </div>
+                  </Link>
                 )
               )}
             </div>
@@ -374,7 +384,7 @@ function Home() {
                           className={cx("travel__review-item-img")}
                         />
                         <div className={cx("travel__review-item-text")}>
-                          <h4 className={cx("name")}>{tour.Name_Tour}</h4>
+                          <h4 className={cx("name")} >{tour.Name_Tour}</h4>
                           <div className={cx("star")}>
                             <Rating
                               name="size-small"
