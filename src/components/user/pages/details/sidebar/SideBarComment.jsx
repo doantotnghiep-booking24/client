@@ -119,9 +119,9 @@ export default function SideBarComponent({ reviewButton }) {
       prevComments.map((comment) =>
         comment._id === updatedComment._id
           ? {
-              ...comment,
-              ...updatedComment,
-            }
+            ...comment,
+            ...updatedComment,
+          }
           : comment
       )
     );
@@ -143,7 +143,7 @@ export default function SideBarComponent({ reviewButton }) {
         {dataTour.map((item) => (
           <div key={item._id} className={cx("box-top")}>
             <div className={cx("box-1")}>
-              <h4>{item.Title_Tour}</h4>
+              <h4>{item.Name_Tour}</h4>
               <Button
                 style={{
                   padding: "5px",
@@ -299,7 +299,7 @@ export default function SideBarComponent({ reviewButton }) {
             nameTour={dataTour}
             isOpen={isOpen}
             toggleModel={(value) => {
-              
+
               setIsOpen(value);
             }}
             handleSetValueComment={(value) => {

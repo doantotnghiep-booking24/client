@@ -65,13 +65,29 @@ import { MdLocalHotel } from "react-icons/md";
 function Details() {
   const dispatch = useDispatch()
 
+  const user = (() => {
+    try {
+      const authCookie = Cookies.get("auth");
+  
+      if (!authCookie) {
+        console.error("No 'auth' cookie found.");
+        return {}; // Return an empty object if the cookie is not found
+      }
+  
+      return JSON.parse(authCookie) || {}; // Parse the cookie, fallback to empty object if parsing fails
+    } catch (error) {
+      console.error("Lỗi khi parse JSON từ cookie:", error);
+      return {}; // Return an empty object if any error occurs during parsing
+    }
+  })();
+  const { Name, photoUrl, _id } = user; 
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
 
   const { id } = useParams();
-  const Name_user = JSON.parse(Cookies.get("auth"))?.Name ? JSON.parse(Cookies.get("auth"))?.Name : 'User';
-  const photoUrl_user = JSON.parse(Cookies.get("auth")).photoUrl;
+  const Name_user = Name || "User";
+  const photoUrl_user = photoUrl || null;
   const [reviews, setReviews] = useState([]);
-  const id_user = JSON.parse(Cookies.get("auth"))._id;
+  const id_user = _id || null;
   const navigate = useNavigate();
   const [valueDate, setValueDate] = useState();
   const [validate, setValidate] = useState(true);
@@ -290,7 +306,7 @@ function Details() {
   };
 
   var settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     slidesToShow: 2,
     slidesToScroll: 1,
@@ -529,7 +545,7 @@ function Details() {
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
-                    {reviews?.length > 1 ? (
+                     {reviews?.length > 1 ? (
                       <Slider {...settings}>
                         {reviews?.map((review, index) => (
                           <div key={index} className={cx("slider-item")}>
@@ -575,7 +591,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : (
+                    ) : reviews?.length === 1 ?(
                       <>
                         <div
                           key={reviews[0]?._id}
@@ -622,6 +638,10 @@ function Details() {
                           </p>
                         </div>
                       </>
+                    ) : (
+                      <div className={cx("slider-item")}>
+                        Hiện tại không có đánh giá nào 
+                      </div>
                     )}
                   </div>
                   <SideBarComponent reviewButton={"right"} />

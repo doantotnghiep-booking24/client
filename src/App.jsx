@@ -23,30 +23,43 @@ import Setting from "./components/user/auth/editProfile/components/Setting.jsx";
 import Tour_Demo from "./components/user/tour_demo/Tour_Demo.jsx";
 
 function App() {
-  useEffect(() => {
-    const interceptor = axios.interceptors.request.use(
-      (config) => {
-        const cookieData = Cookies.get("auth");
-        if (cookieData) {
-          const token = JSON.parse(cookieData).AccessToken;
-          // console.log(token);
+useEffect(() => {
+  const interceptor = axios.interceptors.request.use(
+    (config) => {
+      const cookieData = Cookies.get("auth");
 
-          if (token) {
-            config.headers["Authorization"] = `Bearer ${token}`;
-          }
-        }
-        console.log("Authorization Header:", config.headers["Authorization"]);
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
+      if (!cookieData) {
+        console.warn("No 'auth' cookie found. Authorization header will not be set.");
+        return config; // Skip adding the Authorization header if no cookie exists
       }
-    );
 
-    return () => {
-      axios.interceptors.request.eject(interceptor);
-    };
-  }, []);
+      try {
+        const parsedData = JSON.parse(cookieData);
+        const token = parsedData?.AccessToken;
+
+        if (token) {
+          config.headers["Authorization"] = `Bearer ${token}`;
+        } else {
+          console.warn("No AccessToken found in cookie data.");
+        }
+      } catch (error) {
+        console.error("Error parsing cookie 'auth':", error);
+      }
+
+      console.log("Authorization Header:", config.headers["Authorization"]);
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  // Cleanup interceptor on component unmount
+  return () => {
+    axios.interceptors.request.eject(interceptor);
+  };
+}, []);
+
   return (
     <Router>
       <Header />
