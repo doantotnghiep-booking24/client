@@ -924,12 +924,12 @@ function Details() {
                       <img src={hotel.Image_Hotel[0].path} alt="" />
                       <div className={cx("hotel__content")}>
                         <h4
-                          style={{ height: "50px" }}
+                          style={{ height: "30px" }}
                           className={cx("hotel__content-name")}
                         >
                           {hotel.Name_Hotel}
-                          <Rating defaultValue={5} readOnly size="small" />
                         </h4>
+                          <Rating defaultValue={5} readOnly size="small" />
                         <p className={cx("hotel__content-des")}>
                           {hotel.Description_Hotel}
                         </p>

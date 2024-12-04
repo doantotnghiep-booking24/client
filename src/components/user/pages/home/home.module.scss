@@ -85,7 +85,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 14px;
     .end{
       color: #9e9e9e;
     }
@@ -117,6 +116,7 @@
 .vacation__item {
   width: 370px;
   border: 1px solid #f1f1f1;
+  text-decoration: none;
 }
 .vacation__item-img {
   width: 100%;
@@ -257,6 +257,12 @@
     font-weight: 700;
     color: var(--color-text);
     margin: 0;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
     &:hover {
       color: var(--color-primary);
       cursor: pointer;
@@ -388,6 +394,12 @@
 }
 
 @media (max-width: 992px) {
+  .vacation__item{
+    width: 100%;
+    .vacation__item-img{
+      height: 260px;
+    }
+  }
   .blog {
     flex-direction: column;
     align-items: center;
@@ -402,12 +414,9 @@
 
 /* Mobile */
 @media (max-width: 739px) {
-  .banner__section {
-    .banner__section-search,
-    .banner__section-date,
-    .banner__section-type {
-      padding: 0 30px;
-    }
+  .banner__heading {
+    left: 50.5%;
+    width: 100%;
   }
   .hide-on-mobile {
     display: none;
