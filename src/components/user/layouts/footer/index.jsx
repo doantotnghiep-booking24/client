@@ -1,3 +1,6 @@
+import PhoneIcon from "@mui/icons-material/Phone";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import classNames from "classnames/bind";
 import styles from "./footer.module.scss";
 
@@ -15,19 +18,43 @@ function Footer() {
               </a>
             </li>
 
-            <li className={cx("footer-item")}>
+            <li
+              className={cx("footer-item")}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <PhoneIcon
+                fontSize="small"
+                className={cx("navbar__location-icon")}
+                sx={{ color: "#3fd0d4", marginRight: "8px" }}
+              />
               <a href="#" className={cx("footer-link")}>
                 +0357325956
               </a>
             </li>
 
-            <li className={cx("footer-item")}>
+            <li
+              className={cx("footer-item")}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <EmailOutlinedIcon
+                  fontSize="small"
+                  className={cx("navbar__location-icon")}
+                  sx={{ color: "#3fd0d4", marginRight: "8px" }}
+                />
               <a href="#" className={cx("footer-link")}>
                 Foly@booking.com
               </a>
             </li>
 
-            <li className={cx("footer-item")}>
+            <li
+              className={cx("footer-item")}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <LocationOnOutlinedIcon
+                fontSize="small"
+                className={cx("navbar__location-icon")}
+                sx={{ color: "#3fd0d4", marginRight: "8px" }}
+              />
               <a href="#" className={cx("footer-link")}>
                 Nguyễn Huy Tưởng, Đà Nẵng
               </a>

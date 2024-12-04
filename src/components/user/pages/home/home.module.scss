@@ -64,6 +64,7 @@
     width: 56px;
     height: 56px;
     border-radius: 8px;
+    object-fit: cover;
   }
   .search__menu-heding{
     margin: -2px 0 0 12px;
@@ -393,6 +394,12 @@
 }
 
 @media (max-width: 992px) {
+  .vacation__item{
+    width: 100%;
+    .vacation__item-img{
+      height: 260px;
+    }
+  }
   .blog {
     flex-direction: column;
     align-items: center;
@@ -407,12 +414,9 @@
 
 /* Mobile */
 @media (max-width: 739px) {
-  .banner__section {
-    .banner__section-search,
-    .banner__section-date,
-    .banner__section-type {
-      padding: 0 30px;
-    }
+  .banner__heading {
+    left: 50.5%;
+    width: 100%;
   }
   .hide-on-mobile {
     display: none;

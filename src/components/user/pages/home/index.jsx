@@ -118,7 +118,6 @@ function Home() {
     setIsSuggestionsVisible(false);
     // handleSearch(value); 
   };
-
   const closeSuggestions = () => {
     setTimeout(() => setIsSuggestionsVisible(false), 300);
   };
@@ -129,7 +128,6 @@ function Home() {
     (tour) => !tour.isDeleted
   );
 
-  console.log(toursToDisplay);
   const settings = {
     infinite: true,
     speed: 800,
@@ -224,7 +222,7 @@ function Home() {
                     sx={{
                       position: "absolute",
                       backgroundColor: "#fff",
-                      width: "840px",
+                      width: "97%",
                       boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                       borderRadius: "8px",
                       msOverflowStyle : 'none',
@@ -313,7 +311,7 @@ function Home() {
         <div className={cx("container")}>
           <div className={cx("vacation")}>
             <div className={cx("vacation__list")}>
-                {toursToDisplay.map((tour) => (
+                {toursToDisplay?.map((tour) => (
                   <Link to={`tours/${tour._id}`} key={tour._id} className={cx("vacation__item")}>
                     <img
                       src={tour?.Image_Tour[0]?.path}
