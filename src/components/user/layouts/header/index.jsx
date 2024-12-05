@@ -106,12 +106,12 @@ function Header() {
   const user = (() => {
     try {
       const authCookie = Cookies.get("auth");
-  
+
       if (!authCookie) {
         console.error("No 'auth' cookie found.");
-        return null; 
+        return null;
       }
-  
+
       return JSON.parse(authCookie) || {}; // Parse the cookie, fallback to empty object if parsing fails
     } catch (error) {
       console.error("Lỗi khi parse JSON từ cookie:", error);
@@ -407,20 +407,29 @@ function Header() {
                 onBlur={(e) => closeSuggestions(e)}
                 onFocus={() => setIsSuggestionsVisible(true)}
                 sx={{
-                  borderColor: 'none',
                   width: '280px',
                   borderRadius: "18px",
                   backgroundColor: "#f5f5f5",
-                  "& .MuiOutlinedInput-root": {
+                  '& .MuiOutlinedInput-root': {
                     borderRadius: "18px",
-                    height: "35px",
-                    "& input": {
+                    height: "45px",
+                    border: "none",
+                    '& input': {
                       lineHeight: "1.5",
-                      height: '100px'
+                      height: '100px',
+                      outline: "none", // Remove outline from the input itself
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#3fd0d4",
+                    '&:hover fieldset': {
+                      borderColor: 'transparent', // Remove the border color on hover
                     },
+                    '&.Mui-focused fieldset': {
+                      border: 'none', // Border color on focus
+                      outline: "none", // Remove the outline on focus
+                      
+                    },
+                  },
+                  '& .MuiInputBase-root': {
+                    border: 'none', // Loại bỏ viền của InputBase
                   },
                 }}
                 InputProps={{
