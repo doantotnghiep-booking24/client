@@ -295,6 +295,24 @@
 }
 
 @media (max-width: 1200px) {
+  .content__main {
+    display: block;
+  }
+
+  .aside {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .content__home {
+    width: 100%;
+
+    .content__home-list {
+      width: 100%;
+
+    }
+  }
+
   .content__home {
     margin-left: 0px;
 
