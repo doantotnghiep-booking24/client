@@ -43,6 +43,7 @@ export default function ModalAddNew({
   });
   const [urlImg, setUrlImg] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isCheckContent, setIsCheckContent] = React.useState("")
   const socketRef = React.useRef(null);
   // kĩ thuật IIFE là gì quên rồi kiểu như mới vào gọi hàm này liền
   const user = (() => {
@@ -74,6 +75,7 @@ export default function ModalAddNew({
   }, []);
 
   const handleClose = () => {
+    setIsCheckContent("")
     setValueInput({ rating: 5, img: [], content: "" });
     toggleModel(false);
     setUrlImg();
@@ -81,6 +83,11 @@ export default function ModalAddNew({
 
   const handleGetValueInput = (e) => {
     const { name, value, files } = e.target;
+    
+  
+    
+    
+    
     if (files) {
       const arrayFile = Array.from(files);
       setUrlImg(arrayFile);
@@ -96,9 +103,13 @@ export default function ModalAddNew({
   };
 
   const handleAddNewReview = async () => {
+    if(valueInput.content.length <= 30 ) {
+      setIsCheckContent("Vui lòng nhập trên 30 kí tự")
+      return 
+    } 
     setIsLoading(true);
     const formData = new FormData();
-
+  
     // Thêm dữ liệu vào formData
     formData.append("userId", user._id);
     formData.append("tourId", id);
@@ -232,6 +243,7 @@ export default function ModalAddNew({
             value={valueInput.content}
             onChange={handleGetValueInput}
           />
+          <span style={{ color: "red" }}>{valueInput.content?.length <= 30 && isCheckContent}</span>
         </Box>
 
         <Box

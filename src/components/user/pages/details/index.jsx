@@ -220,9 +220,15 @@ function Details() {
   };
 
   const handleCreateTicket = async () => {
+
+
+
     if (valueDate) {
       setValidate(true);
       const ResponseTicket = async () => {
+
+
+
         const data = {
           id_tour: tour?._id,
           id_user: id_user || null,
@@ -251,8 +257,12 @@ function Details() {
         };
         setTimeout(async () => {
           const res = await CreateTicket(data);
-          if (res.status === 200 && res.statusText === "OK") {
+
+          if (res.status === 200 && res.statusText === "OK" && _id) {
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
+          } else {
+            console.log('please login first');
+
           }
         }, 500);
       };
@@ -819,15 +829,17 @@ function Details() {
                       sx={{
                         borderColor: "#3fd0d4",
                         color: "#3fd0d4",
+                        cursor: "pointer",
                         "&:hover": {
                           borderColor: "#3fd0d4",
                           color: "#3fd0d4",
                         },
                       }}
+                      disabled={!_id}
                       className={cx("aside__booking-btn")}
                       onClick={handleCreateTicket}
                     >
-                      Đặt ngay
+                      {!_id ? "Vui lòng đăng nhập để đặt tour" : ' Đặt ngay'}
                     </Button>
                   </div>
                 </div>

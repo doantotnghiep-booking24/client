@@ -78,6 +78,7 @@ useEffect(() => {
       </Routes>
       <Routes>
         <Route path="/edit-profile" element={<EditProfile />}>
+       
           <Route path="/edit-profile" element={<Profile_Detail />} />
           <Route path="setting" element={<Setting />} />
         </Route>
