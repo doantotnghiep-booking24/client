@@ -291,7 +291,7 @@ function Tour_Demo() {
                         <h5 style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} className={cx("section__heading-title")}>
                           {tour.Name_Tour}
                         </h5>
-                        {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Trung Bình</div> : <div className={cx("section__heading-good")}>Tệ</div>)}
+                        {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Tb</div> : <div className={cx("section__heading-good")}>Tệ</div>)}
                       </div>
                       {tour.totalReview > 0 && (
                         <Rating style={{ marginTop: '2px', color: '#f09b0a', }}

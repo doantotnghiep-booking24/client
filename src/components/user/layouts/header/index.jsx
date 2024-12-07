@@ -369,11 +369,14 @@ function Header() {
                     component={Link}
                     to="/auth"
                     sx={{
-                      bgcolor: "white",
-                      fontWeight: "bold",
-                      textTransform: "capitalize",
+                      color : '#fff' ,
+                      bgcolor: "#3fd0d4",
+                      borderRadius : '30px',
+                      width : '85px',
+                      fontWeight: "600",
+                      textTransform: "inherit",
                       "&:hover": {
-                        bgcolor: "whitesmoke",
+                        bgcolor: "#3fd0d4",
                       },
                     }}
                   >
@@ -423,7 +426,7 @@ function Header() {
                   backgroundColor: "#f5f5f5",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "18px",
-                    height: "35px",
+                    height: "38px",
                     "& input": {
                       lineHeight: "1.5",
                       height: '100px'
@@ -431,6 +434,7 @@ function Header() {
                     "&.Mui-focused fieldset": {
                       borderColor: "#3fd0d4",
                     },
+                    
                   },
                 }}
                 InputProps={{

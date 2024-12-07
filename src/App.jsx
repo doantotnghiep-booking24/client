@@ -9,7 +9,7 @@ import BookingHistory from "./components/user/booking__history";
 import FormPasswordReset from "./components/user/auth/reset__password";
 import SiginPage from "./components/user/pages/siginPage";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Tour from "./components/user/tours";
 import NewsDetail from "./components/user/news__detail";
@@ -23,42 +23,43 @@ import Setting from "./components/user/auth/editProfile/components/Setting.jsx";
 import Tour_Demo from "./components/user/tour_demo/Tour_Demo.jsx";
 
 function App() {
-useEffect(() => {
-  const interceptor = axios.interceptors.request.use(
-    (config) => {
-      const cookieData = Cookies.get("auth");
-
-      if (!cookieData) {
-        console.warn("No 'auth' cookie found. Authorization header will not be set.");
-        return config; // Skip adding the Authorization header if no cookie exists
-      }
-
-      try {
-        const parsedData = JSON.parse(cookieData);
-        const token = parsedData?.AccessToken;
-
-        if (token) {
-          config.headers["Authorization"] = `Bearer ${token}`;
-        } else {
-          console.warn("No AccessToken found in cookie data.");
+  const [isAuth,setIsAuth] = useState()
+  useEffect(() => {
+    const interceptor = axios.interceptors.request.use(
+      (config) => {
+        const cookieData = Cookies.get("auth");
+        setIsAuth(cookieData)
+        if (!cookieData) {
+          console.warn("No 'auth' cookie found. Authorization header will not be set.");
+          return config; // Skip adding the Authorization header if no cookie exists
         }
-      } catch (error) {
-        console.error("Error parsing cookie 'auth':", error);
+
+        try {
+          const parsedData = JSON.parse(cookieData);
+          const token = parsedData?.AccessToken;
+
+          if (token) {
+            config.headers["Authorization"] = `Bearer ${token}`;
+          } else {
+            console.warn("No AccessToken found in cookie data.");
+          }
+        } catch (error) {
+          console.error("Error parsing cookie 'auth':", error);
+        }
+
+        console.log("Authorization Header:", config.headers["Authorization"]);
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
       }
+    );
 
-      console.log("Authorization Header:", config.headers["Authorization"]);
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  // Cleanup interceptor on component unmount
-  return () => {
-    axios.interceptors.request.eject(interceptor);
-  };
-}, []);
+    // Cleanup interceptor on component unmount
+    return () => {
+      axios.interceptors.request.eject(interceptor);
+    };
+  }, []);
 
   return (
     <Router>
@@ -82,7 +83,7 @@ useEffect(() => {
           <Route path="setting" element={<Setting />} />
         </Route>
       </Routes>
-      <Chat />
+      {isAuth ? <Chat /> : <></>}
       <Footer />
     </Router>
   );

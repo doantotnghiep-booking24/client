@@ -62,25 +62,27 @@ import formatDate from "../../../../utils/formatDate";
 import { FaBus } from "react-icons/fa";
 import { MdLunchDining } from "react-icons/md";
 import { MdLocalHotel } from "react-icons/md";
+import { GetAllTimeSchedule } from "../../../../services/getTimeSchedule";
 function Details() {
+  const isAuth = Cookies.get("auth");
   const dispatch = useDispatch()
 
   const user = (() => {
     try {
       const authCookie = Cookies.get("auth");
-  
+
       if (!authCookie) {
         console.error("No 'auth' cookie found.");
         return {}; // Return an empty object if the cookie is not found
       }
-  
+
       return JSON.parse(authCookie) || {}; // Parse the cookie, fallback to empty object if parsing fails
     } catch (error) {
       console.error("Lỗi khi parse JSON từ cookie:", error);
       return {}; // Return an empty object if any error occurs during parsing
     }
   })();
-  const { Name, photoUrl, _id } = user; 
+  const { Name, photoUrl, _id } = user;
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
 
   const { id } = useParams();
@@ -98,6 +100,8 @@ function Details() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [dataHotel, setDataHotel] = useState();
+  const [timeSchedule, setTimeSchedule] = useState([])
+  const [valueTime, setValueTime] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleDetailOpen = (hotel) => {
@@ -140,6 +144,16 @@ function Details() {
     };
     handleGetSchedule();
   }, [selectedTab]);
+  useEffect(() => {
+    const handleGetTimeSchedule = async () => {
+      const res = await GetAllTimeSchedule()
+      setTimeSchedule(res.TimeSchedules)
+    }
+    handleGetTimeSchedule()
+  }, [])
+  const handleGetTimeSchedule = (e) => {
+    setValueTime(e.value)
+  }
 
   // const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
 
@@ -240,7 +254,7 @@ function Details() {
           Price_Tour: tour?.Price_Tour,
           After_Discount: tour?.After_Discount,
           Departure_Date: valueDate,
-          Departure_Time: "8:00",
+          Departure_Time: valueTime,
           Total_DateTrip: tour?.total_Date,
           Adult_fare: adult,
           Children_fare: children,
@@ -466,13 +480,13 @@ function Details() {
                   <div>
                     {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
                     <div className={cx("content__home-title")}>
-                      <VerticalTimeline style={{height : '100px'}} lineColor="#C0C0C0" >
+                      <VerticalTimeline style={{ height: '100px' }} lineColor="#C0C0C0" >
                         <VerticalTimelineElement
                           className="vertical-timeline-element--work"
                           contentStyle={{ background: '#a3cef1', color: 'black' }}
                           contentArrowStyle={{ borderRight: '7px solid #a3cef1' }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule}`}
-                          iconStyle={{ background: '#a3cef1',marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{ background: '#a3cef1', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
                           icon={<FaBus />}
 
                         >
@@ -487,7 +501,7 @@ function Details() {
                           contentStyle={{ background: '#fbd1a2', color: 'black' }}
                           contentArrowStyle={{ borderRight: '7px solid  #fbd1a2' }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule}`}
-                          iconStyle={{ background: '#fbd1a2',marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{ background: '#fbd1a2', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
                           icon={<MdLunchDining />}
 
                         >
@@ -502,7 +516,7 @@ function Details() {
                           contentStyle={{ background: '#7dcfb6', color: 'black' }}
                           contentArrowStyle={{ borderRight: '7px solid  #7dcfb6' }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule}`}
-                          iconStyle={{ background: '#7dcfb6', marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{ background: '#7dcfb6', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
                           icon={<MdLocalHotel />}
                         >
                           {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
@@ -511,7 +525,7 @@ function Details() {
                             {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
                           </p>
                         </VerticalTimelineElement>
-                        
+
                       </VerticalTimeline>
                       {/* <span className={cx("content__home-desc")}>
                         {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
@@ -545,7 +559,7 @@ function Details() {
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
-                     {reviews?.length > 1 ? (
+                    {reviews?.length > 1 ? (
                       <Slider {...settings}>
                         {reviews?.map((review, index) => (
                           <div key={index} className={cx("slider-item")}>
@@ -591,7 +605,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : reviews?.length === 1 ?(
+                    ) : reviews?.length === 1 ? (
                       <>
                         <div
                           key={reviews[0]?._id}
@@ -640,7 +654,7 @@ function Details() {
                       </>
                     ) : (
                       <div className={cx("slider-item")}>
-                        Hiện tại không có đánh giá nào 
+                        Hiện tại không có đánh giá nào
                       </div>
                     )}
                   </div>
@@ -662,11 +676,11 @@ function Details() {
                   <div className={cx("aside__booking-action")}>
                     <div className={cx("heading")}>
                       <h5>{tour?.Name_Tour}</h5>
-                      <span>{tour?.Title_Tour}</span>
+                      <span  >{tour?.Title_Tour}</span>
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
-                        {is_Loading ? (
+                        {isAuth ? <>{is_Loading ? (
                           <CircularProgress size={20} color="inherit" />
                         ) : (
                           <FavoriteIcon
@@ -677,9 +691,14 @@ function Details() {
                                 : { color: "gray", cursor: "pointer" }
                             }
                             onClick={handleTourFavourite}
-                          // ff1744
                           />
-                        )}
+                        )}</> : <FavoriteIcon
+                          fontSize="medium"
+                          sx={
+                            { color: "gray", cursor: "pointer" }
+                          }
+                        />}
+
                       </div>
                       <div className={cx("share")}>
                         <ShareOutlinedIcon fontSize="small" />
@@ -706,7 +725,12 @@ function Details() {
                   </p>
                   <div className={cx("aside__booking-list")}>
                     <Select
-                      options={options}
+                      // {timeSchedule.map}
+                      options={timeSchedule.map(timeSchedule => ({
+                        value: timeSchedule.TimeSchedule, // Giả sử có một thuộc tính id để làm giá trị
+                        label: timeSchedule.TimeSchedule, // Giả sử có một thuộc tính time để làm nhãn
+                      }))}
+                      onChange={(event) => handleGetTimeSchedule(event)}
                       className={cx("aside__booking-select")}
                       placeholder="Chọn giờ"
                     />
