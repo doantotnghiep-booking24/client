@@ -55,7 +55,6 @@ const dataSidebar = [
 function EditProfile() {
   return (
     <Box sx={{ flexGrow: 1, margin: "10px", padding: "0px 11px" }}>
-
       <Grid container spacing={2}>
         <Grid
           item
@@ -93,7 +92,6 @@ function EditProfile() {
                             }}
                           >
                             {item.icon}
-
                             <ListItemText primary={item.name} />
                           </ListItemButton>
                         </ListItem>
@@ -113,6 +111,7 @@ function EditProfile() {
         </Grid>
       </Grid>
     </Box>
+
   );
 }
 

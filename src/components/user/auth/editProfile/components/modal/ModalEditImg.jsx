@@ -26,8 +26,6 @@ export default function ModalEditImg({
   setFormValues,
   handleSave,
   isLoading
-  
-
 }) {
   const [valueUrl, setValueUrl] = React.useState("");
   const handleClose = () => {

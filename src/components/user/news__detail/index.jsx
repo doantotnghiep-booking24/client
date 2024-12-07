@@ -52,13 +52,17 @@ function NewsDetail() {
                     <img
                       src={newsItem.Image[1]?.path}
                       alt={newsItem.Name}
+                      className={cx("img1")}
                     />
                     <img
                       src={newsItem.Image[2]?.path}
                       alt={newsItem.Name}
-                      style={{ marginTop: 10 }}
+                      style={{marginTop: 15}}
+                      className={cx("img2")}
                     />
                   </div>
+                  
+                 
                 </div>
                 <div className="new-detail" style={{ display: 'flex', marginTop: '10px' }}>
                   <div className="left-detail" style={{ width: '65%' }}>

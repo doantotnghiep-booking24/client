@@ -41,10 +41,10 @@ export default function SideBarComponent({ reviewButton }) {
   const { id } = useParams();
   const socketRef = React.useRef(null);
   const dataAuth = useSelector((state) => state.auth);
-
   const user = (() => {
     try {
       const authCookie = Cookies.get("auth");
+
       if (!authCookie) {
         console.error("No 'auth' cookie found.");
         return null;
@@ -56,6 +56,8 @@ export default function SideBarComponent({ reviewButton }) {
     }
   })();
   const { _id } = user || {};
+
+  
   React.useEffect(() => {
     socketRef.current = io("http://localhost:3001");
     socketRef.current.on("connect", () => {
@@ -69,25 +71,12 @@ export default function SideBarComponent({ reviewButton }) {
       updateCommentState(updatedComment);
     });
     return () => {
-      socketRef.current.disconnect(); // Cleanup
+      socketRef.current.disconnect();
     };
   }, []);
-  React.useEffect(() => {
-    getAllDataReview();
-    getDataTour();
-  }, [id]);
 
-  React.useEffect(() => {
-    if (_id) {
-      getAllTicket();
-    }
-  }, [_id])
 
-  React.useEffect(() => {
-    if (dataTicket.length > 0) {
-      checkIfBooked(); 
-    }
-  }, [dataTicket]);
+
   const currentComments = useMemo(() => {
     const indexOfLastComment = currentPage * commentsPerPage;
     const indexOfFirstComment = indexOfLastComment - commentsPerPage;
@@ -141,6 +130,9 @@ export default function SideBarComponent({ reviewButton }) {
     }
   };
 
+
+
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -179,7 +171,23 @@ export default function SideBarComponent({ reviewButton }) {
       )
     );
   };
+  React.useEffect(() => {
+    getAllDataReview();
+    getDataTour();
+  }, [id]);
 
+  React.useEffect(() => {
+    if (_id) {
+      getAllTicket();
+    }
+  }, [_id])
+
+
+React.useEffect(() => {
+  if (dataTicket.length > 0) {
+    checkIfBooked(); 
+  }
+}, [dataTicket]);
   const list = (anchor) => (
     <Box
       sx={{
@@ -265,6 +273,7 @@ export default function SideBarComponent({ reviewButton }) {
                 }}
                 disabled={!isCheckReview}
                 onClick={() => setIsOpen(true)}
+               
               >
                 Viết đánh giá
               </Button>
@@ -308,6 +317,7 @@ export default function SideBarComponent({ reviewButton }) {
       {["right"].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button
+
             onClick={toggleDrawer(reviewButton, true)}
             variant="outlined"
             sx={{

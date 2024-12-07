@@ -353,7 +353,6 @@ const Profile_Detail = () => {
     setUrlImg(img);
   };
 
-  console.log(formValues);
 
   return (
     <div>
@@ -427,6 +426,7 @@ const Profile_Detail = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      
       <ModalEditImg
         isOpen={isOpen}
         setIsOpen={setIsOpen}
