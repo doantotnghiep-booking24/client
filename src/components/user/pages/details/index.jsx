@@ -184,8 +184,7 @@ function Details() {
 
   const ress = Data_TourFavourite?.some(
     (tour_Fav) =>
-      tour_Fav.id_User?.includes(id_user) && tour_Fav.id_Tour?.includes(id)
-  );
+      tour_Fav?.id_User?.includes(id_user) && tour_Fav?.id_Tour?.includes(id));
 
   const handleGetTourFavourite = async () => {
     const res = await GetToursFavourite();
