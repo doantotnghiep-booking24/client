@@ -134,6 +134,10 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logoutAuth());
+    setTimeout(() => {
+      navigate("/");
+    }, 500)
+
   };
 
   const isTokenExpired = (token) => {
@@ -425,7 +429,7 @@ function Header() {
                     '&.Mui-focused fieldset': {
                       border: 'none', // Border color on focus
                       outline: "none", // Remove the outline on focus
-                      
+
                     },
                   },
                   '& .MuiInputBase-root': {
@@ -573,11 +577,7 @@ function Header() {
                   chi tiết
                 </Link>
               </li> */}
-              <li className={cx("header__item")}>
-                <Link to="/booking-history" className={cx("header__link")}>
-                  Lịch sửa đặt vé
-                </Link>
-              </li>
+
             </ul>
             <div className={cx("header__sub")}>
               <Button
@@ -592,7 +592,7 @@ function Header() {
               </Button>
             </div>
             <div className={cx("acc__mobile")}>
-              <Tooltip title="Account settings">
+              {user && <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
                   size="small"
@@ -601,11 +601,13 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}
+                    alt={dataAuth.Name}
+                    src={dataAuth.photoUrl ? dataAuth.photoUrl : "L"}>L</Avatar>
                 </IconButton>
-              </Tooltip>
+              </Tooltip>}
 
-              <Menu
+              {user ? <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
@@ -674,7 +676,21 @@ function Header() {
                     Đăng xuất
                   </div>
                 </MenuItem>
-              </Menu>
+              </Menu> : <Button
+                component={Link}
+                to="/auth"
+                sx={{
+                  bgcolor: "white",
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    bgcolor: "whitesmoke",
+                  },
+                }}
+              >
+                Đăng nhập
+              </Button>}
+
             </div>
           </header>
         </div>

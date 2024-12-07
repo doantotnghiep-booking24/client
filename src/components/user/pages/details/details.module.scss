@@ -68,7 +68,10 @@
     font-size: var(--font-size);
     color: var(--color-content);
     margin-top: 20px;
-    display: block;
+    display: block;  
+    line-height: 1.6; 
+    white-space: pre-line; 
+    text-align: justify;
   }
 
   .content__home-sub-heading {
@@ -247,7 +250,7 @@
 
   .heading {
     font-weight: 600;
-    margin-left: 12px;
+    // margin-left: 12px;
     span {
       color: var(--color-primary);
     }

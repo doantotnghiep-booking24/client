@@ -68,19 +68,19 @@ function Details() {
   const user = (() => {
     try {
       const authCookie = Cookies.get("auth");
-  
+
       if (!authCookie) {
         console.error("No 'auth' cookie found.");
         return {}; // Return an empty object if the cookie is not found
       }
-  
+
       return JSON.parse(authCookie) || {}; // Parse the cookie, fallback to empty object if parsing fails
     } catch (error) {
       console.error("Lỗi khi parse JSON từ cookie:", error);
       return {}; // Return an empty object if any error occurs during parsing
     }
   })();
-  const { Name, photoUrl, _id } = user; 
+  const { Name, photoUrl, _id } = user;
   const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
 
   const { id } = useParams();
@@ -184,7 +184,7 @@ function Details() {
 
   const ress = Data_TourFavourite?.some(
     (tour_Fav) =>
-      tour_Fav.id_User.includes(id_user) && tour_Fav.id_Tour.includes(id)
+      tour_Fav.id_User?.includes(id_user) && tour_Fav.id_Tour?.includes(id)
   );
 
   const handleGetTourFavourite = async () => {
@@ -221,9 +221,15 @@ function Details() {
   };
 
   const handleCreateTicket = async () => {
+
+
+
     if (valueDate) {
       setValidate(true);
       const ResponseTicket = async () => {
+
+
+
         const data = {
           id_tour: tour?._id,
           id_user: id_user || null,
@@ -252,8 +258,12 @@ function Details() {
         };
         setTimeout(async () => {
           const res = await CreateTicket(data);
-          if (res.status === 200 && res.statusText === "OK") {
+
+          if (res.status === 200 && res.statusText === "OK" && _id) {
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
+          } else {
+            console.log('please login first');
+
           }
         }, 500);
       };
@@ -466,13 +476,13 @@ function Details() {
                   <div>
                     {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
                     <div className={cx("content__home-title")}>
-                      <VerticalTimeline style={{height : '100px'}} lineColor="#C0C0C0" >
+                      <VerticalTimeline style={{ height: '100px' }} lineColor="#C0C0C0" >
                         <VerticalTimelineElement
                           className="vertical-timeline-element--work"
                           contentStyle={{ background: '#a3cef1', color: 'black' }}
                           contentArrowStyle={{ borderRight: '7px solid #a3cef1' }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule}`}
-                          iconStyle={{ background: '#a3cef1',marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{ background: '#a3cef1', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
                           icon={<FaBus />}
 
                         >
@@ -487,7 +497,7 @@ function Details() {
                           contentStyle={{ background: '#fbd1a2', color: 'black' }}
                           contentArrowStyle={{ borderRight: '7px solid  #fbd1a2' }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule}`}
-                          iconStyle={{ background: '#fbd1a2',marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{ background: '#fbd1a2', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
                           icon={<MdLunchDining />}
 
                         >
@@ -502,7 +512,7 @@ function Details() {
                           contentStyle={{ background: '#7dcfb6', color: 'black' }}
                           contentArrowStyle={{ borderRight: '7px solid  #7dcfb6' }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule}`}
-                          iconStyle={{ background: '#7dcfb6', marginLeft : '-15px',marginTop : '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{ background: '#7dcfb6', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
                           icon={<MdLocalHotel />}
                         >
                           {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
@@ -511,7 +521,7 @@ function Details() {
                             {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
                           </p>
                         </VerticalTimelineElement>
-                        
+
                       </VerticalTimeline>
                       {/* <span className={cx("content__home-desc")}>
                         {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
@@ -545,7 +555,7 @@ function Details() {
                     className="slider-container"
                     style={{ padding: "20px 0" }}
                   >
-                     {reviews?.length > 1 ? (
+                    {reviews?.length > 1 ? (
                       <Slider {...settings}>
                         {reviews?.map((review, index) => (
                           <div key={index} className={cx("slider-item")}>
@@ -591,7 +601,7 @@ function Details() {
                           </div>
                         ))}
                       </Slider>
-                    ) : reviews?.length === 1 ?(
+                    ) : reviews?.length === 1 ? (
                       <>
                         <div
                           key={reviews[0]?._id}
@@ -640,7 +650,7 @@ function Details() {
                       </>
                     ) : (
                       <div className={cx("slider-item")}>
-                        Hiện tại không có đánh giá nào 
+                        Hiện tại không có đánh giá nào
                       </div>
                     )}
                   </div>
@@ -820,15 +830,17 @@ function Details() {
                       sx={{
                         borderColor: "#3fd0d4",
                         color: "#3fd0d4",
+                        cursor: "pointer",
                         "&:hover": {
                           borderColor: "#3fd0d4",
                           color: "#3fd0d4",
                         },
                       }}
+                      disabled={!_id}
                       className={cx("aside__booking-btn")}
                       onClick={handleCreateTicket}
                     >
-                      Đặt ngay
+                      {!_id ? "Vui lòng đăng nhập để đặt tour" : ' Đặt ngay'}
                     </Button>
                   </div>
                 </div>
@@ -924,12 +936,12 @@ function Details() {
                       <img src={hotel.Image_Hotel[0].path} alt="" />
                       <div className={cx("hotel__content")}>
                         <h4
-                          style={{ height: "50px" }}
+                          style={{ height: "30px" }}
                           className={cx("hotel__content-name")}
                         >
                           {hotel.Name_Hotel}
-                          <Rating defaultValue={5} readOnly size="small" />
                         </h4>
+                        <Rating defaultValue={5} readOnly size="small" />
                         <p className={cx("hotel__content-des")}>
                           {hotel.Description_Hotel}
                         </p>

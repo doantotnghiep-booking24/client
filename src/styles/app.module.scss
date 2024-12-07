@@ -8,6 +8,10 @@ html {
   color: var(--color-text);
   font-size: var(--font-size);
 }
+
+* {
+  scroll-behavior: smooth;
+}
 :root {
   --font-color: #fff;
   --color-text: #212121;

@@ -44,29 +44,45 @@ function NewsDetail() {
                     <img
                       src={newsItem.Image[1]?.path}
                       alt={newsItem.Name}
+                      className={cx("img1")}
                     />
                     <img
                       src={newsItem.Image[2]?.path}
                       alt={newsItem.Name}
-                      style={{ marginTop: 10 }}
+                      style={{marginTop: 15}}
+                      className={cx("img2")}
                     />
                   </div>
+                  
+                 
                 </div>
-                <div className="new-detail" style={{ display: 'flex', marginTop: '10px' }}>
-                  <div className="left-detail" style={{ width: '65%', marginRight: '5%' }}>
+                <div className={cx("new-detail")} style={{ display: 'flex', justifyContent: "space-between",  marginTop: '10px' }}>
+                  <div className={cx("left-detail")} style={{ width: '70%', }}>
                     <h4 className={cx("name")}>{newsItem.Name}</h4>
                     <h5 className={cx("title")}>{newsItem.Title}</h5>
+                    <div className={cx("image-sub-content")}>
+                    <img
+                      src={newsItem.Image[3]?.path}
+                      alt={newsItem.Name}
+                      style={{width: "40%", marginRight: "10px"}}
+                    />
+                    <img
+                      src={newsItem.Image[4]?.path}
+                      alt={newsItem.Name}
+                      style={{ width: "56%" }}
+                    />
+                  </div>
                     <p className={cx("description")} >{newsItem.Content}</p>
                   </div>
-                  <div className="right-detail" style={{ width: '30%', backgroundColor: '#fff' }}>
-                    <h2>CÁC BÀI VIẾT KHÁC</h2>
+                  <div className={cx("right-detail")} style={{ width: '25%', backgroundColor: '#fff', marginLeft: 10, marginTop: 30 }}>
+                    <h3>CÁC BÀI VIẾT KHÁC</h3>
                     {querynews.data.sort(() => Math.random() - 0.5).slice(0, 3).map((item) => (
                       <Link to={`/news-detail/${item._id}`} key={item._id} style={{ textDecoration: 'none' }}>
-                        <div >
+                        <div style={{marginTop: 20}}>
                           <img key={item._id}
                             src={item.Image[0]?.path}
-                            alt={item.Name} style={{ width: '99%', height: '150px' }} />
-                          <p style={{ textDecoration: 'none', fontSize: '1.2vw' }}>{item.Name} </p>
+                            alt={item.Name} style={{ width: '100%', height: '180px', borderRadius: 5 }} />
+                          <p style={{ textDecoration: 'none', fontSize: '17px', color: "#212121", marginTop: 2 }}>{item.Name} </p>
                         </div>
                       </Link>
                     ))}
