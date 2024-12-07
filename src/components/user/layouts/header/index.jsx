@@ -130,8 +130,10 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logoutAuth());
+    setTimeout(() => {
+      navigate("/");
+    }, 500)
   };
-
   const isTokenExpired = (token) => {
     if (!token) return true;
     const decoded = jwtDecode(token);
@@ -599,11 +601,7 @@ function Header() {
                   chi tiết
                 </Link>
               </li> */}
-              <li className={cx("header__item")}>
-                <Link to="/booking-history" className={cx("header__link")}>
-                  Lịch sửa đặt vé
-                </Link>
-              </li>
+             
             </ul>
             <div className={cx("header__sub")}>
               <Button
@@ -618,7 +616,7 @@ function Header() {
               </Button>
             </div>
             <div className={cx("acc__mobile")}>
-              <Tooltip title="Account settings">
+          {user  &&  <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
                   size="small"
@@ -627,9 +625,12 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}
+                  alt={dataAuth.Name}
+                    src={dataAuth.photoUrl ? dataAuth.photoUrl : "L"}
+                  >L</Avatar>
                 </IconButton>
-              </Tooltip>
+              </Tooltip>}   
 
               <Menu
                 anchorEl={anchorEl}

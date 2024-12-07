@@ -34,6 +34,7 @@ export default function ModalAddNew({
   handleSetValueComment,
 }) {
   const { id } = useParams();
+  const [isCheckContent, setIsCheckContent] = React.useState("")
   const [valueInput, setValueInput] = React.useState({
     rating: 5,
     img: [],
@@ -74,6 +75,7 @@ export default function ModalAddNew({
   }, []);
 
   const handleClose = () => {
+    setIsCheckContent("")
     setValueInput({ rating: 5, img: [], content: "" });
     toggleModel(false);
     setUrlImg();
@@ -96,6 +98,10 @@ export default function ModalAddNew({
   };
 
   const handleAddNewReview = async () => {
+    if(valueInput.content.length <= 30 ) {
+      setIsCheckContent("Vui lòng nhập trên 30 kí tự")
+      return 
+    } 
     setIsLoading(true);
     const formData = new FormData();
 
@@ -190,6 +196,7 @@ export default function ModalAddNew({
                 style={{ display: "none" }}
                 onChange={handleGetValueInput}
               />
+               <span style={{ color: "red" }}>{valueInput.content?.length <= 30 && isCheckContent}</span>
               <Box
                 sx={{
                   display: "flex",

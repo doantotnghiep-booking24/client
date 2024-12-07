@@ -25,6 +25,9 @@ export default function ModalEditImg({
   setUrlImg,
   setFormValues,
   handleSave,
+  isLoading
+  
+
 }) {
   const [valueUrl, setValueUrl] = React.useState("");
   const handleClose = () => {
@@ -127,7 +130,7 @@ export default function ModalEditImg({
                 {valueUrl}
               </span>
 
-              <Button onClick={handleUpImg}>Save</Button>
+              <Button onClick={handleUpImg} disabled={isLoading} variant={isLoading ? " contained " : "outlined"}>{isLoading ? "Saving...." : "Save"}</Button>
             </Box>
           </Box>
         </Box>

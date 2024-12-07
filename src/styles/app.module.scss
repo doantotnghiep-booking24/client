@@ -1,8 +1,14 @@
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
+
+
 html {
   font-family: Poppins, sans-serif !important;
   color: var(--color-text);
