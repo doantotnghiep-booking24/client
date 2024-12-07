@@ -183,7 +183,7 @@ function NewsDetail() {
                   <div className="left-detail" style={{ width: '65%', marginRight: '5%' }}>
                     <h4 className={cx("name")} style={{ fontSize: '2.5vw' }}>{Featured_LocationItem.Name_Location}</h4>
                     <h5 className={cx("title")} style={{ fontSize: '1.5vw' }} >{Featured_LocationItem.Address_Location}</h5>
-                    <p className={cx("description")} style={{ fontSize: '1.2vw' }}>{Featured_LocationItem.Description}</p>
+                    <p className={cx("description")} style={{ fontSize: '1.2vw', lineHeight: 1.8, whiteSpace: "pre-line" }}>{Featured_LocationItem.Description}</p>
                   </div>
                   <div
                   className="right-detail"
