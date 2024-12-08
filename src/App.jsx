@@ -68,7 +68,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/list" element={<ListTravel />} />
         <Route path="/booking/:id" element={<Booking />} />
-        <Route path="/news-detail/:id" element={<NewsDetail />} />
+        <Route path="/detail/:id" element={<NewsDetail />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour_Demo />} />
         <Route path="/tours/:id" element={<Details />} />
@@ -79,6 +79,7 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/edit-profile" element={<EditProfile />}>
+       
           <Route path="/edit-profile" element={<Profile_Detail />} />
           <Route path="setting" element={<Setting />} />
         </Route>

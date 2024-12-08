@@ -274,7 +274,7 @@ function Tour_Demo() {
               </div>
               <ul className={cx("content__home-list")}>
                 {displayedTours.filter(tour => tour.isDeleted === false).map((tour) => (
-                  <Link to={`/tours/${tour._id}`} style={{ textDecoration: 'none' }} className={cx("content__home-item")}>
+                  <Link key={tour._id} to={`/tours/${tour._id}`} style={{ textDecoration: 'none' }} className={cx("content__home-item")}>
                     <div style={{ position: 'relative' }}>
                       <img
                         className={cx("content__home-img")}

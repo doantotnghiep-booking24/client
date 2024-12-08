@@ -212,14 +212,14 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .container {
+  .containers {
     flex-direction: column;
   }
 
   .booking-form ,
   .summary-card {
     width: 100%;
-    margin-top: 15px;
+    margin: 15px 0 0 0;
   }
 
   .form-group.half {
@@ -230,6 +230,7 @@
 
   .booking-form {
     padding: 15px;
+    
   }
 
   .summary-card {
@@ -249,4 +250,9 @@
   .payment-method {
     margin-top: 15px;
   }
+}
+
+/* Responsive adjustments */
+@media (max-width: 620px) {
+ 
 }

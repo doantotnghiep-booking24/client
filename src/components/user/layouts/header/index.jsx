@@ -1,7 +1,7 @@
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
 import { Box, Button, TextField } from "@mui/material";
 // import FacebookIcon from "@mui/icons-material/Facebook";
 // import InstagramIcon from "@mui/icons-material/Instagram";
@@ -56,12 +56,12 @@ function Header() {
 
   const [searchName, setSearchName] = useState("");
   const [nameSuggestions, setNameSuggestions] = useState([]);
-  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState('');
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState("");
   const navigate = useNavigate();
   const handleNameInput = (event) => {
     const value = event.target.value;
     setSearchName(value);
-    if (value.trim() || event.key === 'Enter') {
+    if (value.trim() || event.key === "Enter") {
       const tourNames = selectTours
         .filter(
           (tour) =>
@@ -102,12 +102,12 @@ function Header() {
   const user = (() => {
     try {
       const authCookie = Cookies.get("auth");
-  
+
       if (!authCookie) {
         console.error("No 'auth' cookie found.");
-        return null; 
+        return null;
       }
-  
+
       return JSON.parse(authCookie) || {}; // Parse the cookie, fallback to empty object if parsing fails
     } catch (error) {
       console.error("Lỗi khi parse JSON từ cookie:", error);
@@ -130,8 +130,10 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logoutAuth());
+    setTimeout(() => {
+      navigate("/");
+    }, 500)
   };
-
   const isTokenExpired = (token) => {
     if (!token) return true;
     const decoded = jwtDecode(token);
@@ -247,8 +249,6 @@ function Header() {
                   Trợ giúp
                 </span>
               </a>
-
-
             </div>
             <div className={cx("navbar__action")}>
               {/* <div className={cx("navbar__social")}>
@@ -292,7 +292,10 @@ function Header() {
                       ></Avatar>
                     </IconButton>
                   </Tooltip>
-                  <label htmlFor="" style={{ cursor: "pointer",fontSize : '14px' }}>
+                  <label
+                    htmlFor=""
+                    style={{ cursor: "pointer", fontSize: "14px" }}
+                  >
                     {dataAuth && dataAuth.Name}
                   </label>
 
@@ -332,7 +335,7 @@ function Header() {
                   >
                     <MenuItem
                       component={Link}
-                      to="/auth"
+                      to="/edit-profile"
                       onClick={handleClose}
                       sx={{
                         display: "flex",
@@ -397,7 +400,7 @@ function Header() {
             >
               <ReorderIcon sx={{ color: "#fff" }} />
             </label>
-            <Link to="/" className={cx("logo")}>
+            <Link style={{cursor : 'pointer'}} to="/" className={cx("logo")}>
               <img
                 src="https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg"
                 alt=""
@@ -414,27 +417,40 @@ function Header() {
               <TextField
                 className={cx("banner__section-search-name")}
                 value={searchName}
+                color="secondary"
                 onChange={handleNameInput}
                 placeholder="Tìm kiếm điểm đến"
-                variant="outlined"
                 onBlur={(e) => closeSuggestions(e)}
                 onFocus={() => setIsSuggestionsVisible(true)}
                 sx={{
-                  borderColor: 'none',
                   width: '280px',
                   borderRadius: "18px",
                   backgroundColor: "#f5f5f5",
-                  "& .MuiOutlinedInput-root": {
+                  border: "none",
+                    borderColor: 'transparent',
+                    outline : 'none',
+                  '& .MuiOutlinedInput-root': {
                     borderRadius: "18px",
-                    height: "38px",
-                    "& input": {
+                    height: "40px",
+                    border: "none",
+                    borderColor: 'transparent',
+                    outline : 'none',
+                    '& input': {
                       lineHeight: "1.5",
-                      height: '100px'
+                      height: '100px',
+                      outline: "none", // Remove outline from the input itself
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#3fd0d4",
+                    '&:hover fieldset': {
+                      borderColor: 'transparent', // Remove the border color on hover
                     },
-                    
+                    '&.Mui-focused fieldset': {
+                      border: 'none', // Border color on focus
+                      outline: "none", // Remove the outline on focus
+
+                    },
+                  },
+                  '& .MuiInputBase-root': {
+                    border: 'none', // Loại bỏ viền của InputBase
                   },
                 }}
                 InputProps={{
@@ -448,72 +464,87 @@ function Header() {
                   ),
                 }}
               />
-              {isSuggestionsVisible &&
+              {isSuggestionsVisible && (
                 <Box
                   className={cx("suggestion-box")}
                   sx={{
                     position: "absolute",
                     backgroundColor: "#fff",
-                    width: "580px",
+                    // width: "580px",
+                    padding:"0 10px 0 10px",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                     borderRadius: "8px",
-                    marginTop: '10px',
+                    marginTop: "10px",
                     maxHeight: "500px",
-                    overflowX: 'hidden',
-                    msOverflowStyle: 'none',
-                    scrollbarWidth: 'none',
+                    overflowX: "hidden",
+                    msOverflowStyle: "none",
+                    scrollbarWidth: "none",
                     overflowY: "scroll",
                     color: "#212121",
                     zIndex: 1000,
-                    backgroundImage: 'https://res.klook.com/image/upload/v1639474405/osl4fpo0fblk5tgsgfmd.png',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain'
+                    backgroundImage:
+                      "https://res.klook.com/image/upload/v1639474405/osl4fpo0fblk5tgsgfmd.png",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "contain",
                   }}
                 >
                   {searchName.trim() === "" && (
                     <ul className={cx("search__menu-list")}>
                       {/* <p className={cx("heading")}>Lịch sử tìm kiếm</p> */}
-                      <div style={{ display: 'flex', gap: '15px' }}>
+                      <div style={{ display: "flex", gap: "15px" }}>
                         {/* {resultValueHistory?.map(history => ( 
                         <p style={{ background: '#f5f5f5', borderRadius: '99rem', width: '100%', height: '30px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', fontSize: '14px', lineHeight: '30px', textAlign: 'center' }}>{history}</p>
                       ))} */}
                       </div>
 
-                      <span className={cx("heading")}>Top tìm kiếm và đánh giá cao</span>
-                      {menuTours?.filter(tour => tour.totalReview >= 4 && tour.totalReview <= 5)?.map((tour) => (
-                        <Link
-                          to={`/tours/${tour._id}`}
-                          key={tour._id}
-                          className={cx("search__menu-item")}
-                        >
-                          <img
-                            src={tour?.Image_Tour[0]?.path}
-                            alt=""
-                            className={cx("search__menu-image")}
-                          />
-                          <div className={cx("search__menu-heding")}>
-                            <p className={cx("name")}>{tour.Name_Tour}</p>
-                            {tour.totalReview > 0 && (
-                              <Rating style={{ marginTop: '2px', color: '#f09b0a', }}
-                                name="size-small"
-                                value={tour.totalReview}
-                                size="small"
-                                precision={0.1}
-                                readOnly
-                              // emptyIcon
-                              />
-                            )}
-                            <div className={cx("search__menu-sub")}>
-                              <span className={cx("end")}>
-                                {tour.End_Tour}
-                              </span>
-                              <span className={cx("price")}>
-                                {tour.After_Discount > 0 ? tour.After_Discount.toLocaleString("vi-VN") : tour.Price_Tour.toLocaleString("vi-VN")}đ
-                              </span>
+                      <span className={cx("heading")}>
+                        Top tìm kiếm và đánh giá cao
+                      </span>
+                      {menuTours
+                        ?.filter(
+                          (tour) =>
+                            tour.totalReview >= 4 && tour.totalReview <= 5
+                        )
+                        ?.map((tour) => (
+                          <Link
+                            to={`/tours/${tour._id}`}
+                            key={tour._id}
+                            className={cx("search__menu-item")}
+                          >
+                            <img
+                              src={tour?.Image_Tour[0]?.path}
+                              alt=""
+                              className={cx("search__menu-image")}
+                            />
+                            <div className={cx("search__menu-heding")}>
+                              <p className={cx("name")}>{tour.Name_Tour}</p>
+                              {tour.totalReview > 0 && (
+                                <Rating
+                                  style={{ marginTop: "2px", color: "#f09b0a" }}
+                                  name="size-small"
+                                  value={tour.totalReview}
+                                  size="small"
+                                  precision={0.1}
+                                  readOnly
+                                  // emptyIcon
+                                />
+                              )}
+                              <div className={cx("search__menu-sub")}>
+                                <span className={cx("end")}>
+                                  {tour.End_Tour}
+                                </span>
+                                <span className={cx("price")}>
+                                  {tour.After_Discount > 0
+                                    ? tour.After_Discount.toLocaleString(
+                                        "vi-VN"
+                                      )
+                                    : tour.Price_Tour.toLocaleString("vi-VN")}
+                                  đ
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
-                      ))}
+                          </Link>
+                        ))}
                     </ul>
                   )}
                   {searchName.trim() !== "" &&
@@ -545,7 +576,7 @@ function Header() {
                       </Box>
                     ))}
                 </Box>
-              }
+              )}
             </div>
             <ul className={cx("header__list")}>
               <li className={cx("header__item")}>
@@ -578,11 +609,6 @@ function Header() {
                   chi tiết
                 </Link>
               </li> */}
-              <li className={cx("header__item")}>
-                <Link to="/booking-history" className={cx("header__link")}>
-                  Lịch sửa đặt vé
-                </Link>
-              </li>
             </ul>
             <div className={cx("header__sub")}>
               <Button
@@ -597,7 +623,7 @@ function Header() {
               </Button>
             </div>
             <div className={cx("acc__mobile")}>
-              <Tooltip title="Account settings">
+              {user && <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
                   size="small"
@@ -606,11 +632,13 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>L</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}
+                    alt={dataAuth.Name}
+                    src={dataAuth.photoUrl ? dataAuth.photoUrl : "L"}>L</Avatar>
                 </IconButton>
-              </Tooltip>
+              </Tooltip>}
 
-              <Menu
+              {user ? <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
@@ -679,7 +707,21 @@ function Header() {
                     Đăng xuất
                   </div>
                 </MenuItem>
-              </Menu>
+              </Menu> : <Button
+                component={Link}
+                to="/auth"
+                sx={{
+                  bgcolor: "white",
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    bgcolor: "whitesmoke",
+                  },
+                }}
+              >
+                Đăng nhập
+              </Button>}
+
             </div>
           </header>
         </div>

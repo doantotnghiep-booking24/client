@@ -35,9 +35,9 @@ const dataSidebar = [
   },
   {
     id: 2,
-    name: "Hộp thư",
+    name: "Lịch sử đặt vé",
     icon: <DraftsIcon />,
-    link: "/inbox",
+    link: "/booking-history",
   },
   {
     id: 3,
@@ -54,11 +54,12 @@ const dataSidebar = [
 ];
 function EditProfile() {
   return (
-    <Box sx={{ flexGrow: 1, margin: "10px 120px", padding: "0px 11px" }}>
+    <Box sx={{ flexGrow: 1, margin: "10px", padding: "0px 11px" }}>
       <Grid container spacing={2}>
         <Grid
           item
-          xs={4}
+          xs={12}  // Adjusted for smaller screens
+          sm={4}   // For medium screens, set width to 4 columns (33.3%)
           sx={{
             height: "100%",
           }}
@@ -91,7 +92,6 @@ function EditProfile() {
                             }}
                           >
                             {item.icon}
-
                             <ListItemText primary={item.name} />
                           </ListItemButton>
                         </ListItem>
@@ -104,13 +104,14 @@ function EditProfile() {
             </Box>
           </Item>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} sm={8}>
           <Item>
             <Outlet />
           </Item>
         </Grid>
       </Grid>
     </Box>
+
   );
 }
 

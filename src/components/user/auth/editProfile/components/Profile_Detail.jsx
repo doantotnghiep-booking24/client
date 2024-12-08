@@ -353,7 +353,6 @@ const Profile_Detail = () => {
     setUrlImg(img);
   };
 
-  console.log(formValues);
 
   return (
     <div>
@@ -427,12 +426,7 @@ const Profile_Detail = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
-        onClick={handleSave}
-        sx={{ display: "flex", alignItems: "end", margin: "10px 15px" }}
-      >
-        Lưu lại
-      </Button>
+      
       <ModalEditImg
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -440,6 +434,7 @@ const Profile_Detail = () => {
         setUrlImg={setUrlImg}
         setFormValues={setFormValues}
         handleSave={handleSave}
+        isLoading={isLoading}
       />
     </div>
   );

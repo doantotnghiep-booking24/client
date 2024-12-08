@@ -35,11 +35,29 @@ export default function SideBarComponent({ reviewButton }) {
   const [contentReview, setContentReview] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [dataTicket, setDataTicket] = React.useState([]);
+  const [isCheckReview, setIsCheckReview] = React.useState(false);
   const commentsPerPage = 10;
   const { id } = useParams();
   const socketRef = React.useRef(null);
   const dataAuth = useSelector((state) => state.auth);
+  const user = (() => {
+    try {
+      const authCookie = Cookies.get("auth");
 
+      if (!authCookie) {
+        console.error("No 'auth' cookie found.");
+        return null;
+      }
+      return JSON.parse(authCookie) || {}; // Parse the cookie, fallback to empty object if parsing fails
+    } catch (error) {
+      console.error("Lỗi khi parse JSON từ cookie:", error);
+      return null; // Return an empty object if any error occurs during parsing
+    }
+  })();
+  const { _id } = user || {};
+
+  
   React.useEffect(() => {
     socketRef.current = io("http://localhost:3001");
     socketRef.current.on("connect", () => {
@@ -53,19 +71,43 @@ export default function SideBarComponent({ reviewButton }) {
       updateCommentState(updatedComment);
     });
     return () => {
-      socketRef.current.disconnect(); // Cleanup
+      socketRef.current.disconnect();
     };
   }, []);
-  React.useEffect(() => {
-    getAllDataReview();
-    getDataTour();
-  }, [id]);
+
+
 
   const currentComments = useMemo(() => {
     const indexOfLastComment = currentPage * commentsPerPage;
     const indexOfFirstComment = indexOfLastComment - commentsPerPage;
     return dataComment?.slice(indexOfFirstComment, indexOfLastComment);
   }, [currentPage, commentsPerPage, dataComment]);
+
+
+  const getAllTicket = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/Ticket/GetAllTicket', { credentials: "include" });
+      const data = await res.json();
+      setDataTicket(data.Tickets)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const checkIfBooked = () => {
+    if(!_id) return
+    
+    const userTicket = dataTicket.find(ticket => ticket.id_user === _id && ticket.id_tour === id && ticket.Status === "Đã Xác Nhận");
+    if (userTicket) {
+      
+      if (userTicket) {
+        return setIsCheckReview(true);  
+      } else {
+        return setIsCheckReview(false); 
+      }
+    } else {
+      return setIsCheckReview(false);  
+    }
+  };
   const getAllDataReview = async () => {
     const api = "http://localhost:3001/V1/Review/GetReview";
     try {
@@ -87,6 +129,9 @@ export default function SideBarComponent({ reviewButton }) {
       console.log(error);
     }
   };
+
+
+
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -126,7 +171,23 @@ export default function SideBarComponent({ reviewButton }) {
       )
     );
   };
+  React.useEffect(() => {
+    getAllDataReview();
+    getDataTour();
+  }, [id]);
 
+  React.useEffect(() => {
+    if (_id) {
+      getAllTicket();
+    }
+  }, [_id])
+
+
+React.useEffect(() => {
+  if (dataTicket.length > 0) {
+    checkIfBooked(); 
+  }
+}, [dataTicket]);
   const list = (anchor) => (
     <Box
       sx={{
@@ -210,7 +271,9 @@ export default function SideBarComponent({ reviewButton }) {
                     color: "#006ce4", // Màu chữ khi hover
                   },
                 }}
+                disabled={!isCheckReview}
                 onClick={() => setIsOpen(true)}
+               
               >
                 Viết đánh giá
               </Button>
@@ -254,6 +317,7 @@ export default function SideBarComponent({ reviewButton }) {
       {["right"].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button
+
             onClick={toggleDrawer(reviewButton, true)}
             variant="outlined"
             sx={{

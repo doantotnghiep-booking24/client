@@ -2,29 +2,28 @@ import { useState, useEffect, useRef } from 'react';
 import { Box, List, ListItem, ListItemText, Divider, Typography, TextField, IconButton, ListItemAvatar, Avatar } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import ChatIcon from '@mui/icons-material/Chat';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import { receiveMessage, sendMessage, chatUser, dataChat } from '../../../redux/features/ChatSlice';
+import { receiveMessage, sendMessage, dataChat } from '../../../redux/features/ChatSlice';
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
-import { fetchChat, fetchAllChat, fetchChatByIdUser } from '../../../services/fetchChat';
+import { fetchChat } from '../../../services/fetchChat';
+
 const socket = io('http://localhost:3001');
 
 const Chat = () => {
   const refScrollText = useRef(null)
   const datachats = useSelector((state) => state.chat.datachats);
-  const chatuser = useSelector((state) => state.chat.chatuser);
-  const messages = useSelector((state) => state.chat.messages);
   const [messageText, setMessageText] = useState('');
   const dispatch = useDispatch();
-  const [usersWhoMessaged, setUsersWhoMessaged] = useState([]); // State to store users who have messaged admin
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
   const toggleChatBox = () => {
     setIsChatBoxOpen(!isChatBoxOpen);
   };
   useEffect(() => {
     if (refScrollText) {
-      refScrollText.current?.scrollIntoView();  
+      refScrollText.current?.scrollIntoView();   
     }
   }, [datachats,!isChatBoxOpen]);
   // Get userId from cookie
@@ -87,32 +86,17 @@ const Chat = () => {
     return () => {
       socket.off('receiveMessage');  // Hủy lắng nghe khi component unmount
     };
-  }, [dispatch])
+  }, [dispatch]);
 
 
 
   const callMessages = async () => {
     const res = await fetchChat(userId)
-    dispatch(dataChat(res[0]?.messages))
+    dispatch(dataChat(res[0].messages))
   }
   useEffect(() => {
     callMessages()
   }, [])
-
-
-  // useEffect(() => {
-  //   const fetchRoomMessage = async () => {
-  //     try {
-  //       const allChats = await fetchAllChat();
-  //       setUsersWhoMessaged(allChats.Chat);
-  //     } catch (error) {
-  //       console.error("Failed to fetch chat list:", error);
-  //     }
-  //   };
-
-  //   fetchRoomMessage();
-  // }, []);
-
 
   return (
     <>
@@ -139,8 +123,8 @@ const Chat = () => {
             position: 'fixed',
             bottom: 10, // Cách nút mở/đóng một khoảng nhỏ
             right: 60,
-            width: 450,
-            height: 450,
+            width: 400,
+            height: 400,
             border: '1px solid #ccc',
             borderRadius: 2,
             boxShadow: 3,
@@ -154,11 +138,16 @@ const Chat = () => {
 
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             <>
-              <Typography variant="h6" gutterBottom sx={{ p: 1 }}>
-                Trò chuyện với chúng tôi nếu có bất kỳ thắc mắc nào !!
-              </Typography>
-              <Divider />
+              <div style={{ display: ' flex' }}>
+                {/* <ChatBubbleOutlineIcon sx={{ fontSize: '50px', margin: '15px' }}/> */}
+                <Typography variant="h6" gutterBottom sx={{ p: 1 }}>
+                  Hãy trò chuyện với chúng tôi khi có thắc mắc nhé !!
+                </Typography>
+              </div>
+
+              <Divider/>
               {/* Khu vực hiển thị tin nhắn */}
+
               <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
                 {datachats?.map((message, index) => (
                   <Box
@@ -169,12 +158,25 @@ const Chat = () => {
                       mb: 1,
                     }}
                   >
+
+                    {message.role === 'Admin' && (
+                      <Avatar
+                        src='https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg'
+                        alt="Admin Avatar"
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          marginRight: '10px',
+                        }}
+                      />
+                    )}
+
                     <Box
                       sx={{
                         maxWidth: '70%',
                         p: 1,
                         borderRadius: 1,
-                        backgroundColor: message.role !== 'Admin' ? '#d1f7c4' : '#f1f1f1',
+                        backgroundColor: message.role !== 'Admin' ? '#d1e7ff' : '#f1f1f1',
                         color: 'black',
                       }}
                     >

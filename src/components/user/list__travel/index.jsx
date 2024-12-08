@@ -161,7 +161,7 @@ function ListTravel() {
               ) : (
                 <Slider {...settings}>
                   {queryfeatured.data.map((item) => (
-                    <Link to="/details" key={item.id} className={cx("outstanding__item")}>
+                    <Link to={`/detail/${item._id}`} className={cx("outstanding__item")} key={item._id}>
                       <img key={item._id}
                         src={item.Image_Location[0] && item.Image_Location[0].path ? item.Image_Location[0].path : 'https://gachtrangtri.vn/site/upload/generals/noimg.jpg'}
                         alt={item.Name_Location}
@@ -265,7 +265,7 @@ function ListTravel() {
               ) : (
                 <Slider {...settings}>
                   {querynews.data.map((item) => (
-                    <Link to={`/news-detail/${item._id}`} className={cx("outstanding__item")} key={item.id}>
+                    <Link to={`/detail/${item._id}`} className={cx("outstanding__item")} key={item.id}>
                       <img key={item._id}
                         src={item.Image[0]?.path}
                         alt={item.Name}
