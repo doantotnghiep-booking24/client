@@ -372,11 +372,14 @@ function Header() {
                     component={Link}
                     to="/auth"
                     sx={{
-                      bgcolor: "white",
-                      fontWeight: "bold",
-                      textTransform: "capitalize",
+                      color : '#fff' ,
+                      bgcolor: "#3fd0d4",
+                      borderRadius : '30px',
+                      width : '85px',
+                      fontWeight: "600",
+                      textTransform: "inherit",
                       "&:hover": {
-                        bgcolor: "whitesmoke",
+                        bgcolor: "#3fd0d4",
                       },
                     }}
                   >
@@ -397,19 +400,19 @@ function Header() {
             >
               <ReorderIcon sx={{ color: "#fff" }} />
             </label>
-            <Link to="/" className={cx("logo")}>
+            <Link style={{cursor : 'pointer'}} to="/" className={cx("logo")}>
               <img
                 src="https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg"
                 alt=""
                 className={cx("logo__img")}
               />
             </Link>
-            <input
+            {/* <input
               type="checkbox"
               hidden
               id="mobile__menu-checkbox"
               className={cx("header__menu-checkbox")}
-            ></input>
+            ></input> */}
             <div className={cx("banner__section-search")}>
               <TextField
                 className={cx("banner__section-search-name")}
@@ -423,10 +426,15 @@ function Header() {
                   width: '280px',
                   borderRadius: "18px",
                   backgroundColor: "#f5f5f5",
+                  border: "none",
+                    borderColor: 'transparent',
+                    outline : 'none',
                   '& .MuiOutlinedInput-root': {
                     borderRadius: "18px",
-                    height: "45px",
+                    height: "40px",
                     border: "none",
+                    borderColor: 'transparent',
+                    outline : 'none',
                     '& input': {
                       lineHeight: "1.5",
                       height: '100px',

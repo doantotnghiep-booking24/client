@@ -57,13 +57,13 @@ function BookingHistory() {
       showCancelButton: true,
       confirmButtonText: "Có, hủy vé!",
       cancelButtonText: "Không, giữ lại",
-    }).then( async (result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         console.log(id_Ticket);
-        
-       const res = await Update_StatusCancelTicketsByClient(id_Ticket)
-       console.log(res);
-       
+
+        const res = await Update_StatusCancelTicketsByClient(id_Ticket)
+        console.log(res);
+
         Swal.fire("Đã gửi yêu cầu hủy vé!", "Vui lòng chờ trong lúc xác nhận", "success");
       }
     });
@@ -74,28 +74,34 @@ function BookingHistory() {
         <div className={cx("container")}>
           <h1>Lịch sử đặt vé</h1>
           <ul className={cx("booking__history-list")}>
-            {Ticket_Filter && Ticket_Filter.map((ticket_history, index) => (
+            {Ticket_Filter && Ticket_Filter.filter(ticket_history => ticket_history.Status !== 'Đã Hoàn Thành' || ticket_history.Status === 'Đã Hủy').map((ticket_history, index) => (
               <div key={index} className="booking__history-main__item">
                 <li className={cx("booking__history-item")}>
                   <div className={cx("booking__history-top")}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className={cx("status__booking")} style={{ display: 'flex', justifyContent: 'space-around' }}>
                       <div style={{ display: 'flex' }}>
-                        <div style={ticket_history.Status_Payment === 'Chưa Thanh Toán' ? { width: '30px', height: '30px', borderRadius: '100%', background: '#1E90FF', border: '1px solid gray' } : { width: '30px', height: '30px', borderRadius: '100%', background: '#ced4da', border: '1px solid gray' }}>
-                          <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', lineHeight: '30px', color: 'white' }}>1</span>
+                        <div className={cx("status__child")} style={ticket_history.Status_Payment === 'Chưa Thanh Toán' ? { background: '#1E90FF', } : { background: '#F5F5F5', }}>
+                          <span style={ticket_history.Status_Payment === 'Chưa Thanh Toán' ? { color: 'white' } : { color: 'black' }}>1</span>
                         </div>
                         <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Đặt vé</span>
                       </div>
                       <div style={{ display: 'flex' }}>
-                        <div style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Tiếp nhận' ? { width: '30px', height: '30px', borderRadius: '100%', background: '#1E90FF', border: '1px solid gray' } : { width: '30px', height: '30px', borderRadius: '100%', background: '#ced4da', border: '1px solid gray' }}>
-                          <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', lineHeight: '30px', color: 'white' }}>1</span>
+                        <div className={cx("status__child")} style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Tiếp nhận' ? { background: '#1E90FF', } : { background: '#F5F5F5', }}>
+                          <span style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Tiếp nhận' ? { color: 'white' } : { color: 'black' }}>2</span>
                         </div>
                         <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Thanh toán</span>
                       </div>
                       <div style={{ display: 'flex' }}>
-                        <div style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Đã Xác Nhận' ? { width: '30px', height: '30px', borderRadius: '100%', background: '#1E90FF', border: '1px solid gray' } : { width: '30px', height: '30px', borderRadius: '100%', background: '#ced4da', border: '1px solid gray' }}>
-                          <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', lineHeight: '30px', color: 'white' }}>1</span>
+                        <div className={cx("status__child")} style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Đã Xác Nhận' ? { background: '#1E90FF', } : { background: '#F5F5F5', }}>
+                          <span style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Đã Xác Nhận' ? { color: 'white' } : { color: 'black' }}>3</span>
                         </div>
                         <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Xác nhận</span>
+                      </div>
+                      <div style={{ display: 'flex' }}>
+                        <div className={cx("status__child")} style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Đã Hoàn Thành' ? { background: '#1E90FF', } : { background: '#F5F5F5', }}>
+                          <span style={ticket_history.Status_Payment === 'Đã Thanh Toán' && ticket_history.Status === 'Đã Hoàn Thành' ? { color: 'white' } : { color: 'black' }}>4</span>
+                        </div>
+                        <span style={{ lineHeight: '30px', marginLeft: '10px' }}>Hoàn thành</span>
                       </div>
                     </div>
                   </div>
@@ -124,10 +130,10 @@ function BookingHistory() {
                           <span>Thời gian : </span>
                           <p>{ticket_history.Total_DateTrip}</p>
                         </div>
-                        <div className={cx("ticket__location-live")}>
-                          <span>Giá vé : </span>
-                          <p>{ticket_history.Total_price.toLocaleString("vi-VN")} đ</p>
-                        </div>
+                        {/* <div className={cx("ticket__location-live")}>
+                        <span>Giá vé : </span>
+                        <p>{ticket_history.Total_price.toLocaleString("vi-VN")} đ</p>
+                      </div> */}
                       </div>
                       <div className={cx("ticket__time")}>
                         <div className={cx("ticket__time-date")}>
@@ -142,10 +148,10 @@ function BookingHistory() {
                             <p>{ticket_history.Departure_Time}</p>
                           </div>
                         </div>
-                        <div className={cx("ticket__time-departure ")}>
-                          <span>Trạng thái thanh toán : </span>
-                          <p>{ticket_history.Status_Payment}</p>
-                        </div>
+                        {/* <div className={cx("ticket__time-departure ")}>
+                        <span>Trạng thái thanh toán : </span>
+                        <p>{ticket_history.Status_Payment}</p>
+                      </div> */}
                       </div>
                     </div>
 
@@ -171,7 +177,7 @@ function BookingHistory() {
                     style={{ marginTop: "20px" }}
                   >
                     Tiến hành thanh toán
-                  </Button> : <Button
+                  </Button> : ticket_history.Status === 'Đã Hoàn Thành' ? '' : <Button
                     onClick={() => handleCancelClick(ticket_history._id)}
                     variant="outlined"
                     color="error"

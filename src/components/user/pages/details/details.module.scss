@@ -253,6 +253,11 @@
     // margin-left: 12px;
     span {
       color: var(--color-primary);
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 

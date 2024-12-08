@@ -62,7 +62,9 @@ import formatDate from "../../../../utils/formatDate";
 import { FaBus } from "react-icons/fa";
 import { MdLunchDining } from "react-icons/md";
 import { MdLocalHotel } from "react-icons/md";
+import { GetAllTimeSchedule } from "../../../../services/getTimeSchedule";
 function Details() {
+  const isAuth = Cookies.get("auth");
   const dispatch = useDispatch()
 
   const user = (() => {
@@ -98,6 +100,8 @@ function Details() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [dataHotel, setDataHotel] = useState();
+  const [timeSchedule, setTimeSchedule] = useState([])
+  const [valueTime, setValueTime] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleDetailOpen = (hotel) => {
@@ -140,6 +144,16 @@ function Details() {
     };
     handleGetSchedule();
   }, [selectedTab]);
+  useEffect(() => {
+    const handleGetTimeSchedule = async () => {
+      const res = await GetAllTimeSchedule()
+      setTimeSchedule(res.TimeSchedules)
+    }
+    handleGetTimeSchedule()
+  }, [])
+  const handleGetTimeSchedule = (e) => {
+    setValueTime(e.value)
+  }
 
   // const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
 
@@ -245,7 +259,7 @@ function Details() {
           Price_Tour: tour?.Price_Tour,
           After_Discount: tour?.After_Discount,
           Departure_Date: valueDate,
-          Departure_Time: "8:00",
+          Departure_Time: valueTime,
           Total_DateTrip: tour?.total_Date,
           Adult_fare: adult,
           Children_fare: children,
@@ -671,11 +685,11 @@ function Details() {
                   <div className={cx("aside__booking-action")}>
                     <div className={cx("heading")}>
                       <h5>{tour?.Name_Tour}</h5>
-                      <span>{tour?.Title_Tour}</span>
+                      <span  >{tour?.Title_Tour}</span>
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
-                        {is_Loading ? (
+                        {isAuth ? <>{is_Loading ? (
                           <CircularProgress size={20} color="inherit" />
                         ) : (
                           <FavoriteIcon
@@ -686,9 +700,14 @@ function Details() {
                                 : { color: "gray", cursor: "pointer" }
                             }
                             onClick={handleTourFavourite}
-                          // ff1744
                           />
-                        )}
+                        )}</> : <FavoriteIcon
+                          fontSize="medium"
+                          sx={
+                            { color: "gray", cursor: "pointer" }
+                          }
+                        />}
+
                       </div>
                       <div className={cx("share")}>
                         <ShareOutlinedIcon fontSize="small" />
@@ -715,7 +734,12 @@ function Details() {
                   </p>
                   <div className={cx("aside__booking-list")}>
                     <Select
-                      options={options}
+                      // {timeSchedule.map}
+                      options={timeSchedule.map(timeSchedule => ({
+                        value: timeSchedule.TimeSchedule, // Giả sử có một thuộc tính id để làm giá trị
+                        label: timeSchedule.TimeSchedule, // Giả sử có một thuộc tính time để làm nhãn
+                      }))}
+                      onChange={(event) => handleGetTimeSchedule(event)}
                       className={cx("aside__booking-select")}
                       placeholder="Chọn giờ"
                     />

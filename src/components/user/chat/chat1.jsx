@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Box, Divider, Typography, TextField, IconButton, Avatar } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import { Box, List, ListItem, ListItemText, Divider, Typography, TextField, IconButton, ListItemAvatar, Avatar } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import ChatIcon from '@mui/icons-material/Chat';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -13,6 +13,7 @@ import { fetchChat } from '../../../services/fetchChat';
 const socket = io('http://localhost:3001');
 
 const Chat = () => {
+  const refScrollText = useRef(null)
   const datachats = useSelector((state) => state.chat.datachats);
   const [messageText, setMessageText] = useState('');
   const dispatch = useDispatch();
@@ -20,6 +21,11 @@ const Chat = () => {
   const toggleChatBox = () => {
     setIsChatBoxOpen(!isChatBoxOpen);
   };
+  useEffect(() => {
+    if (refScrollText) {
+      refScrollText.current?.scrollIntoView();   
+    }
+  }, [datachats,!isChatBoxOpen]);
   // Get userId from cookie
   const authCookie = Cookies.get('auth');
   let userId;
@@ -117,7 +123,7 @@ const Chat = () => {
             position: 'fixed',
             bottom: 10, // Cách nút mở/đóng một khoảng nhỏ
             right: 60,
-            width: 320,
+            width: 400,
             height: 400,
             border: '1px solid #ccc',
             borderRadius: 2,
@@ -133,7 +139,7 @@ const Chat = () => {
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             <>
               <div style={{ display: ' flex' }}>
-                <ChatBubbleOutlineIcon sx={{ fontSize: '50px', margin: '15px' }}/>
+                {/* <ChatBubbleOutlineIcon sx={{ fontSize: '50px', margin: '15px' }}/> */}
                 <Typography variant="h6" gutterBottom sx={{ p: 1 }}>
                   Hãy trò chuyện với chúng tôi khi có thắc mắc nhé !!
                 </Typography>
@@ -175,6 +181,7 @@ const Chat = () => {
                       }}
                     >
                       <Typography variant="body2">{message.text}</Typography>
+                      <div ref={refScrollText}/>
                     </Box>
                   </Box>
                 ))}

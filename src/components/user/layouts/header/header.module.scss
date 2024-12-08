@@ -147,7 +147,7 @@
 
 // Header
 .header__bg {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .header {
@@ -173,6 +173,8 @@
 
 .header__list {
   display: flex;
+  // margin-left: 200px;
+  justify-content: space-around;
   margin-bottom: 0;
 }
 
@@ -184,7 +186,7 @@
 .header__link {
   text-decoration: none;
   color: var(--color-text);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
 
   &:hover {
