@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box, List, ListItem, ListItemText, Divider, Typography, TextField, IconButton, ListItemAvatar, Avatar } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -11,6 +11,7 @@ import { fetchChat, fetchAllChat, fetchChatByIdUser } from '../../../services/fe
 const socket = io('http://localhost:3001');
 
 const Chat = () => {
+  const refScrollText = useRef(null)
   const datachats = useSelector((state) => state.chat.datachats);
   const chatuser = useSelector((state) => state.chat.chatuser);
   const messages = useSelector((state) => state.chat.messages);
@@ -21,6 +22,11 @@ const Chat = () => {
   const toggleChatBox = () => {
     setIsChatBoxOpen(!isChatBoxOpen);
   };
+  useEffect(() => {
+    if (refScrollText) {
+      refScrollText.current?.scrollIntoView();  
+    }
+  }, [datachats,!isChatBoxOpen]);
   // Get userId from cookie
   const authCookie = Cookies.get('auth');
   let userId;
@@ -173,6 +179,7 @@ const Chat = () => {
                       }}
                     >
                       <Typography variant="body2">{message.text}</Typography>
+                      <div ref={refScrollText}/>
                     </Box>
                   </Box>
                 ))}
