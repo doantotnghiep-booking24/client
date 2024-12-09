@@ -207,6 +207,9 @@
 .aside {
   margin-left: 40px;
   // width: 30%;
+  .mobile_reviews{
+    display: none;
+  }
 }
 
 .aside__account {
@@ -468,7 +471,7 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .content__main {
     display: block;
   }
@@ -476,15 +479,25 @@
   .content__home {
     width: 100%;
   }
+  .hide__mobile{
+    display: none;
+  }
 
   .aside {
     margin-left: 0px;
+    .mobile_reviews{
+      display: block;
+    }
   }
 }
+
 
 @media (max-width: 739px) {
   .aside {
     margin-top: 30px;
+  }
+  .content__home-img{
+    height: 400px;
   }
 }
 
@@ -493,6 +506,9 @@
     .banner__title {
       font-size: 50px;
     }
+  }
+  .content__home-img{
+    height: 300px;
   }
 
   .content__main {

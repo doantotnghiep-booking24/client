@@ -407,12 +407,12 @@ function Header() {
                 className={cx("logo__img")}
               />
             </Link>
-            {/* <input
+            <input
               type="checkbox"
               hidden
               id="mobile__menu-checkbox"
               className={cx("header__menu-checkbox")}
-            ></input> */}
+            ></input>
             <div className={cx("banner__section-search")}>
               <TextField
                 className={cx("banner__section-search-name")}
@@ -627,10 +627,11 @@ function Header() {
                 <IconButton
                   onClick={handleClick}
                   size="small"
-                  sx={{ ml: 2 }}
+                  sx={{ ml: 2, marginLeft: 0 }}
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
+                  
                 >
                   <Avatar sx={{ width: 32, height: 32 }}
                     alt={dataAuth.Name}

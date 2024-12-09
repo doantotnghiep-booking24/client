@@ -63,6 +63,7 @@
        height: 242px;
        border-radius: 5px;
      }
+
   }
 
   
@@ -85,12 +86,8 @@
   line-height: 1.8; 
   white-space: pre-line; 
 }
-.Featured_des{
-  margin-top: 20px;
-  text-align: justify;
-  line-height: 1.8; 
-  white-space: pre-line; 
-}
+
+
 
 .new-detail {
   display: flex;
@@ -112,9 +109,9 @@
   }
 
 }
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .content__main {
-    padding: 50px ;
+    padding: 20px ;
   }
   .list__image {
     display: block;
@@ -145,7 +142,7 @@
       }
       .img2{
        width: 56%;
-       margin-left: 10px;
+       margin-left: 15px;
       }
    }
  
