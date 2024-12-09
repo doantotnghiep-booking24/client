@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./tour_demo.module.scss";
 import classNames from "classnames/bind";
 import Slider from "@mui/material/Slider";
@@ -30,6 +30,7 @@ const searchTours = async (name) => {
   return response.data.search.datas.filter((tour) => !tour.isDeleted);
 };
 function Tour_Demo() {
+  const refScroll = useRef(null)
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get("search") || "";
@@ -47,9 +48,10 @@ function Tour_Demo() {
 
   const tourNames = Array.from(
     new Set(
-      tours.filter((tour) => !tour.isDeleted).map((tour) => tour.Name_Tour)
+      tours.filter((tour) => !tour.isDeleted).map((tour) => tour.End_Tour)
     )
   );
+console.log(tourNames);
 
   const { data: categories } = useQuery({
     queryKey: ["cate"],
@@ -63,7 +65,7 @@ function Tour_Demo() {
     initialData: [],
   });
 
-  const [minPrice, setMinPrice] = useState(1000000);
+  const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000000);
   const [selectedTourNames, setSelectedTourNames] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -77,13 +79,16 @@ function Tour_Demo() {
     }
     handleGetTickets()
   }, [])
+  
   const filterTours = () => {
     return tours.filter((tour) => {
+      console.log('tour',tour.Name_Tour);
+      
       const checkPrice =
         tour.Price_Tour >= minPrice && tour.Price_Tour <= maxPrice;
       const checkTourName =
         selectedTourNames.length === 0 ||
-        selectedTourNames.includes(tour.Name_Tour);
+        tour.End_Tour.toLowerCase().includes(selectedTourNames.toLowerCase());
       const checkCategory =
         selectedCategory === "all" || tour.id_Category === selectedCategory;
       const checkRating =
@@ -92,7 +97,6 @@ function Tour_Demo() {
       return checkPrice && checkTourName && checkCategory && checkRating;
     });
   };
-
   const [selectedTab, setSelectedTab] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -100,7 +104,11 @@ function Tour_Demo() {
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-
+  useEffect(() => {
+    if (refScroll) {
+      refScroll.current?.scrollIntoView();   
+    }
+  }, [selectedCategory,currentPage]);
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
     const selectedCategoryId =
@@ -112,12 +120,14 @@ function Tour_Demo() {
     const { name, checked } = event.target;
 
     setSelectedTourNames((prev) =>
-      checked ? [...prev, name] : prev.filter((tourName) => tourName !== name)
+      checked ? name : ''
     );
   };
 
   useEffect(() => {
     const filtered = filterTours();
+    console.log('filtered',filtered);
+    
     setFilteredTours(filtered);
     setCurrentPage(1);
   }, [
@@ -133,6 +143,7 @@ function Tour_Demo() {
   const displayedTours = filteredTours
     .filter((tour) => !tour.isDeleted)
     .slice(startIndex, startIndex + itemsPerPage);
+// console.log(tourNames);
 
   return (
     <div className={cx("wrap")}>
@@ -164,7 +175,7 @@ function Tour_Demo() {
                   }}
                   valueLabelDisplay="auto"
                   valueLabelFormat={(value) => `${value.toLocaleString()} VND`}
-                  min={1000000}
+                  min={0}
                   max={10000000}
                   className={cx("price-slider")}
                   sx={{
@@ -203,16 +214,16 @@ function Tour_Demo() {
               </div>
 
               <div className={cx("location", "filter-section")}>
-                <h5 className={cx("section-heading")}>Điểm đến</h5>
-                <h6 className={cx("sub-heading")}>Việt Nam</h6>
+                <h5 className={cx("section-heading")}>Điểm đến - Việt Nam</h5>
+                {/* <h6 className={cx("sub-heading")}>Việt Nam</h6> */}
                 {tourNames.map((name, index) => (
                   <div key={index} className={cx("location-item")}>
                     <Checkbox
                       name={name}
                       onChange={handleTourNameChange}
+                      checked = {selectedTourNames === name ? selectedTourNames : ''}
                       sx={{
                         opacity: "50%",
-
                         borderRadius: "20px",
                         color: "#a8a8a8",
                         "&.Mui-checked": {
@@ -258,7 +269,7 @@ function Tour_Demo() {
                     }}
                   />
                   {categories.map((category, index) => (
-                    <Tab
+                    <Tab ref={refScroll}
                       key={category._id}
                       label={category.Name_Cate}
                       sx={{
@@ -289,12 +300,12 @@ function Tour_Demo() {
                       {/* <h6 style={{ color: 'rgb(117, 117, 117)' }}>{tour.End_Tour}</h6> */}
                       <div className={cx("section__heading")}>
                         <h5 style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} className={cx("section__heading-title")}>
-                          {tour.Name_Tour}
+                         {tour.Start_Tour} - {tour.Name_Tour}
                         </h5>
                         {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Tb</div> : <div className={cx("section__heading-good")}>Tệ</div>)}
                       </div>
                       {tour.totalReview > 0 && (
-                        <Rating style={{ marginTop: '2px', color: '#f09b0a', }}
+                        <Rating style={{ marginTop: '0px', color: '#f09b0a', }}
                           name="size-small"
                           value={tour.totalReview}
                           size="small"
