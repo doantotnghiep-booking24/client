@@ -1,18 +1,27 @@
 import classNames from "classnames/bind";
 import styles from "./news__detail.module.scss";
-import { Link, useParams } from 'react-router-dom'; // Thêm import useParams
-import { useQuery } from '@tanstack/react-query';
+import { Link, useParams } from "react-router-dom"; // Thêm import useParams
+import { useQuery } from "@tanstack/react-query";
 import { fetchNewDetails } from "../../../services/fetchNewDetails";
 import { fetchNewsData } from "../../../services/fetchNews";
 import { fetchFeaturedLocationData } from "../../../services/fetchFeaturedLocation";
 import { fetchFeaturedLocationDetail } from "../../../services/fetchFeaturedLocationDetail";
-import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 const cx = classNames.bind(styles);
 
 function NewsDetail() {
-  const querynews = useQuery({ queryKey: ['news'], queryFn: fetchNewsData, initialData: [], staleTime: 180000 })
-  const querylocation = useQuery({ queryKey: ['featured'], queryFn: fetchFeaturedLocationData, initialData: [], staleTime: 180000 })
-
+  const querynews = useQuery({
+    queryKey: ["news"],
+    queryFn: fetchNewsData,
+    initialData: [],
+    staleTime: 180000,
+  });
+  const querylocation = useQuery({
+    queryKey: ["featured"],
+    queryFn: fetchFeaturedLocationData,
+    initialData: [],
+    staleTime: 180000,
+  });
 
   const { id } = useParams(); // Lấy id từ URL
   const { data: newsItem } = useQuery({
@@ -43,10 +52,7 @@ function NewsDetail() {
               <div className={cx("content__home")}>
                 <div className={cx("list__image")}>
                   <div className={cx("image-heading")}>
-                    <img
-                      src={newsItem.Image[0]?.path}
-                      alt={newsItem.Name}
-                    />
+                    <img src={newsItem.Image[0]?.path} alt={newsItem.Name} />
                   </div>
                   <div className={cx("image-sub")}>
                     <img
@@ -57,62 +63,74 @@ function NewsDetail() {
                     <img
                       src={newsItem.Image[2]?.path}
                       alt={newsItem.Name}
-                      style={{marginTop: 15}}
+                      style={{ marginTop: 15 }}
                       className={cx("img2")}
                     />
                   </div>
-                  
-                 
                 </div>
-                <div className="new-detail" style={{ display: 'flex', marginTop: '10px' }}>
-                  <div className="left-detail" style={{ width: '65%' }}>
-                    <h4 className={cx("name")} style={{ fontSize: '2.5vw' }}>{newsItem.Name}</h4>
-                    <h5 className={cx("title")} style={{ fontSize: '1.5vw' }}>{newsItem.Title}</h5>
-                    <p className={cx("description")} style={{ fontSize: '1.2vw' }} >{newsItem.Content}</p>
+                <div
+                  className={cx("new-detail")}
+                  style={{ display: "flex", marginTop: "10px" }}
+                >
+                  <div className={cx("left-detail")} style={{ width: "65%" }}>
+                    <h4 className={cx("name")} style={{ fontSize: "2.5vw" }}>
+                      {newsItem.Name}
+                    </h4>
+                    <h5 className={cx("title")} style={{ fontSize: "1.5vw" }}>
+                      {newsItem.Title}
+                    </h5>
+                    <p
+                      className={cx("description")}
+                      style={{ fontSize: "1.2vw" }}
+                    >
+                      {newsItem.Content}
+                    </p>
                   </div>
                   <div
-                    className="right-detail"
+                    className={cx("right-detail")}
                     style={{
-                      marginLeft: '6%',
-                      height: 'fit-content',
-                      width: '29%',
-                      backgroundColor: '#fff',
-                      marginTop: '30px',
-                      padding: '5px', // Thêm padding để nội dung không sát lề
-                      borderRadius: '5px', // Bo góc cho container
-                      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Đổ bóng nhẹ
+                      marginLeft: "6%",
+                      height: "fit-content",
+                      width: "29%",
+                      backgroundColor: "#fff",
+                      marginTop: "30px",
+                      padding: "5px", // Thêm padding để nội dung không sát lề
+                      borderRadius: "5px", // Bo góc cho container
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Đổ bóng nhẹ
                     }}
                   >
                     <h2
                       style={{
-                        marginLeft: '15px',
-                        fontSize: '1.8rem',
-                        fontWeight: 'bold',
-                        color: '#333',
-                        marginBottom: '20px'
-
+                        marginLeft: "15px",
+                        fontSize: "1.8rem",
+                        fontWeight: "bold",
+                        color: "#333",
+                        marginBottom: "20px",
                       }}
                     >
                       Các bài viết khác
                     </h2>
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                       {querynews.data
                         .sort(() => Math.random() - 0.5)
                         .slice(0, 7)
                         .map((item) => (
-                          <li key={item._id} style={{ marginBottom: '15px', display: 'flex' }}>
+                          <li
+                            key={item._id}
+                            style={{ marginBottom: "15px", display: "flex" }}
+                          >
                             {/* Hình ảnh */}
                             <img
                               src={item.Image[0]?.path}
                               alt={item.Name}
                               style={{
-                                minWidth: '100px',
-                                maxWidth: '100px',
-                                height: '70px',
-                                objectFit: 'cover',
-                                borderRadius: '5px',
-                                marginRight: '10px',
-                                marginLeft: '10px',
+                                minWidth: "100px",
+                                maxWidth: "100px",
+                                height: "70px",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                                marginRight: "10px",
+                                marginLeft: "10px",
                               }}
                             />
                             {/* Nội dung */}
@@ -120,30 +138,40 @@ function NewsDetail() {
                               <Link
                                 to={`/detail/${item._id}`}
                                 style={{
-                                  textDecoration: 'none',
-                                  color: '#333',
-                                  fontWeight: '500',
-                                  fontSize: '1rem',
-                                  display: 'block', // Đảm bảo nội dung nằm trên một dòng
-                                  whiteSpace: 'nowrap', // Không xuống dòng
-                                  overflow: 'hidden', // Ẩn phần tràn
-                                  textOverflow: 'ellipsis', // Hiển thị dấu chấm lửng nếu bị tràn
-                                  maxWidth: '140px', // Đặt chiều rộng tối đa để kiểm soát độ dài
+                                  textDecoration: "none",
+                                  color: "#333",
+                                  fontWeight: "500",
+                                  fontSize: "1rem",
+                                  display: "block", // Đảm bảo nội dung nằm trên một dòng
+                                  whiteSpace: "nowrap", // Không xuống dòng
+                                  overflow: "hidden", // Ẩn phần tràn
+                                  textOverflow: "ellipsis", // Hiển thị dấu chấm lửng nếu bị tràn
+                                  maxWidth: "140px", // Đặt chiều rộng tối đa để kiểm soát độ dài
                                 }}
                               >
                                 {item.Name}
                               </Link>
-                              <p style={{
-                                marginTop:'5px',
-                                fontSize: '0.8rem',
-                                display: 'block', // Đảm bảo nội dung nằm trên một dòng
-                                whiteSpace: 'nowrap', // Không xuống dòng
-                                overflow: 'hidden', // Ẩn phần tràn
-                                textOverflow: 'ellipsis', // Hiển thị dấu chấm lửng nếu bị tràn
-                                maxWidth: '140px', // Đặt chiều rộng tối đa để kiểm soát độ dài
-                              }}> {item.Content}
+                              <p
+                                style={{
+                                  marginTop: "5px",
+                                  fontSize: "0.8rem",
+                                  display: "block", // Đảm bảo nội dung nằm trên một dòng
+                                  whiteSpace: "nowrap", // Không xuống dòng
+                                  overflow: "hidden", // Ẩn phần tràn
+                                  textOverflow: "ellipsis", // Hiển thị dấu chấm lửng nếu bị tràn
+                                  maxWidth: "140px", // Đặt chiều rộng tối đa để kiểm soát độ dài
+                                }}
+                              >
+                                {" "}
+                                {item.Content}
                               </p>
-                              <p style={{ margin: '5px 0 0', fontSize: '0.85rem', color: '#888' }}>
+                              <p
+                                style={{
+                                  margin: "5px 0 0",
+                                  fontSize: "0.85rem",
+                                  color: "#888",
+                                }}
+                              >
                                 {new Date(item.Cretate_At).toLocaleDateString()}
                               </p>
                             </div>
@@ -151,7 +179,6 @@ function NewsDetail() {
                         ))}
                     </ul>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -175,102 +202,130 @@ function NewsDetail() {
                     <img
                       src={Featured_LocationItem.Image_Location[1]?.path}
                       alt={Featured_LocationItem.Name_Location}
+                      className={cx("img1")}
                     />
                     <img
                       src={Featured_LocationItem.Image_Location[2]?.path}
                       alt={Featured_LocationItem.Name_Location}
-                      style={{ marginTop: 10 }}
+                      style={{ marginTop: 15 }}
+                      className={cx("img2")}
                     />
                   </div>
                 </div>
-                <div className="new-detail" style={{ display: 'flex', marginTop: '10px' }}>
-                  <div className="left-detail" style={{ width: '65%', marginRight: '5%' }}>
-                    <h4 className={cx("name")} style={{ fontSize: '2.5vw' }}>{Featured_LocationItem.Name_Location}</h4>
-                    <h5 className={cx("title")} style={{ fontSize: '1.5vw' }} >{Featured_LocationItem.Address_Location}</h5>
-                    <p className={cx("description")} style={{ fontSize: '1.2vw', lineHeight: 1.8, whiteSpace: "pre-line" }}>{Featured_LocationItem.Description}</p>
+                <div
+                  className={cx("new-detail")}
+                  style={{ display: "flex", marginTop: "10px" }}
+                >
+                  <div
+                    className={cx("left-detail")}
+                    style={{ width: "65%", marginRight: "5%" }}
+                  >
+                    <h4 className={cx("name")} style={{ fontSize: "2.5vw" }}>
+                      {Featured_LocationItem.Name_Location}
+                    </h4>
+                    <h5 className={cx("title")} style={{ fontSize: "1.5vw" }}>
+                      {Featured_LocationItem.Address_Location}
+                    </h5>
+                    <p
+                      className={cx("description")}
+                      style={{ fontSize: "1.2vw" }}
+                    >
+                      {Featured_LocationItem.Description}
+                    </p>
                   </div>
                   <div
-                  className="right-detail"
-                  style={{
-                    marginLeft: '6%',
-                    height: 'fit-content',
-                    width: '29%',
-                    backgroundColor: '#fff',
-                    marginTop: '30px',
-                    padding: '5px', // Thêm padding để nội dung không sát lề
-                    borderRadius: '5px', // Bo góc cho container
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Đổ bóng nhẹ
-                  }}
-                >
-                  <h2
+                    className={cx("right-detail")}
                     style={{
-                      marginLeft: '15px',
-                      fontSize: '1.8rem',
-                      fontWeight: 'bold',
-                      color: '#333',
-                      marginBottom: '20px'
-
+                      marginLeft: "6%",
+                      height: "fit-content",
+                      width: "29%",
+                      backgroundColor: "#fff",
+                      marginTop: "30px",
+                      padding: "5px", // Thêm padding để nội dung không sát lề
+                      borderRadius: "5px", // Bo góc cho container
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Đổ bóng nhẹ
                     }}
                   >
-                    Các bài viết khác
-                  </h2>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {querylocation.data
-                      .sort(() => Math.random() - 0.5)
-                      .slice(0, 7)
-                      .map((item) => (
-                        <li key={item._id} style={{ marginBottom: '15px', display: 'flex' }}>
-                          {/* Hình ảnh */}
-                          <img
-                            src={item.Image_Location[0]?.path}
-                            alt={item.Name_Location}
-                            style={{
-                              minWidth: '100px',
-                              maxWidth: '100px',
-                              height: '70px',
-                              objectFit: 'cover',
-                              borderRadius: '5px',
-                              marginRight: '10px',
-                              marginLeft: '10px',
-                            }}
-                          />
-                          {/* Nội dung */}
-                          <div>
-                            <Link
-                              to={`/detail/${item._id}`}
+                    <h2
+                      style={{
+                        marginLeft: "15px",
+                        fontSize: "1.8rem",
+                        fontWeight: "bold",
+                        color: "#333",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      Các bài viết khác
+                    </h2>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                      {querylocation.data
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 7)
+                        .map((item) => (
+                          <li
+                            key={item._id}
+                            style={{ marginBottom: "15px", display: "flex" }}
+                          >
+                            {/* Hình ảnh */}
+                            <img
+                              src={item.Image_Location[0]?.path}
+                              alt={item.Name_Location}
                               style={{
-                                textDecoration: 'none',
-                                color: '#333',
-                                fontWeight: '500',
-                                fontSize: '1rem',
-                                display: 'block', // Đảm bảo nội dung nằm trên một dòng
-                                whiteSpace: 'nowrap', // Không xuống dòng
-                                overflow: 'hidden', // Ẩn phần tràn
-                                textOverflow: 'ellipsis', // Hiển thị dấu chấm lửng nếu bị tràn
-                                maxWidth: '140px', // Đặt chiều rộng tối đa để kiểm soát độ dài
-                                
+                                minWidth: "100px",
+                                maxWidth: "100px",
+                                height: "70px",
+                                objectFit: "cover",
+                                borderRadius: "5px",
+                                marginRight: "10px",
+                                marginLeft: "10px",
                               }}
-                            >
-                              {item.Name_Location}
-                            </Link>
-                            <p style={{
-                              marginTop:'5px',
-                              fontSize: '0.8rem',
-                              display: 'block', // Đảm bảo nội dung nằm trên một dòng
-                              whiteSpace: 'nowrap', // Không xuống dòng
-                              overflow: 'hidden', // Ẩn phần tràn
-                              textOverflow: 'ellipsis', // Hiển thị dấu chấm lửng nếu bị tràn
-                              maxWidth: '140px', // Đặt chiều rộng tối đa để kiểm soát độ dài
-                            }}> {item.Address_Location}
-                            </p>
-                            <p style={{ margin: '5px 0 0', fontSize: '0.85rem', color: '#888' }}>
-                              {item.City_Location}
-                            </p>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
+                            />
+                            {/* Nội dung */}
+                            <div>
+                              <Link
+                                to={`/detail/${item._id}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#333",
+                                  fontWeight: "500",
+                                  fontSize: "1rem",
+                                  display: "block", // Đảm bảo nội dung nằm trên một dòng
+                                  whiteSpace: "nowrap", // Không xuống dòng
+                                  overflow: "hidden", // Ẩn phần tràn
+                                  textOverflow: "ellipsis", // Hiển thị dấu chấm lửng nếu bị tràn
+                                  maxWidth: "140px", // Đặt chiều rộng tối đa để kiểm soát độ dài
+                                }}
+                              >
+                                {item.Name_Location}
+                              </Link>
+                              <p
+                                style={{
+                                  marginTop: "5px",
+                                  fontSize: "0.8rem",
+                                  display: "block", // Đảm bảo nội dung nằm trên một dòng
+                                  whiteSpace: "nowrap", // Không xuống dòng
+                                  overflow: "hidden", // Ẩn phần tràn
+                                  textOverflow: "ellipsis", // Hiển thị dấu chấm lửng nếu bị tràn
+                                  maxWidth: "140px", // Đặt chiều rộng tối đa để kiểm soát độ dài
+                                }}
+                              >
+                                {" "}
+                                {item.Address_Location}
+                              </p>
+                              <p
+                                style={{
+                                  margin: "5px 0 0",
+                                  fontSize: "0.85rem",
+                                  color: "#888",
+                                }}
+                              >
+                                {item.City_Location}
+                              </p>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

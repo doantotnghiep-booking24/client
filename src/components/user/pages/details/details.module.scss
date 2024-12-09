@@ -207,6 +207,9 @@
 .aside {
   margin-left: 40px;
   // width: 30%;
+  .mobile_reviews{
+    display: none;
+  }
 }
 
 .aside__account {
@@ -468,6 +471,7 @@
   }
 }
 
+
 @media (max-width: 1024px) {
   .content__main {
     display: block;
@@ -476,9 +480,15 @@
   .content__home {
     width: 100%;
   }
+  .hide__mobile{
+    display: none;
+  }
 
   .aside {
     margin-left: 0px;
+    .mobile_reviews{
+      display: block;
+    }
   }
 }
 

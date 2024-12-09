@@ -407,12 +407,12 @@ function Header() {
                 className={cx("logo__img")}
               />
             </Link>
-            {/* <input
+            <input
               type="checkbox"
               hidden
               id="mobile__menu-checkbox"
               className={cx("header__menu-checkbox")}
-            ></input> */}
+            ></input>
             <div className={cx("banner__section-search")}>
               <TextField
                 className={cx("banner__section-search-name")}
