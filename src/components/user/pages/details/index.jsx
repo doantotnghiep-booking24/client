@@ -101,7 +101,7 @@ function Details() {
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [dataHotel, setDataHotel] = useState();
   const [timeSchedule, setTimeSchedule] = useState([])
-  const [valueTime, setValueTime] = useState('')
+  const [valueTime, setValueTime] = useState()
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleDetailOpen = (hotel) => {
@@ -234,15 +234,9 @@ function Details() {
   };
 
   const handleCreateTicket = async () => {
-
-
-
-    if (valueDate) {
+    if (valueDate && valueTime) {
       setValidate(true);
       const ResponseTicket = async () => {
-
-
-
         const data = {
           id_tour: tour?._id,
           id_user: id_user || null,
@@ -729,7 +723,7 @@ function Details() {
                   </div>
                   <p style={{ marginLeft: "12px", color: "red" }}>
                     {validate === false && valueDate === undefined
-                      ? "Bạn cần chọn ngày đi của tour"
+                      ? "Bạn cần chọn ngày của chuyến đi"
                       : ""}
                   </p>
                   <div className={cx("aside__booking-list")}>
@@ -743,6 +737,11 @@ function Details() {
                       className={cx("aside__booking-select")}
                       placeholder="Chọn giờ"
                     />
+                    <p style={{ marginTop: "12px", color: "red" }}>
+                    {validate === false && valueTime === undefined
+                      ? "Bạn cần chọn giờ của chuyến đi"
+                      : ""}
+                  </p>
                     <div className={cx("aside__booking-price")}>
                       <div className={cx("adult")}>
                         <span className="adult-name">Người lớn</span>

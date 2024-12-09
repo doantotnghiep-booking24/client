@@ -596,7 +596,7 @@ function Header() {
               </li>
               <li className={cx("header__item")}>
                 <Link to="/tours" className={cx("header__link")}>
-                  Chuyến đi
+                  Tour & Trải nghiệm
                 </Link>
               </li>
               {/* <li className={cx("header__item")}>
