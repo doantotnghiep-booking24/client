@@ -324,7 +324,7 @@ function Home() {
                       </h4>
                       <div className={cx("vacation__item-location")}>
                         <LocationOnOutlinedIcon className={cx("icon")} />
-                        <span>{tour.Start_Tour}</span>
+                        <span>{tour.End_Tour}</span>
                       </div>
                       <div className={cx("vacation__item-price")}>
                         <span>{tour.total_Date}</span>

@@ -496,6 +496,9 @@
   .aside {
     margin-top: 30px;
   }
+  .content__home-img{
+    height: 400px;
+  }
 }
 
 @media (max-width: 468px) {
@@ -503,6 +506,9 @@
     .banner__title {
       font-size: 50px;
     }
+  }
+  .content__home-img{
+    height: 300px;
   }
 
   .content__main {
