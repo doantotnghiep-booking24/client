@@ -6,7 +6,6 @@ import { fetchNewDetails } from "../../../services/fetchNewDetails";
 import { fetchNewsData } from "../../../services/fetchNews";
 import { fetchFeaturedLocationData } from "../../../services/fetchFeaturedLocation";
 import { fetchFeaturedLocationDetail } from "../../../services/fetchFeaturedLocationDetail";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 const cx = classNames.bind(styles);
 
 function NewsDetail() {

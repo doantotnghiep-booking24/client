@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Box, List, ListItem, ListItemText, Divider, Typography, TextField, IconButton, ListItemAvatar, Avatar } from '@mui/material';
+import { Box, Divider, Typography, TextField, IconButton, Avatar } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import ChatIcon from '@mui/icons-material/Chat';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import CloseIcon from '@mui/icons-material/Close';
+import { Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { receiveMessage, sendMessage, dataChat } from '../../../redux/features/ChatSlice';
 import io from 'socket.io-client';
@@ -18,25 +18,26 @@ const Chat = () => {
   const [messageText, setMessageText] = useState('');
   const dispatch = useDispatch();
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
+  const [notice, setNotice] = useState('');
+
   const toggleChatBox = () => {
     setIsChatBoxOpen(!isChatBoxOpen);
   };
   useEffect(() => {
     if (refScrollText) {
-      refScrollText.current?.scrollIntoView();   
+      refScrollText.current?.scrollIntoView();
     }
-  }, [datachats,!isChatBoxOpen]);
+  }, [datachats, !isChatBoxOpen]);
+
   // Get userId from cookie
   const authCookie = Cookies.get('auth');
   let userId;
-  let isAdmin = false;
   let Role
   if (authCookie) {
     try {
       var parsedAuth = JSON.parse(decodeURIComponent(authCookie));
       userId = parsedAuth._id;
       Role = parsedAuth.role;
-      isAdmin = parsedAuth._id === '67318dd0e23a808c2ecfbb43';
     } catch (error) {
       console.error('Error parsing auth cookie:', error);
     }
@@ -71,6 +72,7 @@ const Chat = () => {
           console.error('Error sending message:', response.error);
         }
       });
+
       // console.log('Dispatched action:', newMessage);
       setMessageText(''); // Xóa nội dung tin nhắn
     }
@@ -79,15 +81,32 @@ const Chat = () => {
 
   // Socket listener for receiving messages
   useEffect(() => {
+
+    socket.on('showFirstMessageNotice', (data) => {
+      setNotice(data.message);
+      localStorage.setItem('notice', data.message); // Lưu thông báo vào localStorage
+    });
+
     socket.on('receiveMessage', (message) => {
       callMessages()
       dispatch(receiveMessage(message));  // Dispatch vào Redux để cập nhật state
+      if (message.role === 'Admin') {
+        setNotice('');  // Ẩn thông báo sau khi admin trả lời
+      }
     });
+
     return () => {
       socket.off('receiveMessage');  // Hủy lắng nghe khi component unmount
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    const storedNotice = localStorage.getItem('notice');
+    if (storedNotice) {
+      setNotice(storedNotice);
+    }
+
+  }, []);
 
 
   const callMessages = async () => {
@@ -108,13 +127,24 @@ const Chat = () => {
           bottom: 50,
           right: 20,
           zIndex: 1000,
-          backgroundColor: '#B8E1FF',
-          boxShadow: 3,
-          color: 'white'
+          background: 'linear-gradient(135deg, #6EC1E4, #4183D7)',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+          color: 'white',
+          borderRadius: '50%',
+          transition: 'transform 0.2s ease, background 0.3s ease',
+          '&:hover': {
+            background: 'linear-gradient(135deg, #5A9FCF, #367BB5)',
+            transform: 'scale(1.1)',
+          },
+          '&:active': {
+            transform: 'scale(1)',
+            boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)',
+          },
         }}
       >
-        {isChatBoxOpen ? <CloseIcon /> : <ChatIcon />}
+        {isChatBoxOpen ? <CloseIcon sx={{ fontSize: 28 }} /> : <ChatIcon sx={{ fontSize: 28 }} />}
       </IconButton>
+
 
       {/* Giao diện ChatBox */}
       {isChatBoxOpen && (
@@ -124,17 +154,17 @@ const Chat = () => {
             bottom: 10, // Cách nút mở/đóng một khoảng nhỏ
             right: 60,
             width: 400,
-            height: 400,
+            height: 500,
             border: '1px solid #ccc',
             borderRadius: 2,
             boxShadow: 3,
             display: 'flex',
             flexDirection: 'row',
             backgroundColor: 'white',
+            marginRight: '7px',
             zIndex: 1000
           }}
         >
-          {/*Danh sách nhắn tin bên trái*/}
 
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             <>
@@ -145,47 +175,100 @@ const Chat = () => {
                 </Typography>
               </div>
 
-              <Divider/>
+              <Divider />
               {/* Khu vực hiển thị tin nhắn */}
 
               <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 1 }}>
-                {datachats?.map((message, index) => (
+                {/* Hiển thị tin nhắn đầu tiên */}
+                {datachats?.length > 0 && (
                   <Box
-                    key={index}
                     sx={{
                       display: 'flex',
-                      justifyContent: message.role !== 'Admin' ? 'flex-end' : 'flex-start',
+                      justifyContent: datachats[0].role !== 'Admin' ? 'flex-end' : 'flex-start',
                       mb: 1,
                     }}
                   >
-
-                    {message.role === 'Admin' && (
+                    {datachats[0].role === 'Admin' && (
                       <Avatar
-                        src='https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg'
+                        src="https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg"
                         alt="Admin Avatar"
-                        sx={{
-                          width: 40,
-                          height: 40,
-                          marginRight: '10px',
-                        }}
+                        sx={{ width: 40, height: 40, marginRight: '10px' }}
                       />
                     )}
-
-                    <Box
-                      sx={{
-                        maxWidth: '70%',
-                        p: 1,
-                        borderRadius: 1,
-                        backgroundColor: message.role !== 'Admin' ? '#d1e7ff' : '#f1f1f1',
-                        color: 'black',
-                      }}
-                    >
-                      <Typography variant="body2">{message.text}</Typography>
-                      <div ref={refScrollText}/>
-                    </Box>
+                      <Tooltip title={new Date(datachats[0].time).toLocaleTimeString()} arrow>
+                        <Box
+                          sx={{
+                            maxWidth: '70%',
+                            p: 1,
+                            borderRadius: 1.5,
+                            backgroundColor: datachats[0].role !== 'Admin' ? '#d1e7ff' : '#f1f1f1',
+                            color: 'black',
+                          }}
+                        >
+                          <Typography variant="body2">{datachats[0].text}</Typography>
+                        </Box>
+                      </Tooltip>
                   </Box>
-                ))}
+
+                )}
+                {/* thông báo đợi admin reply*/}
+                {notice && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      padding: '8px',
+                      borderRadius: '8px',
+                      marginBottom: '10px',
+                      textAlign: 'center',
+                      color: 'red',
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    {notice}
+                  </Typography>
+                )}
+                {/* Tách các tin nhắn còn lại */}
+                {datachats?.length > 1 && (
+                  <>
+
+                    {datachats?.slice(1).map((message, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: 'flex',
+                          justifyContent: message.role !== 'Admin' ? 'flex-end' : 'flex-start',
+                          mb: 1,
+                        }}
+                      >
+
+                        {message.role === 'Admin' && (
+                          <Avatar
+                            src="https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg"
+                            alt="Admin Avatar"
+                            sx={{ width: 40, height: 40, marginRight: '10px' }}
+                          />
+                        )}
+                        <Tooltip title={new Date(message.time).toLocaleTimeString()} arrow>
+                          <Box
+                            sx={{
+                              maxWidth: '70%',
+                              p: 1,
+                              borderRadius: 1.5,
+                              backgroundColor: message.role !== 'Admin' ? '#d1e7ff' : '#f1f1f1',
+                              color: 'black',
+                            }}
+                          >
+                            <Typography variant="body2">{message.text}</Typography>
+                          </Box>
+                        </Tooltip>
+                        <div ref={refScrollText} />
+                      </Box>
+                    ))}
+                  </>
+                )}
               </Box>
+
+
               {/* Ô nhập tin nhắn */}
               <Box sx={{ display: 'flex', p: 1, borderTop: '1px solid #ccc' }}>
                 <TextField
@@ -195,6 +278,12 @@ const Chat = () => {
                   placeholder="Nhập tin nhắn..."
                   fullWidth
                   size="small"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') { // Kiểm tra nếu phím nhấn là 'Enter'
+                      e.preventDefault(); // Ngăn chặn hành động mặc định (ví dụ như tạo dòng mới trong ô nhập)
+                      handleSendMessage(); // Gọi hàm gửi tin nhắn
+                    }
+                  }}
                 />
                 <IconButton color="primary">
                   <SendIcon onClick={handleSendMessage} />
