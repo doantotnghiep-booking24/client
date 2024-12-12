@@ -72,15 +72,15 @@ function NewsDetail() {
                   style={{ display: "flex", marginTop: "10px" }}
                 >
                   <div className={cx("left-detail")} style={{ width: "65%" }}>
-                    <h4 className={cx("name")} style={{ fontSize: "2.5vw" }}>
+                    <h4 className={cx("name")}>
                       {newsItem.Name}
                     </h4>
-                    <h5 className={cx("title")} style={{ fontSize: "1.5vw" }}>
+                    <h5 className={cx("title")} >
                       {newsItem.Title}
                     </h5>
                     <p
                       className={cx("description")}
-                      style={{ fontSize: "1.2vw" }}
+                    // style={{ fontSize: "1.2vw" }}
                     >
                       {newsItem.Content}
                     </p>

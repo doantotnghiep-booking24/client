@@ -72,7 +72,9 @@ const SocialLogin = () => {
             title: "Đăng nhập thành công!",
             text: "Chào mừng bạn đến với hệ thống.",
             icon: "success",
-            confirmButtonText: "OK",
+            // confirmButtonText: "OK",
+            showConfirmButton : false,
+            timer: 100
           }).then(() => {
             navigate("/"); // Chuyển hướng sau khi người dùng nhấn OK
           });

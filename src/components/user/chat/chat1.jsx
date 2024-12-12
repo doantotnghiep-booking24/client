@@ -9,7 +9,6 @@ import { receiveMessage, sendMessage, dataChat } from '../../../redux/features/C
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { fetchChat } from '../../../services/fetchChat';
-
 const socket = io('http://localhost:3001');
 
 const Chat = () => {
@@ -19,6 +18,19 @@ const Chat = () => {
   const dispatch = useDispatch();
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
   const [notice, setNotice] = useState('');
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const toggleChatBox = () => {
     setIsChatBoxOpen(!isChatBoxOpen);
@@ -149,8 +161,21 @@ const Chat = () => {
       {/* Giao diện ChatBox */}
       {isChatBoxOpen && (
         <Box
-          sx={{
+          sx={ screenWidth >= 300 && screenWidth <= 468 ?{
             position: 'fixed',
+            bottom: 10, // Cách nút mở/đóng một khoảng nhỏ
+            right: 60,
+            width: 240,
+            height: 400,
+            border: '1px solid #ccc',
+            borderRadius: 2,
+            boxShadow: 3,
+            display: 'flex',
+            flexDirection: 'row',
+            backgroundColor: 'white',
+            marginRight: '7px',
+            zIndex: 1000
+          } : { position: 'fixed',
             bottom: 10, // Cách nút mở/đóng một khoảng nhỏ
             right: 60,
             width: 400,
@@ -162,8 +187,7 @@ const Chat = () => {
             flexDirection: 'row',
             backgroundColor: 'white',
             marginRight: '7px',
-            zIndex: 1000
-          }}
+            zIndex: 1000 } }
         >
 
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -212,7 +236,7 @@ const Chat = () => {
 
                 )}
                 {/* thông báo đợi admin reply*/}
-                {notice && (
+                {datachats?.length > 0 && datachats[0].text && notice && (
                   <Typography
                     variant="body2"
                     sx={{

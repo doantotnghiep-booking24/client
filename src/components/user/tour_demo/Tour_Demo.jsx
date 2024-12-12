@@ -16,7 +16,17 @@ import { fetchTypeTours } from "../../../services/fetchTypeTours";
 import { GetAllTicket } from "../../../services/getTicketsHistory";
 import RoomIcon from '@mui/icons-material/Room';
 import { useLocation } from "react-router-dom";
-
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const cx = classNames.bind(styles);
 
 const BASE_URL = "http://localhost:3001/V1/Tours";
@@ -36,8 +46,8 @@ function Tour_Demo() {
   const searchQuery = queryParams.get("search") || "";
 
   const { data: tours } = useQuery({
-    queryKey: ["tours", searchQuery], 
-    queryFn: () => searchTours(searchQuery), 
+    queryKey: ["tours", searchQuery],
+    queryFn: () => searchTours(searchQuery),
     initialData: [],
   });
   // const { data: tours } = useQuery({
@@ -51,7 +61,7 @@ function Tour_Demo() {
       tours.filter((tour) => !tour.isDeleted).map((tour) => tour.End_Tour)
     )
   );
-console.log(tourNames);
+  console.log(tourNames);
 
   const { data: categories } = useQuery({
     queryKey: ["cate"],
@@ -79,11 +89,11 @@ console.log(tourNames);
     }
     handleGetTickets()
   }, [])
-  
+
   const filterTours = () => {
     return tours.filter((tour) => {
-      console.log('tour',tour.Name_Tour);
-      
+      console.log('tour', tour.Name_Tour);
+
       const checkPrice =
         tour.Price_Tour >= minPrice && tour.Price_Tour <= maxPrice;
       const checkTourName =
@@ -106,9 +116,9 @@ console.log(tourNames);
   };
   useEffect(() => {
     if (refScroll) {
-      refScroll.current?.scrollIntoView();   
+      refScroll.current?.scrollIntoView();
     }
-  }, [selectedCategory,currentPage]);
+  }, [selectedCategory, currentPage]);
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
     const selectedCategoryId =
@@ -126,8 +136,8 @@ console.log(tourNames);
 
   useEffect(() => {
     const filtered = filterTours();
-    console.log('filtered',filtered);
-    
+    console.log('filtered', filtered);
+
     setFilteredTours(filtered);
     setCurrentPage(1);
   }, [
@@ -143,23 +153,42 @@ console.log(tourNames);
   const displayedTours = filteredTours
     .filter((tour) => !tour.isDeleted)
     .slice(startIndex, startIndex + itemsPerPage);
-// console.log(tourNames);
+  // console.log(tourNames);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  return (
-    <div className={cx("wrap")}>
-      <div className={cx("banner")}>
-        <img
-          src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/tour-list-title-img.jpg"
-          alt=""
-          className={cx("banner__img")}
-        />
-        <h2 className={cx("banner__title")}>Chuyến đi</h2>
-      </div>
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
 
-      <div className={cx("container")}>
-        <div className={cx("content")}>
-          <div className={cx("content__main")}>
-            <div className={cx("aside")}>
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  const [state, setState] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 300 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+     <div className={cx("aside")}>
               <div className={cx("filter-header")}>
                 <h4 className={cx("filter-title")}>Lọc theo</h4>
               </div>
@@ -221,7 +250,7 @@ console.log(tourNames);
                     <Checkbox
                       name={name}
                       onChange={handleTourNameChange}
-                      checked = {selectedTourNames === name ? selectedTourNames : ''}
+                      checked={selectedTourNames === name ? selectedTourNames : ''}
                       sx={{
                         opacity: "50%",
                         borderRadius: "20px",
@@ -247,7 +276,126 @@ console.log(tourNames);
                 />
               </div>
             </div>
+    </Box>
+  );
+  return (
+    <div className={cx("wrap")}>
+      <div className={cx("banner")}>
+        <img
+          src="https://setsail.qodeinteractive.com/wp-content/uploads/2018/09/tour-list-title-img.jpg"
+          alt=""
+          className={cx("banner__img")}
+        />
+        <h2 className={cx("banner__title")}>Chuyến đi</h2>
+      </div>
+      <div className={cx("container")}>
+        <div className={cx("content")}>
+          <div className={cx("content__main")}>
+            {screenWidth >= 300 && screenWidth <= 768  && <div style={{display : 'flex',}}>
+                {['Filter'].map((anchor) => (
+                  // <React.Fragment key={anchor}>
+                  <>
+                    <Button style={{  width : '150px', background : '#e6e6e6',borderRadius : '30px',margin : '7px 34px',color : '#3fd0d4'}}  onClick={toggleDrawer(anchor, true)}>{anchor} <span style={{marginLeft : '5px'}}><ArrowDownwardIcon style={{fontSize : '17px'}}/></span></Button>
+                    <Drawer
+                      anchor={anchor}
+                      open={state[anchor]}
+                      onClose={toggleDrawer(anchor, false)}
+                    >
+                      {list(anchor)}
+                    </Drawer>
+                  </>
+                  // </React.Fragment>
+                ))}
+                
+              </div>}
+          {screenWidth >= 768  && <div className={cx("aside")}>
+              <div className={cx("filter-header")}>
+                <h4 className={cx("filter-title")}>Lọc theo</h4>
+              </div>
 
+              <div className={cx("price", "filter-section")}>
+                <h5 className={cx("section-heading")}>Giá</h5>
+                <Slider
+                  size="small"
+                  value={[minPrice, maxPrice]}
+                  onChange={(e, newValue) => {
+                    setMinPrice(newValue[0]);
+                    setMaxPrice(newValue[1]);
+                  }}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={(value) => `${value.toLocaleString()} VND`}
+                  min={0}
+                  max={10000000}
+                  className={cx("price-slider")}
+                  sx={{
+                    color: "#3fd0d4",
+                    "& .MuiSlider-thumb": {
+                      borderRadius: "50%",
+                    },
+                  }}
+                />
+                <span className={cx("price-range")}>
+                  {minPrice.toLocaleString()} đ - {maxPrice.toLocaleString()} đ
+                </span>
+              </div>
+
+              <div className={cx("type", "filter-section")}>
+                <h5 className={cx("section-heading")}>Loại tour</h5>
+                {type.map((type) => (
+                  <div key={type._id} className={cx("type-item")}>
+                    <Checkbox
+                      name={type.Name_Type}
+                      sx={{
+                        color: "#3fd0d4",
+                        "&.Mui-checked": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <label
+                      htmlFor={type.Name_Type}
+                      className={cx("type-label")}
+                    >
+                      {type.Name_Type}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              <div className={cx("location", "filter-section")}>
+                <h5 className={cx("section-heading")}>Điểm đến - Việt Nam</h5>
+                {/* <h6 className={cx("sub-heading")}>Việt Nam</h6> */}
+                {tourNames.map((name, index) => (
+                  <div key={index} className={cx("location-item")}>
+                    <Checkbox
+                      name={name}
+                      onChange={handleTourNameChange}
+                      checked={selectedTourNames === name ? selectedTourNames : ''}
+                      sx={{
+                        opacity: "50%",
+                        borderRadius: "20px",
+                        color: "#a8a8a8",
+                        "&.Mui-checked": {
+                          color: "#3fd0d4",
+                        },
+                      }}
+                    />
+                    <label htmlFor={name} className={cx("location-label")}>
+                      {name}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              <div className={cx("evaluate", "filter-section")}>
+                <h5 className={cx("section-heading")}>Đánh giá</h5>
+                <Rating
+                  name="rating"
+                  value={selectedRating}
+                  onChange={(event, newValue) => setSelectedRating(newValue)}
+                />
+              </div>
+            </div>}
             <div className={cx("content__home")}>
               <div className={cx("category")}>
                 <Tabs
@@ -300,7 +448,7 @@ console.log(tourNames);
                       {/* <h6 style={{ color: 'rgb(117, 117, 117)' }}>{tour.End_Tour}</h6> */}
                       <div className={cx("section__heading")}>
                         <h5 style={{ width: '250px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} className={cx("section__heading-title")}>
-                         {tour.Start_Tour} - {tour.Name_Tour}
+                          {tour.Start_Tour} - {tour.Name_Tour}
                         </h5>
                         {tour.totalReview >= 4 && tour.totalReview <= 5 ? <div className={cx("section__heading-good")}>Tốt</div> : (tour.totalReview >= 3 && tour.totalReview < 4 ? <div className={cx("section__heading-good")}>Tb</div> : <div className={cx("section__heading-good")}>Tệ</div>)}
                       </div>

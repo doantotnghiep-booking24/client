@@ -308,6 +308,9 @@ function BookingForm() {
           <div className="form-group">
             <label>Ngày khởi hành : <strong>{ticket_info.Departure_Date.slice(0, 10)}</strong></label>
           </div>
+          {/* <div className="form-group">
+            <label>Ngày kết thúc : <strong>{ticket_info.End_Date}</strong></label>
+          </div> */}
           <div className="form-group">
             <label>Số người</label>
             <div className="tour-info">

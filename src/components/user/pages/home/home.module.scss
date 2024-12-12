@@ -377,6 +377,15 @@
 // }
 
 @media (max-width: 1200px) {
+  .banner__text{
+    
+    h1{
+      font-size: 25px;
+    }
+    span{
+      font-size: 13px;
+    }
+  }
   .banner__section {
     flex-direction: column;
     padding: 0;
@@ -421,7 +430,7 @@
   .hide-on-mobile {
     display: none;
   }
-
+  
   .blog {
     flex-direction: column;
     align-items: center;

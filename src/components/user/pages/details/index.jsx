@@ -102,6 +102,7 @@ function Details() {
   const [dataHotel, setDataHotel] = useState();
   const [timeSchedule, setTimeSchedule] = useState([])
   const [valueTime, setValueTime] = useState()
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleDetailOpen = (hotel) => {
@@ -155,25 +156,16 @@ function Details() {
     setValueTime(e.value)
   }
 
-  // const result = Data_ToursRelated.filter(toursRelated => toursRelated._id !== id)
 
   useEffect(() => {
     if (RefScroll) {
-      RefScroll.current.scrollIntoView({ behavior: "smooth" });
+      RefScroll.current.scrollIntoView();
     }
   }, []);
-
   const { data: tour, isLoading } = useQuery({
     queryKey: ["Tour", id],
     queryFn: () => fetchTourDetails(id),
   });
-  // useEffect(() => {
-  //   const Tour_Related = async () => {
-  //     const res = await GetTours_Related();
-  //     dispatch(ToursRelateds(res.data.Tours_Related));
-  //   };
-  //   Tour_Related();
-  // }, []);
   let adult =
     tour?.Price_Tour && tour?.After_Discount > 0
       ? tour?.After_Discount
@@ -663,7 +655,7 @@ function Details() {
                   </div>
                   <SideBarComponent reviewButton={"right"} />
                 </div>
-                
+
               </div>
               <aside className={cx("aside")}>
                 <div className={cx("aside__account")}>
@@ -739,10 +731,10 @@ function Details() {
                       placeholder="Chọn giờ"
                     />
                     <p style={{ marginTop: "12px", color: "red" }}>
-                    {validate === false && valueTime === undefined
-                      ? "Bạn cần chọn giờ của chuyến đi"
-                      : ""}
-                  </p>
+                      {validate === false && valueTime === undefined
+                        ? "Bạn cần chọn giờ của chuyến đi"
+                        : ""}
+                    </p>
                     <div className={cx("aside__booking-price")}>
                       <div className={cx("adult")}>
                         <span className="adult-name">Người lớn</span>
@@ -992,16 +984,64 @@ function Details() {
                   ))}
                 </div>
                 <div className={cx("mobile_reviews")}>
-                <div className={cx("reviews")}>
-                  <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
-                  <div
-                    className="slider-container"
-                    style={{ padding: "20px 0" }}
-                  >
-                    {reviews?.length > 1 ? (
-                      <Slider {...settings}>
-                        {reviews?.map((review, index) => (
-                          <div key={index} className={cx("slider-item")}>
+                  <div className={cx("reviews")}>
+                    <h3 style={{ marginTop: 20 }}>Đánh giá chuyến đi</h3>
+                    <div
+                      className="slider-container"
+                      style={{ padding: "20px 0" }}
+                    >
+                      {reviews?.length > 1 ? (
+                        <Slider {...settings}>
+                          {reviews?.map((review, index) => (
+                            <div key={index} className={cx("slider-item")}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                }}
+                              >
+                                {" "}
+                                <Avatar
+                                  src={review ? review?.photoUrl : ""}
+                                  sx={{ width: 50, height: 50 }}
+                                />
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <h4
+                                    style={{
+                                      margin: 0,
+                                    }}
+                                  >
+                                    {review.userName}
+                                  </h4>
+                                  <Rating
+                                    name="size-small"
+                                    defaultValue={review.rating}
+                                    size="small"
+                                  />
+                                  <span className="review-date">
+                                    {formatDate(review.Create_At)}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <p className="review-content">
+                                &quot;{review.content}&quot;
+                              </p>
+                            </div>
+                          ))}
+                        </Slider>
+                      ) : reviews?.length === 1 ? (
+                        <>
+                          <div
+                            key={reviews[0]?._id}
+                            className={cx("slider-item")}
+                          >
                             <div
                               style={{
                                 display: "flex",
@@ -1011,7 +1051,7 @@ function Details() {
                             >
                               {" "}
                               <Avatar
-                                src={review ? review?.photoUrl : ""}
+                                src={reviews[0] ? reviews[0]?.photoUrl : ""}
                                 sx={{ width: 50, height: 50 }}
                               />
                               <div
@@ -1025,84 +1065,36 @@ function Details() {
                                     margin: 0,
                                   }}
                                 >
-                                  {review.userName}
+                                  {reviews[0]?.userName}
                                 </h4>
                                 <Rating
                                   name="size-small"
-                                  defaultValue={review.rating}
+                                  defaultValue={reviews[0]?.rating}
                                   size="small"
                                 />
                                 <span className="review-date">
-                                  {formatDate(review.Create_At)}
+                                  {formatDate(reviews[0]?.Create_At)}
                                 </span>
                               </div>
                             </div>
 
                             <p className="review-content">
-                              &quot;{review.content}&quot;
+                              &quot;{reviews[0]?.content}&quot;
                             </p>
                           </div>
-                        ))}
-                      </Slider>
-                    ) : reviews?.length === 1 ? (
-                      <>
-                        <div
-                          key={reviews[0]?._id}
-                          className={cx("slider-item")}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "5px",
-                            }}
-                          >
-                            {" "}
-                            <Avatar
-                              src={reviews[0] ? reviews[0]?.photoUrl : ""}
-                              sx={{ width: 50, height: 50 }}
-                            />
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <h4
-                                style={{
-                                  margin: 0,
-                                }}
-                              >
-                                {reviews[0]?.userName}
-                              </h4>
-                              <Rating
-                                name="size-small"
-                                defaultValue={reviews[0]?.rating}
-                                size="small"
-                              />
-                              <span className="review-date">
-                                {formatDate(reviews[0]?.Create_At)}
-                              </span>
-                            </div>
-                          </div>
-
-                          <p className="review-content">
-                            &quot;{reviews[0]?.content}&quot;
-                          </p>
+                        </>
+                      ) : (
+                        <div className={cx("slider-item")}>
+                          Hiện tại không có đánh giá nào
                         </div>
-                      </>
-                    ) : (
-                      <div className={cx("slider-item")}>
-                        Hiện tại không có đánh giá nào
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    <SideBarComponent reviewButton={"right"} />
                   </div>
-                  <SideBarComponent reviewButton={"right"} />
-                </div>
 
                 </div>
               </aside>
-           
+
               {/* Modal Dialog */}
               <Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth>
                 <DialogTitle

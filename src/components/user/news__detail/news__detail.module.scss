@@ -120,7 +120,7 @@
  
      img {
        width: 100%;
-       height: 500px;
+       height: 200px;
        border-radius: 5px;
      }
      
@@ -132,7 +132,7 @@
       display: flex;
  
       img {
-        height: 242px;
+        height: 170px;
         border-radius: 5px;
       }
 
@@ -153,6 +153,10 @@
  
  .left-detail{
   width: 100% !important;
+  
+  p{
+    font-size: 14px;
+  }
   .image-sub-content {
     img {
       height: 170px !important;
