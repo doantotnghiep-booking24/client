@@ -213,7 +213,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .containers {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .booking-form ,

@@ -243,7 +243,7 @@
   }
 
   .header__bg {
-    background-color: var(--bg-primary);
+    background-color: #fff;
   }
 
   .header__item {
@@ -253,7 +253,7 @@
 
   .header__link {
     font-size: 14px;
-    color: #fff;
+    color: black;
   }
 
 }
@@ -265,7 +265,12 @@
   .hide-on-mobile {
     display: none;
   }
+  .suggestion-box {
+    margin-right: 5px;
+  }
+  .btn_mobile{
 
+  }
   .header__list {
     position: absolute;
     top: 70px;
@@ -275,13 +280,20 @@
     // height: 46px;
     line-height: 46px;
     // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    background-color: var(--color-text);
+    background-color:#f2f2f2;
     padding: 0 16px;
     animation: mobileMenu linear 0.3s;
     display: none;
   }
+  
   .banner__section-search{
     padding: 0;
+
+    .banner__section-search-name{
+      width: 230px;
+      // height: 30px;
+    }
+    
   }
 
   .header__menu-mobile {

@@ -29,13 +29,13 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { fetchToursData } from "../../../../services/fetchTours";
 import { useQuery } from "@tanstack/react-query";
 import Rating from "@mui/material/Rating";
-
+import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 const cx = classNames.bind(styles);
 const BASE_URL = "http://localhost:3001/V1/Tours";
 
 const fetchMenuTours = async () => {
   const response = await axios.get(`${BASE_URL}/GetTours`, {
-    params: { page: 1, limit: 10 },
+    params: { page: 1, limit: 20 },
   });
   const availableTours = response.data.Tours.datas.filter(
     (tour) => !tour.isDeleted
@@ -58,6 +58,19 @@ function Header() {
   const [nameSuggestions, setNameSuggestions] = useState([]);
   const [isSuggestionsVisible, setIsSuggestionsVisible] = useState("");
   const navigate = useNavigate();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const handleNameInput = (event) => {
     const value = event.target.value;
     setSearchName(value);
@@ -80,6 +93,18 @@ function Header() {
   const handleSearch = (name) => {
     if (searchName.trim()) {
       navigate(`/tours?search=${encodeURIComponent(name)}`);
+      setSearchName("");
+    }
+  };
+  const handleSearchs = (e) => {
+    if (e.key === 'Enter') {
+      navigate(`/tours?search=${encodeURIComponent(e.target.value)}`);
+      setSearchName("");
+    }
+  };
+  const handleSearchMoblie = (e) => {
+    if (searchName.trim()) {
+      navigate(`/tours?search=${encodeURIComponent(searchName)}`);
       setSearchName("");
     }
   };
@@ -372,10 +397,10 @@ function Header() {
                     component={Link}
                     to="/auth"
                     sx={{
-                      color : '#fff' ,
+                      color: '#fff',
                       bgcolor: "#3fd0d4",
-                      borderRadius : '30px',
-                      width : '85px',
+                      borderRadius: '30px',
+                      width: '85px',
                       fontWeight: "600",
                       textTransform: "inherit",
                       "&:hover": {
@@ -398,9 +423,9 @@ function Header() {
               htmlFor="mobile__menu-checkbox"
               className={cx("header__menu-mobile")}
             >
-              <ReorderIcon sx={{ color: "#fff" }} />
+              <ReorderIcon sx={{ color: "black" }} />
             </label>
-            <Link style={{cursor : 'pointer'}} to="/" className={cx("logo")}>
+            <Link style={{ cursor: 'pointer' }} to="/" className={cx("logo")}>
               <img
                 src="https://i.pinimg.com/736x/18/c3/34/18c33493ba7ed7d680e0987855986225.jpg"
                 alt=""
@@ -419,6 +444,7 @@ function Header() {
                 value={searchName}
                 color="secondary"
                 onChange={handleNameInput}
+                onKeyDown={handleSearchs}
                 placeholder="Tìm kiếm điểm đến"
                 onBlur={(e) => closeSuggestions(e)}
                 onFocus={() => setIsSuggestionsVisible(true)}
@@ -427,14 +453,14 @@ function Header() {
                   borderRadius: "18px",
                   backgroundColor: "#f5f5f5",
                   border: "none",
-                    borderColor: 'transparent',
-                    outline : 'none',
+                  borderColor: 'transparent',
+                  outline: 'none',
                   '& .MuiOutlinedInput-root': {
                     borderRadius: "18px",
                     height: "40px",
                     border: "none",
                     borderColor: 'transparent',
-                    outline : 'none',
+                    outline: 'none',
                     '& input': {
                       lineHeight: "1.5",
                       height: '100px',
@@ -455,8 +481,20 @@ function Header() {
                 }}
                 InputProps={{
                   startAdornment: (
+                    // {screenWidth >= 300 && screenWidth <= 768 ? onclick = {handleSearchMoblie} : '' }
                     <SearchIcon
-                      sx={{
+                      onClick={handleSearchMoblie}
+                      sx={screenWidth >= 300 && screenWidth <= 768 ? {
+                        position: 'absolute',
+                        right: 0,
+                        color: "#fff",
+                        marginRight: "4px",
+                        background : '#3fd0d4',
+                        width : '63px',
+                        height : '30px',
+                        borderRadius : '18px',
+                        marginTop : '0.5px'
+                      } : {
                         color: "#757575",
                         marginRight: "8px",
                       }}
@@ -464,6 +502,7 @@ function Header() {
                   ),
                 }}
               />
+
               {isSuggestionsVisible && (
                 <Box
                   className={cx("suggestion-box")}
@@ -471,7 +510,7 @@ function Header() {
                     position: "absolute",
                     backgroundColor: "#fff",
                     // width: "580px",
-                    padding:"0 10px 0 10px",
+                    padding: "0 10px 0 10px",
                     boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                     borderRadius: "8px",
                     marginTop: "10px",
@@ -526,7 +565,7 @@ function Header() {
                                   size="small"
                                   precision={0.1}
                                   readOnly
-                                  // emptyIcon
+                                // emptyIcon
                                 />
                               )}
                               <div className={cx("search__menu-sub")}>
@@ -536,8 +575,8 @@ function Header() {
                                 <span className={cx("price")}>
                                   {tour.After_Discount > 0
                                     ? tour.After_Discount.toLocaleString(
-                                        "vi-VN"
-                                      )
+                                      "vi-VN"
+                                    )
                                     : tour.Price_Tour.toLocaleString("vi-VN")}
                                   đ
                                 </span>
@@ -631,7 +670,7 @@ function Header() {
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
-                  
+
                 >
                   <Avatar sx={{ width: 32, height: 32 }}
                     alt={dataAuth.Name}
@@ -708,20 +747,41 @@ function Header() {
                     Đăng xuất
                   </div>
                 </MenuItem>
-              </Menu> : <Button
+              </Menu> : (screenWidth >= 300 && screenWidth <= 768 ? <Button
+                className={cx("btn_mobile")}
                 component={Link}
                 to="/auth"
                 sx={{
-                  bgcolor: "white",
-                  fontWeight: "bold",
-                  textTransform: "capitalize",
+                  color: '#fff',
+                  bgcolor: "#3fd0d4",
+                  borderRadius: '30px',
+                  width: '85px',
+                  fontWeight: "600",
+                  textTransform: "inherit",
                   "&:hover": {
-                    bgcolor: "whitesmoke",
+                    bgcolor: "#3fd0d4",
                   },
                 }}
               >
                 Đăng nhập
-              </Button>}
+              </Button> : <Button
+                className={cx("btn_mobile")}
+                component={Link}
+                to="/auth"
+                sx={{
+                  color: '#fff',
+                  bgcolor: "#3fd0d4",
+                  borderRadius: '30px',
+                  width: '85px',
+                  fontWeight: "600",
+                  textTransform: "inherit",
+                  "&:hover": {
+                    bgcolor: "#3fd0d4",
+                  },
+                }}
+              >
+                Đăng nhập
+              </Button>)}
 
             </div>
           </header>

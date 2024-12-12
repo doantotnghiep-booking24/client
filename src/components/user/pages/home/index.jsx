@@ -106,22 +106,28 @@ function Home() {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    // e.preventDefault()
     if (searchName.trim()) {
       navigate(`/tours?search=${encodeURIComponent(searchName)}`);
     }
   };
-  console.log(searchName);
+  const handleSearchEnter = (e) => {
+    if ( e.key === 'Enter') {
+      navigate(`/tours?search=${encodeURIComponent(e.target.value)}`);
+    }
+  };
+  // console.log(searchName);
 
   const handleSuggestionClick = (value) => {
     setSearchName(value);
     setIsSuggestionsVisible(false);
-    // handleSearch(value); 
+    handleSearch(value); 
   };
   const closeSuggestions = () => {
     setTimeout(() => setIsSuggestionsVisible(false), 300);
   };
-  if (isLoading) return <p>Loading tours...</p>;
+  // if (isLoading) return <p>Loading tours...</p>;
 
   // Lọc tour chưa bị xóa mềm
   const toursToDisplay = (filteredTours || initialTours)?.filter(
@@ -187,6 +193,7 @@ function Home() {
                   fullWidth
                   onBlur={closeSuggestions}
                   onFocus={() => setIsSuggestionsVisible(true)}
+                  onKeyDown={handleSearchEnter}
                   InputProps={{
                     endAdornment: (
                       <Button
