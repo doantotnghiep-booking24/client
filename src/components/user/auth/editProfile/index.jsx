@@ -10,6 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import DraftsIcon from "@mui/icons-material/Drafts";
+import Diversity1Icon from '@mui/icons-material/Diversity1';
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HelpIcon from "@mui/icons-material/Help";
@@ -38,6 +39,12 @@ const dataSidebar = [
     name: "Lịch sử đặt vé",
     icon: <DraftsIcon />,
     link: "/booking-history",
+  },
+  {
+    id: 2,
+    name: "Tour yêu thích",
+    icon: <Diversity1Icon />,
+    link: "/Tour_Favourite",
   },
   {
     id: 3,

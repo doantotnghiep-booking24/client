@@ -21,6 +21,7 @@ import EditProfile from "./components/user/auth/editProfile/index.jsx";
 import Profile_Detail from "./components/user/auth/editProfile/components/Profile_Detail.jsx";
 import Setting from "./components/user/auth/editProfile/components/Setting.jsx";
 import Tour_Demo from "./components/user/tour_demo/Tour_Demo.jsx";
+import Tour_Favourite from "./components/user/TourFavourite/index.jsx";
 
 function App() {
   const [isAuth,setIsAuth] = useState()
@@ -71,6 +72,7 @@ function App() {
         <Route path="/detail/:id" element={<NewsDetail />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/tours" element={<Tour_Demo />} />
+        <Route path="/Tour_Favourite" element={<Tour_Favourite />} />
         <Route path="/tours/:id" element={<Details />} />
         <Route path="/booked/:id" element={<Booked />} />
         <Route path="/booking-history" element={<BookingHistory />} />
