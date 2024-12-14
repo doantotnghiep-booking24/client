@@ -6,28 +6,47 @@ import { fetchNewDetails } from "../../../services/fetchNewDetails";
 import { fetchNewsData } from "../../../services/fetchNews";
 import { fetchFeaturedLocationData } from "../../../services/fetchFeaturedLocation";
 import { fetchFeaturedLocationDetail } from "../../../services/fetchFeaturedLocationDetail";
+import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 function NewsDetail() {
-  const querynews = useQuery({
-    queryKey: ["news"],
-    queryFn: fetchNewsData,
-    initialData: [],
-    staleTime: 180000,
-  });
-  const querylocation = useQuery({
-    queryKey: ["featured"],
-    queryFn: fetchFeaturedLocationData,
-    initialData: [],
-    staleTime: 180000,
-  });
+  const [querylocation, setQuerylocation] = useState([])
+  const [querynews, setQuerynews] = useState([])
+  // const querynews = useQuery({
+  //   queryKey: ["news"],
+  //   queryFn: fetchNewsData,
+  //   initialData: [],
+  //   staleTime: 180000,
+  // });
+  useEffect(() => {
+    const handleGetNewsData = async () => {
+      const res = await fetchNewsData()
+      setQuerynews(res)
+
+    }
+    handleGetNewsData()
+  }, [])
+  // const querylocation = useQuery({
+  //   queryKey: ["featured"],
+  //   queryFn: fetchFeaturedLocationData,
+  //   initialData: [],
+  //   staleTime: 180000,
+  // });
+  useEffect(() => {
+    const handleGetfetchFeaturedLocation = async () => {
+      const res = await fetchFeaturedLocationData()
+      console.log(res);
+      setQuerylocation(res)
+
+    }
+    handleGetfetchFeaturedLocation()
+  }, [])
 
   const { id } = useParams(); // Lấy id từ URL
   const { data: newsItem } = useQuery({
     queryKey: ["news", id],
     queryFn: () => fetchNewDetails(id),
   });
-  console.log(newsItem);
 
   const { data: Featured_LocationItem } = useQuery({
     queryKey: ["featured", id],
@@ -110,7 +129,7 @@ function NewsDetail() {
                       Các bài viết khác
                     </h2>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                      {querynews.data
+                      {querynews.filter(item => !item.isDeleted)
                         .sort(() => Math.random() - 0.5)
                         .slice(0, 7)
                         .map((item) => (
@@ -119,19 +138,22 @@ function NewsDetail() {
                             style={{ marginBottom: "15px", display: "flex" }}
                           >
                             {/* Hình ảnh */}
-                            <img
-                              src={item.Image[0]?.path}
-                              alt={item.Name}
-                              style={{
-                                minWidth: "100px",
-                                maxWidth: "100px",
-                                height: "70px",
-                                objectFit: "cover",
-                                borderRadius: "5px",
-                                marginRight: "10px",
-                                marginLeft: "10px",
-                              }}
-                            />
+                            <Link to={`/detail/${item._id}`} >
+                              <img
+                                src={item.Image[0]?.path}
+                                alt={item.Name}
+                                style={{
+                                  cursor: 'pointer',
+                                  minWidth: "100px",
+                                  maxWidth: "100px",
+                                  height: "70px",
+                                  objectFit: "cover",
+                                  borderRadius: "5px",
+                                  marginRight: "10px",
+                                  marginLeft: "10px",
+                                }}
+                              />
+                            </Link>
                             {/* Nội dung */}
                             <div>
                               <Link
@@ -219,15 +241,15 @@ function NewsDetail() {
                     className={cx("left-detail")}
                     style={{ width: "65%", marginRight: "5%" }}
                   >
-                    <h4 className={cx("name")} style={{ fontSize: "2.5vw" }}>
+                    <h4 className={cx("name")} style={{ fontSize: "calc(1.275rem + .3vw)" }}>
                       {Featured_LocationItem.Name_Location}
                     </h4>
-                    <h5 className={cx("title")} style={{ fontSize: "1.5vw" }}>
+                    <h5 className={cx("title")} style={{ fontSize: "1.25rem" }}>
                       {Featured_LocationItem.Address_Location}
                     </h5>
                     <p
                       className={cx("description")}
-                      style={{ fontSize: "1.2vw" }}
+                      style={{ fontSize: "14px" }}
                     >
                       {Featured_LocationItem.Description}
                     </p>
@@ -235,7 +257,7 @@ function NewsDetail() {
                   <div
                     className={cx("right-detail")}
                     style={{
-                      marginLeft: "6%",
+                      marginLeft: "13px",
                       height: "fit-content",
                       width: "29%",
                       backgroundColor: "#fff",
@@ -248,16 +270,17 @@ function NewsDetail() {
                     <h2
                       style={{
                         marginLeft: "15px",
-                        fontSize: "1.8rem",
+                        fontSize: "1.5rem",
                         fontWeight: "bold",
                         color: "#333",
                         marginBottom: "20px",
+                        textAlign: 'center'
                       }}
                     >
                       Các bài viết khác
                     </h2>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                      {querylocation.data
+                      {querylocation.filter(item => !item.isDeleted)
                         .sort(() => Math.random() - 0.5)
                         .slice(0, 7)
                         .map((item) => (
@@ -266,19 +289,23 @@ function NewsDetail() {
                             style={{ marginBottom: "15px", display: "flex" }}
                           >
                             {/* Hình ảnh */}
-                            <img
-                              src={item.Image_Location[0]?.path}
-                              alt={item.Name_Location}
-                              style={{
-                                minWidth: "100px",
-                                maxWidth: "100px",
-                                height: "70px",
-                                objectFit: "cover",
-                                borderRadius: "5px",
-                                marginRight: "10px",
-                                marginLeft: "10px",
-                              }}
-                            />
+                            <Link to={`/detail/${item._id}`}>
+                              <img
+                                src={item.Image_Location[0]?.path}
+                                alt={item.Name_Location}
+                                style={{
+                                  cursor: 'pointer',
+                                  minWidth: "100px",
+                                  maxWidth: "100px",
+                                  height: "70px",
+                                  objectFit: "cover",
+                                  borderRadius: "5px",
+                                  marginRight: "10px",
+                                  marginLeft: "10px",
+                                }}
+                              />
+                            </Link>
+
                             {/* Nội dung */}
                             <div>
                               <Link
