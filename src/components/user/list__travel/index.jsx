@@ -125,7 +125,7 @@ function ListTravel() {
                 Địa danh nổi tiếng
               </h3>
               <Slider {...settings}>
-                {queryfeatured.data?.map((item) => (
+                {queryfeatured.data?.filter(item => !item.isDeleted).map((item) => (
                   <Link
                     to={`/detail/${item._id}`}
                     className={cx("outstanding__item")}
@@ -156,7 +156,7 @@ function ListTravel() {
             <div className={cx("content__list")}>
               <h3 className={cx("content__list-heading")}>Khám phá Việt Nam</h3>
               <Slider {...settings}>
-                {querynews.data?.map((item) => (
+                {querynews.data?.filter(item => !item.isDeleted).map((item) => (
                   <Link
                     to={`/detail/${item._id}`}
                     className={cx("outstanding__item")}
