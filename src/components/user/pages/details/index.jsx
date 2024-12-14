@@ -221,7 +221,7 @@ function Details() {
       handleGetTourFavourite();
       setTimeout(() => {
         setIs_Loading(false);
-      }, 1500);
+      }, 500);
     }
   };
 
@@ -711,6 +711,7 @@ function Details() {
                         name="Date_time"
                         ref={RefFocus}
                         minDate={dayjs()}
+                        sx={{ width: "100%" }}
                       />
                     </LocalizationProvider>
                   </div>

@@ -21,6 +21,6 @@ export const searchTours = async (name, price) => {
             NameSearch: name,
             PriceSearch: price
         }
-    });
+    }, { withCredentials: true });
     return response.data.search.datas;
 };
