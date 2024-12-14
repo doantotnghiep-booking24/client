@@ -16,6 +16,7 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Update_StatusCancelTicketsByClient } from '../../../services/RequestCancleTicket';
+import { DeleteTicket } from '../../../services/DeleteTicket';
 const cx = classNames.bind(styles);
 const style = {
   position: 'absolute',
@@ -35,12 +36,12 @@ function BookingHistory() {
   const qrValue = "http://localhost:5173/booking-history";
   const barcodeValue = "88888888";
 
-  useEffect(() => {
-    const handleCallTickets = async () => {
-      const res = await GetAllTicket()
+  const handleCallTickets = async () => {
+    const res = await GetAllTicket()
 
-      dispatch(Tickets_History(res.data.Tickets))
-    }
+    dispatch(Tickets_History(res.data.Tickets))
+  }
+  useEffect(() => {
     handleCallTickets()
   }, [])
   // console.log(Ticket_Filter);
@@ -65,6 +66,22 @@ function BookingHistory() {
         console.log(res);
 
         Swal.fire("Đã gửi yêu cầu hủy vé!", "Vui lòng chờ trong lúc xác nhận", "success");
+      }
+    });
+  };
+  
+  const handleDeleteTicket = (id_ticket) => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa vé không?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Có, xóa vé!",
+      cancelButtonText: "Không, giữ lại",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await DeleteTicket(id_ticket)
+        Swal.fire("Vé đã được xóa!","", "success");
+        handleCallTickets()
       }
     });
   };
@@ -170,14 +187,24 @@ function BookingHistory() {
                 </li>
 
                 <div style={{ marginLeft: '' }} className={cx("booking__history-cancel")}>
-                  {ticket_history.Status_Payment === 'Chưa Thanh Toán' ? <Button
+                  {ticket_history.Status_Payment === 'Chưa Thanh Toán' ? <div>
+                    <Button
                     href={`/booked/${ticket_history._id}`}
                     variant="outlined"
                     color="error"
                     style={{ marginTop: "20px" }}
                   >
                     Tiến hành thanh toán
-                  </Button> : ticket_history.Status === 'Đã Hoàn Thành' ? '' : <Button
+                  </Button>
+                  <Button
+                    onClick={() => handleDeleteTicket(ticket_history._id)}
+                    variant="outlined"
+                    color="error"
+                    style={{ marginTop: "20px",marginLeft : '10px' }}
+                  >
+                    Xóa
+                  </Button>
+                  </div> : ticket_history.Status === 'Đã Hoàn Thành' ? '' : <Button
                     onClick={() => handleCancelClick(ticket_history._id)}
                     variant="outlined"
                     color="error"
