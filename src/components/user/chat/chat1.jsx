@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Box, Divider, Typography, TextField, IconButton, Avatar } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import ChatIcon from '@mui/icons-material/Chat';
+import { FaFacebookMessenger } from "react-icons/fa";
 import CloseIcon from '@mui/icons-material/Close';
 import { Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,18 @@ const Chat = () => {
   const [isChatBoxOpen, setIsChatBoxOpen] = useState(false);
   const [notice, setNotice] = useState('');
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
+  const [unreadMessages, setUnreadMessages] = useState(0);
+  useEffect(() => {
+    socket.on('receiveMessage', (message) => {
+      dispatch(receiveMessage(message));  // Dispatch vào Redux để cập nhật state
+      setUnreadMessages((prev) => prev + 1); // Tăng số lượng tin nhắn chưa đọc
+    });
+  
+    return () => {
+      socket.off('receiveMessage');
+    };
+  }, [dispatch]);
+  
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -95,6 +106,7 @@ const Chat = () => {
   useEffect(() => {
 
     socket.on('showFirstMessageNotice', (data) => {
+
       setNotice(data.message);
       localStorage.setItem('notice', data.message); // Lưu thông báo vào localStorage
     });
@@ -102,9 +114,9 @@ const Chat = () => {
     socket.on('receiveMessage', (message) => {
       callMessages()
       dispatch(receiveMessage(message));  // Dispatch vào Redux để cập nhật state
-      if (message.role === 'Admin') {
-        setNotice('');  // Ẩn thông báo sau khi admin trả lời
-      }
+      // if (message.role === 'Admin') {
+      //   setNotice('');  // Ẩn thông báo sau khi admin trả lời
+      // }
     });
 
     return () => {
@@ -133,29 +145,57 @@ const Chat = () => {
     <>
       {/* Nút mở/đóng ChatBox */}
       <IconButton
-        onClick={toggleChatBox}
-        sx={{
-          position: 'fixed',
-          bottom: 50,
-          right: 20,
-          zIndex: 1000,
-          background: 'linear-gradient(135deg, #6EC1E4, #4183D7)',
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-          color: 'white',
-          borderRadius: '50%',
-          transition: 'transform 0.2s ease, background 0.3s ease',
-          '&:hover': {
-            background: 'linear-gradient(135deg, #5A9FCF, #367BB5)',
-            transform: 'scale(1.1)',
-          },
-          '&:active': {
-            transform: 'scale(1)',
-            boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)',
-          },
-        }}
-      >
-        {isChatBoxOpen ? <CloseIcon sx={{ fontSize: 28 }} /> : <ChatIcon sx={{ fontSize: 28 }} />}
-      </IconButton>
+  onClick={toggleChatBox}
+  sx={{
+    position: 'fixed',
+    bottom: 50,
+    right: 20,
+    zIndex: 1000,
+    background: 'linear-gradient(135deg, #6EC1E4, #4183D7)',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    color: 'white',
+    borderRadius: '50%',
+    transition: 'transform 0.2s ease, background 0.3s ease',
+    '&:hover': {
+      background: 'linear-gradient(135deg, #5A9FCF, #367BB5)',
+      transform: 'scale(1.1)',
+    },
+    '&:active': {
+      transform: 'scale(1)',
+      boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)',
+    },
+  }}
+>
+  {isChatBoxOpen ? (
+    <CloseIcon sx={{ fontSize: 30 }} />
+  ) : (
+    <>
+      <FaFacebookMessenger  style={{ fontSize: '30px' }} />
+      {unreadMessages > 0 && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: -5,
+            right: -5,
+            backgroundColor: 'red',
+            color: 'white',
+            width: '20px',
+
+            height: '20px',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '12px',
+          }}
+        >
+          {unreadMessages}
+        </Box>
+      )}
+    </>
+  )}
+</IconButton>
+
 
 
       {/* Giao diện ChatBox */}
@@ -219,19 +259,19 @@ const Chat = () => {
                         sx={{ width: 40, height: 40, marginRight: '10px' }}
                       />
                     )}
-                      <Tooltip title={new Date(datachats[0].time).toLocaleTimeString()} arrow>
-                        <Box
-                          sx={{
-                            maxWidth: '70%',
-                            p: 1,
-                            borderRadius: 1.5,
-                            backgroundColor: datachats[0].role !== 'Admin' ? '#d1e7ff' : '#f1f1f1',
-                            color: 'black',
-                          }}
-                        >
-                          <Typography variant="body2">{datachats[0].text}</Typography>
-                        </Box>
-                      </Tooltip>
+                    <Tooltip title={new Date(datachats[0].time).toLocaleTimeString()} arrow>
+                      <Box
+                        sx={{
+                          maxWidth: '70%',
+                          p: 1,
+                          borderRadius: 1.5,
+                          backgroundColor: datachats[0].role !== 'Admin' ? '#d1e7ff' : '#f1f1f1',
+                          color: 'black',
+                        }}
+                      >
+                        <Typography variant="body2">{datachats[0].text}</Typography>
+                      </Box>
+                    </Tooltip>
                   </Box>
 
                 )}
