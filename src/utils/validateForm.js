@@ -6,9 +6,9 @@ const checkValidateEmail = (email) => {
 }
 
 export const checkValidateName = (name) => {
-    const reg = /^[a-zA-Z0-9\s]+$/
+    const reg = /^[a-zA-Zà-ýĐđơ-ư\s]+$/;
 
-    return reg.test(name)
+    return reg.test(name);
 }
 
 export default checkValidateEmail

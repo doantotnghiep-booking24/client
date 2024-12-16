@@ -36,11 +36,21 @@ const SocialLogin = () => {
           Swal.fire({
             title: "Đăng nhập thành công!",
             text: "Chào mừng bạn đến với hệ thống.",
-            icon: "success",
-            confirmButtonText: "OK",
-          }).then(() => {
-            navigate("/"); // Chuyển hướng sau khi người dùng nhấn OK
-          });
+            icon: "success", // Biểu tượng thành công
+            showConfirmButton: false, // Ẩn nút OK
+            timer: 1000, // Thời gian đóng tự động (ms)
+            timerProgressBar: true, // Hiển thị thanh tiến trình
+            background: "#fefefe", // Màu nền
+            color: "#333", // Màu chữ
+            customClass: {
+              popup: "swal-custom-popup", 
+            }
+          })
+            setTimeout(() => {
+              navigate("/");
+            }, 1000)
+            // Chuyển hướng sau khi người dùng nhấn OK
+          
         } catch (error) {
           console.log(error);
         }
@@ -71,13 +81,20 @@ const SocialLogin = () => {
           Swal.fire({
             title: "Đăng nhập thành công!",
             text: "Chào mừng bạn đến với hệ thống.",
-            icon: "success",
-            // confirmButtonText: "OK",
-            showConfirmButton : false,
-            timer: 100
-          }).then(() => {
-            navigate("/"); // Chuyển hướng sau khi người dùng nhấn OK
-          });
+            icon: "success", // Biểu tượng thành công
+            showConfirmButton: false, // Ẩn nút OK
+            timer: 1000, // Thời gian đóng tự động (ms)
+            timerProgressBar: true, // Hiển thị thanh tiến trình
+            background: "#fefefe", // Màu nền
+            color: "#333", // Màu chữ
+            customClass: {
+              popup: "swal-custom-popup", 
+            }
+          })
+          setTimeout(() => {
+            navigate("/");
+          }, 1000)
+          
         } catch (error) {
           console.log(error);
         }

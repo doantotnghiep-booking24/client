@@ -61,7 +61,7 @@ function Tour_Demo() {
       tours.filter((tour) => !tour.isDeleted).map((tour) => tour.End_Tour)
     )
   );
-  console.log(tourNames);
+
 
   const { data: categories } = useQuery({
     queryKey: ["cate"],
@@ -92,7 +92,6 @@ function Tour_Demo() {
 
   const filterTours = () => {
     return tours.filter((tour) => {
-      console.log('tour', tour.Name_Tour);
 
       const checkPrice =
         tour.Price_Tour >= minPrice && tour.Price_Tour <= maxPrice;
@@ -136,7 +135,7 @@ function Tour_Demo() {
 
   useEffect(() => {
     const filtered = filterTours();
-    console.log('filtered', filtered);
+
 
     setFilteredTours(filtered);
     setCurrentPage(1);
@@ -278,6 +277,9 @@ function Tour_Demo() {
             </div>
     </Box>
   );
+
+
+  
   return (
     <div className={cx("wrap")}>
       <div className={cx("banner")}>

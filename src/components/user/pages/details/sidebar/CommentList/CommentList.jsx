@@ -38,6 +38,7 @@ const CommentList = ({
       return null; 
     }
   })();
+console.log(user);
 
   return (
     <div>
@@ -113,7 +114,8 @@ const CommentList = ({
                   onClick={() => handleLike(item?._id)}
                 >
                   <span>Hữu ích</span>
-                  {item?.likes?.includes(dataAuth?._id) ? (
+           
+                  { item?.likes?.includes(dataAuth?._id) ? (
                     <ThumbUpIcon />
                   ) : (
                     <ThumbUpOffAltIcon />

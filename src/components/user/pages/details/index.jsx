@@ -42,8 +42,11 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { fetchTourDetails } from "../../../../services/fetchTourDetails";
 import dayjs from "dayjs";
 import axios from "axios";
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import 'react-vertical-timeline-component/style.min.css';
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
+import "react-vertical-timeline-component/style.min.css";
 import {
   ToursRelateds,
   Shedule_tour_Byid,
@@ -65,7 +68,7 @@ import { MdLocalHotel } from "react-icons/md";
 import { GetAllTimeSchedule } from "../../../../services/getTimeSchedule";
 function Details() {
   const isAuth = Cookies.get("auth");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const user = (() => {
     try {
@@ -83,7 +86,12 @@ function Details() {
     }
   })();
   const { Name, photoUrl, _id } = user;
-  const { Data_ToursRelated, Data_SheduleTourByid, Data_TourFavourite, Data_Hotels } = useSelector((state) => state.PageDetail)
+  const {
+    Data_ToursRelated,
+    Data_SheduleTourByid,
+    Data_TourFavourite,
+    Data_Hotels,
+  } = useSelector((state) => state.PageDetail);
 
   const { id } = useParams();
   const Name_user = Name || "User";
@@ -100,8 +108,8 @@ function Details() {
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [dataHotel, setDataHotel] = useState();
-  const [timeSchedule, setTimeSchedule] = useState([])
-  const [valueTime, setValueTime] = useState()
+  const [timeSchedule, setTimeSchedule] = useState([]);
+  const [valueTime, setValueTime] = useState();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -147,15 +155,14 @@ function Details() {
   }, [selectedTab]);
   useEffect(() => {
     const handleGetTimeSchedule = async () => {
-      const res = await GetAllTimeSchedule()
-      setTimeSchedule(res.TimeSchedules)
-    }
-    handleGetTimeSchedule()
-  }, [])
+      const res = await GetAllTimeSchedule();
+      setTimeSchedule(res.TimeSchedules);
+    };
+    handleGetTimeSchedule();
+  }, []);
   const handleGetTimeSchedule = (e) => {
-    setValueTime(e.value)
-  }
-
+    setValueTime(e.value);
+  };
 
   useEffect(() => {
     if (RefScroll) {
@@ -190,7 +197,8 @@ function Details() {
 
   const ress = Data_TourFavourite?.some(
     (tour_Fav) =>
-      tour_Fav?.id_User?.includes(id_user) && tour_Fav?.id_Tour?.includes(id));
+      tour_Fav?.id_User?.includes(id_user) && tour_Fav?.id_Tour?.includes(id)
+  );
 
   const handleGetTourFavourite = async () => {
     const res = await GetToursFavourite();
@@ -261,8 +269,7 @@ function Details() {
           if (res.status === 200 && res.statusText === "OK" && _id) {
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
           } else {
-            console.log('please login first');
-
+            console.log("please login first");
           }
         }, 500);
       };
@@ -475,52 +482,94 @@ function Details() {
                   <div>
                     {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}> */}
                     <div className={cx("content__home-title")}>
-                      <VerticalTimeline style={{ height: '100px' }} lineColor="#C0C0C0" >
+                      <VerticalTimeline
+                        style={{ height: "100px" }}
+                        lineColor="#C0C0C0"
+                      >
                         <VerticalTimelineElement
                           className="vertical-timeline-element--work"
-                          contentStyle={{ background: '#a3cef1', color: 'black' }}
-                          contentArrowStyle={{ borderRight: '7px solid #a3cef1' }}
+                          contentStyle={{
+                            background: "#a3cef1",
+                            color: "black",
+                          }}
+                          contentArrowStyle={{
+                            borderRight: "7px solid #a3cef1",
+                          }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule}`}
-                          iconStyle={{ background: '#a3cef1', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{
+                            background: "#a3cef1",
+                            marginLeft: "-15px",
+                            marginTop: "15px",
+                            color: "#fff",
+                            width: "30px",
+                            height: "30px",
+                          }}
                           icon={<FaBus />}
-
                         >
                           {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
-                          <h4 className="vertical-timeline-element-subtitle">Sáng</h4>
+                          <h4 className="vertical-timeline-element-subtitle">
+                            Sáng
+                          </h4>
                           <p>
                             {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
                           </p>
                         </VerticalTimelineElement>
                         <VerticalTimelineElement
                           className="vertical-timeline-element--work"
-                          contentStyle={{ background: '#fbd1a2', color: 'black' }}
-                          contentArrowStyle={{ borderRight: '7px solid  #fbd1a2' }}
+                          contentStyle={{
+                            background: "#fbd1a2",
+                            color: "black",
+                          }}
+                          contentArrowStyle={{
+                            borderRight: "7px solid  #fbd1a2",
+                          }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Time_Noon_Schedule}`}
-                          iconStyle={{ background: '#fbd1a2', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{
+                            background: "#fbd1a2",
+                            marginLeft: "-15px",
+                            marginTop: "15px",
+                            color: "#fff",
+                            width: "30px",
+                            height: "30px",
+                          }}
                           icon={<MdLunchDining />}
-
                         >
                           {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
-                          <h4 className="vertical-timeline-element-subtitle">Trưa</h4>
+                          <h4 className="vertical-timeline-element-subtitle">
+                            Trưa
+                          </h4>
                           <p>
                             {`${Data_SheduleTourByid[0]?.Shedule_Noon[0]?.Text_Schedule_Noon}`}
                           </p>
                         </VerticalTimelineElement>
                         <VerticalTimelineElement
                           className="vertical-timeline-element--work"
-                          contentStyle={{ background: '#7dcfb6', color: 'black' }}
-                          contentArrowStyle={{ borderRight: '7px solid  #7dcfb6' }}
+                          contentStyle={{
+                            background: "#7dcfb6",
+                            color: "black",
+                          }}
+                          contentArrowStyle={{
+                            borderRight: "7px solid  #7dcfb6",
+                          }}
                           date={`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Time_Afternoon_Schedule}`}
-                          iconStyle={{ background: '#7dcfb6', marginLeft: '-15px', marginTop: '15px', color: '#fff', width: '30px', height: '30px' }}
+                          iconStyle={{
+                            background: "#7dcfb6",
+                            marginLeft: "-15px",
+                            marginTop: "15px",
+                            color: "#fff",
+                            width: "30px",
+                            height: "30px",
+                          }}
                           icon={<MdLocalHotel />}
                         >
                           {/* <h3 className="vertical-timeline-element-title">Creative Director</h3> */}
-                          <h4 className="vertical-timeline-element-subtitle">Chiều - Tối</h4>
+                          <h4 className="vertical-timeline-element-subtitle">
+                            Chiều - Tối
+                          </h4>
                           <p>
                             {`${Data_SheduleTourByid[0]?.Shedule_Afternoon[0]?.Text_Schedule_Afternoon}`}
                           </p>
                         </VerticalTimelineElement>
-
                       </VerticalTimeline>
                       {/* <span className={cx("content__home-desc")}>
                         {`${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Time_Morning_Schedule} : ${Data_SheduleTourByid[0]?.Shedule_Morning[0]?.Text_Schedule_Morning}`}
@@ -655,46 +704,56 @@ function Details() {
                   </div>
                   <SideBarComponent reviewButton={"right"} />
                 </div>
-
               </div>
               <aside className={cx("aside")}>
                 <div className={cx("aside__account")}>
-                  <img
-                    src={photoUrl_user}
-                    alt=""
-                    className={cx("account__img")}
-                  />
-                  <h3 className={cx("account__name")}>{Name_user}</h3>
-                  <LogoutIcon className={cx("account__icon")} />
+                  {isAuth ? (
+                    <>
+                      <img
+                        src={photoUrl_user}
+                        alt=""
+                        className={cx("account__img")}
+                      />
+                      <h3 className={cx("account__name")}>{Name_user}</h3>
+                      <LogoutIcon className={cx("account__icon")} />
+                    </>
+                  ) : (
+                    <>
+                   
+                  </>
+                  )}
                 </div>
 
-                <div className={cx("aside__booking")}>
+                <div className={cx(`${isAuth ? "aside__booking": "aside__booking_notauth"}`)}>
                   <div className={cx("aside__booking-action")}>
                     <div className={cx("heading")}>
                       <h5>{tour?.Name_Tour}</h5>
-                      <span  >{tour?.Title_Tour}</span>
+                      <span>{tour?.Title_Tour}</span>
                     </div>
                     <div className={cx("sub")}>
                       <div className={cx("heart")}>
-                        {isAuth ? <>{is_Loading ? (
-                          <CircularProgress size={20} color="inherit" />
+                        {isAuth ? (
+                          <>
+                            {is_Loading ? (
+                              <CircularProgress size={20} color="inherit" />
+                            ) : (
+                              <FavoriteIcon
+                                fontSize="medium"
+                                sx={
+                                  ress
+                                    ? { color: "red", cursor: "pointer" }
+                                    : { color: "gray", cursor: "pointer" }
+                                }
+                                onClick={handleTourFavourite}
+                              />
+                            )}
+                          </>
                         ) : (
                           <FavoriteIcon
                             fontSize="medium"
-                            sx={
-                              ress
-                                ? { color: "red", cursor: "pointer" }
-                                : { color: "gray", cursor: "pointer" }
-                            }
-                            onClick={handleTourFavourite}
+                            sx={{ color: "gray", cursor: "pointer" }}
                           />
-                        )}</> : <FavoriteIcon
-                          fontSize="medium"
-                          sx={
-                            { color: "gray", cursor: "pointer" }
-                          }
-                        />}
-
+                        )}
                       </div>
                       <div className={cx("share")}>
                         <ShareOutlinedIcon fontSize="small" />
@@ -723,7 +782,7 @@ function Details() {
                   <div className={cx("aside__booking-list")}>
                     <Select
                       // {timeSchedule.map}
-                      options={timeSchedule.map(timeSchedule => ({
+                      options={timeSchedule.map((timeSchedule) => ({
                         value: timeSchedule.TimeSchedule, // Giả sử có một thuộc tính id để làm giá trị
                         label: timeSchedule.TimeSchedule, // Giả sử có một thuộc tính time để làm nhãn
                       }))}
@@ -856,7 +915,7 @@ function Details() {
                       className={cx("aside__booking-btn")}
                       onClick={handleCreateTicket}
                     >
-                      {!_id ? "Vui lòng đăng nhập để đặt tour" : ' Đặt ngay'}
+                      {!_id ? "Vui lòng đăng nhập để đặt tour" : " Đặt ngay"}
                     </Button>
                   </div>
                 </div>
@@ -1092,7 +1151,6 @@ function Details() {
                     </div>
                     <SideBarComponent reviewButton={"right"} />
                   </div>
-
                 </div>
               </aside>
 

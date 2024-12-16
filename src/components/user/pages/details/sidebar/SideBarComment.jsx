@@ -113,7 +113,6 @@ export default function SideBarComponent({ reviewButton }) {
     try {
       const result = await fetch(`${api}/${id}`, { credentials: "include" });
       const data = await result.json();
-
       setDataComment(data.data);
     } catch (error) {
       console.log(error);
@@ -146,17 +145,28 @@ export default function SideBarComponent({ reviewButton }) {
   };
 
   const handleLike = (commentId) => {
-    socketRef.current.emit("toggleLikeComment", {
-      commentId,
-      userId: dataAuth._id,
-    });
+    if(user) {
+      socketRef.current.emit("toggleLikeComment", {
+        commentId,
+        userId: dataAuth._id,
+      });
+
+    }else {
+      alert("please login")
+    }
+    
   };
 
   const handleDislike = (commentId) => {
-    socketRef.current.emit("toggleDisLikeComment", {
-      commentId,
-      userId: dataAuth._id,
-    });
+    if(user) {
+      socketRef.current.emit("toggleDisLikeComment", {
+        commentId,
+        userId: dataAuth._id,
+      });
+    }else {
+      alert("please login")
+    }
+    
   };
 
   const updateCommentState = (updatedComment) => {

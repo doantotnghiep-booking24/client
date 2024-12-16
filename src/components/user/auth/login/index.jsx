@@ -85,7 +85,6 @@ function SigninForm({ onSwitchMode }) {
     try {
       const res = await axios.post(api, valueInput);
       const data = await res.data;
-      console.log(data);
 
       if (data) {
         dispatch(addAuth(data.inforUser));
@@ -94,9 +93,12 @@ function SigninForm({ onSwitchMode }) {
           title: "Đăng nhập thành công!",
           text: "Chào mừng bạn đến với hệ thống.",
           icon: "success",
-          confirmButtonText: "OK",
+          
         }).then(() => {
-          navigate("/");
+          setTimeout(() => {
+            navigate("/");
+          }, 500)
+         
         });
       } else {
         console.log("error");
