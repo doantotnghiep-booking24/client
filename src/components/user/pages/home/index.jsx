@@ -106,10 +106,11 @@ function Home() {
     }
   };
 
-  const handleSearch = (e) => {
-    // e.preventDefault()
+  const handleSearch = (e,name) => {
+    const isCheck = name ? name : searchName
+    // alert(name)
     if (searchName.trim()) {
-      navigate(`/tours?search=${encodeURIComponent(searchName)}`);
+      navigate(`/tours?search=${encodeURIComponent(isCheck)}`);
     }
   };
   const handleSearchEnter = (e) => {
@@ -120,9 +121,9 @@ function Home() {
   // console.log(searchName);
 
   const handleSuggestionClick = (value) => {
-    setSearchName(value);
+    // setSearchName(value);
     setIsSuggestionsVisible(false);
-    handleSearch(value); 
+    handleSearch('',value); 
   };
   const closeSuggestions = () => {
     setTimeout(() => setIsSuggestionsVisible(false), 300);
