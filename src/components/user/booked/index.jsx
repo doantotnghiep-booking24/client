@@ -312,14 +312,14 @@ function BookingForm() {
             <label>Ngày kết thúc : <strong>{ticket_info.End_Date}</strong></label>
           </div> */}
           <div className="form-group">
-            <label>Số người</label>
+            <label>Số người : <strong>{ticket_info.Adult + ticket_info.Children}</strong> </label>
             <div className="tour-info">
               <p><strong>Trẻ em :</strong> {ticket_info.Children}</p>
               <p><strong>Người lớn :</strong> {ticket_info.Adult}</p>
             </div>
           </div>
           <div className="room-type">
-            <p>Khách Sạn : <strong>{ticket_info?.Name_Hotel}</strong></p>
+            <p>Khách Sạn : <strong>{ticket_info?.Name_Hotel ? ticket_info?.Name_Hotel : 'Không có'}</strong></p>
             <div className="room-option">
               <span>Số Lượng Phòng : <strong>{ticket_info?.Number_Of_Hotel}</strong></span>
             </div>

@@ -264,7 +264,7 @@ function Details() {
             console.log('please login first');
 
           }
-        }, 500);
+        }, 300);
       };
       ResponseTicket();
     } else {
