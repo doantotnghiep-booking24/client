@@ -109,7 +109,7 @@ export default function SideBarComponent({ reviewButton }) {
     }
   };
   const getAllDataReview = async () => {
-    const api = "http://localhost:3001/V1/Review/GetReview";
+    const api = "https://bookingtravel-44jm.onrender.com/V1/Review/GetReview";
     try {
       const result = await fetch(`${api}/${id}`, { credentials: "include" });
       const data = await result.json();
@@ -119,7 +119,7 @@ export default function SideBarComponent({ reviewButton }) {
     }
   };
   const getDataTour = async () => {
-    const api = "http://localhost:3001/V1/Tours/DetailTour";
+    const api = "https://bookingtravel-44jm.onrender.com/V1/Tours/DetailTour";
     try {
       const result = await fetch(`${api}/${id}`, { credentials: "include" });
       const data = await result.json();
