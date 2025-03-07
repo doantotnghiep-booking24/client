@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const BASE_URL = "https://f5travel-be-datn.onrender.com/";
+const BASE_URL = "https://bookingtravel-44jm.onrender.com";
 
 const fetchRandomTours = async () => {
   const limit = 3;
