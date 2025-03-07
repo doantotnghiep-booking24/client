@@ -364,7 +364,7 @@ function Details() {
   }, [id]);
 
   const getCommentRating = async () => {
-    const api = "http://localhost:3001/V1/Tours/AllComment";
+    const api = "https://bookingtravel-44jm.onrender.com/V1/Tours/AllComment";
     try {
       const res = await axios.get(`${api}/${id}`, { withCredentials: true });
 
