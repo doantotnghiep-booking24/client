@@ -315,7 +315,7 @@ const Profile_Detail = () => {
 
   const handleSave = async () => {
     setIsLoading(true);
-    const api = `http://localhost:3001/User/Edit-User/${user._id}`;
+    const api = `https://bookingtravel-44jm.onrender.com/User/Edit-User/${user._id}`;
 
     const formData = new FormData();
 
