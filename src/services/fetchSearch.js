@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const fetchTours = async (page, limit, nameSearch = '', priceSearch = { min: 0, max: 0 }, categoryId = '') => {
-  const { data } = await axios.get('http://localhost:3001/V1/Tours/SearchTour', {
+  const { data } = await axios.get('https://bookingtravel-44jm.onrender.com/V1/Tours/SearchTour', {
     withCredentials: true,
     params: {
       page,
@@ -16,7 +16,7 @@ const fetchTours = async (page, limit, nameSearch = '', priceSearch = { min: 0, 
 };
 
 export const searchTours = async (name, price) => {
-    const response = await axios.get('/V1/Tours/SearchTour', {
+    const response = await axios.get('https://bookingtravel-44jm.onrender.com/V1/Tours/SearchTour', {
         params: {
             NameSearch: name,
             PriceSearch: price
