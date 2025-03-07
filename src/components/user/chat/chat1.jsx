@@ -9,7 +9,7 @@ import { receiveMessage, sendMessage, dataChat } from '../../../redux/features/C
 import io from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { fetchChat } from '../../../services/fetchChat';
-const socket = io('http://localhost:3001');
+const socket = io('https://bookingtravel-44jm.onrender.com');
 
 const Chat = () => {
   const refScrollText = useRef(null)
