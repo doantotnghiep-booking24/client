@@ -57,7 +57,7 @@ export default function ModalAddNew({
 
   React.useEffect(() => {
     // Kết nối đến Socket.IO server
-    socketRef.current = io("http://localhost:3001");
+    socketRef.current = io("https://bookingtravel-44jm.onrender.com");
     socketRef.current.on("connect", () => {
       console.log("Connecting...");
     });
