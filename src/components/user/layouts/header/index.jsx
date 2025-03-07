@@ -31,7 +31,7 @@ import { useQuery } from "@tanstack/react-query";
 import Rating from "@mui/material/Rating";
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 const cx = classNames.bind(styles);
-const BASE_URL = "http://localhost:3001/V1/Tours";
+const BASE_URL = "https://bookingtravel-44jm.onrender.com/V1/Tours";
 
 const fetchMenuTours = async () => {
   const response = await axios.get(`${BASE_URL}/GetTours`, {
