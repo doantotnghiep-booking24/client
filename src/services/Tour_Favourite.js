@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const CreateTourFavourite = async (data) => {
   const response = await axios.post(
-    "http://localhost:3001/TourFavourites/CreateTourFavourite",
+    "https://bookingtravel-44jm.onrender.com/TourFavourites/CreateTourFavourite",
     data,
     { withCredentials: true }
   );
@@ -10,7 +10,7 @@ export const CreateTourFavourite = async (data) => {
 };
 export const CancleTourFavourite = async (id) => {
   const response = await axios.post(
-    `http://localhost:3001/TourFavourites/CancleTourFavourite/${id}`,
+    `https://bookingtravel-44jm.onrender.com/TourFavourites/CancleTourFavourite/${id}`,
     {},
     { withCredentials: true }
   );
@@ -18,7 +18,7 @@ export const CancleTourFavourite = async (id) => {
 };
 export const GetToursFavourite = async () => {
   const response = await axios.get(
-    `http://localhost:3001/TourFavourites/GetTourFavourite`,
+    `https://bookingtravel-44jm.onrender.com/TourFavourites/GetTourFavourite`,
     { withCredentials: true }
   );
   return response.data;
