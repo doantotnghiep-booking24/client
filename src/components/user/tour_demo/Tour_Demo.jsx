@@ -29,7 +29,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const cx = classNames.bind(styles);
 
-const BASE_URL = "https://bookingtravel-44jm.onrender.com/V1/Tours";
+const BASE_URL = "https://bookingtravel-44jm.onrender.com";
 
 const searchTours = async (name) => {
   const response = await axios.get(`${BASE_URL}/SearchTour`, {
