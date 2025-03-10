@@ -27,7 +27,7 @@ const FormPasswordReset = () => {
 
   const handleRequestCode = async () => {
     setIsLoading(true);
-    const api = "http://localhost:3001/User/Password-reset/request";
+    const api = "https://bookingtravel-44jm.onrender.com/User/Password-reset/request";
 
     const email = existingData.Email;
 
