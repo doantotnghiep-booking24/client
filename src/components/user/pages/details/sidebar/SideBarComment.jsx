@@ -59,7 +59,7 @@ export default function SideBarComponent({ reviewButton }) {
 
   
   React.useEffect(() => {
-    socketRef.current = io("http://localhost:3001");
+    socketRef.current = io("https://bookingtravel-44jm.onrender.com");
     socketRef.current.on("connect", () => {
       console.log("Connecting sidebar...");
     });
@@ -86,7 +86,7 @@ export default function SideBarComponent({ reviewButton }) {
 
   const getAllTicket = async () => {
     try {
-      const res = await fetch('http://localhost:3001/Ticket/GetAllTicket', { credentials: "include" });
+      const res = await fetch('https://bookingtravel-44jm.onrender.com', { credentials: "include" });
       const data = await res.json();
       setDataTicket(data.Tickets)
     } catch (error) {
