@@ -80,7 +80,7 @@ function SignupForm({ onSwitchMode }) {
 
   const handleSignup = async () => {
     setIsLoading(true);
-    const api = "http://localhost:3001/User/Register";
+    const api = "https://bookingtravel-44jm.onrender.com/User/Register";
     if (emailError || passwordError || nameError) {
       setIsLoading(false);
       return Swal.fire({
