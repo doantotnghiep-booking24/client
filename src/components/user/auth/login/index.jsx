@@ -88,6 +88,7 @@ function SigninForm({ onSwitchMode }) {
 
       if (data) {
         dispatch(addAuth(data.inforUser));
+        console.log(data.infoUser)
         setIsLoading(false);
         Swal.fire({
           title: "Đăng nhập thành công!",
