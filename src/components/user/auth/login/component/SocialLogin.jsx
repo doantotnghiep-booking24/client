@@ -17,7 +17,7 @@ const SocialLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLoginGoogle = async () => {
-    const api = "http://localhost:3001/User/LoginWithGoogle";
+    const api = "https://bookingtravel-44jm.onrender.com/User/LoginWithGoogle";
     try {
       const result = await signInWithPopup(auth, provider);
       console.log(result);
@@ -61,7 +61,7 @@ const SocialLogin = () => {
   };
 
   const handleLoginFacebook = async () => {
-    const api = "http://localhost:3001/User/LoginWithFacebook";
+    const api = "https://bookingtravel-44jm.onrender.com/User/LoginWithFacebook";
     try {
       const provider = new FacebookAuthProvider();
       const result = await signInWithPopup(auth, provider);
