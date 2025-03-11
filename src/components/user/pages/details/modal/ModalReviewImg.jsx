@@ -29,12 +29,12 @@ export default function ModalReviewImg({
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleNextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % imgReview.length);
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % imgReview?.length);
   };
 
   const handlePrevSlide = () => {
     setCurrentSlide(
-      (prevSlide) => (prevSlide - 1 + imgReview.length) % imgReview.length // Tránh giá trị âm
+      (prevSlide) => (prevSlide - 1 + imgReview?.length) % imgReview?.length // Tránh giá trị âm
     );
   };
 
