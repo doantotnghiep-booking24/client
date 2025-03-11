@@ -135,7 +135,7 @@ const Chat = () => {
 
   const callMessages = async () => {
     const res = await fetchChat(userId)
-    dispatch(dataChat(res[0].messages))
+    dispatch(dataChat(res[0]?.messages))
   }
   useEffect(() => {
     callMessages()
