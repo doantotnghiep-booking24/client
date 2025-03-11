@@ -453,7 +453,7 @@ function Details() {
                       <span className={cx("content__home-desc")}>
                         {tour.Description_Tour.slice(
                           0,
-                          `${isExpanded ? tour.Description_Tour.length : 300}`
+                          `${isExpanded ? tour.Description_Tour?.length : 300}`
                         )}
                       </span>
                     </div>
