@@ -103,7 +103,7 @@ export default function ModalAddNew({
   };
 
   const handleAddNewReview = async () => {
-    if(valueInput.content.length <= 30 ) {
+    if(valueInput?.content?.length <= 30 ) {
       setIsCheckContent("Vui lòng nhập trên 30 kí tự")
       return 
     } 
