@@ -23,9 +23,10 @@ const authSlice = createSlice({
 
             Cookies.set("auth", JSON.stringify(action.payload), {
                 sameSite: "Lax",
+                httpOnly: true,
                 expires: 3,
                 path: '/',
-                domain: 'https://frontend-booking-ovf1.onrender.com'
+                domain: '.https://frontend-booking-ovf1.onrender.com'
             });
         },
         logoutAuth: (state) => {
