@@ -194,7 +194,7 @@ export default function SideBarComponent({ reviewButton }) {
 
 
 React.useEffect(() => {
-  if (dataTicket.length > 0) {
+  if (dataTicket?.length > 0) {
     checkIfBooked(); 
   }
 }, [dataTicket]);
