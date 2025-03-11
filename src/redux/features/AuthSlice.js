@@ -26,7 +26,7 @@ const authSlice = createSlice({
                 httpOnly: true,
                 expires: 3,
                 path: '/',
-                domain: '.frontend-booking-ovf1.onrender.com'
+                domain: 'frontend-booking-ovf1.onrender.com'
             });
         },
         logoutAuth: (state) => {
