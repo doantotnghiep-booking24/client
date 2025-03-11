@@ -22,11 +22,12 @@ const authSlice = createSlice({
             state.RefreshToken = action.payload.RefreshToken;
 
             Cookies.set("auth", JSON.stringify(action.payload), {
-                sameSite: "Lax",
+                sameSite: "None",
                 httpOnly: true,
                 expires: 3,
                 path: '/',
-                domain: 'frontend-booking-ovf1.onrender.com'
+                domain: 'frontend-booking-ovf1.onrender.com',
+                secure: true,
             });
         },
         logoutAuth: (state) => {
