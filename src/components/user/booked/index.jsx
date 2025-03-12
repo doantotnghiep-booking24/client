@@ -78,7 +78,7 @@ function BookingForm() {
           ...getFormValue
         }
         const res = await CreateUrlVnpay(data)
-        if (res.status === 200 && res.statusText === 'OK') {
+        if (res.status === 200 || res.statusText === 'OK') {
           setTimeout(() => {
             window.location.href = `${res.data}`
           }, 1000)
@@ -110,7 +110,7 @@ function BookingForm() {
           ...getFormValue
         }
         const res = await CreateUrlZalopay(data)
-        if (res.status === 200 && res.statusText === 'OK') {
+        if (res.status === 200 || res.statusText === 'OK') {
           setTimeout(() => {
             window.location.href = `${res.data.Message.order_url}`
           }, 1000)
@@ -148,7 +148,7 @@ function BookingForm() {
           ...getFormValue
         }
         const res = await CreateUrlZalopay(data)
-        if (res.status === 200 && res.statusText === 'OK') {
+        if (res.status === 200 || res.statusText === 'OK') {
           window.location.href = `${res.data.Message.order_url}`
         }
 
@@ -173,7 +173,7 @@ function BookingForm() {
   //         ...getFormValue
   //       }
   //       const res = await CreateUrlVnpay(data)
-  //       if (res.status === 200 && res.statusText === 'OK') {
+  //       if (res.status === 200 || res.statusText === 'OK') {
   //         window.location.href = `${res.data}`
   //       }
   //     }
