@@ -267,7 +267,7 @@ function Details() {
           const res = await CreateTicket(data);
 
           if (res.status === 200 && res.statusText === "OK" && _id) {
-            navigate(`/booked/${res.data.ticKetId.insertedId}`);
+            navigate(`https://frontend-booking-ovf1.onrender.com/booked/${res.data.ticKetId.insertedId}`);
           } else {
             console.log("please login first");
           }
