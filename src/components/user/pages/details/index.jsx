@@ -266,8 +266,8 @@ function Details() {
         setTimeout(async () => {
           const res = await CreateTicket(data);
 
-            console.log(res.status,res.statusText)
-          if (res.status === 200 && res.statusText === "OK" && _id) {
+          if (res.status === 200 || res.statusText === "OK" && _id) {
+            // console.log(res.status,res.statusText)
             navigate(`/booked/${res.data.ticKetId.insertedId}`);
           }
         }, 500);
