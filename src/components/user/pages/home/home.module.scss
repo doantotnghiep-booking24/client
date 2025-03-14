@@ -18,7 +18,7 @@
   transform: translate(-50%, -60%);
 }
 .banner__text {
-  color: var(--font-color);
+  color: #fff;
 
   h1 {
     margin-top: 10px;
@@ -28,7 +28,7 @@
   }
   span {
     text-transform: uppercase;
-    font-size: var(--font-size);
+    font-size: 14px;
     display: block ; 
     margin-top: 10px;
   }
@@ -39,7 +39,7 @@
   .banner__section-btn {
     width: 180px;
     height: 48px;     
-    background-color: var(--bg-primary) !important;
+    background-color: #3fd0d4 !important;
     border-radius: 8px;
   }
 }
@@ -56,7 +56,7 @@
   }
   .search__menu-item{
     text-decoration: none;
-    color: var(--color-text);
+    color: #212121;
     display: flex;
     margin-top: 20px;
   }
@@ -90,7 +90,7 @@
     }
 
     .price{
-      color: var(--color-primary);
+      color: #3fd0d4;
     }
   }
 }
@@ -137,7 +137,7 @@
   margin: 10px 5px 5px 0;
   color: #9a9a9a;
   letter-spacing: 2px;
-  font-size: var(--font-size);
+  font-size: 14px;
 
   .icon {
     margin-right: 5px;
@@ -167,7 +167,7 @@
   margin-top: 25px;
   color: #9a9a9a;
   letter-spacing: 1px;
-  font-size: var(--font-size);
+  font-size: 14px;
   line-height: 25px;
   text-align: justify;
   display: -webkit-box;
@@ -178,7 +178,7 @@
 }
 .vacation__item-btn {
   margin-top: 20px !important;
-  background-color: var(--bg-primary) !important;
+  background-color: #3fd0d4 !important;
   border-radius: 30px !important;
   padding: 6px 24px !important;
 }
@@ -204,7 +204,7 @@
 
 .travel__review-text {
   text-align: center;
-  color: var(--font-color);
+  color: #fff;
   margin: 0 auto;
 
   span {
@@ -222,7 +222,7 @@
 
   p {
     font-size: 17px;
-    color: var(--font-color);
+    color: #fff;
   }
 }
 
@@ -231,7 +231,7 @@
 }
 
 .travel__review-item {
-  background-color: var(--font-color);
+  background-color: #fff;
   display: flex !important;
   align-items: center;
   border-radius: 6px;
@@ -255,7 +255,7 @@
 
   .name {
     font-weight: 700;
-    color: var(--color-text);
+    color: #212121;
     margin: 0;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
@@ -264,14 +264,14 @@
     text-overflow: ellipsis;
     white-space: normal;
     &:hover {
-      color: var(--color-primary);
+      color: #3fd0d4;
       cursor: pointer;
     }
   }
 
   .star {
     margin-top: 4px;
-    color: var(--color-primary);
+    color: #3fd0d4;
 
     .start-icon {
       margin-right: 5px;
@@ -294,7 +294,7 @@
   .location {
     margin-top: 10px;
     font-weight: 600;
-    color: var(--color-text);
+    color: #212121;
   }
 }
 
@@ -332,16 +332,16 @@
 }
 .blog-item-title {
   padding: 0 28px;
-  font-size: var(--font-size);
+  font-size: 14px;
 }
 .blog-item-hed {
   font-weight: 700;
   text-decoration: none;
-  color: var(--color-text);
+  color: #212121;
   font-size: 20px;
 }
 .blog-item-hed:hover {
-  color: var(--color-primary);
+  color: #3fd0d4;
 }
 .blog-item-sub {
   color: #505050;
