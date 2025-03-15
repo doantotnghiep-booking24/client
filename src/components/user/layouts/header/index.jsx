@@ -156,7 +156,7 @@ function Header() {
   const handleLogout = () => {
     dispatch(logoutAuth());
     setTimeout(() => {
-      navigate("/");
+      navigate("https://frontend-booking-ovf1.onrender.com");
     }, 500)
   };
   const isTokenExpired = (token) => {
