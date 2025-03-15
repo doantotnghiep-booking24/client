@@ -57,7 +57,7 @@ export default function ModalAddNew({
 
   React.useEffect(() => {
     // Kết nối đến Socket.IO server
-    socketRef.current = io("https://bookingtravel-44jm.onrender.com");
+    socketRef.current = io("http://localhost:3001");
     socketRef.current.on("connect", () => {
       console.log("Connecting...");
     });
@@ -103,7 +103,7 @@ export default function ModalAddNew({
   };
 
   const handleAddNewReview = async () => {
-    if(valueInput?.content?.length <= 30 ) {
+    if(valueInput.content.length <= 30 ) {
       setIsCheckContent("Vui lòng nhập trên 30 kí tự")
       return 
     } 
@@ -126,21 +126,7 @@ export default function ModalAddNew({
     try {
       // Gửi bình luận đến server
       const response = await fetch(
-        "https://frontend-booking-ovf1.onrender.com/V1/Review/AddNewReview",
-        {
-          method: "POST",
-          body: formData,
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-       // Gửi bình luận đến server
-      const response = await fetch(
-        "https://frontend-booking-ovf1.onrender.com/V1/Review/AddNewReview",
+        "http://localhost:3001/V1/Review/AddNewReview",
         {
           method: "POST",
           body: formData,
@@ -153,15 +139,6 @@ export default function ModalAddNew({
       }
 
       const result = await response.json();
-      socketRef.current.emit("newComment", result); // Sử dụng socketRef.current
-    } catch (error) {
-      console.error("Có lỗi xảy ra khi gửi bình luận:", error);
-    } finally {
-      setIsLoading(false);
-      handleClose();
-    }
-  };
-();
       socketRef.current.emit("newComment", result); // Sử dụng socketRef.current
     } catch (error) {
       console.error("Có lỗi xảy ra khi gửi bình luận:", error);
