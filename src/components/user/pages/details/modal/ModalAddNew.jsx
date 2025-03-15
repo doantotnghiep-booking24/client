@@ -138,7 +138,32 @@ export default function ModalAddNew({
         throw new Error("Network response was not ok");
       }
 
-      const result = await response.json();
+      const result = await response.  // Gửi bình luận đến server
+      const response = await fetch(
+        "https://frontend-booking-ovf1.onrender.com/V1/Review/AddNewReview",
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // const result = await response.json();
+      const responseText = await response.text();
+      const result = JSON.parse(responseText); 
+      socketRef.current.emit("newComment", result); // Sử dụng socketRef.current
+    } catch (error) {
+      console.error("Có lỗi xảy ra khi gửi bình luận:", error);
+    } finally {
+      setIsLoading(false);
+      handleClose();
+    }
+  };
+();
       socketRef.current.emit("newComment", result); // Sử dụng socketRef.current
     } catch (error) {
       console.error("Có lỗi xảy ra khi gửi bình luận:", error);
