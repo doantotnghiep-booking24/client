@@ -57,7 +57,7 @@ export default function ModalAddNew({
 
   React.useEffect(() => {
     // Kết nối đến Socket.IO server
-    socketRef.current = io("http://localhost:3001");
+    socketRef.current = io("https://bookingtravel-44jm.onrender.com");
     socketRef.current.on("connect", () => {
       console.log("Connecting...");
     });
@@ -126,7 +126,7 @@ export default function ModalAddNew({
     try {
       // Gửi bình luận đến server
       const response = await fetch(
-        "http://localhost:3001/V1/Review/AddNewReview",
+        "https://bookingtravel-44jm.onrender.com/V1/Review/AddNewReview",
         {
           method: "POST",
           body: formData,
