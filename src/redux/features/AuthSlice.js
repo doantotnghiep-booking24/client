@@ -37,7 +37,12 @@ const authSlice = createSlice({
             state.AccessToken = "";
             state.RefreshToken = "";
 
-            Cookies.remove("auth");
+            Cookies.remove("auth", {
+    sameSite: "none",
+    path: '/',
+    domain: 'frontend-booking-ovf1.onrender.com',
+    secure: true,
+});
         },
         updateUser: (state, action) => {
             const updatedData = action.payload;
