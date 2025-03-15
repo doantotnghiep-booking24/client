@@ -755,7 +755,7 @@ function Header() {
                   color: '#fff',
                   bgcolor: "#3fd0d4",
                   borderRadius: '30px',
-                  width: '85px',
+                  // width: '85px',
                   fontWeight: "600",
                   textTransform: "inherit",
                   "&:hover": {
