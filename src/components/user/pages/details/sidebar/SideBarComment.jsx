@@ -96,17 +96,12 @@ export default function SideBarComponent({ reviewButton }) {
   const checkIfBooked = () => {
     if(!_id) return
     
-    const userTicket = dataTicket.find(ticket => ticket.id_user === _id && ticket.id_tour === id && ticket.Status === "Đã Xác Nhận");
-    if (userTicket) {
-      
+    const userTicket = dataTicket.find(ticket => ticket.id_user === _id && ticket.id_tour === id && ticket.Status_Payment === "Đã Thanh Toán");
       if (userTicket) {
         return setIsCheckReview(true);  
       } else {
         return setIsCheckReview(false); 
       }
-    } else {
-      return setIsCheckReview(false);  
-    }
   };
   const getAllDataReview = async () => {
     const api = "https://bookingtravel-44jm.onrender.com/V1/Review/GetReview";
