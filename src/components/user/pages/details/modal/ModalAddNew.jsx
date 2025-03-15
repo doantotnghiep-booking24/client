@@ -138,7 +138,7 @@ export default function ModalAddNew({
         throw new Error("Network response was not ok");
       }
 
-      const result = await response.  // Gửi bình luận đến server
+       // Gửi bình luận đến server
       const response = await fetch(
         "https://frontend-booking-ovf1.onrender.com/V1/Review/AddNewReview",
         {
