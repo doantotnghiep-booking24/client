@@ -126,7 +126,7 @@ export default function ModalAddNew({
     try {
       // Gửi bình luận đến server
       const response = await fetch(
-        "http://localhost:3001/V1/Review/AddNewReview",
+        "https://frontend-booking-ovf1.onrender.com/V1/Review/AddNewReview",
         {
           method: "POST",
           body: formData,
