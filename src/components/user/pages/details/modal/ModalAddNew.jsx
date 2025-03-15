@@ -152,9 +152,7 @@ export default function ModalAddNew({
         throw new Error("Network response was not ok");
       }
 
-      // const result = await response.json();
-      const responseText = await response.text();
-      const result = JSON.parse(responseText); 
+      const result = await response.json();
       socketRef.current.emit("newComment", result); // Sử dụng socketRef.current
     } catch (error) {
       console.error("Có lỗi xảy ra khi gửi bình luận:", error);
