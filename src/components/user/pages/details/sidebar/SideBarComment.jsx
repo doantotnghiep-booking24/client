@@ -86,7 +86,7 @@ export default function SideBarComponent({ reviewButton }) {
 
   const getAllTicket = async () => {
     try {
-      const res = await fetch('https://bookingtravel-44jm.onrender.com', { credentials: "include" });
+      const res = await fetch('https://bookingtravel-44jm.onrender.com/Ticket/GetAllTicket', { credentials: "include" });
       const data = await res.json();
       setDataTicket(data.Tickets)
     } catch (error) {
