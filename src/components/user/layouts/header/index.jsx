@@ -455,13 +455,13 @@ function Header() {
                   border: "none",
                   borderColor: 'transparent',
                   outline: 'none',
+                  marginRight : '45px',
                   '& .MuiOutlinedInput-root': {
                     borderRadius: "18px",
                     height: "40px",
                     border: "none",
                     borderColor: 'transparent',
                     outline: 'none',
-                    marginRight : '45px',
                     '& input': {
                       lineHeight: "1.5",
                       height: '100px',
