@@ -17,6 +17,7 @@ const FormPasswordReset = () => {
   const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
   const [isLoading, setIsLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false)
+   const [valueReset,setValueReset] = React.useState()
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
