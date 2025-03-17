@@ -33,7 +33,7 @@ const handelegetValueResetPass = (e) => {
     const api = "https://bookingtravel-44jm.onrender.com/User/Password-reset/request";
 
     const email = valueReset;
-
+console.log(email)
     try {
       const result = await axios.post(api, { email });
       const data = await result.data;
