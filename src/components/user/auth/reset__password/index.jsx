@@ -24,12 +24,14 @@ const FormPasswordReset = () => {
   const handleMouseUpPassword = (event) => {
     event.preventDefault();
   };
-
+const handelegetValueResetPass = (e) => {
+  setValueReset(e.target.value)
+}
   const handleRequestCode = async () => {
     setIsLoading(true);
     const api = "https://bookingtravel-44jm.onrender.com/User/Password-reset/request";
 
-    const email = existingData.Email;
+    const email = valueReset;
 
     try {
       const result = await axios.post(api, { email });
@@ -79,6 +81,7 @@ const FormPasswordReset = () => {
                   }
                   label=""
                   value={existingData.Email}
+                   onChange={(e) => handelegetValueResetPass(e)}
                 />
               </FormControl>
             </FormControl>
