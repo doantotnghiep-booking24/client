@@ -102,7 +102,7 @@ export default function ModalReset({ isOpen, setIsOpen }) {
   };
 
   const handleReplacePass = async () => {
-    const api = "http://localhost:3001/User/Password-reset/code";
+    const api = "https://bookingtravel-44jm.onrender.com/User/Password-reset/code";
 
     // Kiểm tra mật khẩu
     if (dataReset.Password !== dataReset.ConfirmPassword) {
