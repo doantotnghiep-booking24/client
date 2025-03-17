@@ -43,11 +43,11 @@ function SigninForm({ onSwitchMode }) {
   };
   const handleGetValueInput = (e) => {
     const { value, name } = e.target;
-    const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
+    // const existingData = JSON.parse(localStorage.getItem("resetPass")) || {};
 
-    const updatedData = { ...existingData, ["Email"]: value };
+    // const updatedData = { ...existingData, ["Email"]: value };
 
-    localStorage.setItem("resetPass", JSON.stringify(updatedData));
+    // localStorage.setItem("resetPass", JSON.stringify(updatedData));
     setValueInput((prev) => ({ ...prev, [name]: value }));
 
     if (name === "Email") {
