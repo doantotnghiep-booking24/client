@@ -103,7 +103,7 @@ const Chat = () => {
     }
   };
   console.log(datachats);
-
+console.log(currentChat)
   // Socket listener for receiving messages
   useEffect(() => {
 
