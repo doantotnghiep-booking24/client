@@ -271,7 +271,7 @@ const Chat = () => {
                           color: 'black',
                         }}
                       >
-                        <Typography variant="body2">{datachats[0].text || currentChat}</Typography>
+                        <Typography variant="body2">{!datachats[0].text ? currentChat : datachats[0].text }</Typography>
                       </Box>
                     </Tooltip>
                   </Box>
