@@ -20,7 +20,6 @@ const Chat = () => {
   const [notice, setNotice] = useState('');
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [unreadMessages, setUnreadMessages] = useState(0);
-  const [currentChat,setCurrentChat] = useState('')
   useEffect(() => {
     socket.on('receiveMessage', (message) => {
       dispatch(receiveMessage(message));  // Dispatch vào Redux để cập nhật state
@@ -87,7 +86,6 @@ const Chat = () => {
       // Gửi tin nhắn qua socket
       socket.emit('sendMessage', newMessage, (response) => {
         console.log('newMessage', newMessage);
-        setCurrentChat(newMessage.messages[0].text)
         if (response.status === 'success') {
           if (newMessage) {
             localStorage.setItem('senderId', newMessage.senderId);
@@ -103,7 +101,6 @@ const Chat = () => {
     }
   };
   console.log(datachats);
-console.log(currentChat)
   // Socket listener for receiving messages
   useEffect(() => {
 
@@ -271,7 +268,7 @@ console.log(currentChat)
                           color: 'black',
                         }}
                       >
-                        <Typography variant="body2">{!datachats[0].text ? currentChat : datachats[0].text }</Typography>
+                        <Typography variant="body2">{datachats[0].text}</Typography>
                       </Box>
                     </Tooltip>
                   </Box>
